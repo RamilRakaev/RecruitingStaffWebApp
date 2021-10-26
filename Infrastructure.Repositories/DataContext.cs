@@ -15,6 +15,11 @@ namespace Infrastructure.Repositories
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUserRole>().HasData(new ApplicationUserRole[]
+            {
+                new ApplicationUserRole(){ Id = 1, Name = "user"}
+            });
+
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             base.OnModelCreating(builder);
         }

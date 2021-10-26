@@ -1,6 +1,11 @@
+using Domain.Interfaces;
+using Domain.Model;
+using Infrastructure.Repositories;
+using Infrastructure.Repositories.SubRepositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +28,12 @@ namespace RecruitingStaffWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddDbContext<DataContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DefaultDbConnection"), 
+                o => o.MigrationsAssembly(typeof(DataContext).FullName)));
+            services.AddTransient<IRepository<Contender>, ContenderRepository>();
+            services.AddTransient<IRepository<Option>, OptionRepository>();
+
+            services.AddRazorPages().AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
