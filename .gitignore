@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#Web app ignore files
+internal-nlog.txt
+appsettings.User.json
+
 # User-specific files
 *.rsuser
 *.suo
@@ -361,6 +365,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-
-#nlog
-internal-nlog.txt
