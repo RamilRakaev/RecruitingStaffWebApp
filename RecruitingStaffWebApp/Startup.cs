@@ -35,7 +35,9 @@ namespace RecruitingStaffWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DefaultDbConnection"),
-                o => o.MigrationsAssembly(typeof(DataContext).FullName)));
+                o => o.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
+            services.AddIdentity<ApplicationUser, ApplicationUserRole>().AddEntityFrameworkStores<DataContext>();
+
             services.AddTransient<IRepository<Contender>, ContenderRepository>();
             services.AddTransient<IRepository<Option>, OptionRepository>();
 

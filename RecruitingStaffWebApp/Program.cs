@@ -17,8 +17,13 @@ namespace RecruitingStaffWebApp
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+            Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(
+                builder => 
+                { 
+                    builder.AddJsonFile("appsettings.User.json", false); 
+                })
+                .ConfigureWebHostDefaults(
+                webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
