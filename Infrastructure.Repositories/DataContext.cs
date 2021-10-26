@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Infrastructure.Repositories.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ namespace Infrastructure.Repositories
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new ApplicationUserConfiguration());
             base.OnModelCreating(builder);
         }
     }
