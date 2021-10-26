@@ -1,16 +1,20 @@
-﻿using Domain.Model;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace Infrastructure.CQRS.Commands.Requests.ApplicationUsers
 {
     public class CreateUserCommand : IRequest<IdentityResult>
     {
-        public CreateUserCommand(ApplicationUser user)
+        public CreateUserCommand(string email, string password, int roleId)
         {
-            User = user;
+            Email = email ?? throw new ArgumentNullException();
+            Password = password ?? throw new ArgumentNullException();
+            RoleId = roleId;
         }
 
-        public ApplicationUser User { get; set; }
+        public int RoleId { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

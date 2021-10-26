@@ -18,7 +18,14 @@ namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 
         public async Task<IdentityResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            return await _userManager.CreateAsync(request.User);
+            return await _userManager.CreateAsync(
+                new ApplicationUser()
+            {
+                UserName = request.Email,
+                Email = request.Email,
+                RoleId = request.RoleId
+            },
+                request.Password);
         }
     }
 }

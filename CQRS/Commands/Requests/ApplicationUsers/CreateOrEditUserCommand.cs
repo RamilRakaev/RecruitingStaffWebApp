@@ -1,5 +1,4 @@
-﻿using Domain.Model;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 
@@ -7,11 +6,17 @@ namespace Infrastructure.CQRS.Commands.Requests.ApplicationUsers
 {
     public class CreateOrEditUserCommand : IRequest<IdentityResult>
     {
-        public CreateOrEditUserCommand(ApplicationUser user)
+        public CreateOrEditUserCommand(string email, string password, int id = 0, int roleId = 1)
         {
-            User = user ?? throw new ArgumentNullException(nameof(ApplicationUser));
+            Email = email ?? throw new ArgumentNullException();
+            Password = password ?? throw new ArgumentNullException();
+            Id = id;
+            RoleId = roleId;
         }
 
-        public ApplicationUser User { get; set; }
+        public int Id { get; set; }
+        public int RoleId { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

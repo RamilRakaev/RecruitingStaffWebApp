@@ -13,6 +13,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using Domain.Validators;
+using FluentValidation.AspNetCore;
+using CQRS;
+using MediatR;
+using Infrastructure.CQRS;
 
 namespace RecruitingStaffWebApp
 {
@@ -28,11 +34,15 @@ namespace RecruitingStaffWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DefaultDbConnection"), 
+            services.AddDbContext<DataContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DefaultDbConnection"),
                 o => o.MigrationsAssembly(typeof(DataContext).FullName)));
             services.AddTransient<IRepository<Contender>, ContenderRepository>();
             services.AddTransient<IRepository<Option>, OptionRepository>();
 
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
+            services.AddTransient<IValidator<ApplicationUser>, ApplicationUserValidator>();
+            services.AddTransient<IValidator<Contender>, ContenderValidator>();
             services.AddRazorPages().AddFluentValidation();
         }
 

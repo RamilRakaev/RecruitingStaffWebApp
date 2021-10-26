@@ -32,7 +32,7 @@ namespace RecruitingStaffWebApp.Pages.Account
                 switch (_user.RoleId)
                 {
                     case 1:
-                        return RedirectToPage("/Admin/AdminPanel");
+                        return RedirectToPage("/User/Сontenders");
                 }
             return Page();
         }
@@ -44,12 +44,12 @@ namespace RecruitingStaffWebApp.Pages.Account
                 login.Page = this;
                 string message = await _mediator.Send(login);
                 ModelState.AddModelError(string.Empty, message);
-                return RedirectToPage("/Admin/AdminPanel");
+                return RedirectToPage("/User/Сontenders");
             }
             else
             {
-                ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                _logger.LogWarning($"Incorrect username and (or) password");
+                ModelState.AddModelError("", "Неправильная почта и (или) пароль");
+                _logger.LogWarning($"Incorrect email and (or) password");
                 return Page();
             }
         }
