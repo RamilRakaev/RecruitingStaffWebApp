@@ -19,6 +19,9 @@ using FluentValidation.AspNetCore;
 using CQRS;
 using MediatR;
 using Infrastructure.CQRS;
+using RecruitingStaffWebApp.Pages.Account;
+using Infrastructure.Services.Repositories;
+using Domain.Model.UserIdentity;
 
 namespace RecruitingStaffWebApp
 {
@@ -36,15 +39,22 @@ namespace RecruitingStaffWebApp
         {
             services.AddDbContext<DataContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DefaultDbConnection"),
                 o => o.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
-            services.AddIdentity<ApplicationUser, ApplicationUserRole>().AddEntityFrameworkStores<DataContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<DataContext>();
 
             services.AddTransient<IRepository<Contender>, ContenderRepository>();
             services.AddTransient<IRepository<Option>, OptionRepository>();
 
+            services.AddHostedService<MigrationService>();
+            services.AddHostedService<UserService>();
+
+            services.AddTransient<UserProperties, UserProperties>();
+
+            services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
             services.AddTransient<IValidator<ApplicationUser>, ApplicationUserValidator>();
             services.AddTransient<IValidator<Contender>, ContenderValidator>();
+
             services.AddRazorPages().AddFluentValidation();
         }
 
@@ -67,6 +77,7 @@ namespace RecruitingStaffWebApp
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

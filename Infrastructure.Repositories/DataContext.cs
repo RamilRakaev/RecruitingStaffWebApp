@@ -1,11 +1,21 @@
 ﻿using Domain.Model;
+using Domain.Model.UserIdentity;
 using Infrastructure.Repositories.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class DataContext : IdentityDbContext<ApplicationUser, ApplicationUserRole, int>
+    public class DataContext : 
+        IdentityDbContext<ApplicationUser,
+            ApplicationRole,
+            int,
+            ApplicationUserClaim,
+            ApplicationUserRole,
+            ApplicationUserLogin,
+            ApplicationRoleClaim,
+            ApplicationUserToken>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
@@ -15,9 +25,9 @@ namespace Infrastructure.Repositories
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUserRole>().HasData(new ApplicationUserRole[]
+            builder.Entity<ApplicationRole>().HasData(new ApplicationRole[]
             {
-                new ApplicationUserRole(){ Id = 1, Name = "user"}
+                new ApplicationRole(){ Id = 1, Name = "user", NormalizedName = "USER"}
             });
 
             builder.ApplyConfiguration(new ApplicationUserConfiguration());

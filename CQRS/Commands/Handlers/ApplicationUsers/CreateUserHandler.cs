@@ -1,4 +1,4 @@
-﻿using Domain.Model;
+﻿using Domain.Model.UserIdentity;
 using Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

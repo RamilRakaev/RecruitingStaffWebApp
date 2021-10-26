@@ -1,6 +1,5 @@
-﻿using Domain.Model;
+﻿using Domain.Model.UserIdentity;
 using MediatR;
-using System;
 
 namespace Infrastructure.CQRS.Commands.Requests.ApplicationUsers
 {

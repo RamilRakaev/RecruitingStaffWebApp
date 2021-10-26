@@ -1,11 +1,11 @@
-﻿using Domain.Model;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
+using Domain.Model.UserIdentity;
 
 namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 {

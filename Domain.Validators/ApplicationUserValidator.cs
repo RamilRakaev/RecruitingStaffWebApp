@@ -1,4 +1,4 @@
-﻿using Domain.Model;
+﻿using Domain.Model.UserIdentity;
 using FluentValidation;
 
 namespace Domain.Validators

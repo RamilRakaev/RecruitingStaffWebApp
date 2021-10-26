@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Model
+namespace Domain.Model.UserIdentity
 {
     public class ApplicationUser : IdentityUser<int>
     {
         public int RoleId { get; set; }
-        public ApplicationUserRole Role { get; set; }
+        public ApplicationRole Role { get; set; }
     }
 }
