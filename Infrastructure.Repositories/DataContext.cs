@@ -28,7 +28,6 @@ namespace Infrastructure.Repositories
             {
                 new ApplicationRole(){ Id = 1, Name = "user", NormalizedName = "USER"}
             });
-
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             base.OnModelCreating(builder);
         }
