@@ -1,7 +1,6 @@
 ﻿using Domain.Model;
 using Domain.Model.UserIdentity;
 using Infrastructure.Repositories.Configuration;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
