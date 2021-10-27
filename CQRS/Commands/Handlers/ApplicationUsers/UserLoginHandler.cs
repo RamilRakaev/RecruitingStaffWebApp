@@ -32,8 +32,6 @@ namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, request.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddClaimAsync(user, new Claim("roleId", user.RoleId.ToString()));
-                    await _userManager.UpdateAsync(user);
                     _logger.LogInformation("Succeeded login");
                     return "Вход успешно осуществлён";
                 }

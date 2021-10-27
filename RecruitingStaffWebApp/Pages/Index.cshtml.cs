@@ -1,29 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CQRS.Queries.Requests.ApplicationUsers;
+using Domain.Model.UserIdentity;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using RecruitingStaffWebApp.Pages.Account;
+using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly UserProperties _userProperties;
+        private readonly IMediator _mediator;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public IndexModel(ILogger<IndexModel> logger, UserProperties userProperties)
+        public IndexModel(ILogger<IndexModel> logger, SignInManager<ApplicationUser> signInManager, IMediator mediator)
         {
             _logger = logger;
-            _userProperties = userProperties;
+            signInManager.SignOutAsync();
+            _mediator = mediator;
+            _signInManager = signInManager;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             _logger.LogInformation("Index page visited");
-            if (_userProperties.RoleId != 1)
+            if (await _mediator.Send(new CheckRoleForUserQuery("user")))
             {
-                return RedirectToPage("/Account/Login");
+                return Page();
             }
-            return Page();
+            return RedirectToPage("/Account/Login");
         }
     }
 }

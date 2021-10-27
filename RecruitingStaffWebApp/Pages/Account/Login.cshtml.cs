@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
+using CQRS.Queries.Requests.ApplicationUsers;
+using Microsoft.AspNetCore.Identity;
+using Domain.Model.UserIdentity;
 
 namespace RecruitingStaffWebApp.Pages.Account
 {
@@ -11,29 +14,25 @@ namespace RecruitingStaffWebApp.Pages.Account
     {
         private readonly ILogger<LoginModel> _logger;
         private readonly IMediator _mediator;
-        public readonly UserProperties _user;
 
         public LoginModel(IMediator mediator,
-            ILogger<LoginModel> logger,
-            UserProperties userProperties)
+            ILogger<LoginModel> logger)
         {
             Login = new UserLoginCommand();
             _mediator = mediator;
             _logger = logger;
-            _user = userProperties;
         }
 
         public UserLoginCommand Login { get; set; }
 
         public IActionResult OnGet()
         {
+            var isUser = _mediator.Send(new CheckRoleForUserQuery("user")).Result;
+            if (isUser)
+            {
+                return RedirectToPage("/User/Ñontenders");
+            }
             _logger.LogInformation($"Login page visited");
-            if (_user.IsAuthenticated)
-                switch (_user.RoleId)
-                {
-                    case 1:
-                        return RedirectToPage("/User/Ñontenders");
-                }
             return Page();
         }
 

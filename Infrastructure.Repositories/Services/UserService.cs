@@ -18,9 +18,9 @@ namespace Infrastructure.Services.Repositories
         {
             new ApplicationUser()
             {
+                Id = 1,
                 UserName = "DefaultUser",
-                Email = "DefaultUser@gmail.com",
-                RoleId = 1
+                Email = "DefaultUser@gmail.com"
             },
         };
         private readonly List<string> passwords = new()

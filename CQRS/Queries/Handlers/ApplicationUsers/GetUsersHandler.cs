@@ -20,7 +20,7 @@ namespace Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
 
         public async Task<ApplicationUser[]> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = _db.Users.Include(u => u.Role).AsNoTracking();
+            var users = _db.Users.AsNoTracking();
             return await users.ToArrayAsync();
         }
     }

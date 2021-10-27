@@ -18,7 +18,7 @@ namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
             var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == command.Id, cancellationToken: cancellationToken);
             user.UserName = command.Email;
             user.Email = command.Email;
-            user.RoleId = command.RoleId;
+            //user.RoleId = command.RoleId;
             return user;
         }
     }

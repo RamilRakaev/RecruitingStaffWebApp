@@ -10,16 +10,16 @@ namespace Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
 {
     public class GetUserHandler : IRequestHandler<GetUserQuery, ApplicationUser>
     {
-        private readonly UserManager<ApplicationUser> _db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GetUserHandler(UserManager<ApplicationUser> db)
+        public GetUserHandler(UserManager<ApplicationUser> userManager)
         {
-            _db = db ?? throw new ArgumentNullException(nameof(UserManager<ApplicationUser>));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(UserManager<ApplicationUser>));
         }
 
         public async Task<ApplicationUser> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            return await _db.FindByIdAsync(request.Id.ToString());
+            return await _userManager.FindByIdAsync(request.Id.ToString());
         }
     }
 }

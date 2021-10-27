@@ -28,7 +28,7 @@ namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
             else
             {
                 user.Email = request.Email;
-                user.RoleId = request.RoleId;
+                //user.RoleId = request.RoleId;
                 await _userManager.RemovePasswordAsync(user);
                 await _userManager.AddPasswordAsync(user, request.Password);
                 return await _userManager.UpdateAsync(user);

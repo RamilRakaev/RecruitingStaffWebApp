@@ -23,7 +23,7 @@ namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
             {
                 UserName = request.Email,
                 Email = request.Email,
-                RoleId = request.RoleId
+                //RoleId = request.RoleId
             },
                 request.Password);
         }

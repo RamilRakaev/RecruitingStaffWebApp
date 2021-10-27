@@ -47,8 +47,6 @@ namespace RecruitingStaffWebApp
             services.AddHostedService<MigrationService>();
             services.AddHostedService<UserService>();
 
-            services.AddTransient<UserProperties, UserProperties>();
-
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);

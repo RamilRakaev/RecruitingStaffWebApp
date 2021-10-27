@@ -24,11 +24,8 @@ namespace Infrastructure.Repositories
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationRole>().HasData(new ApplicationRole[]
-            {
-                new ApplicationRole(){ Id = 1, Name = "user", NormalizedName = "USER"}
-            });
-            builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new ApplicationRoleConfiguration());
+            builder.ApplyConfiguration(new ApplicationUserRoleConfiguration());
             base.OnModelCreating(builder);
         }
     }
