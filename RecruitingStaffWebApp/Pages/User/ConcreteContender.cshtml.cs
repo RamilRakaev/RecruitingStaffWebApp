@@ -1,27 +1,23 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using CQRS.Queries.Requests.ApplicationUsers;
 using CQRS.Queries.Requests.Contenders;
 using Domain.Model;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
-    public class ConcreteContenderModel : PageModel
+    public class ConcreteContenderModel : BaseContenderModel
     {
-        private readonly IMediator _mediator;
-
-        public ConcreteContenderModel(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public ConcreteContenderModel(IMediator mediator) : base(mediator)
+        { }
 
         public Contender Contender { get; set; } 
 
-        public async Task OnGet(int contenderId)
+        public async Task<IActionResult> OnGet(int contenderId)
         {
-            Contender = await _mediator.Send(new GetContenderQuery(contenderId));
+            return await RightVerification();
         }
     }
 }

@@ -1,10 +1,18 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.СontendersModel
+@using Domain.Model;
 @{
+    var newContender = new Contender();
 }
 <div class="row justify-content-center">
+    <form class="form-inline mb-3" method="post">
+        <input class="form-control m-3" placeholder="Полное имя" asp-for="@newContender.FullName" />
+        <input class="form-control m-3" min="1900-01-01" value="1990-01-01" type="date" asp-for="@newContender.DateOfBirth" />
+        <input class="form-control m-3" placeholder="Адрес" asp-for="@newContender.Address" />
+        <button class="btn btn-dark">Новый претендент</button>
+    </form>
     <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Полное имя</th>
@@ -21,7 +29,13 @@
                     <td>@contender.FullName</td>
                     <td>@contender.DateOfBirth.Date</td>
                     <td>@contender.Address</td>
-                    <td><a class="btn btn-dark" asp-page="ConcreteContender" asp-route-contenderId="@contender.Id">Перейти</a></td>
+                    <td>
+                        <a class="btn btn-dark" asp-page="ConcreteContender" asp-route-contenderId="@contender.Id">Перейти</a>
+                        <form class="d-inline" method="post" asp-page-handler="Remove">
+                            <input type="hidden" name="contenderId" value="@contender.Id" />
+                            <button class="btn btn-danger text-white ml-3">Удалить</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
