@@ -3,7 +3,7 @@ using MediatR;
 
 namespace CQRS.Commands.Requests.Contenders
 {
-    public class RemoveContenderCommand : IRequest<int>
+    public class RemoveContenderCommand : IRequest<bool>
     {
         public RemoveContenderCommand(int id)
         {
