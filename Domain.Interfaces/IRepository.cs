@@ -9,7 +9,7 @@ namespace Domain.Interfaces
     {
         public Task AddAsync(Entity entity);
 
-        public Task RemoveAsync(int id);
+        public Task RemoveAsync(Entity entity);
 
         public Task RemoveRangeAsync(IEnumerable<Entity> entities)
         {

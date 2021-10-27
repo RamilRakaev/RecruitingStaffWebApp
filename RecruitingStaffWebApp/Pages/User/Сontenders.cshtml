@@ -5,10 +5,11 @@
     var newContender = new Contender();
 }
 <div class="row justify-content-center">
-    <form class="form-inline mb-3" method="post">
-        <input class="form-control m-3" placeholder="Полное имя" asp-for="@newContender.FullName" />
-        <input class="form-control m-3" min="1900-01-01" value="1990-01-01" type="date" asp-for="@newContender.DateOfBirth" />
-        <input class="form-control m-3" placeholder="Адрес" asp-for="@newContender.Address" />
+    <form class="form-inline mb-3" method="post" enctype="multipart/form-data">
+        <input class="form-control m-2" placeholder="Полное имя" asp-for="@newContender.FullName" />
+        <input class="form-control m-2" min="1900-01-01" value="1990-01-01" type="date" asp-for="@newContender.DateOfBirth" />
+        <input class="form-control m-2" placeholder="Адрес" asp-for="@newContender.Address" />
+        <input class="form-control-file w-auto d-inline m-2" type="file" accept=".doc, .docx" name="uploadedFile"/>
         <button class="btn btn-dark">Новый претендент</button>
     </form>
     <table class="table">

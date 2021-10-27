@@ -40,13 +40,9 @@ namespace Infrastructure.Repositories
             await _context.AddAsync(entity);
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task RemoveAsync(Entity entity)
         {
-            var entity = await FindNoTrackingAsync(id);
-            if(entity != null)
-            {
-                _context.Remove(entity);
-            }
+            _context.Remove(entity);
         }
 
         public async Task SaveAsync()

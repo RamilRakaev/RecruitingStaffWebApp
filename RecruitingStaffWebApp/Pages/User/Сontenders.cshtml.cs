@@ -4,6 +4,7 @@ using CQRS.Queries.Requests.ApplicationUsers;
 using CQRS.Queries.Requests.Contenders;
 using Domain.Model;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -22,9 +23,9 @@ namespace RecruitingStaffWebApp.Pages.User
             return await RightVerification();
         }
 
-        public async Task OnPost(Contender newContender)
+        public async Task OnPost(Contender newContender, IFormFile uploadedFile)
         {
-            await _mediator.Send(new CreateContenderCommand(newContender));
+            await _mediator.Send(new CreateContenderCommand(newContender, uploadedFile));
             Contenders = await _mediator.Send(new GetContendersQuery());
         }
 

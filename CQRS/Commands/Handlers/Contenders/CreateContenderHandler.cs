@@ -2,25 +2,39 @@
 using Domain.Interfaces;
 using Domain.Model;
 using MediatR;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CQRS.Commands.Handlers.Contenders
 {
-    public class CreateContenderHandler : IRequestHandler<CreateContenderCommand, Contender>
+    public class CreateContenderHandler : IRequestHandler<CreateContenderCommand, bool>
     {
         private readonly IRepository<Contender> _contenderRepository;
+        private readonly IRepository<Option> _optionRepository;
 
-        public CreateContenderHandler(IRepository<Contender> contenderRepository)
+        public CreateContenderHandler(IRepository<Contender> contenderRepository, IRepository<Option> optionRepository)
         {
             _contenderRepository = contenderRepository;
+            _optionRepository = optionRepository;
         }
 
-        public async Task<Contender> Handle(CreateContenderCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateContenderCommand request, CancellationToken cancellationToken)
         {
-            await _contenderRepository.AddAsync(request.Contender);
-            await _contenderRepository.SaveAsync();
-            return request.Contender;
+            var documentSource = _optionRepository.GetAllAsNoTracking().FirstOrDefault(o => o.PropertyName == OptionTypes.DocumentsSource);
+            if (documentSource != null)
+            {
+                string path = $"{documentSource.Value}\\{request.UploadedFile.FileName}";
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await request.UploadedFile.CopyToAsync(fileStream, cancellationToken);
+                }
+                await _contenderRepository.AddAsync(request.Contender);
+                await _contenderRepository.SaveAsync();
+                return true;
+            }
+            return false;
         }
     }
 }
