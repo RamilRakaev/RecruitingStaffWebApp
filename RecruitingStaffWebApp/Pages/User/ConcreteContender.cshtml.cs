@@ -17,6 +17,7 @@ namespace RecruitingStaffWebApp.Pages.User
 
         public async Task<IActionResult> OnGet(int contenderId)
         {
+            Contender = await _mediator.Send(new GetContenderQuery(contenderId));
             return await RightVerification();
         }
     }

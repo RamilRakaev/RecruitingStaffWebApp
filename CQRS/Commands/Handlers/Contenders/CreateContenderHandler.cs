@@ -9,7 +9,7 @@ namespace CQRS.Commands.Handlers.Contenders
 {
     public class CreateContenderHandler : IRequestHandler<CreateContenderCommand, Contender>
     {
-        IRepository<Contender> _contenderRepository;
+        private readonly IRepository<Contender> _contenderRepository;
 
         public CreateContenderHandler(IRepository<Contender> contenderRepository)
         {

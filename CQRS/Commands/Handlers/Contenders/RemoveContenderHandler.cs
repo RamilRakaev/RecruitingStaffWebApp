@@ -9,7 +9,7 @@ namespace CQRS.Commands.Handlers.Contenders
 {
     public class RemoveContenderHandler : IRequestHandler<RemoveContenderCommand, int>
     {
-        IRepository<Contender> _contenderRepository;
+        private readonly IRepository<Contender> _contenderRepository;
 
         public RemoveContenderHandler(IRepository<Contender> contenderRepository)
         {
