@@ -40,9 +40,9 @@ namespace Infrastructure.Repositories
             await _context.AddAsync(entity);
         }
 
-        public async Task RemoveAsync(Entity entity)
+        public Task RemoveAsync(Entity entity)
         {
-            _context.Remove(entity);
+            return Task.FromResult(_context.Remove(entity));
         }
 
         public async Task SaveAsync()
