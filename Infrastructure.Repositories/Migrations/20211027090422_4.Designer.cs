@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211027063708_3")]
-    partial class _3
+    [Migration("20211027090422_4")]
+    partial class _4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,8 +31,8 @@ namespace Infrastructure.Repositories.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<string>("DateOfBirth")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("DocumentSource")
                         .HasColumnType("text");
@@ -94,7 +94,7 @@ namespace Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d554f728-0b9a-485b-828d-f23b10541794",
+                            ConcurrencyStamp = "5162cb7b-db37-44d9-9db8-1c5b463b3e15",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -251,13 +251,6 @@ namespace Infrastructure.Repositories.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("Domain.Model.UserIdentity.ApplicationUserToken", b =>

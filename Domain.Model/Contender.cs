@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Domain.Model
 {
     public class Contender : BaseEntity
@@ -13,9 +15,9 @@ namespace Domain.Model
             DocumentSource = documentSource;
         }
 
-        public string FullName { get; set; }
-        public string DateOfBirth { get; set; }
-        public string Address { get; set; }
-        public string DocumentSource { get; set; }
+        public string FullName { get; set; } = string.Empty;
+        public DateTime DateOfBirth { get; set; } = new DateTime();
+        public string Address { get; set; } = string.Empty;
+        public string DocumentSource { get; set; } = string.Empty;
     }
 }

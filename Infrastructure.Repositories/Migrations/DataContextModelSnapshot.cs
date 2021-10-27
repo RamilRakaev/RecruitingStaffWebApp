@@ -29,8 +29,8 @@ namespace Infrastructure.Repositories.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<string>("DateOfBirth")
-                        .HasColumnType("text");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("DocumentSource")
                         .HasColumnType("text");
@@ -92,7 +92,7 @@ namespace Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a2d49687-1ddd-4952-a306-60963185da6b",
+                            ConcurrencyStamp = "5162cb7b-db37-44d9-9db8-1c5b463b3e15",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -249,13 +249,6 @@ namespace Infrastructure.Repositories.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("Domain.Model.UserIdentity.ApplicationUserToken", b =>

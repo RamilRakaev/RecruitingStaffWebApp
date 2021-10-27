@@ -254,3 +254,268 @@
 2021-10-27 11:17:32.3302 Info Adding target FileTarget(Name=allfile)
 2021-10-27 11:17:32.3382 Info Adding target FileTarget(Name=ownFile-web)
 2021-10-27 11:17:32.3773 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 11:46:49.6630 Info Message Template Auto Format enabled
+2021-10-27 11:46:49.6683 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 11:46:49.7068 Info Adding target FileTarget(Name=allfile)
+2021-10-27 11:46:49.7068 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 11:46:49.7277 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 11:46:49.7423 Info Configuration initialized.
+2021-10-27 11:46:49.7423 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 11:46:50.8943 Info AppDomain Shutting down. Logger closing...
+2021-10-27 11:46:50.9078 Info Logger has been shut down.
+2021-10-27 11:46:56.7345 Info Message Template Auto Format enabled
+2021-10-27 11:46:56.7345 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 11:46:56.7783 Info Adding target FileTarget(Name=allfile)
+2021-10-27 11:46:56.7783 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 11:46:56.7983 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 11:46:56.8111 Info Configuration initialized.
+2021-10-27 11:46:56.8111 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 11:46:58.3930 Info AppDomain Shutting down. Logger closing...
+2021-10-27 11:46:58.4065 Info Logger has been shut down.
+2021-10-27 11:47:33.4481 Info Message Template Auto Format enabled
+2021-10-27 11:47:33.4481 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 11:47:33.4920 Info Adding target FileTarget(Name=allfile)
+2021-10-27 11:47:33.4935 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 11:47:33.5121 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 11:47:33.5249 Info Configuration initialized.
+2021-10-27 11:47:33.5249 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 11:47:35.1530 Info AppDomain Shutting down. Logger closing...
+2021-10-27 11:47:35.1659 Info Logger has been shut down.
+2021-10-27 11:49:00.0062 Info Message Template Auto Format enabled
+2021-10-27 11:49:00.0126 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 11:49:00.0517 Info Adding target FileTarget(Name=allfile)
+2021-10-27 11:49:00.0517 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 11:49:00.0712 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 11:49:00.0712 Info Configuration initialized.
+2021-10-27 11:49:00.0712 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 11:49:02.8288 Info AppDomain Shutting down. Logger closing...
+2021-10-27 11:49:02.8441 Info Logger has been shut down.
+2021-10-27 11:59:27.4501 Info Message Template Auto Format enabled
+2021-10-27 11:59:27.4501 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 11:59:27.4991 Info Adding target FileTarget(Name=allfile)
+2021-10-27 11:59:27.4991 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 11:59:27.5198 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 11:59:27.5329 Info Configuration initialized.
+2021-10-27 11:59:27.5329 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 11:59:29.1572 Info AppDomain Shutting down. Logger closing...
+2021-10-27 11:59:29.1676 Info Logger has been shut down.
+2021-10-27 11:59:35.1673 Info Message Template Auto Format enabled
+2021-10-27 11:59:35.1673 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 11:59:35.2143 Info Adding target FileTarget(Name=allfile)
+2021-10-27 11:59:35.2143 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 11:59:35.2340 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 11:59:35.2472 Info Configuration initialized.
+2021-10-27 11:59:35.2472 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 11:59:36.4327 Info AppDomain Shutting down. Logger closing...
+2021-10-27 11:59:36.4327 Info Logger has been shut down.
+2021-10-27 11:59:43.7132 Info Message Template Auto Format enabled
+2021-10-27 11:59:43.7132 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 11:59:43.7575 Info Adding target FileTarget(Name=allfile)
+2021-10-27 11:59:43.7575 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 11:59:43.7775 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 11:59:43.7902 Info Configuration initialized.
+2021-10-27 11:59:43.7902 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 11:59:45.4003 Info AppDomain Shutting down. Logger closing...
+2021-10-27 11:59:45.4003 Info Logger has been shut down.
+2021-10-27 12:00:22.7546 Info Message Template Auto Format enabled
+2021-10-27 12:00:22.7602 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:00:22.7978 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:00:22.7978 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:00:22.8175 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:00:22.8308 Info Configuration initialized.
+2021-10-27 12:00:22.8308 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:00:23.9862 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:00:23.9970 Info Logger has been shut down.
+2021-10-27 12:00:39.9815 Info Message Template Auto Format enabled
+2021-10-27 12:00:39.9815 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:00:40.0266 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:00:40.0266 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:00:40.0466 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:00:40.0594 Info Configuration initialized.
+2021-10-27 12:00:40.0594 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:00:42.6778 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:00:42.6932 Info Logger has been shut down.
+2021-10-27 12:01:03.0713 Info Message Template Auto Format enabled
+2021-10-27 12:01:03.0713 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:01:03.1145 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:01:03.1145 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:01:03.1348 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:01:03.1348 Info Configuration initialized.
+2021-10-27 12:01:03.1348 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:01:04.7235 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:01:04.7340 Info Logger has been shut down.
+2021-10-27 12:01:08.6713 Info Message Template Auto Format enabled
+2021-10-27 12:01:08.6713 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:01:08.7141 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:01:08.7141 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:01:08.7347 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:01:08.7472 Info Configuration initialized.
+2021-10-27 12:01:08.7472 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:01:10.3287 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:01:10.3389 Info Logger has been shut down.
+2021-10-27 12:01:14.3125 Info Message Template Auto Format enabled
+2021-10-27 12:01:14.3125 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:01:14.3563 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:01:14.3563 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:01:14.3765 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:01:14.3893 Info Configuration initialized.
+2021-10-27 12:01:14.3893 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:01:16.0304 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:01:16.0417 Info Logger has been shut down.
+2021-10-27 12:01:20.7397 Info Message Template Auto Format enabled
+2021-10-27 12:01:20.7451 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:01:20.7852 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:01:20.7852 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:01:20.8055 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:01:20.8055 Info Configuration initialized.
+2021-10-27 12:01:20.8055 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:01:22.4187 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:01:22.4187 Info Logger has been shut down.
+2021-10-27 12:01:33.0707 Info Message Template Auto Format enabled
+2021-10-27 12:01:33.0762 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:01:33.1146 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:01:33.1146 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:01:33.1348 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:01:33.1348 Info Configuration initialized.
+2021-10-27 12:01:33.1348 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:01:34.3301 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:01:34.3461 Info Logger has been shut down.
+2021-10-27 12:01:41.2925 Info Message Template Auto Format enabled
+2021-10-27 12:01:41.2925 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:01:41.3409 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:01:41.3409 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:01:41.3609 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:01:41.3742 Info Configuration initialized.
+2021-10-27 12:01:41.3742 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:01:42.9917 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:01:43.0049 Info Logger has been shut down.
+2021-10-27 12:02:02.1995 Info Message Template Auto Format enabled
+2021-10-27 12:02:02.1995 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:02:02.2447 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:02:02.2447 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:02:02.2646 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:02:02.2777 Info Configuration initialized.
+2021-10-27 12:02:02.2777 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:02:04.8691 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:02:04.8846 Info Logger has been shut down.
+2021-10-27 12:02:47.9261 Info Message Template Auto Format enabled
+2021-10-27 12:02:47.9320 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:02:47.9689 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:02:47.9689 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:02:47.9890 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:02:48.0017 Info Configuration initialized.
+2021-10-27 12:02:48.0017 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:02:49.1647 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:02:49.1647 Info Logger has been shut down.
+2021-10-27 12:02:56.2941 Info Message Template Auto Format enabled
+2021-10-27 12:02:56.2941 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:02:56.3367 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:02:56.3367 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:02:56.3580 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:02:56.3719 Info Configuration initialized.
+2021-10-27 12:02:56.3719 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:02:57.9233 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:02:57.9364 Info Logger has been shut down.
+2021-10-27 12:03:25.6805 Info Message Template Auto Format enabled
+2021-10-27 12:03:25.6805 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:03:25.7346 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:03:25.7346 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:03:25.7546 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:03:25.7681 Info Configuration initialized.
+2021-10-27 12:03:25.7681 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:03:27.3344 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:03:27.3454 Info Logger has been shut down.
+2021-10-27 12:03:32.0461 Info Message Template Auto Format enabled
+2021-10-27 12:03:32.0461 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:03:32.0908 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:03:32.0908 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:03:32.1112 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:03:32.1240 Info Configuration initialized.
+2021-10-27 12:03:32.1240 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:03:33.7088 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:03:33.7195 Info Logger has been shut down.
+2021-10-27 12:03:37.0063 Info Message Template Auto Format enabled
+2021-10-27 12:03:37.0122 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:03:37.0502 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:03:37.0502 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:03:37.0704 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:03:37.0704 Info Configuration initialized.
+2021-10-27 12:03:37.0704 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:03:38.6293 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:03:38.6415 Info Logger has been shut down.
+2021-10-27 12:03:47.9483 Info Message Template Auto Format enabled
+2021-10-27 12:03:47.9483 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:03:47.9921 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:03:47.9936 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:03:48.0128 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:03:48.0254 Info Configuration initialized.
+2021-10-27 12:03:48.0254 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:03:49.2075 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:03:49.2178 Info Logger has been shut down.
+2021-10-27 12:03:56.3836 Info Message Template Auto Format enabled
+2021-10-27 12:03:56.3836 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:03:56.4279 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:03:56.4294 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:03:56.4480 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:03:56.4480 Info Configuration initialized.
+2021-10-27 12:03:56.4619 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:03:57.9616 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:03:57.9616 Info Logger has been shut down.
+2021-10-27 12:04:21.0057 Info Message Template Auto Format enabled
+2021-10-27 12:04:21.0113 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:04:21.0493 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:04:21.0493 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:04:21.0694 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:04:21.0817 Info Configuration initialized.
+2021-10-27 12:04:21.0817 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:04:22.2517 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:04:22.2631 Info Logger has been shut down.
+2021-10-27 12:04:31.6512 Info Message Template Auto Format enabled
+2021-10-27 12:04:31.6512 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:04:31.6961 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:04:31.6961 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:04:31.7162 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\NLog.config
+2021-10-27 12:04:31.7291 Info Configuration initialized.
+2021-10-27 12:04:31.7291 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.11.13229. Product version: 4.7.11+33ed3a9f86277651e93ddf39cda64a046a06778b. GlobalAssemblyCache: False
+2021-10-27 12:04:33.1831 Info AppDomain Shutting down. Logger closing...
+2021-10-27 12:04:33.1831 Info Logger has been shut down.
+2021-10-27 12:04:58.2682 Info Message Template Auto Format enabled
+2021-10-27 12:04:58.2892 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:04:58.3427 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:04:58.3427 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:04:58.4040 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 12:11:22.0404 Info Message Template Auto Format enabled
+2021-10-27 12:11:22.0817 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:11:22.1806 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:11:22.2198 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:11:22.3019 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 12:13:36.2991 Info Message Template Auto Format enabled
+2021-10-27 12:13:36.3138 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:13:36.3590 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:13:36.3672 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:13:36.4017 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 12:20:07.3369 Info Message Template Auto Format enabled
+2021-10-27 12:20:07.3529 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:20:07.4083 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:20:07.4357 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:20:07.4881 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 12:20:43.2409 Info Message Template Auto Format enabled
+2021-10-27 12:20:43.2627 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:20:43.3293 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:20:43.3472 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:20:43.3929 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 12:32:28.2619 Info Message Template Auto Format enabled
+2021-10-27 12:32:28.3580 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:32:28.4473 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:32:28.4657 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:32:28.5262 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 12:39:36.8004 Info Message Template Auto Format enabled
+2021-10-27 12:39:36.8852 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:39:36.9699 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:39:37.0070 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:39:37.0729 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config
+2021-10-27 12:42:47.1155 Info Message Template Auto Format enabled
+2021-10-27 12:42:47.1491 Info Loading assembly: NLog.Web.AspNetCore
+2021-10-27 12:42:47.2242 Info Adding target FileTarget(Name=allfile)
+2021-10-27 12:42:47.2348 Info Adding target FileTarget(Name=ownFile-web)
+2021-10-27 12:42:47.2736 Info Validating config: TargetNames=allfile, ownFile-web, ConfigItems=45, FilePath=C:\Users\Admin\source\repos\RecruitingStaffWebApp\RecruitingStaffWebApp\bin\Debug\net5.0\nlog.config

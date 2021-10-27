@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Repositories.Migrations
 {
@@ -6,22 +7,33 @@ namespace Infrastructure.Repositories.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<DateTime>(
+                name: "DateOfBirth",
+                table: "Contenders",
+                type: "timestamp without time zone",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "ConcurrencyStamp",
-                value: "a2d49687-1ddd-4952-a306-60963185da6b");
+                value: "5162cb7b-db37-44d9-9db8-1c5b463b3e15");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "DateOfBirth",
+                table: "Contenders");
+
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "ConcurrencyStamp",
-                value: "d554f728-0b9a-485b-828d-f23b10541794");
+                value: "7f5a933c-a4b0-45cd-b095-98bc1a728e8d");
         }
     }
 }

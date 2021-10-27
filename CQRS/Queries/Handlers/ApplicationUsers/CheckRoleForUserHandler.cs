@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
-using System;
 
 namespace CQRS.Queries.Handlers.ApplicationUsers
 {
@@ -27,7 +26,7 @@ namespace CQRS.Queries.Handlers.ApplicationUsers
             {
                 var user = await _userManager.FindByIdAsync(id.Value);
                 var roles = await _userManager.GetRolesAsync(user);
-                return roles.Intersect(request.Roles).Count() > 0;
+                return roles.Intersect(request.Roles).Any();
             }
             return false;
         }

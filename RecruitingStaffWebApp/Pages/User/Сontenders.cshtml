@@ -2,3 +2,28 @@
 @model RecruitingStaffWebApp.Pages.User.СontendersModel
 @{
 }
+<div class="row justify-content-center">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Полное имя</th>
+                <th scope="col">Дата рождения</th>
+                <th scope="col">Адрес</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contender in Model.Contenders)
+            {
+                <tr>
+                    <th scope="row">@contender.Id</th>
+                    <td>@contender.FullName</td>
+                    <td>@contender.DateOfBirth.Date</td>
+                    <td>@contender.Address</td>
+                    <td><a class="btn btn-dark" asp-page="ConcreteContender" asp-route-contenderId="@contender.Id">Перейти</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

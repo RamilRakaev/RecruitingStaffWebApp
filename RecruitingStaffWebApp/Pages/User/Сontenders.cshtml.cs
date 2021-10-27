@@ -1,16 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using CQRS.Queries.Requests.Contenders;
+using Domain.Model;
+using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
     public class СontendersModel : PageModel
     {
-        public void OnGet()
+        private readonly IMediator _mediator;
+
+        public СontendersModel(IMediator mediator)
         {
+            _mediator = mediator;
+        }
+
+        public Contender[] Contenders { get; set; }
+
+        public async Task OnGet()
+        {
+            Contenders = await _mediator.Send(new GetContendersQuery());
         }
     }
 }

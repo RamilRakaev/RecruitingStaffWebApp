@@ -13,7 +13,7 @@ namespace Infrastructure.Services.Repositories
     public class UserService : IHostedService
     {
         private readonly IServiceProvider _service;
-        private readonly ILogger<MigrationService> _logger;
+        private readonly ILogger<UserService> _logger;
         private readonly List<ApplicationUser> users = new()
         {
             new ApplicationUser()
@@ -28,7 +28,7 @@ namespace Infrastructure.Services.Repositories
             "e23D!23df32"
         };
         public UserService(IServiceProvider service,
-            ILogger<MigrationService> logger)
+            ILogger<UserService> logger)
         {
             _service = service;
             _logger = logger;
@@ -45,6 +45,7 @@ namespace Infrastructure.Services.Repositories
                     if (await userManager.FindByEmailAsync(user.Email) == null)
                     {
                         await userManager.CreateAsync(user, passwords[i++]);
+                        await userManager.AddToRoleAsync(user, "user");
                     }
                 }
             }

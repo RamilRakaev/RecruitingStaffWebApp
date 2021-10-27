@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211027065004_4")]
-    partial class _4
+    [Migration("20211027090349_3")]
+    partial class _3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,9 +29,6 @@ namespace Infrastructure.Repositories.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DateOfBirth")
                         .HasColumnType("text");
 
                     b.Property<string>("DocumentSource")
@@ -94,7 +91,7 @@ namespace Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a2d49687-1ddd-4952-a306-60963185da6b",
+                            ConcurrencyStamp = "7f5a933c-a4b0-45cd-b095-98bc1a728e8d",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -251,13 +248,6 @@ namespace Infrastructure.Repositories.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("Domain.Model.UserIdentity.ApplicationUserToken", b =>

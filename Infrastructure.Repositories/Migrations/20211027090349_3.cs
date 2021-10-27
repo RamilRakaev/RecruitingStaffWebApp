@@ -15,6 +15,10 @@ namespace Infrastructure.Repositories.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
+                name: "DateOfBirth",
+                table: "Contenders");
+
+            migrationBuilder.DropColumn(
                 name: "RoleId",
                 table: "AspNetUsers");
 
@@ -29,12 +33,7 @@ namespace Infrastructure.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 columns: new[] { "ConcurrencyStamp", "NormalizedName" },
-                values: new object[] { "d554f728-0b9a-485b-828d-f23b10541794", "USER" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { 1, 1 });
+                values: new object[] { "7f5a933c-a4b0-45cd-b095-98bc1a728e8d", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_ApplicationRoleId",
@@ -60,14 +59,15 @@ namespace Infrastructure.Repositories.Migrations
                 name: "IX_AspNetUsers_ApplicationRoleId",
                 table: "AspNetUsers");
 
-            migrationBuilder.DeleteData(
-                table: "AspNetUserRoles",
-                keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { 1, 1 });
-
             migrationBuilder.DropColumn(
                 name: "ApplicationRoleId",
                 table: "AspNetUsers");
+
+            migrationBuilder.AddColumn<string>(
+                name: "DateOfBirth",
+                table: "Contenders",
+                type: "text",
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "RoleId",
