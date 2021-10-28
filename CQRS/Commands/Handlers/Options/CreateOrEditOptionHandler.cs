@@ -21,7 +21,7 @@ namespace CQRS.Commands.Handlers.Options
         {
             var option = await _optionRepository
                 .GetAll()
-                .FirstOrDefaultAsync(o => o.PropertyName == request.Option.PropertyName);
+                .FirstOrDefaultAsync(o => o.PropertyName == request.Option.PropertyName && o.ContenderId == request.Option.ContenderId);
             if(option == null)
             {
                 await _optionRepository.AddAsync(request.Option);
@@ -29,6 +29,7 @@ namespace CQRS.Commands.Handlers.Options
             else
             {
                 option.Value = request.Option.Value;
+                option.ContenderId = request.Option.ContenderId;
             }
             await _optionRepository.SaveAsync();
             return request.Option;

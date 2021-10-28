@@ -21,7 +21,6 @@ namespace Infrastructure.Repositories.SubRepositories
         {
             return _context
                 .Set<Contender>()
-                .Include(c => c.Options)
                 .AsNoTracking();
         }
 
@@ -38,7 +37,6 @@ namespace Infrastructure.Repositories.SubRepositories
             return await _context
                 .Set<Contender>()
                 .Include(c => c.Options)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
     }

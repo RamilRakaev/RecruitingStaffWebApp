@@ -19,15 +19,21 @@ namespace RecruitingStaffWebApp.Pages.User
 
         public Option Option { get; set; }
 
-        public async Task<IActionResult> OnGet(string propertyName = "")
+        public async Task<IActionResult> OnGet(int? contenderId, string propertyName = "", string value = "")
         {
             Option.PropertyName = propertyName;
+            Option.ContenderId = contenderId;
+            Option.Value = value;
             return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(Option option)
         {
             await _mediator.Send(new CreateOrEditOptionCommand(option));
+            if(option.ContenderId != null)
+            {
+                return RedirectToPage("/User/ConcreteContender", new { contenderId = option.ContenderId.Value });
+            }
             return RedirectToPage("/User/Ñontenders");
         }
     }

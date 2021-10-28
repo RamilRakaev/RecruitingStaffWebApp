@@ -6,9 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Linq;
 using System;
 
 namespace CQRS.Queries.Handlers.Contenders
@@ -41,7 +38,13 @@ namespace CQRS.Queries.Handlers.Contenders
             }
             try
             {
-                File.Create(path + "\\file");
+                using(var file = new FileStream(path + "\\file",FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                {
+                    if (!file.CanWrite || !file.CanRead)
+                    {
+                        return "Доступ к указанному расположению документов запрещён.";
+                    }
+                }
                 File.Delete(path + "\\file");
             }
             catch(Exception e)

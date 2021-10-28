@@ -19,7 +19,7 @@ namespace CQRS.Queries.Contenders.Handlers
 
         public Task<Contender[]> Handle(GetContendersQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_contenderRepository.GetAllAsNoTracking().ToArray());
+            return Task.FromResult(_contenderRepository.GetAll().ToArray());
         }
     }
 }

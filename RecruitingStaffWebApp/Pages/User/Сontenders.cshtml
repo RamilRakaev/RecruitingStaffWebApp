@@ -17,10 +17,10 @@
     <table class="table">
         <thead class="thead-light">
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Полное имя</th>
-                <th scope="col">Дата рождения</th>
-                <th scope="col">Адрес</th>
+                <th scope="col"><h5>Id</h5></th>
+                <th scope="col"><h5>Полное имя</h5></th>
+                <th scope="col"><h5>Дата рождения</h5></th>
+                <th scope="col"><h5>Адрес</h5></th>
                 <th scope="col"><a class="btn btn-dark" asp-page="OptionForm" asp-route-propertyName="@OptionTypes.DocumentsSource">Указать расположение документов</a></th>
             </tr>
         </thead>
@@ -45,7 +45,13 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @foreach (var option in contender.Options)
                                 {
-                                    <a class="dropdown-item"  asp-page="OptionForm" asp-route-propertyName="@option.PropertyName">@option.PropertyName: @option.Value</a>
+                                    <a class="dropdown-item"
+                                       asp-page="OptionForm"
+                                       asp-route-contenderId="@option.ContenderId"
+                                       asp-route-propertyName="@option.PropertyName"
+                                       asp-route-value="@option.Value">
+                                        @option.PropertyName
+                                    </a>
                                 }
                             </div>
                         </div>
