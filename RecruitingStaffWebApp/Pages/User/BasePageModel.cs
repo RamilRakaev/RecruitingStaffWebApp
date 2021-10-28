@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
-    public class BaseContenderModel : PageModel
+    public class BasePageModel : PageModel
     {
         protected readonly IMediator _mediator;
 
-        public BaseContenderModel(IMediator mediator)
+        public BasePageModel(IMediator mediator)
         {
             _mediator = mediator;
         }

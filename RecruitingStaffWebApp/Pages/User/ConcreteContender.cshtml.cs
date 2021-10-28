@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
-    public class ConcreteContenderModel : BaseContenderModel
+    public class ConcreteContenderModel : BasePageModel
     {
         public ConcreteContenderModel(IMediator mediator) : base(mediator)
         { }

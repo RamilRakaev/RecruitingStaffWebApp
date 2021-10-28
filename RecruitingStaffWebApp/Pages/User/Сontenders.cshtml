@@ -3,15 +3,17 @@
 @using Domain.Model;
 @{
     var newContender = new Contender();
+    ViewData["Title"] = "Кандидаты";
 }
 <div class="row justify-content-center">
     <form class="form-inline mb-3" method="post" enctype="multipart/form-data">
         <input class="form-control m-2" placeholder="Полное имя" asp-for="@newContender.FullName" />
         <input class="form-control m-2" min="1900-01-01" value="1990-01-01" type="date" asp-for="@newContender.DateOfBirth" />
         <input class="form-control m-2" placeholder="Адрес" asp-for="@newContender.Address" />
-        <input class="form-control-file w-auto d-inline m-2" type="file" accept=".doc, .docx" name="uploadedFile"/>
+        <input class="form-control-file w-auto d-inline m-2" type="file" accept=".doc, .docx" name="uploadedFile" />
         <button class="btn btn-dark">Новый претендент</button>
     </form>
+    <p class="text-danger">@Model.MessageAboutDocumentsSource</p>
     <table class="table">
         <thead class="thead-light">
             <tr>
@@ -19,7 +21,7 @@
                 <th scope="col">Полное имя</th>
                 <th scope="col">Дата рождения</th>
                 <th scope="col">Адрес</th>
-                <th scope="col"></th>
+                <th scope="col"><a class="btn btn-dark" asp-page="OptionForm" asp-route-propertyName="@OptionTypes.DocumentsSource">Указать расположение документов</a></th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +38,17 @@
                             <input type="hidden" name="contenderId" value="@contender.Id" />
                             <button class="btn btn-danger text-white ml-3">Удалить</button>
                         </form>
+                        <div class="dropdown d-inline">
+                            <button class="btn btn-primary dropdown-toggle ml-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Свойства
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @foreach (var option in contender.Options)
+                                {
+                                    <a class="dropdown-item"  asp-page="OptionForm" asp-route-propertyName="@option.PropertyName">@option.PropertyName: @option.Value</a>
+                                }
+                            </div>
+                        </div>
                     </td>
                 </tr>
             }

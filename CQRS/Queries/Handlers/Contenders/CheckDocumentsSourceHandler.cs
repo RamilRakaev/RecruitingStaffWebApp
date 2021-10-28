@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Linq;
+using System;
 
 namespace CQRS.Queries.Handlers.Contenders
 {
@@ -20,23 +24,32 @@ namespace CQRS.Queries.Handlers.Contenders
 
         public async Task<string> Handle(CheckDocumentsSourceCommand request, CancellationToken cancellationToken)
         {
-            string path = "";
             var documentsSource = await _optionRepository
                 .GetAllAsNoTracking()
                 .FirstOrDefaultAsync(
                 o => 
                 o.PropertyName == OptionTypes.DocumentsSource,
                 cancellationToken: cancellationToken);
-
             if (documentsSource == null)
             {
                 return "Расположение документов не указано";
             }
-            if(File.Exists(path) == false)
+            string path = documentsSource.Value;
+            if (Directory.Exists(path) == false)
             {
                 return "Указанной папки не существует";
             }
-            return "Все настройки введены";
+            try
+            {
+                File.Create(path + "\\file");
+                File.Delete(path + "\\file");
+            }
+            catch(Exception e)
+            {
+                return "Доступ к указанному расположению документов запрещён.\n" +
+                    $"{e.Message}";
+            }
+            return "";
         }
     }
 }

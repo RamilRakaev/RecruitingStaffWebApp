@@ -10,16 +10,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
-    public class СontendersModel : BaseContenderModel
+    public class СontendersModel : BasePageModel
     {
         public СontendersModel(IMediator mediator) : base(mediator)
         { }
 
         public Contender[] Contenders { get; set; }
+        public string MessageAboutDocumentsSource { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
             Contenders = await _mediator.Send(new GetContendersQuery());
+            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
             return await RightVerification();
         }
 
@@ -27,12 +29,14 @@ namespace RecruitingStaffWebApp.Pages.User
         {
             await _mediator.Send(new CreateContenderCommand(newContender, uploadedFile));
             Contenders = await _mediator.Send(new GetContendersQuery());
+            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
         }
 
         public async Task OnPostRemove(int contenderId)
         {
             await _mediator.Send(new RemoveContenderCommand(contenderId));
             Contenders = await _mediator.Send(new GetContendersQuery());
+            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
         }
     }
 }

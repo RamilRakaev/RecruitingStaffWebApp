@@ -25,6 +25,7 @@ namespace Infrastructure.Repositories
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationRoleConfiguration());
+            builder.ApplyConfiguration(new ContenderConfiguration());
             base.OnModelCreating(builder);
         }
     }
