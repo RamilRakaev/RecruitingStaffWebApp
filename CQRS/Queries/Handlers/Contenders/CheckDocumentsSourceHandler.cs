@@ -24,7 +24,7 @@ namespace CQRS.Queries.Handlers.Contenders
             var documentsSource = await _optionRepository
                 .GetAllAsNoTracking()
                 .FirstOrDefaultAsync(
-                o => 
+                o =>
                 o.PropertyName == OptionTypes.DocumentsSource,
                 cancellationToken: cancellationToken);
             if (documentsSource == null)
@@ -38,7 +38,7 @@ namespace CQRS.Queries.Handlers.Contenders
             }
             try
             {
-                using(var file = new FileStream(path + "\\file",FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                using (var file = new FileStream(path + "\\file", FileMode.OpenOrCreate, FileAccess.ReadWrite))
                 {
                     if (!file.CanWrite || !file.CanRead)
                     {
@@ -47,7 +47,7 @@ namespace CQRS.Queries.Handlers.Contenders
                 }
                 File.Delete(path + "\\file");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return "Доступ к указанному расположению документов запрещён.\n" +
                     $"{e.Message}";

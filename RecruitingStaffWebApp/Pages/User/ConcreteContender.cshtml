@@ -9,8 +9,11 @@
         <p>Дата рождения: @Model.Contender.DateOfBirth.ToString("D")</p>
         <p>Адрес места жительства: @Model.Contender.Address</p>
     </div>
-    <div class="col-3">
-        <a class="btn btn-dark" asp-page="/User/Сontenders">Список кандидатов</a>
+    <div class="col-1">
+        <a class="btn btn-dark" asp-page="/User/Сontenders">Назад</a>
+    </div>
+    <div class="col-1">
+        <a class="btn btn-dark" asp-page="/User/ChangeContender" asp-route-contenderId="@Model.Contender.Id">Изменить</a>
     </div>
 </div>
     <div class="row justify-content-start">
@@ -21,10 +24,10 @@
                         <th><h5>Имя свойства</h5></th>
                         <th><h5>Значение свойства</h5></th>
                         <th>
-                            <a class="btn btn-dark font-weight-normal"
+                            <a class="btn btn-outline-dark font-weight-normal"
                                asp-page="OptionForm"
                                asp-route-contenderId="@Model.Contender.Id">
-                                Добавить свойство
+                                Добавить
                             </a>
                         </th>
                     </tr>
@@ -36,13 +39,25 @@
                             <td>@option.PropertyName</td>
                             <td>@option.Value</td>
                             <td>
-                                <a class="btn btn-dark"
-                                   asp-page="OptionForm"
-                                   asp-route-propertyName="@option.PropertyName"
-                                   asp-route-contenderId="@option.ContenderId"
-                                   asp-route-value="@option.Value">
-                                    Изменить
-                                </a>
+                                @if (@option.Value.Count() > 30)
+                                {
+                                    <a class="btn btn-dark"
+                                       asp-page="OptionForm"
+                                       asp-route-propertyName="@option.PropertyName"
+                                       asp-route-contenderId="@option.ContenderId">
+                                        Изменить
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-dark"
+                                       asp-page="OptionForm"
+                                       asp-route-propertyName="@option.PropertyName"
+                                       asp-route-contenderId="@option.ContenderId"
+                                       asp-route-value="@option.Value">
+                                        Изменить
+                                    </a>
+                                }
                             </td>
                         </tr>
                     }

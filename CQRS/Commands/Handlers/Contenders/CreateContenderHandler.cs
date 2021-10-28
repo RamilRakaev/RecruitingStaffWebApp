@@ -25,12 +25,14 @@ namespace CQRS.Commands.Handlers.Contenders
             var documentSource = _optionRepository.GetAllAsNoTracking().FirstOrDefault(o => o.PropertyName == OptionTypes.DocumentsSource);
             if (documentSource != null)
             {
-                string path = $"{documentSource.Value}\\{request.UploadedFile.FileName}";
+                await _contenderRepository.AddAsync(request.Contender);
+                await _contenderRepository.SaveAsync();
+                var contender = _contenderRepository.GetAll().FirstOrDefault(c => c == request.Contender);
+                string path = $"{documentSource.Value}\\{contender.DocumentSource}";
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await request.UploadedFile.CopyToAsync(fileStream, cancellationToken);
                 }
-                await _contenderRepository.AddAsync(request.Contender);
                 await _contenderRepository.SaveAsync();
                 return true;
             }

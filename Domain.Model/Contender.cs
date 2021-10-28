@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Model
 {
@@ -11,15 +12,18 @@ namespace Domain.Model
 
         }
 
-        public Contender(string documentSource)
-        {
-            DocumentSource = documentSource;
-        }
-
         public string FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
-        public string DocumentSource { get; set; }
+        [NotMapped]
+        public string DocumentSource
+        {
+            get
+            {
+                return $"{Id}.{FullName}.docx";
+            }
+        }
         public List<Option> Options { get; set; }
+
     }
 }
