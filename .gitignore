@@ -4,8 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 #Web app ignore files
-internal-nlog.txt
-appsettings.User.json
+*internal-nlog.txt
+*appsettings.User.json
 
 # User-specific files
 *.rsuser
