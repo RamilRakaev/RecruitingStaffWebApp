@@ -5,19 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.User.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CQRS\CQRS.csproj" />
     <ProjectReference Include="..\Domain.Interfaces\Domain.Interfaces.csproj" />
     <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
     <ProjectReference Include="..\Domain.Validators\Domain.Validators.csproj" />
     <ProjectReference Include="..\Infrastructure.Repositories\Infrastructure.Repositories.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="appsettings.User.json" />
   </ItemGroup>
 
   <ItemGroup>
