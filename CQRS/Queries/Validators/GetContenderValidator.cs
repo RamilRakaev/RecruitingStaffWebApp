@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CQRS.Queries.Validators
 {
-    public class GetContenderValidator : AbstractValidator<Contender>
+    public class GetCandidateValidator : AbstractValidator<Candidate>
     {
-        public GetContenderValidator()
+        public GetCandidateValidator()
         {
             RuleFor(c => c.Id).NotEqual(0);
         }

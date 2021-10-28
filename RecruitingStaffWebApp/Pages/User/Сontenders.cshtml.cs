@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using CQRS.Commands.Requests.Contenders;
+using CQRS.Commands.Requests.Candidates;
 using CQRS.Queries.Requests.ApplicationUsers;
-using CQRS.Queries.Requests.Contenders;
+using CQRS.Queries.Requests.Candidates;
 using Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -15,27 +15,27 @@ namespace RecruitingStaffWebApp.Pages.User
         public СontendersModel(IMediator mediator) : base(mediator)
         { }
 
-        public Contender[] Contenders { get; set; }
+        public Candidate[] Candidates { get; set; }
         public string MessageAboutDocumentsSource { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
-            Contenders = await _mediator.Send(new GetContendersQuery());
+            Candidates = await _mediator.Send(new GetCandidatesQuery());
             MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
             return await RightVerification();
         }
 
-        public async Task OnPost(Contender newContender, IFormFile uploadedFile)
+        public async Task OnPost(Candidate newCandidate, IFormFile uploadedFile)
         {
-            await _mediator.Send(new CreateContenderCommand(newContender, uploadedFile));
-            Contenders = await _mediator.Send(new GetContendersQuery());
+            await _mediator.Send(new CreateCandidateCommand(newCandidate, uploadedFile));
+            Candidates = await _mediator.Send(new GetCandidatesQuery());
             MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
         }
 
-        public async Task OnPostRemove(int contenderId)
+        public async Task OnPostRemove(int CandidateId)
         {
-            await _mediator.Send(new RemoveContenderCommand(contenderId));
-            Contenders = await _mediator.Send(new GetContendersQuery());
+            await _mediator.Send(new RemoveCandidateCommand(CandidateId));
+            Candidates = await _mediator.Send(new GetCandidatesQuery());
             MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
         }
     }

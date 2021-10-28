@@ -2,14 +2,14 @@
 @model RecruitingStaffWebApp.Pages.User.СontendersModel
 @using Domain.Model;
 @{
-    var newContender = new Contender();
+    var newCandidate = new Candidate();
     ViewData["Title"] = "Кандидаты";
 }
 <div class="row justify-content-center">
     <form class="form-inline mb-3" method="post" enctype="multipart/form-data">
-        <input class="form-control m-2" placeholder="Полное имя" asp-for="@newContender.FullName" />
-        <input class="form-control m-2" min="1900-01-01" value="1990-01-01" type="date" asp-for="@newContender.DateOfBirth" />
-        <input class="form-control m-2" placeholder="Адрес" asp-for="@newContender.Address" />
+        <input class="form-control m-2" placeholder="Полное имя" asp-for="@newCandidate.FullName" />
+        <input class="form-control m-2" min="1900-01-01" value="1990-01-01" type="date" asp-for="@newCandidate.DateOfBirth" />
+        <input class="form-control m-2" placeholder="Адрес" asp-for="@newCandidate.Address" />
         <input class="form-control-file w-auto d-inline m-2" type="file" accept=".doc, .docx" name="uploadedFile" />
         <button class="btn btn-dark">Новый претендент</button>
     </form>
@@ -25,17 +25,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var contender in Model.Contenders)
+            @foreach (var Candidate in Model.Candidates)
             {
                 <tr>
-                    <th scope="row">@contender.Id</th>
-                    <td>@contender.FullName</td>
-                    <td>@contender.DateOfBirth.Date</td>
-                    <td>@contender.Address</td>
+                    <th scope="row">@Candidate.Id</th>
+                    <td>@Candidate.FullName</td>
+                    <td>@Candidate.DateOfBirth.Date</td>
+                    <td>@Candidate.Address</td>
                     <td>
-                        <a class="btn btn-dark" asp-page="ConcreteContender" asp-route-contenderId="@contender.Id">Перейти</a>
+                        <a class="btn btn-dark" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
                         <form class="d-inline" method="post" asp-page-handler="Remove">
-                            <input type="hidden" name="contenderId" value="@contender.Id" />
+                            <input type="hidden" name="CandidateId" value="@Candidate.Id" />
                             <button class="btn btn-danger text-white ml-3">Удалить</button>
                         </form>
                         <div class="dropdown d-inline">
@@ -43,11 +43,11 @@
                                 Свойства
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @foreach (var option in contender.Options)
+                                @foreach (var option in Candidate.Options)
                                 {
                                     <a class="dropdown-item"
                                        asp-page="OptionForm"
-                                       asp-route-contenderId="@option.ContenderId"
+                                       asp-route-CandidateId="@option.CandidateId"
                                        asp-route-propertyName="@option.PropertyName"
                                        asp-route-value="@option.Value">
                                         @option.PropertyName

@@ -3,15 +3,17 @@ using System;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211028141843_10")]
+    partial class _10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +39,7 @@ namespace Infrastructure.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Candidates");
+                    b.ToTable("Candidate");
                 });
 
             modelBuilder.Entity("Domain.Model.Option", b =>
@@ -94,7 +96,7 @@ namespace Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "fce87fb4-705e-4dcf-9f57-5efbcde9f832",
+                            ConcurrencyStamp = "a0bbde55-211e-4170-9a94-813e53775251",
                             Name = "user",
                             NormalizedName = "USER"
                         });

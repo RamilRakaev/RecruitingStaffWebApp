@@ -41,7 +41,7 @@ namespace RecruitingStaffWebApp
                 o => o.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
             services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<DataContext>();
 
-            services.AddTransient<IRepository<Contender>, ContenderRepository>();
+            services.AddTransient<IRepository<Candidate>, CandidateRepository>();
             services.AddTransient<IRepository<Option>, OptionRepository>();
 
             services.AddHostedService<MigrationService>();
@@ -51,7 +51,7 @@ namespace RecruitingStaffWebApp
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
             services.AddTransient<IValidator<ApplicationUser>, ApplicationUserValidator>();
-            services.AddTransient<IValidator<Contender>, ContenderValidator>();
+            services.AddTransient<IValidator<Candidate>, CandidateValidator>();
 
             services.AddRazorPages().AddFluentValidation();
         }

@@ -15,14 +15,14 @@ namespace Infrastructure.Repositories.SubRepositories
         {
             return _context
                 .Set<Option>()
-                .Include(o => o.Contender);
+                .Include(o => o.Candidate);
         }
 
         public override IQueryable<Option> GetAllAsNoTracking()
         {
             return _context
                 .Set<Option>()
-                .Include(o => o.Contender)
+                .Include(o => o.Candidate)
                 .AsNoTracking();
         }
 
@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories.SubRepositories
         {
             return await _context
                 .Set<Option>()
-                .Include(o => o.Contender)
+                .Include(o => o.Candidate)
                 .FirstAsync(c => c.Id == id);
         }
 
@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories.SubRepositories
         {
             return await _context
                 .Set<Option>()
-                .Include(o => o.Contender)
+                .Include(o => o.Candidate)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == id);
         }

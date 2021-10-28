@@ -5,9 +5,9 @@
 <div class="row justify-content-center">
     <div class="col-5">
         <form method="post">
-            @if (Model.Option.ContenderId != null)
+            @if (Model.Option.CandidateId != null)
             {
-                <input type="hidden" asp-for="@Model.Option.ContenderId" />
+                <input type="hidden" asp-for="@Model.Option.CandidateId" />
             }
             <div class="form-group">
                 <label class="col-form-label">Имя свойства</label>
@@ -28,15 +28,15 @@
                 </textarea>
                 <span asp-validation-for="@Model.Option.Value"></span>
             </div>
-            @if (Model.Option.ContenderId == null)
+            @if (Model.Option.CandidateId == null)
             {
                 <a class="btn btn-dark" asp-page="/User/Сontenders">Назад</a>
             }
             else
             {
                 <a class="btn btn-dark"
-                   asp-page="/User/ConcreteContender"
-                   asp-route-contenderId="@Model.Option.ContenderId.Value">
+                   asp-page="/User/ConcreteCandidate"
+                   asp-route-CandidateId="@Model.Option.CandidateId.Value">
                     Назад
                 </a>
             }

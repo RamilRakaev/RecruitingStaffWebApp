@@ -1,19 +1,19 @@
 ﻿@page
-@model RecruitingStaffWebApp.Pages.User.ConcreteContenderModel
+@model RecruitingStaffWebApp.Pages.User.ConcreteCandidateModel
 @{
-    ViewData["Title"] = Model.Contender.FullName;
+    ViewData["Title"] = Model.Candidate.FullName;
 }
 <div class="row justify-content-start">
     <div class="col-9">
-        <h2>@Model.Contender.FullName</h2>
-        <p>Дата рождения: @Model.Contender.DateOfBirth.ToString("D")</p>
-        <p>Адрес места жительства: @Model.Contender.Address</p>
+        <h2>@Model.Candidate.FullName</h2>
+        <p>Дата рождения: @Model.Candidate.DateOfBirth.ToString("D")</p>
+        <p>Адрес места жительства: @Model.Candidate.Address</p>
     </div>
     <div class="col-1">
         <a class="btn btn-dark" asp-page="/User/Сontenders">Назад</a>
     </div>
     <div class="col-1">
-        <a class="btn btn-dark" asp-page="/User/ChangeContender" asp-route-contenderId="@Model.Contender.Id">Изменить</a>
+        <a class="btn btn-dark" asp-page="/User/ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
     </div>
 </div>
     <div class="row justify-content-start">
@@ -26,14 +26,14 @@
                         <th>
                             <a class="btn btn-outline-dark font-weight-normal"
                                asp-page="OptionForm"
-                               asp-route-contenderId="@Model.Contender.Id">
+                               asp-route-CandidateId="@Model.Candidate.Id">
                                 Добавить
                             </a>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var option in Model.Contender.Options)
+                    @foreach (var option in Model.Candidate.Options)
                     {
                         <tr>
                             <td>@option.PropertyName</td>
@@ -44,7 +44,7 @@
                                     <a class="btn btn-dark"
                                        asp-page="OptionForm"
                                        asp-route-propertyName="@option.PropertyName"
-                                       asp-route-contenderId="@option.ContenderId">
+                                       asp-route-CandidateId="@option.CandidateId">
                                         Изменить
                                     </a>
                                 }
@@ -53,7 +53,7 @@
                                     <a class="btn btn-dark"
                                        asp-page="OptionForm"
                                        asp-route-propertyName="@option.PropertyName"
-                                       asp-route-contenderId="@option.ContenderId"
+                                       asp-route-CandidateId="@option.CandidateId"
                                        asp-route-value="@option.Value">
                                         Изменить
                                     </a>

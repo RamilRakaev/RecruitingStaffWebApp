@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Model
 {
-    public class Contender : BaseEntity
+    public class Candidate : BaseEntity
     {
-        public Contender()
+        public Candidate()
         {
 
         }

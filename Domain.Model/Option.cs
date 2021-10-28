@@ -5,7 +5,7 @@ namespace Domain.Model
     {
         public string  PropertyName { get; set; }
         public string Value { get; set; }
-        public int? ContenderId { get; set; }
-        public Contender Contender { get; set; }
+        public int? CandidateId { get; set; }
+        public Candidate Candidate { get; set; }
     }
 }

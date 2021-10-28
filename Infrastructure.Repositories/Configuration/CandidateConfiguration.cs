@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Repositories.Configuration
 {
-    public class ContenderConfiguration : IEntityTypeConfiguration<Contender>
+    public class CandidateConfiguration : IEntityTypeConfiguration<Candidate>
     {
-        public void Configure(EntityTypeBuilder<Contender> builder)
+        public void Configure(EntityTypeBuilder<Candidate> builder)
         {
             builder.HasMany(c => c.Options)
-                .WithOne(o => o.Contender)
+                .WithOne(o => o.Candidate)
                 .IsRequired(false)
-                .HasForeignKey(o => o.ContenderId)
+                .HasForeignKey(o => o.CandidateId)
                 .IsRequired(false);
         }
     }

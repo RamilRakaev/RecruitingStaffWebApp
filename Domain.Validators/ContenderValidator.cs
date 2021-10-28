@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Domain.Validators
 {
-    public class ContenderValidator : AbstractValidator<Contender>
+    public class CandidateValidator : AbstractValidator<Candidate>
     {
-        public ContenderValidator()
+        public CandidateValidator()
         {
             RuleFor(c => c.FullName).NotNull();
             RuleFor(c => c.Address).NotNull();

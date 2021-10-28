@@ -19,13 +19,13 @@ namespace Infrastructure.Repositories
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
 
-        public DbSet<Contender> Contenders { get; set; }
+        public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Option> Options { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new ApplicationRoleConfiguration());
-            builder.ApplyConfiguration(new ContenderConfiguration());
+            builder.ApplyConfiguration(new CandidateConfiguration());
             base.OnModelCreating(builder);
         }
     }
