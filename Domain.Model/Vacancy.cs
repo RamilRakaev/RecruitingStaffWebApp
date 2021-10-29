@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Domain.Model
 {
     public class Vacancy : BaseEntity
@@ -7,5 +9,6 @@ namespace Domain.Model
         public string Responsibilities { get; set; }
         public string WorkingConditions { get; set; }
         public string Requirements { get; set; }
+        public List<Candidate> Candidates { get; set; }
     }
 }

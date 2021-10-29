@@ -35,7 +35,12 @@ namespace Infrastructure.Repositories.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("text");
 
+                    b.Property<int?>("VacancyId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("VacancyId");
 
                     b.ToTable("Candidates");
                 });
@@ -94,7 +99,7 @@ namespace Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "fce87fb4-705e-4dcf-9f57-5efbcde9f832",
+                            ConcurrencyStamp = "13311819-e5ee-4a30-9471-128b0b82715d",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -272,6 +277,39 @@ namespace Infrastructure.Repositories.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Model.Vacancy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Requirements")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Responsibilities")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WorkingConditions")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vacancies");
+                });
+
+            modelBuilder.Entity("Domain.Model.Candidate", b =>
+                {
+                    b.HasOne("Domain.Model.Vacancy", "VacancyClaim")
+                        .WithMany("Candidates")
+                        .HasForeignKey("VacancyId");
+
+                    b.Navigation("VacancyClaim");
+                });
+
             modelBuilder.Entity("Domain.Model.Option", b =>
                 {
                     b.HasOne("Domain.Model.Candidate", "Candidate")
@@ -347,6 +385,11 @@ namespace Infrastructure.Repositories.Migrations
             modelBuilder.Entity("Domain.Model.UserIdentity.ApplicationRole", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Domain.Model.Vacancy", b =>
+                {
+                    b.Navigation("Candidates");
                 });
 #pragma warning restore 612, 618
         }

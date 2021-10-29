@@ -2,13 +2,13 @@
 
 namespace Infrastructure.Repositories.Migrations
 {
-    public partial class _8 : Migration
+    public partial class _3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(
-                name: "ContenderId",
-                table: "Options",
+                name: "VacancyId",
+                table: "Candidates",
                 type: "integer",
                 nullable: true,
                 oldClrType: typeof(int),
@@ -19,14 +19,14 @@ namespace Infrastructure.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "ConcurrencyStamp",
-                value: "a89d8958-8768-4780-879c-b947e2ad1f77");
+                value: "13311819-e5ee-4a30-9471-128b0b82715d");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(
-                name: "ContenderId",
-                table: "Options",
+                name: "VacancyId",
+                table: "Candidates",
                 type: "integer",
                 nullable: false,
                 defaultValue: 0,
@@ -39,7 +39,7 @@ namespace Infrastructure.Repositories.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "ConcurrencyStamp",
-                value: "770bd4ec-794e-469b-afb4-0deb7727358a");
+                value: "7f5efb59-08b9-4b38-a629-29a7e60c2edd");
         }
     }
 }

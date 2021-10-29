@@ -27,6 +27,7 @@ namespace Infrastructure.Repositories
         {
             builder.ApplyConfiguration(new ApplicationRoleConfiguration());
             builder.ApplyConfiguration(new CandidateConfiguration());
+            builder.ApplyConfiguration(new VacancyConfiguration());
             base.OnModelCreating(builder);
         }
     }

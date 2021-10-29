@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211028094349_7")]
-    partial class _7
+    [Migration("20211029093102_2")]
+    partial class _2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("Domain.Model.Contender", b =>
+            modelBuilder.Entity("Domain.Model.Candidate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,15 +34,17 @@ namespace Infrastructure.Repositories.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("DocumentSource")
-                        .HasColumnType("text");
-
                     b.Property<string>("FullName")
                         .HasColumnType("text");
 
+                    b.Property<int>("VacancyId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Contenders");
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("Candidates");
                 });
 
             modelBuilder.Entity("Domain.Model.Option", b =>
@@ -52,7 +54,7 @@ namespace Infrastructure.Repositories.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ContenderId")
+                    b.Property<int?>("CandidateId")
                         .HasColumnType("integer");
 
                     b.Property<string>("PropertyName")
@@ -63,7 +65,7 @@ namespace Infrastructure.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContenderId");
+                    b.HasIndex("CandidateId");
 
                     b.ToTable("Options");
                 });
@@ -99,7 +101,7 @@ namespace Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "770bd4ec-794e-469b-afb4-0deb7727358a",
+                            ConcurrencyStamp = "7f5efb59-08b9-4b38-a629-29a7e60c2edd",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -277,13 +279,46 @@ namespace Infrastructure.Repositories.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Model.Vacancy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Requirements")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Responsibilities")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WorkingConditions")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vacancies");
+                });
+
+            modelBuilder.Entity("Domain.Model.Candidate", b =>
+                {
+                    b.HasOne("Domain.Model.Vacancy", "VacancyClaim")
+                        .WithMany("Candidates")
+                        .HasForeignKey("VacancyId");
+
+                    b.Navigation("VacancyClaim");
+                });
+
             modelBuilder.Entity("Domain.Model.Option", b =>
                 {
-                    b.HasOne("Domain.Model.Contender", "Contender")
+                    b.HasOne("Domain.Model.Candidate", "Candidate")
                         .WithMany("Options")
-                        .HasForeignKey("ContenderId");
+                        .HasForeignKey("CandidateId");
 
-                    b.Navigation("Contender");
+                    b.Navigation("Candidate");
                 });
 
             modelBuilder.Entity("Domain.Model.UserIdentity.ApplicationRoleClaim", b =>
@@ -344,7 +379,7 @@ namespace Infrastructure.Repositories.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Model.Contender", b =>
+            modelBuilder.Entity("Domain.Model.Candidate", b =>
                 {
                     b.Navigation("Options");
                 });
@@ -352,6 +387,11 @@ namespace Infrastructure.Repositories.Migrations
             modelBuilder.Entity("Domain.Model.UserIdentity.ApplicationRole", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Domain.Model.Vacancy", b =>
+                {
+                    b.Navigation("Candidates");
                 });
 #pragma warning restore 612, 618
         }
