@@ -19,7 +19,6 @@ using FluentValidation.AspNetCore;
 using CQRS;
 using MediatR;
 using Infrastructure.CQRS;
-using RecruitingStaffWebApp.Pages.Account;
 using Infrastructure.Services.Repositories;
 using Domain.Model.UserIdentity;
 
@@ -43,6 +42,7 @@ namespace RecruitingStaffWebApp
 
             services.AddTransient<IRepository<Candidate>, CandidateRepository>();
             services.AddTransient<IRepository<Option>, OptionRepository>();
+            services.AddTransient<IRepository<Vacancy>, VacancyRepository>();
 
             services.AddHostedService<MigrationService>();
             services.AddHostedService<UserService>();

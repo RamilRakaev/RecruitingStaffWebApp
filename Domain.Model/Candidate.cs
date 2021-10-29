@@ -6,11 +6,6 @@ namespace Domain.Model
 {
     public class Candidate : BaseEntity
     {
-        public Candidate()
-        {
-
-        }
-
         public string FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
@@ -27,6 +22,5 @@ namespace Domain.Model
             }
         }
         public List<Option> Options { get; set; }
-
     }
 }

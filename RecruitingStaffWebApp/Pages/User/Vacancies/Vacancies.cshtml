@@ -2,3 +2,31 @@
 @model RecruitingStaffWebApp.Pages.User.Vacancies.VacanciesModel
 @{
 }
+<div class="row justify-content-center">
+    @foreach (var vacancy in Model.Vacancies)
+    {
+        <div class="col-8">
+            <h4>@vacancy.Name</h4>
+            <h4>@vacancy.Description</h4>
+            <ol title="Требования:">
+                @foreach (var responsibility in vacancy.ResponsibilitiesList)
+                {
+                    <li>@responsibility</li>
+                }
+            </ol>
+            <ol title="Обзязанности:">
+                @foreach (var requirement in vacancy.ReuirementsList)
+                {
+                    <li>@requirement</li>
+                }
+            </ol>
+            <ol title="Условия:">
+                @foreach (var workingCondition in vacancy.WorkingConditionsList)
+                {
+                    <li>@workingCondition</li>
+                }
+            </ol>
+        </div>
+
+    }
+</div>
