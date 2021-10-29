@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CQRS.Commands.Requests.Candidates;
-using CQRS.Commands.Requests.Options;
 using CQRS.Queries.Requests.Candidates;
 using Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RecruitingStaffWebApp.Pages.User
 {

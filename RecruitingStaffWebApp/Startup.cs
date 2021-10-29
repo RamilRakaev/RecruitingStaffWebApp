@@ -50,8 +50,10 @@ namespace RecruitingStaffWebApp
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
+
             services.AddTransient<IValidator<ApplicationUser>, ApplicationUserValidator>();
             services.AddTransient<IValidator<Candidate>, CandidateValidator>();
+            services.AddTransient<IValidator<Vacancy>, VacancyValidator>();
 
             services.AddRazorPages().AddFluentValidation();
         }

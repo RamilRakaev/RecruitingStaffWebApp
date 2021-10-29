@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using CQRS.Commands.Requests.Options;
 using CQRS.Queries.Requests.Candidates;
 using Domain.Model;
 using MediatR;
@@ -17,6 +18,12 @@ namespace RecruitingStaffWebApp.Pages.User
         {
             Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             return await RightVerification();
+        }
+
+        public async Task OnPost(int optionId, int candidateId)
+        {
+            await _mediator.Send(new RemoveOptionCommand(optionId));
+            Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
         }
     }
 }

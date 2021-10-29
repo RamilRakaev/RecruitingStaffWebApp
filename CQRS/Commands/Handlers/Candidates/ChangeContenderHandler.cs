@@ -23,7 +23,9 @@ namespace CQRS.Commands.Handlers.Candidates
         public async Task<bool> Handle(ChangeCandidateCommand request, CancellationToken cancellationToken)
         {
             var Candidate = await _CandidateRepository.FindAsync(request.Candidate.Id);
-            var documentSource = await _optionRepository.GetAllAsNoTracking().FirstOrDefaultAsync(o => o.PropertyName == OptionTypes.DocumentsSource);
+            var documentSource = await _optionRepository
+                .GetAllAsNoTracking()
+                .FirstOrDefaultAsync(o => o.PropertyName == OptionTypes.DocumentsSource, cancellationToken: cancellationToken);
             if(documentSource != null)
             {
                 var file = new FileInfo($"{documentSource.Value}\\{Candidate.DocumentSource}");

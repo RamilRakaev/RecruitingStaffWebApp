@@ -1,5 +1,5 @@
 ﻿@page
-@model RecruitingStaffWebApp.Pages.User.СontendersModel
+@model RecruitingStaffWebApp.Pages.User.CandidatesModel
 @using Domain.Model;
 @{
     var newCandidate = new Candidate();
@@ -30,7 +30,7 @@
                 <tr>
                     <th scope="row">@Candidate.Id</th>
                     <td>@Candidate.FullName</td>
-                    <td>@Candidate.DateOfBirth.Date</td>
+                    <td>@Candidate.DateOfBirth.ToString("d")</td>
                     <td>@Candidate.Address</td>
                     <td>
                         <a class="btn btn-dark" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
@@ -45,13 +45,25 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @foreach (var option in Candidate.Options)
                                 {
-                                    <a class="dropdown-item"
-                                       asp-page="OptionForm"
-                                       asp-route-CandidateId="@option.CandidateId"
-                                       asp-route-propertyName="@option.PropertyName"
-                                       asp-route-value="@option.Value">
-                                        @option.PropertyName
-                                    </a>
+                                    if (option.Value.Length > 30)
+                                    {
+                                        <a class="dropdown-item"
+                                           asp-page="OptionForm"
+                                           asp-route-CandidateId="@option.CandidateId"
+                                           asp-route-propertyName="@option.PropertyName">
+                                            @option.PropertyName
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item"
+                                        asp-page="OptionForm"
+                                        asp-route-CandidateId="@option.CandidateId"
+                                        asp-route-propertyName="@option.PropertyName"
+                                        asp-route-value="@option.Value">
+                                            @option.PropertyName
+                                        </a>
+                                    }
                                 }
                             </div>
                         </div>

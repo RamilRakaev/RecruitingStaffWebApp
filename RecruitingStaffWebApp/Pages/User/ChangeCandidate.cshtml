@@ -1,25 +1,37 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.ChangeCandidateModel
 @{
+    ViewData["Title"] = Model.Candidate.FullName;
 }
 <div class="row justify-content-center">
-    <form method="post">
-        <input type="hidden" asp-for="@Model.Candidate.Id" />
-        <div class="form-group">
-            <label class="col-form-label" asp-for="@Model.Candidate.FullName"></label>
-            <input class="form-control" asp-for="@Model.Candidate.FullName" />
-            <span asp-validation-for="@Model.Candidate.FullName"></span>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label" asp-for="@Model.Candidate.DateOfBirth"></label>
-            <input class="form-control" asp-for="@Model.Candidate.DateOfBirth" />
-            <span asp-validation-for="@Model.Candidate.DateOfBirth"></span>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label" asp-for="@Model.Candidate.Address"></label>
-            <input class="form-control" asp-for="@Model.Candidate.Address" />
-            <span asp-validation-for="@Model.Candidate.Address"></span>
-        </div>
-        <button class="btn btn-dark">Отправить</button>
-    </form>
+    <div class="col-5">
+        <form method="post">
+            <input type="hidden" asp-for="@Model.Candidate.Id" />
+            <div class="form-group">
+                <label class="col-form-label">Полное имя</label>
+                <input class="form-control" asp-for="@Model.Candidate.FullName" />
+                <span asp-validation-for="@Model.Candidate.FullName"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Дата рождения</label>
+                <input class="form-control" asp-for="@Model.Candidate.DateOfBirth" />
+                <span asp-validation-for="@Model.Candidate.DateOfBirth"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Адрес</label>
+                <input class="form-control" asp-for="@Model.Candidate.Address" />
+                <span asp-validation-for="@Model.Candidate.Address"></span>
+            </div>
+            <a class="btn btn-dark"
+               asp-page="/User/ConcreteCandidate"
+               asp-route-CandidateId="@Model.Candidate.Id">
+                Текущий кандидат
+            </a>
+            <a class="btn btn-dark"
+               asp-page="/User/Candidates">
+                Список
+            </a>
+            <button class="btn btn-dark float-right">Отправить</button>
+        </form>
+    </div>
 </div>

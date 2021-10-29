@@ -21,6 +21,7 @@ namespace Infrastructure.Repositories
 
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<Vacancy> Vacancies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

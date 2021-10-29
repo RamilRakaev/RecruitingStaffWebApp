@@ -1,18 +1,16 @@
 using System.Threading.Tasks;
 using CQRS.Commands.Requests.Candidates;
-using CQRS.Queries.Requests.ApplicationUsers;
 using CQRS.Queries.Requests.Candidates;
 using Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
-    public class СontendersModel : BasePageModel
+    public class CandidatesModel : BasePageModel
     {
-        public СontendersModel(IMediator mediator) : base(mediator)
+        public CandidatesModel(IMediator mediator) : base(mediator)
         { }
 
         public Candidate[] Candidates { get; set; }

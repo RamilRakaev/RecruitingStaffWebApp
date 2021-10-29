@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CQRS.Commands.Requests.Options;
 using Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
@@ -34,7 +30,7 @@ namespace RecruitingStaffWebApp.Pages.User
             {
                 return RedirectToPage("/User/ConcreteCandidate", new { CandidateId = option.CandidateId.Value });
             }
-            return RedirectToPage("/User/Ñontenders");
+            return RedirectToPage("/User/Candidates");
         }
     }
 }

@@ -10,7 +10,7 @@
         <p>Адрес места жительства: @Model.Candidate.Address</p>
     </div>
     <div class="col-1">
-        <a class="btn btn-dark" asp-page="/User/Сontenders">Назад</a>
+        <a class="btn btn-dark" asp-page="/User/Candidates">Назад</a>
     </div>
     <div class="col-1">
         <a class="btn btn-dark" asp-page="/User/ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
@@ -39,9 +39,9 @@
                             <td>@option.PropertyName</td>
                             <td>@option.Value</td>
                             <td>
-                                @if (@option.Value.Count() > 30)
+                                @if (option.Value.Count() > 30)
                                 {
-                                    <a class="btn btn-dark"
+                                    <a class="btn btn-dark m-2"
                                        asp-page="OptionForm"
                                        asp-route-propertyName="@option.PropertyName"
                                        asp-route-CandidateId="@option.CandidateId">
@@ -50,7 +50,7 @@
                                 }
                                 else
                                 {
-                                    <a class="btn btn-dark"
+                                    <a class="btn btn-dark m-2"
                                        asp-page="OptionForm"
                                        asp-route-propertyName="@option.PropertyName"
                                        asp-route-CandidateId="@option.CandidateId"
@@ -58,6 +58,11 @@
                                         Изменить
                                     </a>
                                 }
+                            <form class="d-inline" method="post">
+                                <input type="hidden" name="candidateId" value="@Model.Candidate.Id" />
+                                <input type="hidden" name="optionId" value="@option.Id" />
+                                <button class="btn btn-danger m-2">Удалить</button>
+                            </form>
                             </td>
                         </tr>
                     }
