@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Model.UserIdentity
+namespace RecruitingStaff.Domain.Model.UserIdentity
 {
     public class ApplicationUserRole : IdentityUserRole<int>
     { }

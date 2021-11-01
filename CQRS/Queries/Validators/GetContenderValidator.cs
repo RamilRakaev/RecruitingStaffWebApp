@@ -1,5 +1,5 @@
-﻿using Domain.Model;
-using FluentValidation;
+﻿using FluentValidation;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Validators
 {

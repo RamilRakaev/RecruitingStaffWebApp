@@ -1,7 +1,5 @@
-using Domain.Interfaces;
-using Domain.Model;
-using Infrastructure.Repositories;
-using Infrastructure.Repositories.SubRepositories;
+using RecruitingStaff.Infrastructure.Repositories;
+using RecruitingStaff.Infrastructure.Repositories.SubRepositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,18 +7,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
-using Domain.Validators;
 using FluentValidation.AspNetCore;
-using CQRS;
 using MediatR;
-using Infrastructure.CQRS;
-using Infrastructure.Services.Repositories;
-using Domain.Model.UserIdentity;
+using RecruitingStaff.Infrastructure.CQRS;
+using RecruitingStaff.Infrastructure.Services.Repositories;
+using RecruitingStaff.Domain.Model.UserIdentity;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Validators;
 
 namespace RecruitingStaffWebApp
 {

@@ -1,8 +1,8 @@
-﻿using Domain.Model;
+﻿using RecruitingStaff.Domain.Model;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace RecruitingStaff.Domain.Interfaces
 {
     public interface IStorageRequests<Entity> where Entity : BaseEntity
     {

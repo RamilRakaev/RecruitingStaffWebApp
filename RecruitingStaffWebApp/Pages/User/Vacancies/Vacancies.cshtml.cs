@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using CQRS.Queries.Requests.Vacancies;
-using Domain.Model;
-using Domain.Model.CandidateQuestionnaire;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
 
 namespace RecruitingStaffWebApp.Pages.User.Vacancies
 {

@@ -1,9 +1,9 @@
-﻿using Domain.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories.SubRepositories
+namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
 {
     public class VacancyRepository : BaseRepository<Vacancy>
     {

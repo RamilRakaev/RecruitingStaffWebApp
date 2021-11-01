@@ -1,5 +1,5 @@
 ﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers;
-using Domain.Model.UserIdentity;
+using RecruitingStaff.Domain.Model.UserIdentity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Threading;

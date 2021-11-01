@@ -44,7 +44,7 @@ namespace RecruitingStaff.Infrastructure.CQRS
                         "Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}",
                         typeName, request, failures);
 
-                    throw new RecruitingStaff.Infrastructure.CQRSSampleDomainException(
+                    throw new CQRSSampleDomainException(
                         $"Command Validation Errors for type {typeof(TRequest).Name}");
                     throw new ValidationException("Validation exception", failures);
                 }

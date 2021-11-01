@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using CQRS.Commands.Requests.Candidates;
-using CQRS.Queries.Requests.Candidates;
-using Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 
 namespace RecruitingStaffWebApp.Pages.User
 {

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Request.ApplicationUsers;
-using Domain.Model.UserIdentity;
+using RecruitingStaff.Domain.Model.UserIdentity;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
 {

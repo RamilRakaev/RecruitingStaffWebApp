@@ -1,10 +1,10 @@
-﻿using Domain.Interfaces;
-using Domain.Model;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories
+namespace RecruitingStaff.Infrastructure.Repositories
 {
     public class BaseRepository<Entity> : IRepository<Entity> where Entity : BaseEntity
     {

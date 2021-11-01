@@ -13,4 +13,12 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CQRS\RecruitingStaff.Infrastructure.CQRS.csproj" />
+    <ProjectReference Include="..\Domain.Interfaces\RecruitingStaff.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\Domain.Model\RecruitingStaff.Domain.Model.csproj" />
+    <ProjectReference Include="..\Domain.Validators\RecruitingStaff.Domain.Validators.csproj" />
+    <ProjectReference Include="..\Infrastructure.Repositories\RecruitingStaff.Infrastructure.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>

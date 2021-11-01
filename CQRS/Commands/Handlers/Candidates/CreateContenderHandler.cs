@@ -1,12 +1,12 @@
-﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
-using Domain.Interfaces;
-using Domain.Model;
-using Domain.Model.CandidateQuestionnaire;
-using MediatR;
+﻿using MediatR;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {

@@ -1,4 +1,4 @@
-﻿using Domain.Model.CandidateQuestionnaire;
+﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using MediatR;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates

@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Model.UserIdentity;
+using RecruitingStaff.Domain.Model.UserIdentity;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

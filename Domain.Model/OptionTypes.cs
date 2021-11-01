@@ -1,5 +1,5 @@
 ﻿
-namespace Domain.Model
+namespace RecruitingStaff.Domain.Model
 {
     public static class OptionTypes
     {

@@ -1,9 +1,8 @@
-﻿using Domain.Model;
-using Domain.Model.CandidateQuestionnaire;
+﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace RecruitingStaff.RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates
 {
     public class CreateCandidateCommand : IRequest<bool>
     {

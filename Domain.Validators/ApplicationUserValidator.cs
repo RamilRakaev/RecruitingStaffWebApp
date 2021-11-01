@@ -1,7 +1,7 @@
-﻿using Domain.Model.UserIdentity;
+﻿using RecruitingStaff.Domain.Model.UserIdentity;
 using FluentValidation;
 
-namespace Domain.Validators
+namespace RecruitingStaff.Domain.Validators
 {
     public class ApplicationUserValidator : AbstractValidator<ApplicationUser>
     {

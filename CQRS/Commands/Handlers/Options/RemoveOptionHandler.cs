@@ -1,6 +1,6 @@
 ﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
-using Domain.Interfaces;
-using Domain.Model;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Model.UserIdentity
+namespace RecruitingStaff.Domain.Model.UserIdentity
 {
     public class ApplicationUser : IdentityUser<int>
     {

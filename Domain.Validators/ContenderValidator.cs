@@ -1,7 +1,7 @@
-﻿using Domain.Model;
-using FluentValidation;
+﻿using FluentValidation;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
-namespace Domain.Validators
+namespace RecruitingStaff.Domain.Validators
 {
     public class CandidateValidator : AbstractValidator<Candidate>
     {

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
-using Domain.Model.UserIdentity;
+using RecruitingStaff.Domain.Model.UserIdentity;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 {
@@ -16,7 +16,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 
         public async Task<ApplicationUser> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == request.Id);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken: cancellationToken);
             if (user != null)
             {
                 await _userManager.RemovePasswordAsync(user);

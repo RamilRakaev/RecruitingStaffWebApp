@@ -3,10 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
-using CQRS.Queries.Requests.ApplicationUsers;
-using Microsoft.AspNetCore.Identity;
-using Domain.Model.UserIdentity;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers;
 
 namespace RecruitingStaffWebApp.Pages.Account
 {

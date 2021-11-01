@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Model.CandidateQuestionnaire
+namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 {
     public class Candidate : BaseEntity
     {

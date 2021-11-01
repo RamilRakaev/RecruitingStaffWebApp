@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Services.Repositories
+namespace RecruitingStaff.Infrastructure.Services.Repositories
 {
     public class UserService : IHostedService
     {

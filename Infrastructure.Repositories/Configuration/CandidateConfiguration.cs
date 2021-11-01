@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Repositories.Configuration
+namespace RecruitingStaff.Infrastructure.Repositories.Configuration
 {
     public class CandidateConfiguration : IEntityTypeConfiguration<Candidate>
     {

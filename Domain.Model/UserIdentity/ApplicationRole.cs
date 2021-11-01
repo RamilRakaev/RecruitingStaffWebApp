@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace Domain.Model.UserIdentity
+namespace RecruitingStaff.Domain.Model.UserIdentity
 {
     public class ApplicationRole : IdentityRole<int>
     {

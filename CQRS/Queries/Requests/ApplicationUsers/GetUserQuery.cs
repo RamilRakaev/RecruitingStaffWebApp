@@ -1,4 +1,4 @@
-﻿using Domain.Model.UserIdentity;
+﻿using RecruitingStaff.Domain.Model.UserIdentity;
 using MediatR;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Request.ApplicationUsers

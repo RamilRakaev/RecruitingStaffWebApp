@@ -1,5 +1,5 @@
 ﻿
-namespace Domain.Model.CandidateQuestionnaire
+namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 {
     public class Answer : BaseEntity
     {

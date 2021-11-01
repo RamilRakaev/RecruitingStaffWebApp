@@ -1,4 +1,4 @@
-﻿using Infrastructure.Repositories;
+﻿using RecruitingStaff.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Services.Repositories
+namespace RecruitingStaff.Infrastructure.Services.Repositories
 {
     public class MigrationService : IHostedService
     {

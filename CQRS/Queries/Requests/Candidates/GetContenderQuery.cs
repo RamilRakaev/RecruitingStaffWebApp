@@ -1,5 +1,5 @@
-﻿using Domain.Model;
-using MediatR;
+﻿using MediatR;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates
 {

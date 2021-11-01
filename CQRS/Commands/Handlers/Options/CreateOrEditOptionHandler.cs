@@ -1,6 +1,6 @@
 ﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
-using Domain.Interfaces;
-using Domain.Model;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -21,7 +21,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Options
         {
             var option = await _optionRepository
                 .GetAll()
-                .FirstOrDefaultAsync(o => o.PropertyName == request.Option.PropertyName && o.CandidateId == request.Option.CandidateId);
+                .FirstOrDefaultAsync(
+                o => o.PropertyName == request.Option.PropertyName &&
+                o.CandidateId == request.Option.CandidateId, 
+                cancellationToken: cancellationToken);
+
             if(option == null)
             {
                 await _optionRepository.AddAsync(request.Option);

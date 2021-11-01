@@ -1,6 +1,6 @@
 ﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
-using Domain.Interfaces;
-using Domain.Model;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.IO;

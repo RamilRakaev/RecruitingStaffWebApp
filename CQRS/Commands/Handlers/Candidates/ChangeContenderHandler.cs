@@ -1,12 +1,12 @@
 ﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
-using Domain.Interfaces;
-using Domain.Model;
-using Domain.Model.CandidateQuestionnaire;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {

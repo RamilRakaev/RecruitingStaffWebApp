@@ -2,8 +2,8 @@
 
 namespace RecruitingStaff.Infrastructure.CQRS
 {
-    public class RecruitingStaff.Infrastructure.CQRSAssemblyInfo
+    public class CQRSAssemblyInfo
     {
-        public static Assembly Assembly { get { return typeof(RecruitingStaff.Infrastructure.CQRSAssemblyInfo).Assembly; } }
+        public static Assembly Assembly { get { return typeof(CQRSAssemblyInfo).Assembly; } }
     }
 }
