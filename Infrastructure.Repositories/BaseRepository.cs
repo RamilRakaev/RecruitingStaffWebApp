@@ -22,17 +22,17 @@ namespace RecruitingStaff.Infrastructure.Repositories
 
         public virtual IQueryable<Entity> GetAllAsNoTracking()
         {
-            return _context.Set<Entity>().AsNoTracking();
+            return GetAll().AsNoTracking();
         }
 
         public virtual async Task<Entity> FindAsync(int id)
         {
-            return await _context.Set<Entity>().FindAsync(id);
+            return await GetAll().FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public virtual async Task<Entity> FindNoTrackingAsync(int id)
         {
-            return await _context.Set<Entity>().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+            return await GetAll().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public virtual async Task AddAsync(Entity entity)

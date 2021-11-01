@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Model;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
 {
@@ -15,31 +14,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
             return _context
                 .Set<Option>()
                 .Include(o => o.Candidate);
-        }
-
-        public override IQueryable<Option> GetAllAsNoTracking()
-        {
-            return _context
-                .Set<Option>()
-                .Include(o => o.Candidate)
-                .AsNoTracking();
-        }
-
-        public override async Task<Option> FindAsync(int id)
-        {
-            return await _context
-                .Set<Option>()
-                .Include(o => o.Candidate)
-                .FirstAsync(c => c.Id == id);
-        }
-
-        public override async Task<Option> FindNoTrackingAsync(int id)
-        {
-            return await _context
-                .Set<Option>()
-                .Include(o => o.Candidate)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == id);
         }
     }
 }

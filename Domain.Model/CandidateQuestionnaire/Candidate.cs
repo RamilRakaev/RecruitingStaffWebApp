@@ -11,7 +11,7 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         public string TelephoneNumber { get; set; }
         public string MaritalStatus { get; set; }
 
-        public Questionnaire Questionnaire { get; set; }
+        public List<Questionnaire> Questionnaires { get; set; }
 
         public List<CandidateVacancy> CandidateVacancies { get; set; }
         public List<Option> Options { get; set; }

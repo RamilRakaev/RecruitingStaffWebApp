@@ -9,7 +9,5 @@ namespace RecruitingStaff.Domain.Model.UserIdentity
 {
     public class ApplicationUser : IdentityUser<int>
     {
-        //public int RoleId { get; set; }
-        //public ApplicationRole Role { get; set; }
     }
 }

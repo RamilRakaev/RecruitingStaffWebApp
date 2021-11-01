@@ -8,11 +8,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
     {
         public void Configure(EntityTypeBuilder<Candidate> builder)
         {
-            builder.HasMany(c => c.Options)
-                .WithOne(o => o.Candidate)
-                .IsRequired(false)
-                .HasForeignKey(o => o.CandidateId)
-                .IsRequired(false);
         }
     }
 }

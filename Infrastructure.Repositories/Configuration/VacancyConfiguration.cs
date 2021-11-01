@@ -8,11 +8,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
     {
         public void Configure(EntityTypeBuilder<Vacancy> builder)
         {
-            builder.HasMany(v => v.Candidates)
-                .WithOne(c => c.VacancyClaim)
-                .IsRequired(false)
-                .HasForeignKey(c => c.VacancyId)
-                .IsRequired(false);
+            
         }
     }
 }
