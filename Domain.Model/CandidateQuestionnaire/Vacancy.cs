@@ -12,6 +12,9 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         public string Requirements { get; set; }
         public string WorkingConditions { get; set; }
 
+        public List<CandidateVacancy> CandidateVacancies { get; set; }
+        public List<Questionnaire> Questionnaires { get; set; }
+
         [NotMapped]
         public string[] ResponsibilitiesList
         {
@@ -58,10 +61,5 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
                 }
             }
         }
-
-        public List<Candidate> Candidates { get; set; }
-
-        public int QuestionnaireId { get; set; }
-        public Questionnaire Questionnaire { get; set; }
     }
 }

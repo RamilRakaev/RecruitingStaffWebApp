@@ -9,6 +9,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
         public void Configure(EntityTypeBuilder<Questionnaire> builder)
         {
             builder.HasOne(q => q.Vacancy).WithOne(v => v.Questionnaire).HasForeignKey<Vacancy>(q => q.QuestionnaireId);
+            builder.HasMany(q => q.QuestionCategories).WithOne(c => c.Questionnaire).HasForeignKey(c => c.QuestionnaireId);
         }
     }
 }
