@@ -1,14 +1,14 @@
-﻿using Domain.Model.UserIdentity;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Domain.Model.UserIdentity;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RecruitingStaff.Infrastructure.Services.Repositories
+namespace RecruitingStaff.Infrastructure.DatabaseServices
 {
     public class UserService : IHostedService
     {

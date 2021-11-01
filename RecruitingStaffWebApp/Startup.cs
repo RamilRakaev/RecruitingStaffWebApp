@@ -11,7 +11,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
 using RecruitingStaff.Infrastructure.CQRS;
-using RecruitingStaff.Infrastructure.Services.Repositories;
+using RecruitingStaff.Infrastructure.DatabaseServices;
 using RecruitingStaff.Domain.Model.UserIdentity;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Interfaces;
@@ -50,6 +50,7 @@ namespace RecruitingStaffWebApp
             services.AddTransient<IValidator<ApplicationUser>, ApplicationUserValidator>();
             services.AddTransient<IValidator<Candidate>, CandidateValidator>();
             services.AddTransient<IValidator<Vacancy>, VacancyValidator>();
+            services.AddTransient<IValidator<Questionnaire>, QuestionnaireValidator>();
 
             services.AddRazorPages().AddFluentValidation();
         }

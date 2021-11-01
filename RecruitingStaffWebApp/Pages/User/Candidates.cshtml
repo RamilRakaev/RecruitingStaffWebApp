@@ -1,6 +1,7 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.CandidatesModel
-@using Domain.Model;
+@using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+@using RecruitingStaff.Domain.Model;
 @{
     var newCandidate = new Candidate();
     ViewData["Title"] = "Кандидаты";
@@ -57,10 +58,10 @@
                                     else
                                     {
                                         <a class="dropdown-item"
-                                        asp-page="OptionForm"
-                                        asp-route-CandidateId="@option.CandidateId"
-                                        asp-route-propertyName="@option.PropertyName"
-                                        asp-route-value="@option.Value">
+                                           asp-page="OptionForm"
+                                           asp-route-CandidateId="@option.CandidateId"
+                                           asp-route-propertyName="@option.PropertyName"
+                                           asp-route-value="@option.Value">
                                             @option.PropertyName
                                         </a>
                                     }

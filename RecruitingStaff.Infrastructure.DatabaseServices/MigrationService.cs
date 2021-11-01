@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RecruitingStaff.Infrastructure.Services.Repositories
+namespace RecruitingStaff.Infrastructure.DatabaseServices
 {
     public class MigrationService : IHostedService
     {

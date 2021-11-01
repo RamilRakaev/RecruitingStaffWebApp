@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Domain.Model\RecruitingStaff.Domain.Model.csproj" />
     <ProjectReference Include="..\Domain.Validators\RecruitingStaff.Domain.Validators.csproj" />
     <ProjectReference Include="..\Infrastructure.Repositories\RecruitingStaff.Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\RecruitingStaff.Infrastructure.DatabaseServices\RecruitingStaff.Infrastructure.DatabaseServices.csproj" />
   </ItemGroup>
 
 </Project>

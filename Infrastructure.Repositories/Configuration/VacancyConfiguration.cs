@@ -1,4 +1,4 @@
-﻿using Domain.Model.CandidateQuestionnaire;
+﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

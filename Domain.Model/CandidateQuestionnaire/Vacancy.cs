@@ -60,5 +60,8 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         }
 
         public List<Candidate> Candidates { get; set; }
+
+        public int QuestionnaireId { get; set; }
+        public Questionnaire Questionnaire { get; set; }
     }
 }

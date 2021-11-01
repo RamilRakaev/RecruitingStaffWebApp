@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using CQRS.Commands.Requests.Options;
-using Domain.Model;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
+using RecruitingStaff.Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

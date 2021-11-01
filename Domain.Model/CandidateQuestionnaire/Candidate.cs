@@ -15,8 +15,6 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 
         public int QuestionnaireId { get; set; }
         public Questionnaire Questionnaire { get; set; }
-        public int? VacancyId { get; set; }
-        public Vacancy VacancyClaim  { get; set; }
 
         [NotMapped]
         public string DocumentSource

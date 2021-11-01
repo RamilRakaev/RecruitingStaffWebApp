@@ -1,4 +1,4 @@
-﻿using CQRS.Queries.Requests.ApplicationUsers;
+﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

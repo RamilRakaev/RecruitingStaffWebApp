@@ -1,6 +1,6 @@
-﻿using Domain.Model.UserIdentity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RecruitingStaff.Domain.Model.UserIdentity;
 
 namespace RecruitingStaff.Infrastructure.Repositories.Configuration
 {
