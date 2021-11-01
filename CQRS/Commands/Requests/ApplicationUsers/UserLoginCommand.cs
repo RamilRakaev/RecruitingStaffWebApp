@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Infrastructure.CQRS.Commands.Requests.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers
 {
     public class UserLoginCommand : IRequest<string>
     {

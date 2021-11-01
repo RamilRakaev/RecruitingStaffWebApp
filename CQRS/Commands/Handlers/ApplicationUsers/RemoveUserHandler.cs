@@ -1,13 +1,13 @@
 ﻿using Domain.Model;
 using Domain.Model.UserIdentity;
-using Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 {
     public class RemoveUserHandler : UserHandler, IRequestHandler<RemoveUserCommand, ApplicationUser>
     {

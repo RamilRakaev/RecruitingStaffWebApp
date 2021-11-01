@@ -1,7 +1,7 @@
 ﻿using Domain.Model;
 using MediatR;
 
-namespace CQRS.Commands.Requests.Vacancies
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies
 {
     public class CreateVacancyCommand : IRequest<Vacancy>
     {

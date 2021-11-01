@@ -7,17 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaffWebApp", "Re
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{F8081029-635C-48F3-89B5-534F488E4E5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model", "Domain.Model\Domain.Model.csproj", "{8203E129-F350-450C-95AD-2622C3096889}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaff.Domain.Model", "Domain.Model\RecruitingStaff.Domain.Model.csproj", "{8203E129-F350-450C-95AD-2622C3096889}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Interfaces", "Domain.Interfaces\Domain.Interfaces.csproj", "{29A2A3EA-F0B9-4E45-A94E-D2CBDA05A77C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaff.Domain.Interfaces", "Domain.Interfaces\RecruitingStaff.Domain.Interfaces.csproj", "{29A2A3EA-F0B9-4E45-A94E-D2CBDA05A77C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{A29CDDEE-79D2-458F-A1BB-6D97755DC124}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Repositories", "Infrastructure.Repositories\Infrastructure.Repositories.csproj", "{BEA9C1DD-39E6-4E2C-A5F7-89D674EA68FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaff.Infrastructure.Repositories", "Infrastructure.Repositories\RecruitingStaff.Infrastructure.Repositories.csproj", "{BEA9C1DD-39E6-4E2C-A5F7-89D674EA68FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS", "CQRS\CQRS.csproj", "{6A33BB82-16B4-4F02-A31E-DA4A1C5C86F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaff.Infrastructure.CQRS", "CQRS\RecruitingStaff.Infrastructure.CQRS.csproj", "{6A33BB82-16B4-4F02-A31E-DA4A1C5C86F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Validators", "Domain.Validators\Domain.Validators.csproj", "{F3E98B80-5946-46F1-8845-5B84A7C928A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaff.Domain.Validators", "Domain.Validators\RecruitingStaff.Domain.Validators.csproj", "{F3E98B80-5946-46F1-8845-5B84A7C928A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

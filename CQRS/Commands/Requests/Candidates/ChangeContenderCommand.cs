@@ -1,7 +1,7 @@
-﻿using Domain.Model;
+﻿using Domain.Model.CandidateQuestionnaire;
 using MediatR;
 
-namespace CQRS.Commands.Requests.Candidates
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates
 {
     public class ChangeCandidateCommand : IRequest<bool>
     {

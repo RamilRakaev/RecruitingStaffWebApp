@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.CQRS
+namespace RecruitingStaff.Infrastructure.CQRS
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
        where TRequest : IRequest<TResponse>
@@ -44,7 +44,7 @@ namespace Infrastructure.CQRS
                         "Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}",
                         typeName, request, failures);
 
-                    throw new CQRSSampleDomainException(
+                    throw new RecruitingStaff.Infrastructure.CQRSSampleDomainException(
                         $"Command Validation Errors for type {typeof(TRequest).Name}");
                     throw new ValidationException("Validation exception", failures);
                 }

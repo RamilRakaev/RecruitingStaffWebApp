@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
 
-namespace Domain.Model
+namespace Domain.Model.CandidateQuestionnaire
 {
     public class Vacancy : BaseEntity
     {

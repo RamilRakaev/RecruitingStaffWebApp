@@ -1,4 +1,4 @@
-﻿using CQRS.Queries.Requests.Candidates;
+﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using Domain.Interfaces;
 using Domain.Model;
 using MediatR;
@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 
-namespace CQRS.Queries.Handlers.Candidates
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
 {
     public class CheckDocumentsSourceHandler : IRequestHandler<CheckDocumentsSourceCommand, string>
     {

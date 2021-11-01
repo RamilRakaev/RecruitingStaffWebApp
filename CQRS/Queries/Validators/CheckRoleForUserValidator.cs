@@ -1,7 +1,7 @@
-﻿using CQRS.Queries.Requests.ApplicationUsers;
+﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers;
 using FluentValidation;
 
-namespace CQRS.Queries.Validators
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Validators
 {
     public class CheckRoleForUserValidator : AbstractValidator<CheckRoleForUserQuery>
     {

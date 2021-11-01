@@ -4,10 +4,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.CQRS.Queries.Request.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Request.ApplicationUsers;
 using Domain.Model.UserIdentity;
 
-namespace Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
 {
     public class GetUsersHandler : IRequestHandler<GetUsersQuery, ApplicationUser[]>
     {

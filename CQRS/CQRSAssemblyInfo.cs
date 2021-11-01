@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 
-namespace CQRS
+namespace RecruitingStaff.Infrastructure.CQRS
 {
-    public class CQRSAssemblyInfo
+    public class RecruitingStaff.Infrastructure.CQRSAssemblyInfo
     {
-        public static Assembly Assembly { get { return typeof(CQRSAssemblyInfo).Assembly; } }
+        public static Assembly Assembly { get { return typeof(RecruitingStaff.Infrastructure.CQRSAssemblyInfo).Assembly; } }
     }
 }

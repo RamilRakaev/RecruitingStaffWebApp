@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System;
 
-namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 {
     public class UserHandler
     {

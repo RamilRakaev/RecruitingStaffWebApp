@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Model.UserIdentity;
-using Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 {
     public class UserLoginHandler : IRequestHandler<UserLoginCommand, string>
     {

@@ -1,12 +1,12 @@
 ﻿using Domain.Model.UserIdentity;
-using Infrastructure.CQRS.Queries.Request.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Request.ApplicationUsers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
 {
     public class GetUserHandler : IRequestHandler<GetUserQuery, ApplicationUser>
     {

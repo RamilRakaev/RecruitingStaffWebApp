@@ -1,4 +1,4 @@
-﻿using CQRS.Queries.Requests.Vacancies;
+﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
 using Domain.Interfaces;
 using Domain.Model;
 using MediatR;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CQRS.Queries.Handlers.Vacancies
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Vacancies
 {
     public class GetVacanciesHandler : IRequestHandler<GetVacanciesQuery, Vacancy[]>
     {

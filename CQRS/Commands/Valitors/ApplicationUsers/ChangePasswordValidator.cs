@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
 
-namespace Infrastructure.CQRS.Commands.Validators.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Validators.ApplicationUsers
 {
     public class ChangePasswordValidator : AbstractValidator<ChangePasswordCommand>
     {

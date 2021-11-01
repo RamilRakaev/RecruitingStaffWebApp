@@ -1,7 +1,7 @@
 ﻿using Domain.Model.UserIdentity;
 using MediatR;
 
-namespace Infrastructure.CQRS.Commands.Requests.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers
 {
     public class RemoveUserCommand : IRequest<ApplicationUser>
     {

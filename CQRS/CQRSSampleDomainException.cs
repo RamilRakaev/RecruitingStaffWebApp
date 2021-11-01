@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Infrastructure.CQRS
+namespace RecruitingStaff.Infrastructure.CQRS
 {
     [Serializable]
-    internal class CQRSSampleDomainException : Exception
+    internal class RecruitingStaff.Infrastructure.CQRSSampleDomainException : Exception
     {
-        public CQRSSampleDomainException()
+        public RecruitingStaff.Infrastructure.CQRSSampleDomainException()
         {
         }
 
-        public CQRSSampleDomainException(string message) : base(message)
+        public RecruitingStaff.Infrastructure.CQRSSampleDomainException(string message) : base(message)
         {
         }
 
-        public CQRSSampleDomainException(string message, Exception innerException) : base(message, innerException)
+        public RecruitingStaff.Infrastructure.CQRSSampleDomainException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
-        protected CQRSSampleDomainException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected RecruitingStaff.Infrastructure.CQRSSampleDomainException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

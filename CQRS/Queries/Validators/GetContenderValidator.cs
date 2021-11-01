@@ -1,7 +1,7 @@
 ﻿using Domain.Model;
 using FluentValidation;
 
-namespace CQRS.Queries.Validators
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Validators
 {
     public class GetCandidateValidator : AbstractValidator<Candidate>
     {

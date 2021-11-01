@@ -1,7 +1,7 @@
 ﻿using Domain.Model.UserIdentity;
 using MediatR;
 
-namespace Infrastructure.CQRS.Queries.Request.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Request.ApplicationUsers
 {
     public class GetUserQuery : IRequest<ApplicationUser>
     {

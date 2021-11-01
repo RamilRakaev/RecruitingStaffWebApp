@@ -1,4 +1,4 @@
-﻿using CQRS.Queries.Requests.ApplicationUsers;
+﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers;
 using Domain.Model.UserIdentity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
 
-namespace CQRS.Queries.Handlers.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
 {
     public class CheckRoleForUserHandler : IRequestHandler<CheckRoleForUserQuery, bool>
     {

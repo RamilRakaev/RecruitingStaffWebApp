@@ -5,14 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQRS\CQRS.csproj" />
-    <ProjectReference Include="..\Domain.Interfaces\Domain.Interfaces.csproj" />
-    <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
-    <ProjectReference Include="..\Domain.Validators\Domain.Validators.csproj" />
-    <ProjectReference Include="..\Infrastructure.Repositories\Infrastructure.Repositories.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>

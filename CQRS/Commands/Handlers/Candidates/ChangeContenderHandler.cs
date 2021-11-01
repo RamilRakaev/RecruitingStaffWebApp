@@ -1,13 +1,14 @@
-﻿using CQRS.Commands.Requests.Candidates;
+﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using Domain.Interfaces;
 using Domain.Model;
+using Domain.Model.CandidateQuestionnaire;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CQRS.Commands.Handlers.Candidates
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
     public class ChangeCandidateHandler : IRequestHandler<ChangeCandidateCommand, bool>
     {
@@ -22,22 +23,22 @@ namespace CQRS.Commands.Handlers.Candidates
 
         public async Task<bool> Handle(ChangeCandidateCommand request, CancellationToken cancellationToken)
         {
-            var Candidate = await _CandidateRepository.FindAsync(request.Candidate.Id);
+            var candidate = await _CandidateRepository.FindAsync(request.Candidate.Id);
             var documentSource = await _optionRepository
                 .GetAllAsNoTracking()
                 .FirstOrDefaultAsync(o => o.PropertyName == OptionTypes.DocumentsSource, cancellationToken: cancellationToken);
             if(documentSource != null)
             {
-                var file = new FileInfo($"{documentSource.Value}\\{Candidate.DocumentSource}");
+                var file = new FileInfo($"{documentSource.Value}\\{candidate.DocumentSource}");
 
-                Candidate.FullName = request.Candidate.FullName;
-                Candidate.Address = request.Candidate.Address;
-                Candidate.DateOfBirth = request.Candidate.DateOfBirth;
+                candidate.FullName = request.Candidate.FullName;
+                candidate.Address = request.Candidate.Address;
+                candidate.DateOfBirth = request.Candidate.DateOfBirth;
                 await _CandidateRepository.SaveAsync();
 
                 if (file.Exists)
                 {
-                    file.MoveTo($"{documentSource.Value}\\{Candidate.DocumentSource}");
+                    file.MoveTo($"{documentSource.Value}\\{candidate.DocumentSource}");
                 }
                 return true;
             }

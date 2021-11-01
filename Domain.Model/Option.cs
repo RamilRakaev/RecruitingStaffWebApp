@@ -1,4 +1,6 @@
 ﻿
+using Domain.Model.CandidateQuestionnaire;
+
 namespace Domain.Model
 {
     public class Option : BaseEntity

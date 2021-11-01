@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace CQRS.Queries.Requests.ApplicationUsers
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers
 {
     public class CheckRoleForUserQuery : IRequest<bool>
     {

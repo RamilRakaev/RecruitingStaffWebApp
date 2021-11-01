@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain.Interfaces\Domain.Interfaces.csproj" />
-    <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
+    <ProjectReference Include="..\Domain.Interfaces\RecruitingStaff.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\Domain.Model\RecruitingStaff.Domain.Model.csproj" />
   </ItemGroup>
 
 </Project>

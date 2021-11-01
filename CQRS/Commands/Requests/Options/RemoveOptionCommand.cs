@@ -1,7 +1,7 @@
 ﻿using Domain.Model;
 using MediatR;
 
-namespace CQRS.Commands.Requests.Options
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options
 {
     public class RemoveOptionCommand : IRequest<Option>
     {

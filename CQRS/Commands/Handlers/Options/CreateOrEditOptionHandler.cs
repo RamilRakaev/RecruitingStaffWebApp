@@ -1,4 +1,4 @@
-﻿using CQRS.Commands.Requests.Options;
+﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
 using Domain.Interfaces;
 using Domain.Model;
 using MediatR;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CQRS.Commands.Handlers.Options
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Options
 {
     public class CreateOrEditOptionHandler : IRequestHandler<CreateOrEditOptionCommand, Option>
     {

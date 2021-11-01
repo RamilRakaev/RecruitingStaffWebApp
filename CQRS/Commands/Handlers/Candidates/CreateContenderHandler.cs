@@ -1,13 +1,14 @@
-﻿using CQRS.Commands.Requests.Candidates;
+﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using Domain.Interfaces;
 using Domain.Model;
+using Domain.Model.CandidateQuestionnaire;
 using MediatR;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CQRS.Commands.Handlers.Candidates
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
     public class CreateCandidateHandler : IRequestHandler<CreateCandidateCommand, bool>
     {
