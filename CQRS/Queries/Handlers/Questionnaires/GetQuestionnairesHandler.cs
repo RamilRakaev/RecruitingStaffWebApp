@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
+namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Questionnaires
 {
-    public class GetQuestionnairesHandler : IRequestHandler<GetQuestionnairesCommand, Questionnaire[]>
+    public class GetQuestionnairesHandler : IRequestHandler<GetQuestionnairesQuery, Questionnaire[]>
     {
         private readonly IRepository<Questionnaire> _questionnaiRerepository;
 
@@ -17,7 +17,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             _questionnaiRerepository = questionnaiRerepository;
         }
 
-        public Task<Questionnaire[]> Handle(GetQuestionnairesCommand request, CancellationToken cancellationToken)
+        public Task<Questionnaire[]> Handle(GetQuestionnairesQuery request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_questionnaiRerepository.GetAllAsNoTracking().ToArray());
         }

@@ -13,6 +13,5 @@ namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
         {
             return _context.Set<Answer>().Include(a => a.Candidate).Include(a => a.Question);
         }
-
     }
 }

@@ -37,7 +37,7 @@ namespace RecruitingStaff.Infrastructure.Repositories
 
         public virtual async Task AddAsync(Entity entity)
         {
-            await _context.AddAsync(entity);
+            await _context.Set<Entity>().AddAsync(entity);
         }
 
         public virtual Task RemoveAsync(Entity entity)

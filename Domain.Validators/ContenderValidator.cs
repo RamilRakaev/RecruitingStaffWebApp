@@ -9,7 +9,6 @@ namespace RecruitingStaff.Domain.Validators
         {
             RuleFor(c => c.FullName).NotNull();
             RuleFor(c => c.Address).NotNull();
-            RuleFor(c => c.DocumentSource).NotNull().NotEmpty();
         }
     }
 }
