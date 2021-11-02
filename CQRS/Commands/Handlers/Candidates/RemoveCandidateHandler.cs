@@ -4,7 +4,6 @@ using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using MediatR;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
@@ -14,7 +13,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
     public class RemoveCandidateHandler : CandidateFilesRewriter, IRequestHandler<RemoveCandidateCommand, bool>
     {
         private readonly IRepository<Candidate> _candidateRepository;
-        private readonly IRepository<Option> _optionRepository;
         private readonly IRepository<Questionnaire> _questionnaiRerepository;
         private readonly IRepository<Answer> _answerRepository;
 

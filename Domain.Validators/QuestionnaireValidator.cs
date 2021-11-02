@@ -8,7 +8,9 @@ namespace RecruitingStaff.Domain.Validators
         public QuestionnaireValidator()
         {
             RuleFor(q => q.Name).NotNull().NotEmpty();
+            RuleFor(q => q.CandidateId).NotEqual(0);
             RuleFor(q => q.VacancyId).NotEqual(0);
+            RuleFor(q => q.DocumentFileId).NotEqual(0);
         }
     }
 }

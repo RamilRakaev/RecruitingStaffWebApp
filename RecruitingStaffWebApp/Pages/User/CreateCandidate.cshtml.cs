@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using RecruitingStaffWebApp.Pages.User;
 
 namespace RecruitingStaff.WebApp.Pages.User
@@ -22,7 +22,7 @@ namespace RecruitingStaff.WebApp.Pages.User
         public async Task<IActionResult> OnGet()
         {
             Candidate = new Candidate();
-            Questionnaires = new SelectList(await _mediator.Send(new GetQuestionnairesCommand()), "Id", "Vacancy.Name");
+            Questionnaires = new SelectList(await _mediator.Send(new GetQuestionnairesQuery()), "Id", "Vacancy.Name");
             return await RightVerification();
         }
 

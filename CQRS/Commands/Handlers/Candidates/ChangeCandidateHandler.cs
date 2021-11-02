@@ -1,14 +1,12 @@
 ﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
@@ -32,7 +30,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             var candidate = await _candidateRepository.FindAsync(request.Candidate.Id);
             var documentSource = await _optionRepository
                 .GetAllAsNoTracking()
-                .FirstOrDefaultAsync(o => o.PropertyName == OptionTypes.DocumentsSource, cancellationToken: cancellationToken);
+                .FirstOrDefaultAsync(o => o.PropertyName == OptionTypes.DocumentsSource,
+                cancellationToken: cancellationToken);
             candidate.FullName = request.Candidate.FullName;
             candidate.DateOfBirth = request.Candidate.DateOfBirth;
             candidate.Address = request.Candidate.Address;

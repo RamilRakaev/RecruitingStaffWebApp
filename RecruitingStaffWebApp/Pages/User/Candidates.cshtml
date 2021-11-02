@@ -22,7 +22,9 @@
                 <th scope="col"><h5>Полное имя</h5></th>
                 <th scope="col"><h5>Дата рождения</h5></th>
                 <th scope="col"><h5>Адрес</h5></th>
-                <th scope="col"><a class="btn btn-dark" asp-page="OptionForm" asp-route-propertyName="@OptionTypes.DocumentsSource">Указать расположение документов</a></th>
+                <th scope="col"><h5>Номер телефона</h5></th>
+                <th scope="col"><h5>Семейное положение</h5></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +35,8 @@
                     <td>@Candidate.FullName</td>
                     <td>@Candidate.DateOfBirth.ToString("d")</td>
                     <td>@Candidate.Address</td>
+                    <td>@Candidate.TelephoneNumber</td>
+                    <td>@Candidate.MaritalStatus</td>
                     <td>
                         <a class="btn btn-dark" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
                         <form class="d-inline" method="post" asp-page-handler="Remove">
