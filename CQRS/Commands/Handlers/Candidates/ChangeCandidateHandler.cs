@@ -14,24 +14,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
     public class ChangeCandidateHandler : CandidateFilesRewriter, IRequestHandler<ChangeCandidateCommand, bool>
     {
         private readonly IRepository<Candidate> _candidateRepository;
-        private readonly IRepository<Option> _optionRepository;
 
         public ChangeCandidateHandler(IRepository<Candidate> candidateRepository,
-            IRepository<Option> optionRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IOptions<WebAppOptions> options) : base(fileRepository, options)
         {
             _candidateRepository = candidateRepository;
-            _optionRepository = optionRepository;
         }
 
         public async Task<bool> Handle(ChangeCandidateCommand request, CancellationToken cancellationToken)
         {
             var candidate = await _candidateRepository.FindAsync(request.Candidate.Id);
-            var documentSource = await _optionRepository
-                .GetAllAsNoTracking()
-                .FirstOrDefaultAsync(o => o.PropertyName == OptionTypes.DocumentsSource,
-                cancellationToken: cancellationToken);
             candidate.FullName = request.Candidate.FullName;
             candidate.DateOfBirth = request.Candidate.DateOfBirth;
             candidate.Address = request.Candidate.Address;

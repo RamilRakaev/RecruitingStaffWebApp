@@ -1,40 +1,33 @@
 ﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
-using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Options;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
 {
     public class CheckDocumentsSourceHandler : IRequestHandler<CheckDocumentsSourceCommand, string>
     {
-        private readonly IRepository<Option> _optionRepository;
+        private readonly WebAppOptions _options;
 
-        public CheckDocumentsSourceHandler(IRepository<Option> optionRepository)
+        public CheckDocumentsSourceHandler(IOptions<WebAppOptions> options)
         {
-            _optionRepository = optionRepository;
+            _options = options.Value;
         }
 
-        public async Task<string> Handle(CheckDocumentsSourceCommand request, CancellationToken cancellationToken)
+        public Task<string> Handle(CheckDocumentsSourceCommand request, CancellationToken cancellationToken)
         {
-            var documentsSource = await _optionRepository
-                .GetAllAsNoTracking()
-                .FirstOrDefaultAsync(
-                o =>
-                o.PropertyName == OptionTypes.DocumentsSource,
-                cancellationToken: cancellationToken);
-            if (documentsSource == null)
+            if (_options.DocumentsSource == null)
             {
-                return "Расположение документов не указано";
+                return Task.FromResult("Расположение документов не указано");
             }
-            string path = documentsSource.Value;
+            string path = _options.DocumentsSource;
             if (Directory.Exists(path) == false)
             {
-                return "Указанной папки не существует";
+                return Task.FromResult("Указанной папки не существует");
             }
             try
             {
@@ -42,17 +35,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
                 {
                     if (!file.CanWrite || !file.CanRead)
                     {
-                        return "Доступ к указанному расположению документов запрещён.";
+                        return Task.FromResult("Доступ к указанному расположению документов запрещён.");
                     }
                 }
                 File.Delete(path + "\\file");
             }
             catch (Exception e)
             {
-                return "Доступ к указанному расположению документов запрещён.\n" +
-                    $"{e.Message}";
+                return Task.FromResult("Доступ к указанному расположению документов запрещён.\n" +
+                    $"{e.Message}");
             }
-            return "";
+            return Task.FromResult("");
         }
     }
 }

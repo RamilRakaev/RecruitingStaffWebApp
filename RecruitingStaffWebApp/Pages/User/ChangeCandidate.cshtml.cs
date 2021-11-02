@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
@@ -20,9 +21,9 @@ namespace RecruitingStaffWebApp.Pages.User
             return await RightVerification();
         }
 
-        public async Task<IActionResult> OnPost(Candidate Candidate)
+        public async Task<IActionResult> OnPost(Candidate Candidate, IFormFile formFile)
         {
-            await _mediator.Send(new ChangeCandidateCommand(Candidate));
+            await _mediator.Send(new ChangeCandidateCommand(Candidate, formFile));
             return RedirectToPage("ConcreteCandidate", new { CandidateId = Candidate.Id });
         }
     }
