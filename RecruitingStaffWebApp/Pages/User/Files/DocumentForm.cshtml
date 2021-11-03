@@ -4,8 +4,10 @@
 }
 <div class="row justify-content-center">
     <form method="post" enctype="multipart/form-data">
-        <label class="col-form-label"></label>
-        <input class="form-control-file" type="file" name="formFile" />
+        <div class="form-group">
+            <label class="col-form-label">Файл анкеты</label>
+            <input class="form-control-file" type="file" name="formFile" accept=".docx"/>
+        </div>
         <button class="btn btn-dark">Отправить</button>
     </form>
 </div>

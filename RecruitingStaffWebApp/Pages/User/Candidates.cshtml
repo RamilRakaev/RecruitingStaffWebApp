@@ -6,11 +6,11 @@
     var newCandidate = new Candidate();
     ViewData["Title"] = "Кандидаты";
 }
-<div class="row justify-content-center">
-    <a class="btn btn-dark">Новая вакансия</a>
-    <a class="btn btn-dark">Новый кандидат</a>
-    <a class="btn btn-dark">Новая анкета</a>
-    <a class="btn btn-dark" asp-page="/User/Files/DocumentForm">Добавить документ</a>
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-dark m-2">Новая вакансия</a>
+    <a class="btn btn-dark m-2">Новый кандидат</a>
+    <a class="btn btn-dark m-2">Новая анкета</a>
+    <a class="btn btn-dark m-2" asp-page="/User/Files/DocumentForm">Добавить документ</a>
 </div>
 <div class="row justify-content-center">
     <p class="text-danger">@Model.MessageAboutDocumentsSource</p>
