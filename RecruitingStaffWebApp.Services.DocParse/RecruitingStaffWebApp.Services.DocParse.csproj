@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Interfaces\RecruitingStaff.Domain.Interfaces.csproj" />
+    <ProjectReference Include="..\Domain.Model\RecruitingStaff.Domain.Model.csproj" />
+  </ItemGroup>
+
+</Project>

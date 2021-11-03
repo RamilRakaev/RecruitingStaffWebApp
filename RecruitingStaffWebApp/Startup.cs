@@ -17,6 +17,8 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Validators;
+using RecruitingStaffWebApp.Services.DocParse;
+using RecruitingStaffWebApp.Infrastructure.DocParse;
 
 namespace RecruitingStaffWebApp
 {
@@ -49,6 +51,8 @@ namespace RecruitingStaffWebApp
             services.AddHostedService<UserService>();
 
             services.Configure<WebAppOptions>(Configuration.GetSection("WebAppOptions"));
+
+            services.AddTransient<ISaveParseQuestionnare, SaveParseQuestionnare>();
 
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

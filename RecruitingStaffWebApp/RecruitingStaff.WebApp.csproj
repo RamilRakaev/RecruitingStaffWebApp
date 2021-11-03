@@ -20,6 +20,8 @@
     <ProjectReference Include="..\Domain.Validators\RecruitingStaff.Domain.Validators.csproj" />
     <ProjectReference Include="..\Infrastructure.Repositories\RecruitingStaff.Infrastructure.Repositories.csproj" />
     <ProjectReference Include="..\RecruitingStaff.Infrastructure.DatabaseServices\RecruitingStaff.Infrastructure.DatabaseServices.csproj" />
+    <ProjectReference Include="..\RecruitingStaffWebApp.Infrastructure.DocParse\RecruitingStaffWebApp.Infrastructure.DocParse.csproj" />
+    <ProjectReference Include="..\RecruitingStaffWebApp.Services.DocParse\RecruitingStaffWebApp.Services.DocParse.csproj" />
   </ItemGroup>
 
 </Project>
