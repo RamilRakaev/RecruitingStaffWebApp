@@ -38,13 +38,14 @@ namespace RecruitingStaffWebApp
                 o => o.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
             services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<DataContext>();
 
+            services.AddTransient<IRepository<RecruitingStaffWebAppFile>, RecruitingStaffWebAppFileRepository>();
             services.AddTransient<IRepository<Vacancy>, VacancyRepository>();
             services.AddTransient<IRepository<Candidate>, CandidateRepository>();
-            services.AddTransient<IRepository<RecruitingStaffWebAppFile>, RecruitingStaffWebAppFileRepository>();
+            services.AddTransient<IRepository<CandidateVacancy>, CandidateVacancyRepository>();
             services.AddTransient<IRepository<Questionnaire>, QuestionnaireRepository>();
-            services.AddTransient<IRepository<Answer>, AnswerRepository>();
             services.AddTransient<IRepository<QuestionCategory>, QuestionCategoryRepository>();
             services.AddTransient<IRepository<Question>, QuestionRepository>();
+            services.AddTransient<IRepository<Answer>, AnswerRepository>();
             services.AddTransient<IRepository<Option>, OptionRepository>();
 
             services.AddHostedService<MigrationService>();
@@ -52,7 +53,7 @@ namespace RecruitingStaffWebApp
 
             services.Configure<WebAppOptions>(Configuration.GetSection("WebAppOptions"));
 
-            services.AddTransient<ISaveParseQuestionnare, SaveParseQuestionnare>();
+            services.AddTransient<IQuestionnaireManager, QuestionnaireManager>();
 
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

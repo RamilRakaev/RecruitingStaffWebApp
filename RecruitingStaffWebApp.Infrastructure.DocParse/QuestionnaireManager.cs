@@ -7,17 +7,18 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Infrastructure.DocParse
 {
-    public class SaveParseQuestionnare : ISaveParseQuestionnare
+    public class QuestionnaireManager : IQuestionnaireManager
     {
-        private readonly IRepository<Candidate> _candidateRepository;
-        private readonly IRepository<Vacancy> _vacancyRepository;
-        private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
         private readonly IRepository<RecruitingStaffWebAppFile> _fileRepository;
+        private readonly IRepository<Vacancy> _vacancyRepository;
+        private readonly IRepository<Candidate> _candidateRepository;
+        private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
         private readonly IRepository<Questionnaire> _questionnaireRepository;
         private readonly IRepository<QuestionCategory> _questionCategoryRepository;
         private readonly IRepository<Question> _questionRepository;
@@ -30,21 +31,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         private Questionnaire currentQuestionnaire;
         private QuestionCategory currentCategory;
 
-        public SaveParseQuestionnare(
+        public QuestionnaireManager(
+            IRepository<RecruitingStaffWebAppFile> fileRepository,
             IRepository<Vacancy> vacancyRepository,
             IRepository<Candidate> candidateRepository,
             IRepository<CandidateVacancy> candidateVacancyRepository,
-            IRepository<RecruitingStaffWebAppFile> fileRepository,
             IRepository<Questionnaire> questionnaireRepository,
             IRepository<QuestionCategory> questionCategoryRepository,
             IRepository<Question> questionRepository,
             IRepository<Answer> answerRepository,
             IOptions<WebAppOptions> options)
         {
+            _fileRepository = fileRepository;
             _vacancyRepository = vacancyRepository;
             _candidateRepository = candidateRepository;
             _candidateVacancyRepository = candidateVacancyRepository;
-            _fileRepository = fileRepository;
             _questionnaireRepository = questionnaireRepository;
             _questionCategoryRepository = questionCategoryRepository;
             _questionRepository = questionRepository;
@@ -52,47 +53,60 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             _options = options.Value;
         }
 
-        public async Task Parse(string document)
-        {
-            if (_options != null)
-            {
-                _file = new RecruitingStaffWebAppFile() { Source = document, FileType = FileType.Questionare };
-                await _fileRepository.AddAsync(_file);
-                await _fileRepository.SaveAsync();
-                using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_file.Source}", false))
-                {
-                    var body = wordDoc.MainDocumentPart.Document.Body;
-                    currentQuestionnaire = new Questionnaire()
-                    { Name = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText };
+        public string Exception { get; private set; }
 
-                    foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
+        public async Task<bool> ParseAndSaved(string fileName)
+        {
+            try
+            {
+                if (_options != null)
+                {
+                    _file = new RecruitingStaffWebAppFile() { Source = fileName, FileType = FileType.Questionnaire };
+                    await _fileRepository.AddAsync(_file);
+                    await _fileRepository.SaveAsync();
+                    using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_file.Source}", false))
                     {
-                        await ParseCandidateWithVacancy(element);
-                        foreach (var row in element.ChildElements.Reverse())
+                        var body = wordDoc.MainDocumentPart.Document.Body;
+                        currentQuestionnaire = new Questionnaire()
+                        { Name = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText };
+
+                        foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
                         {
-                            foreach (var cell in row.ChildElements)
+                            await ParseCandidateWithVacancy(element);
+                            foreach (var row in element.ChildElements.Reverse())
                             {
-                                var table = cell.FirstOrDefault(c => c.LocalName == "tbl");
-                                if (table != null)
+                                foreach (var cell in row.ChildElements)
                                 {
-                                    await ParseQuestionnaire(table);
+                                    var table = cell.FirstOrDefault(c => c.LocalName == "tbl");
+                                    if (table != null)
+                                    {
+                                        await ParseQuestionnaire(table);
+                                    }
                                 }
                             }
                         }
                     }
+                    File.Delete($"{_options.DocumentsSource}\\{_file.Source}");
                 }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Exception = e.Message;
+                return false;
             }
         }
 
         private async Task ParseCandidateWithVacancy(OpenXmlElement table)
         {
-            currentCandidate = new Candidate();
             var rows = table.ChildElements.Where(e => e.LocalName == "tr");
             var name = rows.ElementAt(0).InnerText;
             var vacancyName = name[(name.IndexOf(':') + 2)..];
 
-            currentVacancy = _vacancyRepository.GetAll().Where(v => v.Name == vacancyName).FirstOrDefault();
-            currentCandidate.FullName = ExtractCellTextFromRow(rows, 1, 1);
+            currentCandidate = new Candidate
+            {
+                FullName = ExtractCellTextFromRow(rows, 1, 1)
+            };
             try
             {
                 var dateStr = ExtractCellTextFromRow(rows, 2, 1);
@@ -103,13 +117,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 currentCandidate.DateOfBirth = new DateTime();
             }
 
-            if (currentVacancy == null)
-            {
-                currentVacancy = new Vacancy() { Name = vacancyName };
-                await _vacancyRepository.AddAsync(currentVacancy);
-                await _vacancyRepository.SaveAsync();
-            }
-
             currentCandidate.Address = ExtractCellTextFromRow(rows, 2, 2);
             currentCandidate.Address = currentCandidate.Address[(currentCandidate.Address.IndexOf(':') + 2)..];
             currentCandidate.TelephoneNumber = ExtractCellTextFromRow(rows, 3, 1);
@@ -118,6 +125,34 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             await _candidateRepository.AddAsync(currentCandidate);
             await _candidateRepository.SaveAsync();
 
+            File.Copy($"{_options.DocumentsSource}\\{_file.Source}", $"{_options.DocumentsSource}\\{currentCandidate.Id}.{currentCandidate.FullName}.docx");
+            //await VacancyParse(vacancyName);
+            currentVacancy = _vacancyRepository.GetAll().Where(v => v.Name == vacancyName).FirstOrDefault();
+            if (currentVacancy == null)
+            {
+                currentVacancy = new Vacancy() { Name = vacancyName };
+                await _vacancyRepository.AddAsync(currentVacancy);
+                await _vacancyRepository.SaveAsync();
+            }
+
+            var candidateVacancy = new CandidateVacancy()
+            {
+                CandidateId = currentCandidate.Id,
+                VacancyId = currentVacancy.Id
+            };
+            await _candidateVacancyRepository.AddAsync(candidateVacancy);
+            await _candidateVacancyRepository.SaveAsync();
+        }
+
+        private async Task VacancyParse(string vacancyName)
+        {
+            currentVacancy = _vacancyRepository.GetAll().Where(v => v.Name == vacancyName).FirstOrDefault();
+            if (currentVacancy == null)
+            {
+                currentVacancy = new Vacancy() { Name = vacancyName };
+                await _vacancyRepository.AddAsync(currentVacancy);
+                await _vacancyRepository.SaveAsync();
+            }
             var candidateVacancy = new CandidateVacancy()
             {
                 CandidateId = currentCandidate.Id,

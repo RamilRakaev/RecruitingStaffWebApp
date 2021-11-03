@@ -4,10 +4,12 @@
     ViewData["Title"] = Model.Candidate.FullName;
 }
 <div class="row justify-content-start">
-    <div class="col-9">
+    <div class="col-8">
         <h2>@Model.Candidate.FullName</h2>
-        <p>Дата рождения: @Model.Candidate.DateOfBirth.ToString("D")</p>
-        <p>Адрес места жительства: @Model.Candidate.Address</p>
+        @*<p>Дата рождения: @Model.Candidate.DateOfBirth.ToString("D")</p>
+            <p>Адрес места жительства: @Model.Candidate.Address</p>
+            <p>Номер телефона: @Model.Candidate.TelephoneNumber</p>
+            <p>Семейное положение: @Model.Candidate.MaritalStatus</p>*@
     </div>
     <div class="col-1">
         <a class="btn btn-dark" asp-page="/User/Candidates">Назад</a>
@@ -16,57 +18,68 @@
         <a class="btn btn-dark" asp-page="/User/ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
     </div>
 </div>
-    <div class="row justify-content-start">
-        <div class="col-12">
-            <table class="table">
-                <thead class="thead-light">
+<div class="row justify-content-start mt-4">
+    <div class="col-6">
+        <p>Дата рождения: @Model.Candidate.DateOfBirth.ToString("D")</p>
+        <p>Адрес места жительства: @Model.Candidate.Address</p>
+        <p>Номер телефона: @Model.Candidate.TelephoneNumber</p>
+        <p>Семейное положение: @Model.Candidate.MaritalStatus</p>
+    </div>
+    <img class="col-5"
+         src="data:image/jpeg;base64,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"
+         alt="Фото" />
+</div>
+<div class="row justify-content-start mt-5">
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th><h5>Имя свойства</h5></th>
+                    <th><h5>Значение свойства</h5></th>
+                    <th>
+                        <a class="btn btn-outline-dark font-weight-normal"
+                           asp-page="OptionForm"
+                           asp-route-CandidateId="@Model.Candidate.Id">
+                            Добавить
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var option in Model.Candidate.Options)
+                {
                     <tr>
-                        <th><h5>Имя свойства</h5></th>
-                        <th><h5>Значение свойства</h5></th>
-                        <th>
-                            <a class="btn btn-outline-dark font-weight-normal"
-                               asp-page="OptionForm"
-                               asp-route-CandidateId="@Model.Candidate.Id">
-                                Добавить
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var option in Model.Candidate.Options)
-                    {
-                        <tr>
-                            <td>@option.PropertyName</td>
-                            <td>@option.Value</td>
-                            <td>
-                                @if (option.Value.Count() > 30)
-                                {
-                                    <a class="btn btn-dark m-2"
-                                       asp-page="OptionForm"
-                                       asp-route-propertyName="@option.PropertyName"
-                                       asp-route-CandidateId="@option.CandidateId">
-                                        Изменить
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="btn btn-dark m-2"
-                                       asp-page="OptionForm"
-                                       asp-route-propertyName="@option.PropertyName"
-                                       asp-route-CandidateId="@option.CandidateId"
-                                       asp-route-value="@option.Value">
-                                        Изменить
-                                    </a>
-                                }
+                        <td>@option.PropertyName</td>
+                        <td>@option.Value</td>
+                        <td>
+                            @if (option.Value.Count() > 30)
+                            {
+                                <a class="btn btn-dark m-2"
+                                   asp-page="OptionForm"
+                                   asp-route-propertyName="@option.PropertyName"
+                                   asp-route-CandidateId="@option.CandidateId">
+                                    Изменить
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-dark m-2"
+                                   asp-page="OptionForm"
+                                   asp-route-propertyName="@option.PropertyName"
+                                   asp-route-CandidateId="@option.CandidateId"
+                                   asp-route-value="@option.Value">
+                                    Изменить
+                                </a>
+                            }
                             <form class="d-inline" method="post">
                                 <input type="hidden" name="candidateId" value="@Model.Candidate.Id" />
                                 <input type="hidden" name="optionId" value="@option.Id" />
                                 <button class="btn btn-danger m-2">Удалить</button>
                             </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+</div>

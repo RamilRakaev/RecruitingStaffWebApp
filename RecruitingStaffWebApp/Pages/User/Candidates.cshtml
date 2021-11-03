@@ -7,13 +7,12 @@
     ViewData["Title"] = "Кандидаты";
 }
 <div class="row justify-content-center">
-    <form class="form-inline mb-3" method="post" enctype="multipart/form-data">
-        <input class="form-control m-2" placeholder="Полное имя" asp-for="@newCandidate.FullName" />
-        <input class="form-control m-2" min="1900-01-01" value="1990-01-01" type="date" asp-for="@newCandidate.DateOfBirth" />
-        <input class="form-control m-2" placeholder="Адрес" asp-for="@newCandidate.Address" />
-        <input class="form-control-file w-auto d-inline m-2" type="file" accept=".doc, .docx" name="uploadedFile" />
-        <button class="btn btn-dark">Новый кандидат</button>
-    </form>
+    <a class="btn btn-dark">Новая вакансия</a>
+    <a class="btn btn-dark">Новый кандидат</a>
+    <a class="btn btn-dark">Новая анкета</a>
+    <a class="btn btn-dark" asp-page="/User/Files/DocumentForm">Добавить документ</a>
+</div>
+<div class="row justify-content-center">
     <p class="text-danger">@Model.MessageAboutDocumentsSource</p>
     <table class="table">
         <thead class="thead-light">
@@ -38,13 +37,13 @@
                     <td>@Candidate.TelephoneNumber</td>
                     <td>@Candidate.MaritalStatus</td>
                     <td>
-                        <a class="btn btn-dark" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
+                        <a class="btn btn-dark d-block" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
                         <form class="d-inline" method="post" asp-page-handler="Remove">
                             <input type="hidden" name="CandidateId" value="@Candidate.Id" />
-                            <button class="btn btn-danger text-white ml-3">Удалить</button>
+                            <button class="btn btn-danger text-white d-block mt-3">Удалить</button>
                         </form>
                         <div class="dropdown d-inline">
-                            <button class="btn btn-primary dropdown-toggle ml-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Свойства
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

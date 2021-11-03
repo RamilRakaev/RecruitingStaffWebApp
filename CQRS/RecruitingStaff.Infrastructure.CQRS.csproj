@@ -15,6 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain.Interfaces\RecruitingStaff.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\Domain.Model\RecruitingStaff.Domain.Model.csproj" />
+    <ProjectReference Include="..\Infrastructure.Repositories\RecruitingStaff.Infrastructure.Repositories.csproj" />
+    <ProjectReference Include="..\RecruitingStaffWebApp.Services.DocParse\RecruitingStaffWebApp.Services.DocParse.csproj" />
   </ItemGroup>
 
 </Project>

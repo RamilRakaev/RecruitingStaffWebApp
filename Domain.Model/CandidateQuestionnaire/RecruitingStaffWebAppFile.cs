@@ -1,7 +1,7 @@
 ﻿
 namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 {
-    public enum FileType { Questionare, Photo}
+    public enum FileType { Questionnaire, Photo}
 
     public class RecruitingStaffWebAppFile : BaseEntity
     {
