@@ -25,6 +25,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         private readonly IRepository<Answer> _answerRepository;
         private readonly WebAppOptions _options;
 
+        private string _fileName;
         private RecruitingStaffWebAppFile _file;
         private Vacancy currentVacancy;
         private Candidate currentCandidate;
@@ -61,10 +62,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 if (_options != null)
                 {
-                    _file = new RecruitingStaffWebAppFile() { Source = fileName, FileType = FileType.Questionnaire };
-                    await _fileRepository.AddAsync(_file);
-                    await _fileRepository.SaveAsync();
-                    using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_file.Source}", false))
+                    _fileName = fileName;
+                    using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_fileName}", false))
                     {
                         var body = wordDoc.MainDocumentPart.Document.Body;
                         currentQuestionnaire = new Questionnaire()
@@ -86,7 +85,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                             }
                         }
                     }
-                    File.Delete($"{_options.DocumentsSource}\\{_file.Source}");
+                    File.Delete($"{_options.DocumentsSource}\\{_fileName}");
                 }
                 return true;
             }
@@ -125,23 +124,16 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             await _candidateRepository.AddAsync(currentCandidate);
             await _candidateRepository.SaveAsync();
 
-            File.Copy($"{_options.DocumentsSource}\\{_file.Source}", $"{_options.DocumentsSource}\\{currentCandidate.Id}.{currentCandidate.FullName}.docx");
-            //await VacancyParse(vacancyName);
-            currentVacancy = _vacancyRepository.GetAll().Where(v => v.Name == vacancyName).FirstOrDefault();
-            if (currentVacancy == null)
-            {
-                currentVacancy = new Vacancy() { Name = vacancyName };
-                await _vacancyRepository.AddAsync(currentVacancy);
-                await _vacancyRepository.SaveAsync();
-            }
-
-            var candidateVacancy = new CandidateVacancy()
-            {
-                CandidateId = currentCandidate.Id,
-                VacancyId = currentVacancy.Id
+            _file = new RecruitingStaffWebAppFile()
+            { 
+                Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
+                FileType = FileType.Questionnaire
             };
-            await _candidateVacancyRepository.AddAsync(candidateVacancy);
-            await _candidateVacancyRepository.SaveAsync();
+            await _fileRepository.AddAsync(_file);
+            await _fileRepository.SaveAsync();
+            File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
+
+            await VacancyParse(vacancyName);
         }
 
         private async Task VacancyParse(string vacancyName)
