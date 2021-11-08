@@ -12,11 +12,12 @@ namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
         public override IQueryable<Candidate> GetAll()
         {
             return base.GetAll()
-                .Include(c => c.Questionnaires)
+                .Include(c => c.CandidateQuestionnaires)
                 .Include(c => c.CandidateVacancies)
                 .Include(c => c.Options)
                 .Include(c => c.Answers)
-                .Include(c => c.Photo);
+                .Include(c => c.Photo)
+                .Include(c => c.Documents.Where(d => d.FileType == FileType.Questionnaire));
         }
     }
 }

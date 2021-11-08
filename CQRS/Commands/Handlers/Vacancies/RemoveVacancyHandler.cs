@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 {
-    public class RemoveVacancyHandler : CandidateFilesRewriter, IRequestHandler<RemoveVacancyCommand, bool>
+    public class RemoveVacancyHandler : CandidateFilesRewriter, IRequestHandler<RemoveQuestionCommand, bool>
     {
         private readonly IRepository<Vacancy> _vacancyRepository;
         private readonly IRepository<Questionnaire> _questionareRepository;
@@ -24,13 +24,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
             _questionareRepository = questionareRepository;
         }
 
-        public async Task<bool> Handle(RemoveVacancyCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(RemoveQuestionCommand request, CancellationToken cancellationToken)
         {
             var vacancy = await _vacancyRepository.FindAsync(request.VacancyId);
             await _vacancyRepository.RemoveAsync(vacancy);
             foreach(var questionare in vacancy.Questionnaires)
             {
-                await DeleteFile(questionare.DocumentFile, cancellationToken);
                 await _questionareRepository.RemoveAsync(questionare);
             }
             await _vacancyRepository.SaveAsync();

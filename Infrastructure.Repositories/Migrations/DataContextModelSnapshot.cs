@@ -69,13 +69,15 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<int?>("PhotoId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("PhotoId1")
+                        .HasColumnType("integer");
+
                     b.Property<string>("TelephoneNumber")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PhotoId")
-                        .IsUnique();
+                    b.HasIndex("PhotoId1");
 
                     b.ToTable("Candidates");
                 });
@@ -176,13 +178,21 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("FileType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("QuestionnaireId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Source")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidateId");
 
                     b.ToTable("Files");
                 });
@@ -268,7 +278,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "3b07a694-3dbe-4df5-a209-6c84e6f413a8",
+                            ConcurrencyStamp = "98a6b9b1-8074-43d7-9c81-7787cc9c03ff",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -468,8 +478,8 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
             modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Candidate", b =>
                 {
                     b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.RecruitingStaffWebAppFile", "Photo")
-                        .WithOne("Candidate")
-                        .HasForeignKey("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Candidate", "PhotoId");
+                        .WithMany()
+                        .HasForeignKey("PhotoId1");
 
                     b.Navigation("Photo");
                 });
@@ -540,6 +550,17 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("DocumentFile");
 
                     b.Navigation("Vacancy");
+                });
+
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.RecruitingStaffWebAppFile", b =>
+                {
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Candidate", "Candidate")
+                        .WithMany("Documents")
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Candidate");
                 });
 
             modelBuilder.Entity("RecruitingStaff.Domain.Model.Option", b =>
@@ -615,6 +636,8 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Navigation("CandidateVacancies");
 
+                    b.Navigation("Documents");
+
                     b.Navigation("Options");
 
                     b.Navigation("Questionnaires");
@@ -637,8 +660,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
             modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.RecruitingStaffWebAppFile", b =>
                 {
-                    b.Navigation("Candidate");
-
                     b.Navigation("Questionnaire");
                 });
 

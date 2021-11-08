@@ -9,17 +9,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 {
     public class CreateQuestionnaireHandler : IRequestHandler<CreateQuestionnaireCommand, bool>
     {
-        private readonly IRepository<Questionnaire> _questionnaiRerepository;
+        private readonly IRepository<Questionnaire> _questionnaireRepository;
 
-        public CreateQuestionnaireHandler(IRepository<Questionnaire> questionnaiRerepository)
+        public CreateQuestionnaireHandler(IRepository<Questionnaire> questionnaireRepository)
         {
-            _questionnaiRerepository = questionnaiRerepository;
+            _questionnaireRepository = questionnaireRepository;
         }
 
         public async Task<bool> Handle(CreateQuestionnaireCommand request, CancellationToken cancellationToken)
         {
-            await _questionnaiRerepository.AddAsync(request.Questionnaire);
-            await _questionnaiRerepository.SaveAsync();
+            await _questionnaireRepository.AddAsync(request.Questionnaire);
+            await _questionnaireRepository.SaveAsync();
             return true;
         }
     }

@@ -13,11 +13,11 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
             builder
                 .HasOne(c => c.Candidate)
                 .WithMany(c => c.CandidateVacancies)
-                .HasForeignKey(c => c.CandidateId);
+                .HasForeignKey(cv => cv.CandidateId);
             builder
                 .HasOne(v => v.Vacancy)
                 .WithMany(c => c.CandidateVacancies)
-                .HasForeignKey(v => v.VacancyId);
+                .HasForeignKey(cv => cv.VacancyId);
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies
 {

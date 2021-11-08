@@ -13,7 +13,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
         {
             return base.GetAll()
                 .Include(f => f.Candidate)
-                .Include(f => f.Questionnaire);
+                .Include(f => f.QuestionnaireId);
         }
     }
 }

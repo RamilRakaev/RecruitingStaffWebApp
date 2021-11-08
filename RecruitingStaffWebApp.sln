@@ -23,9 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaff.Infrastruct
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BEBCC8A4-BE3A-44B2-8C65-5AF7F682383F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecruitingStaffWebApp.Services.DocParse", "RecruitingStaffWebApp.Services.DocParse\RecruitingStaffWebApp.Services.DocParse.csproj", "{69634415-0FDB-46F1-A0E3-B4016A16E1F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaffWebApp.Services.DocParse", "RecruitingStaffWebApp.Services.DocParse\RecruitingStaffWebApp.Services.DocParse.csproj", "{69634415-0FDB-46F1-A0E3-B4016A16E1F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecruitingStaffWebApp.Infrastructure.DocParse", "RecruitingStaffWebApp.Infrastructure.DocParse\RecruitingStaffWebApp.Infrastructure.DocParse.csproj", "{CF7DBB5D-DFE2-4086-A17F-9F5EB1F8FF19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecruitingStaffWebApp.Infrastructure.DocParse", "RecruitingStaffWebApp.Infrastructure.DocParse\RecruitingStaffWebApp.Infrastructure.DocParse.csproj", "{CF7DBB5D-DFE2-4086-A17F-9F5EB1F8FF19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

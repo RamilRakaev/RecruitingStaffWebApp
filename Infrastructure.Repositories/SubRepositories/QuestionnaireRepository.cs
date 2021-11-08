@@ -14,7 +14,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
             return _context
                 .Set<Questionnaire>()
                 .Include(q => q.Vacancy)
-                .Include(q => q.DocumentFile)
+                .Include(q => q.DocumentFiles)
                 .Include(q => q.QuestionCategories);
         }
     }

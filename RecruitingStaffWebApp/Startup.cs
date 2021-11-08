@@ -47,6 +47,7 @@ namespace RecruitingStaffWebApp
             services.AddTransient<IRepository<Question>, QuestionRepository>();
             services.AddTransient<IRepository<Answer>, AnswerRepository>();
             services.AddTransient<IRepository<Option>, OptionRepository>();
+            services.AddTransient<IRepository<CandidateQuestionnaire>, CandidateQuestionnaireRepository>();
 
             services.AddHostedService<MigrationService>();
             services.AddHostedService<UserService>();

@@ -128,7 +128,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             _file = new RecruitingStaffWebAppFile()
             {
                 Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
-                FileType = FileType.Questionnaire
+                FileType = FileType.Questionnaire,
+                CandidateId = currentCandidate.Id
             };
             await _fileRepository.AddAsync(_file);
             await _fileRepository.SaveAsync();
@@ -177,8 +178,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 {
                     Name = questionnaireName,
                     CandidateId = currentCandidate.Id,
-                    VacancyId = currentVacancy.Id,
-                    DocumentFileId = _file.Id
+                    VacancyId = currentVacancy.Id
                 };
 
                 await _questionnaireRepository.AddAsync(currentQuestionnaire);

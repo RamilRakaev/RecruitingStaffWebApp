@@ -33,10 +33,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             var candidate = await _candidateRepository.FindAsync(request.Id);
             if (candidate != null)
             {
-                foreach (var candidateQuestionnaire in candidate.Questionnaires)
+                foreach (var candidateQuestionnaire in candidate.CandidateQuestionnaires)
                 {
                     var questionnaire = await _questionnaiRerepository.FindAsync(candidateQuestionnaire.Id);
-                    await DeleteFile(questionnaire.DocumentFile, cancellationToken);
+                    foreach(var document in candidate.Documents)
+                    {
+                        await DeleteFile(document);
+                    }
                     await _questionnaiRerepository.RemoveAsync(questionnaire);
                 }
                 File.Delete(candidate.Photo.Source);

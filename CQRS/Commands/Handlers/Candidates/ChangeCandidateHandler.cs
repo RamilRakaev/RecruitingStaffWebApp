@@ -1,16 +1,15 @@
-﻿using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using MediatR;
+using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using Microsoft.Extensions.Options;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
-    
+
     public class ChangeCandidateHandler : CandidateFilesRewriter, IRequestHandler<ChangeCandidateCommand, bool>
     {
         private readonly IRepository<Candidate> _candidateRepository;
@@ -30,7 +29,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             candidate.Address = request.Candidate.Address;
             candidate.TelephoneNumber = request.Candidate.TelephoneNumber;
             candidate.MaritalStatus = request.Candidate.MaritalStatus;
-            await RewritePhoto(request.UploadedFile, candidate, cancellationToken);
+            await RewriteFile(request.UploadedFile, candidate);
             await _candidateRepository.SaveAsync();
             return true;
         }

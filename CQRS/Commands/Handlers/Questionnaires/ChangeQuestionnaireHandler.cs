@@ -2,10 +2,6 @@
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,19 +9,18 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 {
     public class ChangeQuestionnaireHandler : IRequestHandler<ChangeQuestionnaireCommand, bool>
     {
-        private readonly IRepository<Questionnaire> _questionnaireReepository;
+        private readonly IRepository<Questionnaire> _questionnaireRepository;
 
-        public ChangeQuestionnaireHandler(IRepository<Questionnaire> questionnaireReepository)
+        public ChangeQuestionnaireHandler(IRepository<Questionnaire> questionnaireRepository)
         {
-            _questionnaireReepository = questionnaireReepository;
+            _questionnaireRepository = questionnaireRepository;
         }
 
         public async Task<bool> Handle(ChangeQuestionnaireCommand request, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionnaireReepository
-                .FindAsync(request.Questionnaire.Id);
-            questionnaire.Name = request.Questionnaire.Name;
-            await _questionnaireReepository.SaveAsync();
+            var oldQuestionnaire = await _questionnaireRepository.FindAsync(request.Questionnaire.Id);
+            oldQuestionnaire.Name = request.Questionnaire.Name;
+            await _questionnaireRepository.SaveAsync();
             return true;
         }
     }

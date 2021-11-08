@@ -11,13 +11,14 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         public string TelephoneNumber { get; set; }
         public string MaritalStatus { get; set; }
 
-        public List<Questionnaire> Questionnaires { get; set; }
-
+        public List<CandidateQuestionnaire> CandidateQuestionnaires { get; set; }
         public List<CandidateVacancy> CandidateVacancies { get; set; }
         public List<Option> Options { get; set; }
         public List<Answer> Answers { get; set; }
 
         public int? PhotoId { get; set; }
         public RecruitingStaffWebAppFile Photo { get; set; }
+
+        public List<RecruitingStaffWebAppFile> Documents { get; set; }
     }
 }
