@@ -19,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 
         public DocumentParseHandler(IQuestionnaireManager questionnaireManager, IOptions<WebAppOptions> options, DataContext db)
         {
-            ResetDb(db);
+            //ResetDb(db);
             _questionnaireManager = questionnaireManager;
             _options = options.Value;
         }

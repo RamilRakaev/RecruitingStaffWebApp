@@ -26,11 +26,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         private readonly WebAppOptions _options;
 
         private string _fileName;
+        private string questionnaireName;
         private RecruitingStaffWebAppFile _file;
         private Vacancy currentVacancy;
         private Candidate currentCandidate;
         private Questionnaire currentQuestionnaire;
         private QuestionCategory currentCategory;
+        private Question currentQuestion;
 
         public QuestionnaireManager(
             IRepository<RecruitingStaffWebAppFile> fileRepository,
@@ -66,12 +68,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                     using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_fileName}", false))
                     {
                         var body = wordDoc.MainDocumentPart.Document.Body;
-                        currentQuestionnaire = new Questionnaire()
-                        { Name = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText };
+                        questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
 
                         foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
                         {
-                            await ParseCandidateWithVacancy(element);
+                            await ParseVacancyCandidate(element);
                             foreach (var row in element.ChildElements.Reverse())
                             {
                                 foreach (var cell in row.ChildElements)
@@ -96,7 +97,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        private async Task ParseCandidateWithVacancy(OpenXmlElement table)
+        private async Task ParseVacancyCandidate(OpenXmlElement table)
         {
             var rows = table.ChildElements.Where(e => e.LocalName == "tr");
             var name = rows.ElementAt(0).InnerText;
@@ -125,7 +126,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             await _candidateRepository.SaveAsync();
 
             _file = new RecruitingStaffWebAppFile()
-            { 
+            {
                 Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
                 FileType = FileType.Questionnaire
             };
@@ -165,16 +166,39 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         private async Task ParseQuestionnaire(OpenXmlElement table)
         {
-            currentQuestionnaire.CandidateId = currentCandidate.Id;
-            currentQuestionnaire.VacancyId = currentVacancy.Id;
-            currentQuestionnaire.DocumentFileId = _file.Id;
+            currentQuestionnaire = _questionnaireRepository
+                .GetAll()
+                .Where(q => q.Name == questionnaireName)
+                .FirstOrDefault();
 
-            await _questionnaireRepository.AddAsync(currentQuestionnaire);
-            await _questionnaireRepository.SaveAsync();
+            if (currentQuestionnaire == null)
+            {
+                currentQuestionnaire = new Questionnaire
+                {
+                    Name = questionnaireName,
+                    CandidateId = currentCandidate.Id,
+                    VacancyId = currentVacancy.Id,
+                    DocumentFileId = _file.Id
+                };
+
+                await _questionnaireRepository.AddAsync(currentQuestionnaire);
+                await _questionnaireRepository.SaveAsync();
+            }
 
             foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
             {
-                if (child.ChildElements.Count == 3)
+                await ParseQuestionCategory(child);
+                await ParseQuestion(child);
+            }
+        }
+
+        private async Task ParseQuestionCategory(OpenXmlElement child)
+        {
+            if (child.ChildElements.Count == 3)
+            {
+                var name = child.ChildElements.ElementAt(2).InnerText;
+                currentCategory = _questionCategoryRepository.GetAll().Where(qc => qc.Name == name && qc.QuestionnaireId == currentQuestionnaire.Id).FirstOrDefault();
+                if (currentCategory == null)
                 {
                     currentCategory = new QuestionCategory()
                     {
@@ -184,28 +208,38 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                     await _questionCategoryRepository.AddAsync(currentCategory);
                     await _questionCategoryRepository.SaveAsync();
                 }
-                if (child.ChildElements.Count == 5)
-                {
-                    await ParseQuestion(child);
-                }
             }
         }
 
         private async Task ParseQuestion(OpenXmlElement child)
         {
-            var question = new Question
+            if (child.ChildElements.Count == 5)
             {
-                QuestionCategoryId = currentCategory.Id,
-                Name = child.ChildElements[2].InnerText
-            };
-            await _questionRepository.AddAsync(question);
-            await _questionRepository.SaveAsync();
+                var name = child.ChildElements[2].InnerText;
+                currentQuestion = _questionRepository.GetAll().Where(q => q.Name == name && q.QuestionCategoryId == currentCategory.Id).FirstOrDefault();
+                if (currentQuestion == null)
+                {
+                    currentQuestion = new Question
+                    {
+                        QuestionCategoryId = currentCategory.Id,
+                        Name = child.ChildElements[2].InnerText
+                    };
+                    await _questionRepository.AddAsync(currentQuestion);
+                    await _questionRepository.SaveAsync();
+                }
+                await ParseAnswer(child);
+
+            }
+        }
+
+        private async Task ParseAnswer(OpenXmlElement child)
+        {
             if (child.ChildElements[4].InnerText != string.Empty)
             {
                 var answer = new Answer
                 {
                     CandidateId = currentCandidate.Id,
-                    QuestionId = question.Id,
+                    QuestionId = currentQuestion.Id,
                     Comment = child.ChildElements[4].InnerText
                 };
                 try
