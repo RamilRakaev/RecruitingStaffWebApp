@@ -29,7 +29,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             candidate.Address = request.Candidate.Address;
             candidate.TelephoneNumber = request.Candidate.TelephoneNumber;
             candidate.MaritalStatus = request.Candidate.MaritalStatus;
-            await RewriteFile(request.UploadedFile, candidate);
+            await RewritePhoto(request.UploadedFile, candidate);
             await _candidateRepository.SaveAsync();
             return true;
         }

@@ -2,7 +2,6 @@
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
@@ -10,7 +9,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
     public class VacancyCommandHandler : QuestionnairesCommandHandlers
     {
         private readonly IRepository<Vacancy> _vacancyRepository;
-        private readonly CandidateFilesRewriter rewriter;
 
         public VacancyCommandHandler(IRepository<Answer> answerRepository,
             IRepository<Question> questionRepository,
@@ -27,7 +25,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
                   options)
         {
             _vacancyRepository = vacancyRepository;
-            rewriter = new CandidateFilesRewriter(fileRepository, options)
         }
 
         public async Task RemoveVacancy(int vacancyId)

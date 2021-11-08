@@ -3,36 +3,21 @@ using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 {
-    public class RemoveVacancyHandler : CandidateFilesRewriter, IRequestHandler<RemoveQuestionCommand, bool>
+    public class RemoveVacancyHandler : VacancyCommandHandler, IRequestHandler<RemoveQuestionCommand, bool>
     {
-        private readonly IRepository<Vacancy> _vacancyRepository;
-        private readonly IRepository<Questionnaire> _questionareRepository;
-
-        public RemoveVacancyHandler(
-            IRepository<Vacancy> vacancyRepository,
-            IRepository<Questionnaire> questionareRepository,
-            IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options) : base(fileRepository, options)
-        {
-            _vacancyRepository = vacancyRepository;
-            _questionareRepository = questionareRepository;
-        }
+        public RemoveVacancyHandler(IRepository<Answer> answerRepository, IRepository<Question> questionRepository, IRepository<QuestionCategory> questionCategoryRepository, IRepository<Questionnaire> questionnaireRepository, IRepository<RecruitingStaffWebAppFile> fileRepository, IOptions<WebAppOptions> options, IRepository<Vacancy> vacancyRepository) : base(answerRepository, questionRepository, questionCategoryRepository, questionnaireRepository, fileRepository, options, vacancyRepository)
+        { }
 
         public async Task<bool> Handle(RemoveQuestionCommand request, CancellationToken cancellationToken)
         {
-            var vacancy = await _vacancyRepository.FindAsync(request.VacancyId);
-            await _vacancyRepository.RemoveAsync(vacancy);
-            foreach(var questionare in vacancy.Questionnaires)
-            {
-                await _questionareRepository.RemoveAsync(questionare);
-            }
-            await _vacancyRepository.SaveAsync();
+            await RemoveVacancy(request.VacancyId);
             return true;
         }
     }

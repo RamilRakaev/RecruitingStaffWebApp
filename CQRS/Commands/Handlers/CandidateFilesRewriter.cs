@@ -21,7 +21,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
             _options = options.Value;
         }
 
-        public async Task RewritePhoto(IFormFile formFile, Candidate candidate, Questionnaire questionnaire)
+        public async Task RewritePhoto(IFormFile formFile, Candidate candidate)
         {
             if (formFile != null)
             {
@@ -29,7 +29,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
                 {
                     await DeleteFile(candidate.Photo);
                 }
-                await SaveFile(formFile, candidate, questionnaire);
+                await SaveFile(formFile, candidate, null);
             }
         }
 
@@ -37,7 +37,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
         {
             var extension = formFile.FileName[formFile.FileName.IndexOf('.')..];
             FileType fileType;
-            if(extension == ".doc" || extension == ".docx")
+            if(questionnaire != null)
             {
                 fileType = FileType.Questionnaire;
             }
