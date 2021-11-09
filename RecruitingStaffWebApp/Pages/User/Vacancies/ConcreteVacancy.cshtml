@@ -17,14 +17,14 @@
             </div>
         </div>
         <p>@Model.Vacancy.Description</p>
-        <h6>Ответственность:</h6>
+        <h6>Обязанности:</h6>
         <ul class="list-group list-group-flush">
             @foreach (var responsability in @Model.Vacancy.ResponsibilitiesList)
             {
                 <li class="list-group-item">@responsability</li>
             }
         </ul>
-        <h6 class="mt-5">Обязанности:</h6>
+        <h6 class="mt-5">Ответственность:</h6>
         <ul class="list-group list-group-flush">
             @foreach (var requirement in @Model.Vacancy.RequirementsList)
             {

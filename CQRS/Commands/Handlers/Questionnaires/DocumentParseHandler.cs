@@ -33,6 +33,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             return _questionnaireManager.ParseAndSaved(request.FormFile.FileName);
         }
 
+        /// <summary>
+        /// Зачистка бд, временный метод
+        /// </summary>
+        /// <param name="db"></param>
         public static void ResetDb(DataContext db)
         {
             ResetDb<Answer>(db);

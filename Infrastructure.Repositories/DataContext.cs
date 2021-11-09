@@ -1,9 +1,7 @@
-﻿using RecruitingStaff.Infrastructure.Repositories.Configuration;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Model.UserIdentity;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Infrastructure.Repositories.Configuration;
 
 namespace RecruitingStaff.Infrastructure.Repositories
 {
