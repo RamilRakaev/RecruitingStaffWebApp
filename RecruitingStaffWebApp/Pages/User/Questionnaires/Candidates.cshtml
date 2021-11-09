@@ -1,0 +1,42 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Questionnaires.CandidatesModel
+@{
+}
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-dark m-2" asp-page="/User/CreateCandidate">Создать кандидата</a>
+</div>
+<div class="row justify-content-center">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"><h5>Id</h5></th>
+                <th scope="col"><h5>Полное имя</h5></th>
+                <th scope="col"><h5>Дата рождения</h5></th>
+                <th scope="col"><h5>Адрес</h5></th>
+                <th scope="col"><h5>Номер телефона</h5></th>
+                <th scope="col"><h5>Семейное положение</h5></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Candidate in Model.Candidates)
+            {
+                <tr>
+                    <th scope="row">@Candidate.Id</th>
+                    <td>@Candidate.FullName</td>
+                    <td>@Candidate.DateOfBirth.ToString("d")</td>
+                    <td>@Candidate.Address</td>
+                    <td>@Candidate.TelephoneNumber</td>
+                    <td>@Candidate.MaritalStatus</td>
+                    <td>
+                        <a class="btn btn-dark d-block" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
+                        <form class="d-inline" method="post" asp-page-handler="Remove">
+                            <input type="hidden" name="CandidateId" value="@Candidate.Id" />
+                            <button class="btn btn-danger text-white d-block mt-3">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
