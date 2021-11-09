@@ -84,6 +84,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                                     if (table != null)
                                     {
                                         await ParseQuestionnaire(table);
+                                        await ParseCandidateQuestionnaire();
                                     }
                                 }
                             }
@@ -99,6 +100,42 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 Exception = e.Message;
                 return false;
             }
+        }
+
+        private async Task ParseQuestionnaire(OpenXmlElement table)
+        {
+            currentQuestionnaire = _questionnaireRepository
+                .GetAll()
+                .Where(q => q.Name == questionnaireName)
+                .FirstOrDefault();
+
+            if (currentQuestionnaire == null)
+            {
+                currentQuestionnaire = new Questionnaire
+                {
+                    Name = questionnaireName,
+                    VacancyId = currentVacancy.Id
+                };
+
+                await _questionnaireRepository.AddAsync(currentQuestionnaire);
+                await _questionnaireRepository.SaveAsync();
+            }
+            foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
+            {
+                await ParseQuestionCategory(child);
+                await ParseQuestion(child);
+            }
+        }
+
+        private async Task ParseCandidateQuestionnaire()
+        {
+            var candidateQuestionnaire = new CandidateQuestionnaire()
+            {
+                QuestionnaireId = currentQuestionnaire.Id,
+                CandidateId = currentCandidate.Id
+            };
+            await _candidateQuestionnaire.AddAsync(candidateQuestionnaire);
+            await _candidateQuestionnaire.SaveAsync();
         }
 
         private async Task ParseVacancyCandidate(OpenXmlElement table)
@@ -159,53 +196,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 .ElementAt(cellInd).InnerText;
         }
 
-        private async Task ParseQuestionnaire(OpenXmlElement table)
-        {
-            currentQuestionnaire = _questionnaireRepository
-                .GetAll()
-                .Where(q => q.Name == questionnaireName)
-                .FirstOrDefault();
-
-            if (currentQuestionnaire == null)
-            {
-                currentQuestionnaire = new Questionnaire
-                {
-                    Name = questionnaireName,
-                    VacancyId = currentVacancy.Id
-                };
-
-                await _questionnaireRepository.AddAsync(currentQuestionnaire);
-                await _questionnaireRepository.SaveAsync();
-            }
-            var candidateQuestionnaire = new CandidateQuestionnaire()
-            {
-                QuestionnaireId = currentQuestionnaire.Id,
-                CandidateId = currentCandidate.Id
-            };
-            await _candidateQuestionnaire.AddAsync(candidateQuestionnaire);
-            await _candidateQuestionnaire.SaveAsync();
-            foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
-            {
-                await ParseQuestionCategory(child);
-                await ParseQuestion(child);
-            }
-        }
-
-        private async Task SaveToFile()
-        {
-            _file = new RecruitingStaffWebAppFile()
-            {
-                Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
-                FileType = FileType.Questionnaire,
-                CandidateId = currentCandidate.Id,
-                QuestionnaireId = currentQuestionnaire.Id
-            };
-            await _fileRepository.AddAsync(_file);
-            await _fileRepository.SaveAsync();
-
-            File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
-        }
-
         private async Task ParseQuestionCategory(OpenXmlElement child)
         {
             if (child.ChildElements.Count == 3)
@@ -242,7 +232,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                     await _questionRepository.SaveAsync();
                 }
                 await ParseAnswer(child);
-
             }
         }
 
@@ -265,6 +254,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 { }
                 await _answerRepository.AddAsync(answer);
                 await _answerRepository.SaveAsync();
+            }
+
+            private async Task SaveToFile()
+            {
+                _file = new RecruitingStaffWebAppFile()
+                {
+                    Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
+                    FileType = FileType.Questionnaire,
+                    CandidateId = currentCandidate.Id,
+                    QuestionnaireId = currentQuestionnaire.Id
+                };
+                await _fileRepository.AddAsync(_file);
+                await _fileRepository.SaveAsync();
+
+                File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
             }
         }
     }
