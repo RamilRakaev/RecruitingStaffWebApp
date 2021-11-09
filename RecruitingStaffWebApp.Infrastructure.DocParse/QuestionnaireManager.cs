@@ -255,21 +255,22 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 await _answerRepository.AddAsync(answer);
                 await _answerRepository.SaveAsync();
             }
-
-            private async Task SaveToFile()
-            {
-                _file = new RecruitingStaffWebAppFile()
-                {
-                    Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
-                    FileType = FileType.Questionnaire,
-                    CandidateId = currentCandidate.Id,
-                    QuestionnaireId = currentQuestionnaire.Id
-                };
-                await _fileRepository.AddAsync(_file);
-                await _fileRepository.SaveAsync();
-
-                File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
-            }
         }
+
+        private async Task SaveToFile()
+        {
+            _file = new RecruitingStaffWebAppFile()
+            {
+                Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
+                FileType = FileType.Questionnaire,
+                CandidateId = currentCandidate.Id,
+                QuestionnaireId = currentQuestionnaire.Id
+            };
+            await _fileRepository.AddAsync(_file);
+            await _fileRepository.SaveAsync();
+
+            File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
+        }
+
     }
 }
