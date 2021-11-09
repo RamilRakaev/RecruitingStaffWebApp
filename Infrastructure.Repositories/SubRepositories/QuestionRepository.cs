@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using System.Linq;
+﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
 {
@@ -8,13 +6,5 @@ namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
     {
         public QuestionRepository(DataContext context) : base(context)
         { }
-
-        public override IQueryable<Question> GetAll()
-        {
-            return _context
-                .Set<Question>()
-                .Include(q => q.Answers)
-                .Include(q => q.QuestionCategory);
-        }
     }
 }

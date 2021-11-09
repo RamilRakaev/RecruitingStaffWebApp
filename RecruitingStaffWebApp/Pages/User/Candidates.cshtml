@@ -41,35 +41,6 @@
                             <input type="hidden" name="CandidateId" value="@Candidate.Id" />
                             <button class="btn btn-danger text-white d-block mt-3">Удалить</button>
                         </form>
-                        <div class="dropdown d-inline">
-                            <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Свойства
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @foreach (var option in Candidate.Options)
-                                {
-                                    if (option.Value.Length > 30)
-                                    {
-                                        <a class="dropdown-item"
-                                           asp-page="OptionForm"
-                                           asp-route-CandidateId="@option.CandidateId"
-                                           asp-route-propertyName="@option.PropertyName">
-                                            @option.PropertyName
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a class="dropdown-item"
-                                           asp-page="OptionForm"
-                                           asp-route-CandidateId="@option.CandidateId"
-                                           asp-route-propertyName="@option.PropertyName"
-                                           asp-route-value="@option.Value">
-                                            @option.PropertyName
-                                        </a>
-                                    }
-                                }
-                            </div>
-                        </div>
                     </td>
                 </tr>
             }

@@ -89,6 +89,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                             }
                         }
                     }
+                    await SaveToFile();
                     File.Delete($"{_options.DocumentsSource}\\{_fileName}");
                 }
                 return true;
@@ -127,16 +128,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
             await _candidateRepository.AddAsync(currentCandidate);
             await _candidateRepository.SaveAsync();
-
-            _file = new RecruitingStaffWebAppFile()
-            {
-                Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
-                FileType = FileType.Questionnaire,
-                CandidateId = currentCandidate.Id
-            };
-            await _fileRepository.AddAsync(_file);
-            await _fileRepository.SaveAsync();
-            File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
 
             await VacancyParse(vacancyName);
         }
@@ -193,12 +184,26 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             };
             await _candidateQuestionnaire.AddAsync(candidateQuestionnaire);
             await _candidateQuestionnaire.SaveAsync();
-
             foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
             {
                 await ParseQuestionCategory(child);
                 await ParseQuestion(child);
             }
+        }
+
+        private async Task SaveToFile()
+        {
+            _file = new RecruitingStaffWebAppFile()
+            {
+                Source = $"{currentCandidate.Id}.{currentCandidate.FullName}.docx",
+                FileType = FileType.Questionnaire,
+                CandidateId = currentCandidate.Id,
+                QuestionnaireId = currentQuestionnaire.Id
+            };
+            await _fileRepository.AddAsync(_file);
+            await _fileRepository.SaveAsync();
+
+            File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
         }
 
         private async Task ParseQuestionCategory(OpenXmlElement child)

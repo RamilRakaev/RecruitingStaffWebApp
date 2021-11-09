@@ -38,10 +38,5 @@
                 <li class="list-group-item">@condition</li>
             }
         </ul>
-        <h2 class="mt-3">Анкеты</h2>
-        @foreach (var questionnaire in Model.Vacancy.Questionnaires)
-        {
-            <a class="" asp-page="/User/Questionnaires/ConcreteQuestionnaire" asp-route-questionnaireId="@questionnaire.Id">@questionnaire.Name</a>
-        }
     </div>
 </div>
