@@ -19,6 +19,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         private readonly IRepository<Vacancy> _vacancyRepository;
         private readonly IRepository<Candidate> _candidateRepository;
         private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
+        private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaire;
         private readonly IRepository<Questionnaire> _questionnaireRepository;
         private readonly IRepository<QuestionCategory> _questionCategoryRepository;
         private readonly IRepository<Question> _questionRepository;
@@ -39,6 +40,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             IRepository<Vacancy> vacancyRepository,
             IRepository<Candidate> candidateRepository,
             IRepository<CandidateVacancy> candidateVacancyRepository,
+            IRepository<CandidateQuestionnaire> candidateQuestionnaire,
             IRepository<Questionnaire> questionnaireRepository,
             IRepository<QuestionCategory> questionCategoryRepository,
             IRepository<Question> questionRepository,
@@ -49,6 +51,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             _vacancyRepository = vacancyRepository;
             _candidateRepository = candidateRepository;
             _candidateVacancyRepository = candidateVacancyRepository;
+            _candidateQuestionnaire = candidateQuestionnaire;
             _questionnaireRepository = questionnaireRepository;
             _questionCategoryRepository = questionCategoryRepository;
             _questionRepository = questionRepository;
@@ -177,13 +180,19 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 currentQuestionnaire = new Questionnaire
                 {
                     Name = questionnaireName,
-                    CandidateId = currentCandidate.Id,
                     VacancyId = currentVacancy.Id
                 };
 
                 await _questionnaireRepository.AddAsync(currentQuestionnaire);
                 await _questionnaireRepository.SaveAsync();
             }
+            var candidateQuestionnaire = new CandidateQuestionnaire()
+            {
+                QuestionnaireId = currentQuestionnaire.Id,
+                CandidateId = currentCandidate.Id
+            };
+            await _candidateQuestionnaire.AddAsync(candidateQuestionnaire);
+            await _candidateQuestionnaire.SaveAsync();
 
             foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
             {

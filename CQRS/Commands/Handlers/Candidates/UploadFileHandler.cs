@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
-    public class UploadFileHandler : CandidateFilesRewriter, IRequestHandler<UploadFileCommand, bool>
+    public class UploadFileHandler : CandidateFileManagement, IRequestHandler<UploadFileCommand, bool>
     {
         private readonly IRepository<Candidate> _candidateRepository;
         private readonly IRepository<Questionnaire> _questionnaireRepository;

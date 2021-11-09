@@ -13,7 +13,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
         private readonly IRepository<Candidate> _candidateRepository;
         private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
         private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaireRepository;
-        private readonly CandidateFilesRewriter rewriter;
+        private readonly CandidateFileManagement rewriter;
 
         public CandidateCommandHandlers(IRepository<Answer> answerRepository,
             IRepository<Candidate> candidateRepository,
@@ -25,7 +25,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             _candidateRepository = candidateRepository;
             _candidateVacancyRepository = candidateVacancyRepository;
             _candidateQuestionnaireRepository = candidateQuestionnaireRepository;
-            rewriter = new CandidateFilesRewriter(fileRepository, options);
+            rewriter = new CandidateFileManagement(fileRepository, options);
         }
 
         public async Task RemoveCandidate(int candidateId)

@@ -11,11 +11,13 @@ namespace RecruitingStaff.Infrastructure.Repositories.SubRepositories
 
         public override IQueryable<Questionnaire> GetAll()
         {
-            return _context
+            var questionnaires = _context
                 .Set<Questionnaire>()
                 .Include(q => q.Vacancy)
                 .Include(q => q.DocumentFiles)
-                .Include(q => q.QuestionCategories);
+                .Include("QuestionCategories.Questions")
+                .Include("CandidateQuestionnaires.Candidate");
+            return questionnaires;
         }
     }
 }

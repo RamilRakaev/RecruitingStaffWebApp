@@ -23,11 +23,14 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
         {
             await _candidateRepository.AddAsync(request.Candidate);
             await _candidateRepository.SaveAsync();
-            await _candidateVacancyRepository.AddAsync(
+            await _candidateVacancyRepository.AddAsync
+            (
                 new CandidateVacancy()
                 {
                     CandidateId = request.Candidate.Id,
-                    VacancyId = request.VacancyId });
+                    VacancyId = request.VacancyId
+                }
+            );
             await _candidateVacancyRepository.SaveAsync();
             return true;
         }

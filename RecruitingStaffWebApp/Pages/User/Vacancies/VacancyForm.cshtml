@@ -2,3 +2,29 @@
 @model RecruitingStaffWebApp.Pages.User.Vacancies.VacancyFormModel
 @{
 }
+<div class="row justify-content-center">
+    <form method="post">
+        <input type="hidden" asp-for="@Model.Vacancy.Id" />
+        <div class="form-group">
+            <label class="col-form-label">Наименование вакансии</label>
+            <input class="form-control" type="text" asp-for="@Model.Vacancy.Name" />
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Описание</label>
+            <textarea class="form-control" asp-for="@Model.Vacancy.Description"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Обязанности</label>
+            <textarea class="form-control" asp-for="@Model.Vacancy.Responsibilities"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Требования</label>
+            <textarea class="form-control" asp-for="@Model.Vacancy.Requirements"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Условия работа</label>
+            <textarea class="form-control" asp-for="@Model.Vacancy.WorkingConditions"></textarea>
+        </div>
+        <button class="btn btn-dark">Отправить</button>
+    </form>
+</div>

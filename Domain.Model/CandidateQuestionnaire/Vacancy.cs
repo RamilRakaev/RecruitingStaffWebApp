@@ -22,7 +22,7 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
             {
                 if(Responsibilities != null)
                 {
-                    return Responsibilities.Split("\n");
+                    return Responsibilities.Split("\n", StringSplitOptions.RemoveEmptyEntries);
                 }
                 else
                 {
@@ -32,12 +32,12 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         }
 
         [NotMapped]
-        public string[] ReuirementsList
+        public string[] RequirementsList
         {
             get
             {if(Requirements != null)
                 {
-                    return Requirements.Split("\n");
+                    return Requirements.Split("\n", StringSplitOptions.RemoveEmptyEntries);
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
             { 
                 if(WorkingConditions != null)
                 {
-                    return WorkingConditions.Split("\n");
+                    return WorkingConditions.Split("\n", StringSplitOptions.RemoveEmptyEntries);
                 }
                 else
                 {

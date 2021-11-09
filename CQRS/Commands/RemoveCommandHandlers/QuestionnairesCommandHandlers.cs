@@ -10,7 +10,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
     public class QuestionnairesCommandHandlers : QuestionCategoryRemoveHandler
     {
         private readonly IRepository<Questionnaire> _questionnaireRepository;
-        private readonly CandidateFilesRewriter rewriter;
+        private readonly CandidateFileManagement rewriter;
 
         public QuestionnairesCommandHandlers(IRepository<Answer> answerRepository,
             IRepository<Question> questionRepository,
@@ -21,7 +21,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             : base(answerRepository, questionRepository, questionCategoryRepository)
         {
             _questionnaireRepository = questionnaireRepository;
-            rewriter = new CandidateFilesRewriter(fileRepository, options);
+            rewriter = new CandidateFileManagement(fileRepository, options);
         }
 
         public async Task RemoveQuestionnaire(int questionnireId)

@@ -3,9 +3,9 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies
 {
-    public class CreateVacancyCommand : IRequest<bool>
+    public class CreateOrChangeVacancyCommand : IRequest<bool>
     {
-        public CreateVacancyCommand(Vacancy vacancy)
+        public CreateOrChangeVacancyCommand(Vacancy vacancy)
         {
             Vacancy = vacancy;
         }

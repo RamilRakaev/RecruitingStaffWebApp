@@ -1,0 +1,17 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Questionnaires.QuestionnaireFormModel
+@{
+}
+<div class="row justify-content-center">
+    <form method="post">
+        <input type="hidden" asp-for="@Model.Questionnaire.Id" />
+        <div class="form-group">
+            <label>Наименование анкеты</label>
+            <input class="form-control" asp-for="@Model.Questionnaire.Name" />
+        </div>
+        <div class="form-group">
+            <label></label>
+            <select asp-items="@Model.Vacancies" asp-for="@Model.Questionnaire.VacancyId"></select>
+        </div>
+    </form>
+</div>

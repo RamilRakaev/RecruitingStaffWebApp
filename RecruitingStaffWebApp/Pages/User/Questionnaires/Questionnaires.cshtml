@@ -1,4 +1,15 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Questionnaires.QuestionnairesModel
 @{
+    ViewData["Title"] = "Анкеты";
 }
+<div class="row justify-content-center">
+    <div class="col-9">
+        <div class="list-group">
+            @foreach (var questionnaire in Model.Questionnaires)
+            {
+                <a class="list-group-item" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@questionnaire.Id">@questionnaire.Name</a>
+            }
+        </div>
+    </div>
+</div>

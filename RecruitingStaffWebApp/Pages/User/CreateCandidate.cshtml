@@ -1,0 +1,35 @@
+﻿@page
+@model RecruitingStaffWebApp.Pages.User.CreateCandidateModel
+@using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+@{
+    var candidate = new Candidate();
+}
+<div class="row justify-content-center">
+    <form method="post">
+        <div class="form-group">
+            <label>Полное имя</label>
+            <input type="text" class="form-control" asp-for="@candidate.FullName" />
+        </div>
+        <div class="form-group">
+            <label>Дата рождения</label>
+            <input type="date" class="form-control" asp-for="@candidate.DateOfBirth" />
+        </div>
+        <div class="form-group">
+            <label>Адрес</label>
+            <input type="text" class="form-control" asp-for="@candidate.Address" />
+        </div>
+        <div class="form-group">
+            <label>Номер телефона</label>
+            <input type="text" class="form-control" asp-for="@candidate.TelephoneNumber" />
+        </div>
+        <div class="form-group">
+            <label>Семейное положение</label>
+            <input type="text" class="form-control" asp-for="@candidate.MaritalStatus" />
+        </div>
+        <div class="form-group">
+            <select name="vacancyId" asp-items="@Model.Vacancies">
+            </select>
+        </div>
+        <button class="btn btn-dark">Отправить</button>
+    </form>
+</div>

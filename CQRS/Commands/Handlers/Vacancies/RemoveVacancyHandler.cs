@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 {
-    public class RemoveVacancyHandler : VacancyCommandHandler, IRequestHandler<RemoveQuestionCommand, bool>
+    public class RemoveVacancyHandler : VacancyCommandHandler, IRequestHandler<RemoveVacancyCommand, bool>
     {
         public RemoveVacancyHandler(IRepository<Answer> answerRepository, IRepository<Question> questionRepository, IRepository<QuestionCategory> questionCategoryRepository, IRepository<Questionnaire> questionnaireRepository, IRepository<RecruitingStaffWebAppFile> fileRepository, IOptions<WebAppOptions> options, IRepository<Vacancy> vacancyRepository) : base(answerRepository, questionRepository, questionCategoryRepository, questionnaireRepository, fileRepository, options, vacancyRepository)
         { }
 
-        public async Task<bool> Handle(RemoveQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(RemoveVacancyCommand request, CancellationToken cancellationToken)
         {
             await RemoveVacancy(request.VacancyId);
             return true;

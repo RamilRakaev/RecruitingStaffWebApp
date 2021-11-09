@@ -1,11 +1,10 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies
 {
-    public class RemoveQuestionCommand : IRequest<bool>
+    public class RemoveVacancyCommand : IRequest<bool>
     {
-        public RemoveQuestionCommand(int vacancyId)
+        public RemoveVacancyCommand(int vacancyId)
         {
             VacancyId = vacancyId;
         }

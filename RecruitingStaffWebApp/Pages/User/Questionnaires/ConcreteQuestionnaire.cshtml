@@ -1,0 +1,25 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Questionnaires.ConcreteQuestionnaireModel
+@{
+}
+<div class="row justify-content-center">
+    <div class="col-9">
+        <h2>@Model.Questionnaire.Name</h2>
+        @foreach (var questionCategory in Model.Questionnaire.QuestionCategories)
+        {
+            <h4>@questionCategory.Name</h4>
+            @foreach (var question in questionCategory.Questions)
+            {
+                <p>@question.Name</p>
+            }
+        }
+        <div class="mt-3">
+            Вакансия: <a asp-page="/User/Vacancies/ConcreteVacancy" asp-route-vacancyId="@Model.Questionnaire.Vacancy.Id">@Model.Questionnaire.Vacancy.Name</a>
+        </div>
+        <h2 class="mt-3">Кандидаты</h2>
+        @foreach (var candidates in Model.Questionnaire.CandidateQuestionnaires)
+        {
+            <a asp-page="/User/ConcreteCandidate" asp-route-candidateId="@candidates.Id">@candidates.Candidate.FullName</a>
+        }
+    </div>
+</div>

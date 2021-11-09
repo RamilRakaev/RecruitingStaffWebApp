@@ -4,42 +4,21 @@
     ViewData["Title"] = "Вакансии";
 }
 <div class="row justify-content-center">
+    <div class="col-9">
+        <a class="btn btn-info mb-3" asp-page="VacancyForm">Создать вакансию</a>
+    </div>
     @foreach (var vacancy in Model.Vacancies)
     {
-        <div class="col-12">
-            <h4>@vacancy.Name</h4>
-            <p>@vacancy.Description</p>
-            @if (vacancy.Responsibilities != null)
-            {
-                <h6>Требования:</h6>
-                <ol title="Требования">
-                    @foreach (var responsibility in vacancy.ResponsibilitiesList)
-                    {
-                        <li>@responsibility</li>
-                    }
-                </ol>
-            }
-            @if (vacancy.Requirements != null)
-            {
-                <h6>Обязанности:</h6>
-                <ol title="Обзязанности">
-                    @foreach (var requirement in vacancy.ReuirementsList)
-                    {
-                        <li>@requirement</li>
-                    }
-                </ol>
-            }
-            @if (vacancy.WorkingConditions != null)
-            {
-                <h6>Рабочие условия:</h6>
-                <ol title="Рабочие условия">
-                    @foreach (var workingCondition in vacancy.WorkingConditionsList)
-                    {
-                        <li>@workingCondition</li>
-                    }
-                </ol>
-            }
+        <div class="col-9 mb-3 border border-dark rounded">
+            <a class="m-3 text-decoration-none text-dark" asp-page="ConcreteVacancy" asp-route-vacancyId="@vacancy.Id">
+                <h4>@vacancy.Name</h4>
+                <p>@vacancy.Description</p>
+            </a>
+            <a class="btn btn-warning m-2 d-inline" asp-page="/User/Vacancies/VacancyForm" asp-route-vacancyId="@vacancy.Id">Изменить</a>
+            <form class="d-inline" method="post">
+                <input type="hidden" name="vacancyId" value="@vacancy.Id" />
+                <button class="btn btn-danger m-2 d-inline">Удалить</button>
+            </form>
         </div>
-
     }
 </div>

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
 {
-    public class CandidateFilesRewriter
+    public class CandidateFileManagement
     {
         protected readonly WebAppOptions _options;
         protected readonly IRepository<RecruitingStaffWebAppFile> _fileRepository;
 
-        public CandidateFilesRewriter(
+        public CandidateFileManagement(
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IOptions<WebAppOptions> options)
         {

@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using RecruitingStaffWebApp.Pages.User;
 
@@ -25,9 +26,11 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             return await RightVerification();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost(int questionnaireId)
         {
-            return RedirectToPage("/User/Candidates");
+            await _mediator.Send(new RemoveQuestionnaireCommand(questionnaireId));
+            Questionnaires = await _mediator.Send(new GetQuestionnairesQuery());
+            return await RightVerification();
         }
     }
 }

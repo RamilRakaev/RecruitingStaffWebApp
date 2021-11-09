@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
-    public class RemoveCandidateHandler : CandidateFilesRewriter, IRequestHandler<RemoveCandidateCommand, bool>
+    public class RemoveCandidateHandler : CandidateFileManagement, IRequestHandler<RemoveCandidateCommand, bool>
     {
         private readonly IRepository<Candidate> _candidateRepository;
         private readonly IRepository<Questionnaire> _questionnaiRerepository;

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
 
-    public class ChangeCandidateHandler : CandidateFilesRewriter, IRequestHandler<ChangeCandidateCommand, bool>
+    public class ChangeCandidateHandler : CandidateFileManagement, IRequestHandler<ChangeCandidateCommand, bool>
     {
         private readonly IRepository<Candidate> _candidateRepository;
 

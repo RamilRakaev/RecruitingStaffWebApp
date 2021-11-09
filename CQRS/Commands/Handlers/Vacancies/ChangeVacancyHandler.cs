@@ -24,6 +24,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
             vacancy.Responsibilities = request.Vacancy.Responsibilities;
             vacancy.Requirements = request.Vacancy.Requirements;
             vacancy.WorkingConditions = request.Vacancy.WorkingConditions;
+            await _vacancyRepository.SaveAsync();
             return true;
         }
     }

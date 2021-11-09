@@ -23,12 +23,12 @@ namespace RecruitingStaffWebApp.Pages.User
             return await RightVerification();
         }
 
-        public async Task OnPost(Candidate newCandidate, IFormFile uploadedFile)
-        {
-            await _mediator.Send(new CreateCandidateCommand(newCandidate, uploadedFile));
-            Candidates = await _mediator.Send(new GetCandidatesQuery());
-            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
-        }
+        //public async Task OnPost(Candidate newCandidate, IFormFile uploadedFile)
+        //{
+        //    await _mediator.Send(new CreateCandidateCommand(newCandidate, uploadedFile));
+        //    Candidates = await _mediator.Send(new GetCandidatesQuery());
+        //    MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
+        //}
 
         public async Task OnPostRemove(int CandidateId)
         {
