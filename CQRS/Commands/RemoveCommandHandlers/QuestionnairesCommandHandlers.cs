@@ -3,6 +3,7 @@ using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
@@ -27,14 +28,18 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
         public async Task RemoveQuestionnaire(int questionnireId)
         {
             var questionnaire = await _questionnaireRepository.FindNoTrackingAsync(questionnireId);
-            foreach(var questionCategory in questionnaire.QuestionCategories)
-            {
-                await RemoveQuestionCategory(questionCategory.Id);
-            }
-            foreach(var file in questionnaire.DocumentFiles)
-            {
-                await rewriter.DeleteFile(file);
-            }
+            var questionCategoriesIds = 
+                _questionCategoryRepository
+                .GetAllAsNoTracking()
+                .Where(qc => qc.QuestionnaireId == questionnireId)
+                .Select(qc => qc.Id)
+                .ToArray();
+                foreach (var questionCategoryId in questionCategoriesIds.ToArray())
+                {
+                    await RemoveQuestionCategory(questionCategoryId);
+                }
+            
+            await rewriter.DeleteQuestionnaireFiles(questionnireId);
             await _questionnaireRepository.RemoveAsync(questionnaire);
             await _questionnaireRepository.SaveAsync();
         }

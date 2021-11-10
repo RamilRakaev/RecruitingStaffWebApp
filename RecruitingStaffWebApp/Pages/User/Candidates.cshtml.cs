@@ -1,10 +1,9 @@
-using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
+using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
@@ -23,14 +22,7 @@ namespace RecruitingStaffWebApp.Pages.User
             return await RightVerification();
         }
 
-        //public async Task OnPost(Candidate newCandidate, IFormFile uploadedFile)
-        //{
-        //    await _mediator.Send(new CreateCandidateCommand(newCandidate, uploadedFile));
-        //    Candidates = await _mediator.Send(new GetCandidatesQuery());
-        //    MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
-        //}
-
-        public async Task OnPostRemove(int CandidateId)
+        public async Task OnPost(int CandidateId)
         {
             await _mediator.Send(new RemoveCandidateCommand(CandidateId));
             Candidates = await _mediator.Send(new GetCandidatesQuery());

@@ -22,7 +22,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             var questionnaire = await _questionnaireRepository.FindAsync(request.Questionnaire.Id);
             if(questionnaire == null)
             {
-                if(_questionnaireRepository.GetAllAsNoTracking().Where(q => q == request.Questionnaire).FirstOrDefault() == null)
+                if(_questionnaireRepository.GetAllAsNoTracking().FirstOrDefault(q => q.Name.Equals(request.Questionnaire.Name)) != null)
                 {
                     return false;
                 }

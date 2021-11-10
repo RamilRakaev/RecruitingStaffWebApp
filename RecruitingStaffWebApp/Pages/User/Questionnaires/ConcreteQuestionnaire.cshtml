@@ -4,19 +4,43 @@
     ViewData["Title"] = Model.Questionnaire.Name;
 }
 <div class="row justify-content-center">
-    <div class="col-9">
-        <div class="d-flex w-100 justify-content-between">
+    <div class="col-11">
+        <div class="d-flex w-100 mb-3 justify-content-between">
             <h2>@Model.Questionnaire.Name</h2>
             <div>
                 <a class="btn btn-dark" asp-page="Questionnaires">Анкеты</a>
-                <a class="btn btn-dark" asp-page="Candidates" asp-route-questionnaireId="@Model.Questionnaire.Id">Кандидаты заполнившие анкету</a>
+                <a class="btn btn-dark" asp-page="Candidates" asp-route-questionnaireId="@Model.Questionnaire.Id">Кандидаты участвующие в опросе</a>
                 <a class="btn btn-dark" asp-page="/User/Vacancies/ConcreteVacancy" asp-route-vacancyId="@Model.Questionnaire.VacancyId">Вакансия</a>
             </div>
         </div>
-        <h4>Категории вопросов:</h4>
-        @foreach (var questionCategory in Model.QuestionCategories)
-        {
-            <a class="text-dark d-block" asp-page="ConcreteQuestionCategory" asp-route-questionCategoryId="@questionCategory.Id">@questionCategory.Name</a>
-        }
+    </div>
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Категории вопросов</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var questionCategory in Model.QuestionCategories)
+                {
+                    <tr>
+                        <td>
+                            @questionCategory.Name
+                        </td>
+                        <td>
+                            <a class="btn btn-info "
+                               asp-page="ConcreteQuestionCategory"
+                               asp-route-questionCategoryId="@questionCategory.Id">
+                                Перейти
+                            </a>
+                            <a class="btn btn-warning">Изменить</a>
+                            <a class="btn btn-danger">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

@@ -37,7 +37,7 @@
                     <td>@Candidate.MaritalStatus</td>
                     <td>
                         <a class="btn btn-dark d-block" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
-                        <form class="d-inline" method="post" asp-page-handler="Remove">
+                        <form class="d-inline" method="post">
                             <input type="hidden" name="CandidateId" value="@Candidate.Id" />
                             <button class="btn btn-danger text-white d-block mt-3">Удалить</button>
                         </form>

@@ -5,17 +5,20 @@
 }
 <div class="row justify-content-center">
 
-    <div class="col-7">
-        <div class="d-flex w-100 justify-content-between">
+    <div class="col-11">
+        <div class="d-flex w-100 mb-3 justify-content-between">
             <h4>@Model.QuestionCategory.Name</h4>
             <div>
                 <a class="btn btn-dark" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionCategory.QuestionnaireId">Анкета</a>
             </div>
         </div>
-        <table>
-            <thead>
+    </div>
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-light">
                 <tr>
-                    <td><h5>Вопросы</h5></td>
+                    <th>Вопросы</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +30,12 @@
                         </td>
                         <td>
                             <a class="btn btn-info" asp-page="AnswersOnQuestion" asp-route-questionId="@question.Id">Ответы</a>
+                            <a class="btn btn-warning">Изменить</a>
+                            <form class="d-inline" method="post">
+                                <input type="hidden" name="questionId" value="@question.Id" />
+                                <input type="hidden" name="questionCategoryId" value="@Model.QuestionCategory.Id" />
+                                <button class="btn btn-danger">Удалить</button>
+                            </form>
                         </td>
                     </tr>
                 }

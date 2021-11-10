@@ -31,22 +31,30 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
         public async Task RemoveCandidate(int candidateId)
         {
             var candidate = await _candidateRepository.FindNoTrackingAsync(candidateId);
-            foreach(var answer in candidate.Answers)
+            foreach (var answerId in _answerRepository.GetAllAsNoTracking().Where(a => a.CandidateId == candidateId).Select(a => a.Id))
             {
-                await RemoveAnswer(answer.Id);
+                await RemoveAnswer(answerId);
             }
-            await rewriter.DeleteFile(candidate.Photo);
-            foreach(var document in candidate.Documents)
+            if (candidate.PhotoId != null)
             {
-                await rewriter.DeleteFile(document);
+                await rewriter.DeleteCandidateFile(candidate.PhotoId.Value);
             }
-            foreach(var candidateVacancy in _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId))
+            await rewriter.DeleteCandidateFiles(candidateId);
+            var candidateVacancies = _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId);
+            if(candidateVacancies != null)
             {
-                await _candidateVacancyRepository.RemoveAsync(candidateVacancy);
+                foreach (var candidateVacancy in candidateVacancies.ToArray())
+                {
+                    await _candidateVacancyRepository.RemoveAsync(candidateVacancy);
+                }
             }
-            foreach(var candidateQuestionnaire in _candidateQuestionnaireRepository.GetAllAsNoTracking().Where(cq => cq.CandidateId == candidateId))
+            var candidateQuestionnaires = _candidateQuestionnaireRepository.GetAllAsNoTracking().Where(cq => cq.CandidateId == candidateId);
+            if (candidateQuestionnaires != null)
             {
-                await _candidateQuestionnaireRepository.RemoveAsync(candidateQuestionnaire);
+                foreach (var candidateQuestionnaire in candidateQuestionnaires.ToArray())
+                {
+                    await _candidateQuestionnaireRepository.RemoveAsync(candidateQuestionnaire);
+                }
             }
             await _candidateRepository.RemoveAsync(candidate);
             await _candidateRepository.SaveAsync();

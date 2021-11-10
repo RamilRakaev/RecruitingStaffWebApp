@@ -3,9 +3,9 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers
 {
-    public class AnswerOnQuestionQuery : IRequest<Answer[]>
+    public class AnswersOnQuestionQuery : IRequest<Answer[]>
     {
-        public AnswerOnQuestionQuery(int questionId)
+        public AnswersOnQuestionQuery(int questionId)
         {
             QuestionId = questionId;
         }

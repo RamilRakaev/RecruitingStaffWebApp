@@ -4,6 +4,7 @@ using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
@@ -27,7 +28,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
             {
                 if (candidate.Photo != null)
                 {
-                    await DeleteFile(candidate.Photo);
+                    await DeleteCandidateFile(candidate.Photo);
                 }
                 await SaveFile(formFile, candidate, null);
             }
@@ -55,11 +56,41 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
             await _fileRepository.SaveAsync();
         }
 
-        public async Task DeleteFile(RecruitingStaffWebAppFile file)
+        public async Task DeleteQuestionnaireFiles(int questionnaireId)
+        {
+            var documents = _fileRepository.GetAllAsNoTracking().Where(f => f.QuestionnaireId == questionnaireId);
+            if (documents != null)
+            {
+                foreach (var document in documents.ToArray())
+                {
+                    await DeleteCandidateFile(document);
+                }
+            }
+        }
+
+        public async Task DeleteCandidateFiles(int candidateId)
+        {
+            var documents = _fileRepository.GetAllAsNoTracking().Where(f => f.CandidateId == candidateId);
+            if (documents != null)
+            {
+                foreach (var document in documents.ToArray())
+                {
+                    await DeleteCandidateFile(document);
+                }
+            }
+        }
+
+        public async Task DeleteCandidateFile(RecruitingStaffWebAppFile file)
         {
             File.Delete($"{_options.DocumentsSource}\\{file.Source}");
             await _fileRepository.RemoveAsync(file);
             await _fileRepository.SaveAsync();
+        }
+
+        public async Task DeleteCandidateFile(int fileId)
+        {
+            var file = await _fileRepository.FindAsync(fileId);
+            await DeleteCandidateFile(file);
         }
     }
 }

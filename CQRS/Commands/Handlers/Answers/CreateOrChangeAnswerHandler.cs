@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Answers
 {
-    public class ChangeAnswerHandler : AnswerCommandHandlers, IRequestHandler<ChangeAnswerCommand, bool>
+    public class CreateOrChangeAnswerHandler : AnswerCommandHandlers, IRequestHandler<CreateOrChangeAnswerCommand, bool>
     {
-        public ChangeAnswerHandler(IRepository<Answer> answerRepository) : base(answerRepository)
+        public CreateOrChangeAnswerHandler(IRepository<Answer> answerRepository) : base(answerRepository)
         { }
 
-        public async Task<bool> Handle(ChangeAnswerCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateOrChangeAnswerCommand request, CancellationToken cancellationToken)
         {
-            await ChangeAnswer(request.Answer);
+            await CreateOrChange(request.Answer);
             return true;
         }
     }

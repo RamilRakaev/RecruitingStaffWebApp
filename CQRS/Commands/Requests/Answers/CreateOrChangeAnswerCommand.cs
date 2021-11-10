@@ -3,9 +3,9 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers
 {
-    public class ChangeAnswerCommand : IRequest<bool>
+    public class CreateOrChangeAnswerCommand : IRequest<bool>
     {
-        public ChangeAnswerCommand(Answer answer)
+        public CreateOrChangeAnswerCommand(Answer answer)
         {
             Answer = answer;
         }

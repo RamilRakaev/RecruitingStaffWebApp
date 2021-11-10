@@ -1,12 +1,11 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Questionnaires.CandidatesModel
 @{
+    ViewData["Title"] = "Кандидаты участвующие в опросе";
 }
 <div class="row justify-content-center mb-3">
-    <div class="col-9">
-        <a class="btn btn-dark" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Анкета</a>
-        <a class="btn btn-dark m-2" asp-page="CreateCandidateByQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Создать кандидата</a>
-    </div>
+    <a class="btn btn-dark m-2" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Анкета</a>
+    <a class="btn btn-dark m-2" asp-page="CreateCandidateByQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Создать кандидата участвующего в опросе</a>
 </div>
 <div class="row justify-content-center">
     <table class="table">
@@ -22,19 +21,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var Candidate in Model.Candidates)
+            @foreach (var candidate in Model.Candidates)
             {
                 <tr>
-                    <th scope="row">@Candidate.Id</th>
-                    <td>@Candidate.FullName</td>
-                    <td>@Candidate.DateOfBirth.ToString("d")</td>
-                    <td>@Candidate.Address</td>
-                    <td>@Candidate.TelephoneNumber</td>
-                    <td>@Candidate.MaritalStatus</td>
+                    <th scope="row">@candidate.Id</th>
+                    <td>@candidate.FullName</td>
+                    <td>@candidate.DateOfBirth.ToString("d")</td>
+                    <td>@candidate.Address</td>
+                    <td>@candidate.TelephoneNumber</td>
+                    <td>@candidate.MaritalStatus</td>
                     <td>
-                        <a class="btn btn-dark d-block" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
-                        <form class="d-inline" method="post" asp-page-handler="Remove">
-                            <input type="hidden" name="CandidateId" value="@Candidate.Id" />
+                        <a class="btn btn-dark d-block" asp-page="/User/ConcreteCandidate" asp-route-CandidateId="@candidate.Id">Перейти</a>
+                        <form class="d-inline" method="post">
+                            <input type="hidden" name="candidateId" value="@candidate.Id" />
+                            <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
                             <button class="btn btn-danger text-white d-block mt-3">Удалить</button>
                         </form>
                     </td>

@@ -2,24 +2,23 @@
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Answers
 {
-    public class AnswersOnQuestionHandler : IRequestHandler<AnswersOnQuestionQuery, Answer[]>
+    public class GetAnswerByIdHandler : IRequestHandler<GetAnswerByIdQuery, Answer>
     {
         private readonly IRepository<Answer> _answerRepository;
 
-        public AnswersOnQuestionHandler(IRepository<Answer> answerRepository)
+        public GetAnswerByIdHandler(IRepository<Answer> answerRepository)
         {
             _answerRepository = answerRepository;
         }
 
-        public Task<Answer[]> Handle(AnswersOnQuestionQuery request, CancellationToken cancellationToken)
+        public async Task<Answer> Handle(GetAnswerByIdQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_answerRepository.GetAllAsNoTracking().Where(a => a.QuestionId == request.QuestionId).ToArray());
+            return await _answerRepository.FindAsync(request.AnswerId);
         }
     }
 }

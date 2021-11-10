@@ -1,15 +1,14 @@
-﻿using RecruitingStaff.Domain.Model;
-using MediatR;
+﻿using MediatR;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates
 {
     public class RemoveCandidateCommand : IRequest<bool>
     {
-        public RemoveCandidateCommand(int id)
+        public RemoveCandidateCommand(int candidateId)
         {
-            Id = id;
+            CandidateId = candidateId;
         }
 
-        public int Id { get; set; }
+        public int CandidateId { get; set; }
     }
 }

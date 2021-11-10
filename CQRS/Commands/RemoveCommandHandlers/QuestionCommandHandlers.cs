@@ -1,12 +1,13 @@
 ﻿using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
 {
     public class QuestionCommandHandlers : AnswerCommandHandlers
     {
-        private readonly IRepository<Question> _questionRepository;
+        protected readonly IRepository<Question> _questionRepository;
 
         public QuestionCommandHandlers(
             IRepository<Answer> answerRepository,
@@ -18,7 +19,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
         public async Task RemoveQuestion(int questionId)
         {
             var question = await _questionRepository.FindNoTrackingAsync(questionId);
-            await RemoveAnswer(question.Id);
+            var answersIds = _answerRepository.GetAllAsNoTracking().Where(a => a.QuestionId == questionId).Select(a => a.Id).ToArray();
+            foreach (var answerId in answersIds)
+            {
+                await RemoveAnswer(answerId);
+            }
             await _questionRepository.RemoveAsync(question);
             await _questionRepository.SaveAsync();
         }
