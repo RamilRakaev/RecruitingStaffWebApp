@@ -18,6 +18,7 @@
                 <tr>
                     <th>Ответы</th>
                     <th>Оценки</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +27,7 @@
                     <tr>
                         <td>@answer.Comment</td>
                         <td>@answer.Estimation</td>
-                        <td><a asp-page="AnswerAuthor" asp-route-candidateId="@answer.CandidateId" class="btn btn-info">Автор ответа</a></td>
+                        <td><a asp-page="AnswerAuthor" asp-route-candidateId="@answer.CandidateId" asp-route-questionId="@answer.QuestionId" class="btn btn-info">Автор ответа</a></td>
                     </tr>
                 }
             </tbody>

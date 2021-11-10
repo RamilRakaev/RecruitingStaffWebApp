@@ -31,8 +31,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             return await RightVerification();
         }
 
-        public async Task OnPost(int optionId, int candidateId)
+        public async Task OnPost(int optionId, int candidateId, int questionId)
         {
+            QuestionId = questionId;
             await _mediator.Send(new RemoveOptionCommand(optionId));
             Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             Options = await _mediator.Send(new GetOptionsQuery());

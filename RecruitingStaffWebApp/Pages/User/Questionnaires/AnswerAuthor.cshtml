@@ -65,6 +65,7 @@
                                 </a>
                             }
                             <form class="d-inline" method="post">
+                                <input type="hidden" name="questionId" value="@Model.QuestionId" />
                                 <input type="hidden" name="candidateId" value="@Model.Candidate.Id" />
                                 <input type="hidden" name="optionId" value="@option.Id" />
                                 <button class="btn btn-danger m-2">Удалить</button>
