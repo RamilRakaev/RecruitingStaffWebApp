@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -24,6 +25,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             if (questionnaireId == null)
             {
                 Questionnaire = new Questionnaire();
+            }
+            else
+            {
+                Questionnaire = await _mediator.Send(new GetQuestionnaireQuery(questionnaireId.Value));
             }
             return await RightVerification();
         }

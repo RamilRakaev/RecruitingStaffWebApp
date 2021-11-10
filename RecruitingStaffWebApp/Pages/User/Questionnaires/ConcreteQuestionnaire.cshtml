@@ -1,24 +1,22 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Questionnaires.ConcreteQuestionnaireModel
 @{
+    ViewData["Title"] = Model.Questionnaire.Name;
 }
 <div class="row justify-content-center">
     <div class="col-9">
         <div class="d-flex w-100 justify-content-between">
             <h2>@Model.Questionnaire.Name</h2>
             <div>
+                <a class="btn btn-dark" asp-page="Questionnaires">Анкеты</a>
                 <a class="btn btn-dark" asp-page="Candidates" asp-route-questionnaireId="@Model.Questionnaire.Id">Кандидаты заполнившие анкету</a>
                 <a class="btn btn-dark" asp-page="/User/Vacancies/ConcreteVacancy" asp-route-vacancyId="@Model.Questionnaire.VacancyId">Вакансия</a>
             </div>
         </div>
+        <h4>Категории вопросов:</h4>
         @foreach (var questionCategory in Model.QuestionCategories)
         {
-            <h4>@questionCategory.Name</h4>
-            @foreach (var question in Model.Questions)
-            {
-                <p>@question.Name</p>
-            }
+            <a class="text-dark d-block" asp-page="ConcreteQuestionCategory" asp-route-questionCategoryId="@questionCategory.Id">@questionCategory.Name</a>
         }
-        <h2 class="mt-3">Кандидаты</h2>
     </div>
 </div>

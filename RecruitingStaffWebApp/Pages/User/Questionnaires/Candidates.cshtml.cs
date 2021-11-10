@@ -14,10 +14,12 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         }
 
         public Candidate[] Candidates { get; set; }
+        public int QuestionnaireId { get; set; }
 
         public async Task<IActionResult> OnGet(int questionnaireId)
         {
             Candidates = await _mediator.Send(new GetCandidatesByQuestionnaireQuery(questionnaireId));
+            QuestionnaireId = questionnaireId;
             return await RightVerification();
         }
     }

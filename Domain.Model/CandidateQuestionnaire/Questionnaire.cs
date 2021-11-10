@@ -6,7 +6,6 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
     {
         public string Name { get; set; }
 
-        
         public int VacancyId { get; set; }
         public Vacancy Vacancy { get; set; }
 

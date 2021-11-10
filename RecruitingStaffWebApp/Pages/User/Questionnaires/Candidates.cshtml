@@ -3,7 +3,10 @@
 @{
 }
 <div class="row justify-content-center mb-3">
-    <a class="btn btn-dark m-2" asp-page="/User/CreateCandidate">Создать кандидата</a>
+    <div class="col-9">
+        <a class="btn btn-dark" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Анкета</a>
+        <a class="btn btn-dark m-2" asp-page="CreateCandidateByQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Создать кандидата</a>
+    </div>
 </div>
 <div class="row justify-content-center">
     <table class="table">

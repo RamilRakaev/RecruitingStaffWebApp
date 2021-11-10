@@ -1,0 +1,36 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Questionnaires.ConcreteQuestionCategoryModel
+@{
+    ViewData["Title"] = Model.QuestionCategory.Name;
+}
+<div class="row justify-content-center">
+
+    <div class="col-7">
+        <div class="d-flex w-100 justify-content-between">
+            <h4>@Model.QuestionCategory.Name</h4>
+            <div>
+                <a class="btn btn-dark" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionCategory.QuestionnaireId">Анкета</a>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td><h5>Вопросы</h5></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var question in Model.Questions)
+                {
+                    <tr>
+                        <td>
+                            <a class="text-dark d-block">@question.Name</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-info" asp-page="AnswersOnQuestion" asp-route-questionId="@question.Id">Ответы</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

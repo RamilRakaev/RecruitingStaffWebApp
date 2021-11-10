@@ -23,7 +23,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task<IActionResult> OnPost(Candidate candidate, int questionnaireId)
         {
             await _mediator.Send(new CreateCandidateByQuestionnaireCommand(candidate, questionnaireId));
-            return RedirectToPage("Candidates");
+            return RedirectToPage("Candidates", new { questionnaireId = questionnaireId });
         }
     }
 }
