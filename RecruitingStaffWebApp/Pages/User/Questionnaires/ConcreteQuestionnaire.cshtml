@@ -8,6 +8,7 @@
         <div class="d-flex w-100 mb-3 justify-content-between">
             <h2>@Model.Questionnaire.Name</h2>
             <div>
+                <a class="btn btn-success" asp-page="QuestionCategoryForm" asp-route-quesionnaireId="@Model.Questionnaire.Id">Добавить категорию</a>
                 <a class="btn btn-dark" asp-page="Questionnaires">Анкеты</a>
                 <a class="btn btn-dark" asp-page="Candidates" asp-route-questionnaireId="@Model.Questionnaire.Id">Кандидаты участвующие в опросе</a>
                 <a class="btn btn-dark" asp-page="/User/Vacancies/ConcreteVacancy" asp-route-vacancyId="@Model.Questionnaire.VacancyId">Вакансия</a>
@@ -35,8 +36,12 @@
                                asp-route-questionCategoryId="@questionCategory.Id">
                                 Перейти
                             </a>
-                            <a class="btn btn-warning">Изменить</a>
-                            <a class="btn btn-danger">Удалить</a>
+                            <a class="btn btn-warning" asp-page="QuestionCategoryForm" asp-route-questionCategoryId="@questionCategory.Id">Изменить</a>
+                            <form class="d-inline" method="post">
+                                <input type="hidden" name="questionnaireId" value="@Model.Questionnaire.Id" />
+                                <input type="hidden" name="questionCategoryId" value="@questionCategory.Id" />
+                                <button class="btn btn-danger">Удалить</button>
+                            </form>
                         </td>
                     </tr>
                 }

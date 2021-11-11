@@ -6,8 +6,9 @@
     <div class="col-7">
         <form class="form-inline" method="post" asp-page-handler="SearchCandidates">
             <input type="hidden" name="questionId" value="@Model.Answer.QuestionId" />
+            <input type="hidden" name="questionId" value="@Model.Answer.Id" />
             <div class="input-group mb-3 w-100">
-                <input type="text" class="form-control" placeholder="Фрагмент имени кандидата" aria-describedby="button-search" name="candidateName" />
+                <input type="text" class="form-control" placeholder="Фрагмент имени кандидата" aria-describedby="button-search" name="nameFragment" />
                 <button class="btn btn-outline-primary" id="button-search">Поиск</button>
             </div>
         </form>

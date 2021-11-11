@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.QuestionCategories
 {
-    public class GetQuestionCategoriesByQuestionnaireHandler : IRequestHandler<GetQuestionCategoriesByQuestionnaireQuery, QuestionCategory[]>
+    public class GetQuestionCategoriesByQuestionnaireIdHandler : IRequestHandler<GetQuestionCategoriesByQuestionnaireIdQuery, QuestionCategory[]>
     {
         private readonly IRepository<QuestionCategory> _questionCategoryRepository;
 
-        public GetQuestionCategoriesByQuestionnaireHandler(IRepository<QuestionCategory> questionCategoryRepository)
+        public GetQuestionCategoriesByQuestionnaireIdHandler(IRepository<QuestionCategory> questionCategoryRepository)
         {
             _questionCategoryRepository = questionCategoryRepository;
         }
 
-        public Task<QuestionCategory[]> Handle(GetQuestionCategoriesByQuestionnaireQuery request, CancellationToken cancellationToken)
+        public Task<QuestionCategory[]> Handle(GetQuestionCategoriesByQuestionnaireIdQuery request, CancellationToken cancellationToken)
         {
             return Task.FromResult(_questionCategoryRepository.GetAllAsNoTracking().Where(qc => qc.QuestionnaireId == request.QuestionCategoryId).ToArray());
         }

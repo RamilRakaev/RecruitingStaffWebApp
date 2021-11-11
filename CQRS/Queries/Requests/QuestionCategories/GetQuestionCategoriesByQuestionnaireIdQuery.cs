@@ -3,9 +3,9 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories
 {
-    public class GetQuestionCategoriesByQuestionnaireQuery : IRequest<QuestionCategory[]>
+    public class GetQuestionCategoriesByQuestionnaireIdQuery : IRequest<QuestionCategory[]>
     {
-        public GetQuestionCategoriesByQuestionnaireQuery(int questionCategoryId)
+        public GetQuestionCategoriesByQuestionnaireIdQuery(int questionCategoryId)
         {
             QuestionCategoryId = questionCategoryId;
         }

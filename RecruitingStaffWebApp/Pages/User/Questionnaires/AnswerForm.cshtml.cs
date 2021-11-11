@@ -33,10 +33,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             return await RightVerification();
         }
 
-        public async Task OnPostSearchCandidates(string candidateName, int questionId)
+        public async Task OnPostSearchCandidates(string nameFragment, Answer answer)
         {
-            Candidates = await _mediator.Send(new GetCandidatesByNameFragmentQuery(candidateName));
-            Answer = new Answer() { QuestionId = questionId };
+            Candidates = await _mediator.Send(new GetCandidatesByNameFragmentQuery(nameFragment));
+            Answer = answer;
         }
 
         public async Task<IActionResult> OnPostCreateAnswer(Answer answer)

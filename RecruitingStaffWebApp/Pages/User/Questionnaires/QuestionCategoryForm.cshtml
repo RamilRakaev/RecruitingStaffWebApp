@@ -1,0 +1,44 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Questionnaires.QuestionCategoryFormModel
+@{
+}
+<div class="row justify-content-center">
+    <div class="col-7">
+        <form class="form-inline" method="post" asp-page-handler="SearchCategories">
+            <input type="hidden" asp-for="QuestionCategory.Id" />
+            <input type="hidden" asp-for="QuestionCategory.QuestionnaireId" />
+            <div class="input-group mb-3 w-100">
+                <input type="text" class="form-control" placeholder="Фрагмент имени анкеты" aria-describedby="button-search" name="nameFragment" />
+                <button class="btn btn-outline-primary" id="button-search">Поиск</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-7">
+        @if (Model.Questionnaires.Length == 0 && Model.QuestionCategory.QuestionnaireId == 0)
+        {
+            <p class="text-warning">Выберите анкету</p>
+        }
+        else
+        {
+            <form method="post" asp-page-handler="CreateQuestionCategory">
+                <input type="hidden" asp-for="QuestionCategory.Id" />
+                @if (Model.Questionnaires.Length == 0)
+                {
+                    <input type="hidden" asp-for="QuestionCategory.QuestionnaireId" />
+                }
+                <div class="form-group">
+                    <label>Наименование категории</label>
+                    <input class="form-control" asp-for="@Model.QuestionCategory.Name" />
+                </div>
+                @foreach (var questionnaire in Model.Questionnaires)
+                {
+                    <div class="form-group">
+                        <input class="custom-radio" type="radio" asp-for="@Model.QuestionCategory.QuestionnaireId" value="@questionnaire.Id" />
+                        <label>@questionnaire.Name</label>
+                    </div>
+                }
+                <button class="btn btn-dark">Отправить</button>
+            </form>
+        }
+    </div>
+</div>
