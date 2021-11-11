@@ -8,6 +8,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
     {
         public static async Task CreateNewFileAsync(this IFormFile formFile, string path)
         {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
             using var stream = new FileStream(path, FileMode.CreateNew);
             await formFile.CopyToAsync(stream);
         }

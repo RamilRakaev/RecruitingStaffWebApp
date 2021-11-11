@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
@@ -16,7 +17,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 
         public ChangeCandidateHandler(IRepository<Candidate> candidateRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options) : base(fileRepository, options)
+            IOptions<WebAppOptions> options,
+            IWebHostEnvironment webHost) : base(fileRepository, options, webHost)
         {
             _candidateRepository = candidateRepository;
         }

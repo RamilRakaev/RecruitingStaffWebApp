@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
@@ -18,8 +19,15 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             IRepository<QuestionCategory> questionCategoryRepository,
             IRepository<Questionnaire> questionnaireRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options)
-            : base(answerRepository, questionRepository, questionCategoryRepository, questionnaireRepository, fileRepository, options)
+            IOptions<WebAppOptions> options,
+            IWebHostEnvironment webHost)
+            : base(answerRepository,
+                  questionRepository,
+                  questionCategoryRepository,
+                  questionnaireRepository,
+                  fileRepository,
+                  options,
+                  webHost)
         { }
 
         public async Task<bool> Handle(RemoveQuestionnaireCommand request, CancellationToken cancellationToken)

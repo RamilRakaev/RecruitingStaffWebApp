@@ -24,4 +24,8 @@
     <ProjectReference Include="..\RecruitingStaffWebApp.Services.DocParse\RecruitingStaffWebApp.Services.DocParse.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
 </Project>

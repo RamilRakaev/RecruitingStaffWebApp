@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
@@ -16,13 +17,15 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             IRepository<Questionnaire> questionnaireRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IOptions<WebAppOptions> options,
-            IRepository<Vacancy> vacancyRepository) 
+            IRepository<Vacancy> vacancyRepository,
+            IWebHostEnvironment webHost) 
             : base(answerRepository,
                   questionRepository,
                   questionCategoryRepository,
                   questionnaireRepository,
                   fileRepository,
-                  options)
+                  options,
+                  webHost)
         {
             _vacancyRepository = vacancyRepository;
         }

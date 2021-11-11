@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
@@ -18,7 +19,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             IRepository<Candidate> candidateRepository,
             IRepository<Questionnaire> questionnaireRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options) : base(fileRepository, options)
+            IOptions<WebAppOptions> options,
+            IWebHostEnvironment webHost) : base(fileRepository, options, webHost)
         {
             _candidateRepository = candidateRepository;
             _questionnaireRepository = questionnaireRepository;
@@ -28,7 +30,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
         {
             var candidate = await _candidateRepository.FindAsync(request.CandidateId);
             var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionnaireId);
-            await SaveFile(request.UploadedFile, candidate, questionnaire);
+            await SaveDocument(request.UploadedFile, candidate, questionnaire);
             return true;
         }
     }

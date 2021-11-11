@@ -1,0 +1,13 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Files.CandidatePhotoFormModel
+@{
+}
+<div class="row justify-content-center">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="candidateId" value="@Model.CandidateId" />
+        <div class="form-group">
+            <input class="form-control-file" type="file" name="formFile" placeholder="Фото" accept=".jpg, .png, .jpeg" />
+        </div>
+        <button class="btn btn-success">Отправить</button>
+    </form>
+</div>

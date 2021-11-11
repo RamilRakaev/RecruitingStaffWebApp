@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
@@ -13,13 +14,16 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
     {
         protected readonly WebAppOptions _options;
         protected readonly IRepository<RecruitingStaffWebAppFile> _fileRepository;
+        private readonly IWebHostEnvironment _webHost;
 
         public CandidateFileManagement(
             IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options)
+            IOptions<WebAppOptions> options,
+            IWebHostEnvironment webHost)
         {
             _fileRepository = fileRepository;
             _options = options.Value;
+            _webHost = webHost;
         }
 
         public async Task RewritePhoto(IFormFile formFile, Candidate candidate)
@@ -28,24 +32,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
             {
                 if (candidate.Photo != null)
                 {
-                    await DeleteCandidateFile(candidate.Photo);
+                    await DeleteCandidateDocument(candidate.Photo);
                 }
-                await SaveFile(formFile, candidate, null);
+                await SaveDocument(formFile, candidate, null);
             }
         }
 
-        public async Task SaveFile(IFormFile formFile, Candidate candidate, Questionnaire questionnaire)
+        public async Task SaveDocument(IFormFile formFile, Candidate candidate, Questionnaire questionnaire = null)
         {
             var extension = formFile.FileName[formFile.FileName.IndexOf('.')..];
             FileType fileType;
-            if(questionnaire != null)
-            {
-                fileType = FileType.Questionnaire;
-            }
-            else
-            {
-                fileType = FileType.Photo;
-            }
+            fileType = FileType.Questionnaire;
             var file = new RecruitingStaffWebAppFile()
             {
                 FileType = fileType,
@@ -63,34 +60,43 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
             {
                 foreach (var document in documents.ToArray())
                 {
-                    await DeleteCandidateFile(document);
+                    await DeleteCandidateDocument(document);
                 }
             }
         }
 
         public async Task DeleteCandidateFiles(int candidateId)
         {
-            var documents = _fileRepository.GetAllAsNoTracking().Where(f => f.CandidateId == candidateId);
-            if (documents != null)
+            var files = _fileRepository.GetAllAsNoTracking().Where(f => f.CandidateId == candidateId);
+            if (files != null)
             {
-                foreach (var document in documents.ToArray())
+                foreach (var file in files.ToArray())
                 {
-                    await DeleteCandidateFile(document);
+                    if(file.FileType == FileType.Questionnaire)
+                    {
+                        await DeleteCandidateDocument(file);
+                    }
+                    else if (file.FileType == FileType.Photo)
+                    {
+                        await DeleteCandidatePhoto(file);
+                    }
                 }
             }
         }
 
-        public async Task DeleteCandidateFile(RecruitingStaffWebAppFile file)
+        public async Task DeleteCandidateDocument(RecruitingStaffWebAppFile file)
         {
             File.Delete($"{_options.DocumentsSource}\\{file.Source}");
             await _fileRepository.RemoveAsync(file);
             await _fileRepository.SaveAsync();
         }
 
-        public async Task DeleteCandidateFile(int fileId)
+        public async Task DeleteCandidatePhoto(RecruitingStaffWebAppFile file)
         {
-            var file = await _fileRepository.FindAsync(fileId);
-            await DeleteCandidateFile(file);
+            var path = $"{_webHost.WebRootPath}\\img\\{file.Source}";
+            File.Delete(path);
+            await _fileRepository.RemoveAsync(file);
+            await _fileRepository.SaveAsync();
         }
     }
 }

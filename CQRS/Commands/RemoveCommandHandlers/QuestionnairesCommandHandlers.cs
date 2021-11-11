@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
@@ -18,11 +19,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             IRepository<QuestionCategory> questionCategoryRepository,
             IRepository<Questionnaire> questionnaireRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options) 
+            IOptions<WebAppOptions> options,
+            IWebHostEnvironment webHost) 
             : base(answerRepository, questionRepository, questionCategoryRepository)
         {
             _questionnaireRepository = questionnaireRepository;
-            rewriter = new CandidateFileManagement(fileRepository, options);
+            rewriter = new CandidateFileManagement(fileRepository, options, webHost);
         }
 
         public async Task RemoveQuestionnaire(int questionnireId)

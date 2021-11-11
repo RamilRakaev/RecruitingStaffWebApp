@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
@@ -13,42 +14,49 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
         private readonly IRepository<Candidate> _candidateRepository;
         private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
         private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaireRepository;
+        private readonly IRepository<Option> _optionRepository;
         private readonly CandidateFileManagement rewriter;
 
         public CandidateCommandHandlers(IRepository<Answer> answerRepository,
             IRepository<Candidate> candidateRepository,
             IRepository<CandidateVacancy> candidateVacancyRepository,
             IRepository<CandidateQuestionnaire> candidateQuestionnaireRepository,
+            IRepository<Option> optionRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options) : base(answerRepository)
+            IOptions<WebAppOptions> options,
+            IWebHostEnvironment webHost) : base(answerRepository)
         {
             _candidateRepository = candidateRepository;
             _candidateVacancyRepository = candidateVacancyRepository;
             _candidateQuestionnaireRepository = candidateQuestionnaireRepository;
-            rewriter = new CandidateFileManagement(fileRepository, options);
+            _optionRepository = optionRepository;
+            rewriter = new CandidateFileManagement(fileRepository, options, webHost);
         }
 
         public async Task RemoveCandidate(int candidateId)
         {
             var candidate = await _candidateRepository.FindNoTrackingAsync(candidateId);
-            foreach (var answerId in _answerRepository.GetAllAsNoTracking().Where(a => a.CandidateId == candidateId).Select(a => a.Id))
+            foreach (var answerId in _answerRepository.GetAllAsNoTracking().Where(a => a.CandidateId == candidateId).Select(a => a.Id).ToArray())
             {
                 await RemoveAnswer(answerId);
             }
-            if (candidate.PhotoId != null)
+            foreach (var option in _optionRepository.GetAllAsNoTracking().ToArray())
             {
-                await rewriter.DeleteCandidateFile(candidate.PhotoId.Value);
+                await _optionRepository.RemoveAsync(option);
             }
+            await _optionRepository.SaveAsync();
+
             await rewriter.DeleteCandidateFiles(candidateId);
-            var candidateVacancies = _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId);
-            if(candidateVacancies != null)
+
+            var candidateVacancies = _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId).ToArray();
+            if (candidateVacancies != null)
             {
                 foreach (var candidateVacancy in candidateVacancies.ToArray())
                 {
                     await _candidateVacancyRepository.RemoveAsync(candidateVacancy);
                 }
             }
-            var candidateQuestionnaires = _candidateQuestionnaireRepository.GetAllAsNoTracking().Where(cq => cq.CandidateId == candidateId);
+            var candidateQuestionnaires = _candidateQuestionnaireRepository.GetAllAsNoTracking().Where(cq => cq.CandidateId == candidateId).ToArray();
             if (candidateQuestionnaires != null)
             {
                 foreach (var candidateQuestionnaire in candidateQuestionnaires.ToArray())

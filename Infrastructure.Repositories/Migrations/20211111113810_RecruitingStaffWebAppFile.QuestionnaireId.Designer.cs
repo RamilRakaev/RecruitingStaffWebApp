@@ -2,16 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RecruitingStaff.Infrastructure.Repositories;
 
-namespace RecruitingStaff.Infrastructure.Repositories.Migrations
+namespace Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211111113810_RecruitingStaffWebAppFile.QuestionnaireId")]
+    partial class RecruitingStaffWebAppFileQuestionnaireId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,7 +289,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "6065829b-eaf6-4614-8dea-ff0e69938aed",
+                            ConcurrencyStamp = "adbb12fd-23ad-4cd2-b61a-27692b14fb95",
                             Name = "user",
                             NormalizedName = "USER"
                         });

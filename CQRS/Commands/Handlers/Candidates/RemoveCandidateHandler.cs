@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
@@ -16,14 +17,18 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             IRepository<Candidate> candidateRepository,
             IRepository<CandidateVacancy> candidateVacancyRepository,
             IRepository<CandidateQuestionnaire> candidateQuestionnaireRepository,
+            IRepository<Option> optionRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options) 
+            IOptions<WebAppOptions> options,
+            IWebHostEnvironment webHost) 
             : base(answerRepository,
-                candidateRepository,
-                candidateVacancyRepository,
-                candidateQuestionnaireRepository,
-                fileRepository,
-                options)
+                  candidateRepository,
+                  candidateVacancyRepository,
+                  candidateQuestionnaireRepository,
+                  optionRepository,
+                  fileRepository,
+                  options,
+                  webHost)
         {
         }
 

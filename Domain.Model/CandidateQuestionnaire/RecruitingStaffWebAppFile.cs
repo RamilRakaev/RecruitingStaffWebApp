@@ -11,7 +11,7 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         public int CandidateId { get; set; }
         public Candidate Candidate { get; set; }
 
-        public int QuestionnaireId { get; set; }
+        public int? QuestionnaireId { get; set; }
         public Questionnaire Questionnaire { get; set; }
     }
 }
