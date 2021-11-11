@@ -11,7 +11,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
 {
     public class QuestionnairesCommandHandlers : QuestionCategoryRemoveHandler
     {
-        private readonly IRepository<Questionnaire> _questionnaireRepository;
+        protected readonly IRepository<Questionnaire> _questionnaireRepository;
         private readonly CandidateFileManagement rewriter;
 
         public QuestionnairesCommandHandlers(IRepository<Answer> answerRepository,
@@ -36,7 +36,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
                 .Where(qc => qc.QuestionnaireId == questionnireId)
                 .Select(qc => qc.Id)
                 .ToArray();
-                foreach (var questionCategoryId in questionCategoriesIds.ToArray())
+                foreach (var questionCategoryId in questionCategoriesIds)
                 {
                     await RemoveQuestionCategory(questionCategoryId);
                 }
