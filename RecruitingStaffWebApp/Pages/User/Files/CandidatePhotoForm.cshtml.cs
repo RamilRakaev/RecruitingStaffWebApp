@@ -23,7 +23,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         public async Task<IActionResult> OnPost(IFormFile formFile, int candidateId)
         {
             await _mediator.Send(new CreateOrEditPhotoCommand(formFile, candidateId));
-            return RedirectToPage("/User/ConcreteCandidate", new { candidateId = candidateId });
+            return RedirectToPage("/User/ConcreteCandidate", new { candidateId });
         }
     }
 }
