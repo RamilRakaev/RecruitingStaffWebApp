@@ -8,8 +8,8 @@
         <div class="d-flex w-100 mb-3 justify-content-between">
             <h4>@Model.Question.Name</h4>
             <div>
-                <a class="btn btn-primary" asp-page="AnswerForm" asp-route-questionId="@Model.Question.Id">Добавить ответ</a>
                 <a class="btn btn-dark" asp-page="ConcreteQuestionCategory" asp-route-questionCategoryId="@Model.Question.QuestionCategoryId">Вопросы</a>
+                <a class="btn btn-primary" asp-page="AnswerForm" asp-route-questionId="@Model.Question.Id">Добавить ответ</a>
             </div>
         </div>
     </div>

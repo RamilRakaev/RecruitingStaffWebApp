@@ -35,6 +35,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         private QuestionCategory currentCategory;
         private Question currentQuestion;
 
+        private const int DateOfBirthRow = 2;
+        private const int DateOfBirthColumn = 1;
+
+        private const int FullNameRow = 1;
+        private const int FullNameColumn = 1;
+
+        private const int AddressRow = 2;
+        private const int AddressColumn = 2;
+
+        private const int TelephoneNumberRow = 3;
+        private const int TelephoneNumberColumn = 1;
+
+        private const int MaritalStatusRow = 4;
+        private const int MaritalStatusColumn = 1;
+
         public QuestionnaireManager(
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IRepository<Vacancy> vacancyRepository,
@@ -65,40 +80,42 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         {
             try
             {
-                if (_options != null)
-                {
-                    _fileName = fileName;
-                    using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_fileName}", false))
-                    {
-                        var body = wordDoc.MainDocumentPart.Document.Body;
-                        questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
-
-                        foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
-                        {
-                            await ParseVacancyCandidate(element);
-                            foreach (var row in element.ChildElements.Reverse())
-                            {
-                                foreach (var cell in row.ChildElements)
-                                {
-                                    var table = cell.FirstOrDefault(c => c.LocalName == "tbl");
-                                    if (table != null)
-                                    {
-                                        await ParseQuestionnaire(table);
-                                        await ParseCandidateQuestionnaire();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    await SaveToFile();
-                    File.Delete($"{_options.DocumentsSource}\\{_fileName}");
-                }
+                _fileName = fileName;
+                await Parse();
+                await SaveToFile();
+                File.Delete($"{_options.DocumentsSource}\\{_fileName}");
                 return true;
             }
             catch (Exception e)
             {
                 Exception = e.Message;
                 return false;
+            }
+        }
+
+        private async Task Parse()
+        {
+            using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_fileName}", false))
+            {
+                var body = wordDoc.MainDocumentPart.Document.Body;
+                questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
+
+                foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
+                {
+                    await ParseCandidate(element);
+                    foreach (var row in element.ChildElements.Reverse())
+                    {
+                        foreach (var cell in row.ChildElements)
+                        {
+                            var table = cell.FirstOrDefault(c => c.LocalName == "tbl");
+                            if (table != null)
+                            {
+                                await ParseQuestionnaire(table);
+                                await ParseCandidateQuestionnaire();
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -138,7 +155,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             await _candidateQuestionnaire.SaveAsync();
         }
 
-        private async Task ParseVacancyCandidate(OpenXmlElement table)
+        private async Task ParseCandidate(OpenXmlElement table)
         {
             var rows = table.ChildElements.Where(e => e.LocalName == "tr");
             var name = rows.ElementAt(0).InnerText;
@@ -146,27 +163,31 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
             currentCandidate = new Candidate
             {
-                FullName = ExtractCellTextFromRow(rows, 1, 1)
+                FullName = ExtractCellTextFromRow(rows, FullNameRow, FullNameColumn)
             };
+            PasreDateOfBirth(rows);
+            currentCandidate.Address = ExtractCellTextFromRow(rows, AddressRow, AddressColumn);
+            currentCandidate.Address = currentCandidate.Address[(currentCandidate.Address.IndexOf(':') + 2)..];
+            currentCandidate.TelephoneNumber = ExtractCellTextFromRow(rows, TelephoneNumberRow, TelephoneNumberColumn);
+            currentCandidate.MaritalStatus = ExtractCellTextFromRow(rows, MaritalStatusRow, MaritalStatusColumn);
+
+            await _candidateRepository.AddAsync(currentCandidate);
+            await _candidateRepository.SaveAsync();
+
+            await VacancyParse(vacancyName);
+        }
+
+        private void PasreDateOfBirth(IEnumerable<OpenXmlElement> rows)
+        {
             try
             {
-                var dateStr = ExtractCellTextFromRow(rows, 2, 1);
+                var dateStr = ExtractCellTextFromRow(rows, DateOfBirthRow, DateOfBirthColumn);
                 currentCandidate.DateOfBirth = dateStr != string.Empty ? Convert.ToDateTime(dateStr) : new DateTime();
             }
             catch
             {
                 currentCandidate.DateOfBirth = new DateTime();
             }
-
-            currentCandidate.Address = ExtractCellTextFromRow(rows, 2, 2);
-            currentCandidate.Address = currentCandidate.Address[(currentCandidate.Address.IndexOf(':') + 2)..];
-            currentCandidate.TelephoneNumber = ExtractCellTextFromRow(rows, 3, 1);
-            currentCandidate.MaritalStatus = ExtractCellTextFromRow(rows, 4, 1);
-
-            await _candidateRepository.AddAsync(currentCandidate);
-            await _candidateRepository.SaveAsync();
-
-            await VacancyParse(vacancyName);
         }
 
         private async Task VacancyParse(string vacancyName)
