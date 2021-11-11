@@ -14,9 +14,10 @@
         </form>
     </div>
     <div class="col-7">
+        <a class="btn btn-dark" asp-page="AnswersOnQuestion" asp-route-questionId="@Model.Answer.QuestionId">Ответы</a>
         @if (Model.Candidates.Length == 0)
         {
-            <p class="text-warning">Выберите кандидата</p>
+            <p class="text-warning">@Model.Message</p>
         }
         else
         {
@@ -30,14 +31,18 @@
                     <label>Оценка</label>
                     <input class="form-control" type="number" asp-for="@Model.Answer.Estimation" />
                 </div>
+                <label>Кандидат</label>
                 @foreach (var candidate in Model.Candidates)
                 {
                     <div class="form-group">
-                        <input class="custom-radio" type="radio" asp-for="@Model.Answer.CandidateId" value="@candidate.Id" />
+                        <input class="custom-radio"
+                               type="radio"
+                               asp-for="@Model.Answer.CandidateId"
+                               value="@candidate.Id" checked />
                         <label>@candidate.FullName</label>
                     </div>
                 }
-                <button class="btn btn-dark">Отправить</button>
+                <button class="btn btn-success">Отправить</button>
             </form>
         }
     </div>

@@ -18,6 +18,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 
         public Answer Answer { get; set; }
         public Candidate[] Candidates { get; set; }
+        public string Message { get; set; } = "Выберите кандидата";
 
         public async Task<IActionResult> OnGet(int? answerId, int questionId)
         {
@@ -36,6 +37,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task OnPostSearchCandidates(string nameFragment, Answer answer)
         {
             Candidates = await _mediator.Send(new GetCandidatesByNameFragmentQuery(nameFragment));
+            Message = "Кандидатов с таким именем не существует";
             Answer = answer;
         }
 

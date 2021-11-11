@@ -29,21 +29,21 @@
                         <td>@answer.Comment</td>
                         <td>@answer.Estimation</td>
                         <td>
-                            <a asp-page="AnswerAuthor"
+                            <a class="btn btn-info ml-2 mb-2"
+                               asp-page="AnswerAuthor"
                                asp-route-candidateId="@answer.CandidateId"
-                               asp-route-questionId="@answer.QuestionId"
-                               class="btn btn-info">
+                               asp-route-questionId="@answer.QuestionId">
                                 Автор ответа
                             </a>
-                            <a class="btn btn-warning"
+                            <a class="btn btn-warning ml-2 mb-2"
                                asp-page="AnswerForm"
                                asp-route-answerId="@answer.Id">
                                 Изменить
                             </a>
-                            <form method="post">
+                            <form class="d-inline" method="post">
                                 <input type="hidden" name="questionId" value="@Model.Question.Id" />
                                 <input type="hidden" name="answerId" value="@answer.Id" />
-                                <button class="btn btn-danger">Удалить</button>
+                                <button class="btn btn-danger ml-2 mb-2">Удалить</button>
                             </form>
                         </td>
                     </tr>
