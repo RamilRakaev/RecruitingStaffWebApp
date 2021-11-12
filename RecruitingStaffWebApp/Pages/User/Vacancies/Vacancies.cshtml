@@ -14,7 +14,7 @@
                 <h4>@vacancy.Name</h4>
                 <p>@vacancy.Description</p>
             </a>
-            <a class="btn btn-warning m-2 d-inline" asp-page="/User/Vacancies/VacancyForm" asp-route-vacancyId="@vacancy.Id">Изменить</a>
+            <a class="btn btn-warning m-2 d-inline" asp-page="VacancyForm" asp-route-vacancyId="@vacancy.Id">Изменить</a>
             <form class="d-inline" method="post">
                 <input type="hidden" name="vacancyId" value="@vacancy.Id" />
                 <button class="btn btn-danger m-2 d-inline">Удалить</button>

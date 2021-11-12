@@ -49,9 +49,10 @@
                             @if (option.Value.Count() > 30)
                             {
                                 <a class="btn btn-dark m-2"
-                                   asp-page="/User/Candidates/OptionForm"
+                                   asp-page="/User/Questionnaires/OptionForm"
                                    asp-route-propertyName="@option.PropertyName"
-                                   asp-route-CandidateId="@option.CandidateId">
+                                   asp-route-candidateId="@option.CandidateId"
+                                   asp-route-questionId="@Model.QuestionId">
                                     Изменить
                                 </a>
                             }
@@ -60,7 +61,8 @@
                                 <a class="btn btn-dark m-2"
                                    asp-page="/User/Candidates/OptionForm"
                                    asp-route-propertyName="@option.PropertyName"
-                                   asp-route-CandidateId="@option.CandidateId"
+                                   asp-route-candidateId="@option.CandidateId"
+                                   asp-route-questionId="@Model.QuestionId"
                                    asp-route-value="@option.Value">
                                     Изменить
                                 </a>

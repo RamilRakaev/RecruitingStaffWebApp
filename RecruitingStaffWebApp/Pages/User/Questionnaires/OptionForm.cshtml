@@ -1,15 +1,12 @@
 ﻿@page
-@model RecruitingStaffWebApp.Pages.User.Candidates.OptionFormModel
+@model RecruitingStaffWebApp.Pages.User.Questionnaires.OptionFormModel
 @{
     ViewData["Title"] = Model.Option.PropertyName;
 }
 <div class="row justify-content-center">
     <div class="col-5">
         <form method="post">
-            @if (Model.Option.CandidateId != null)
-            {
-                <input type="hidden" asp-for="@Model.Option.CandidateId" />
-            }
+            <input type="hidden" name="questionId" asp-for="@Model.QuestionId" />
             <div class="form-group">
                 <label class="col-form-label">Имя свойства</label>
                 @if (Model.Option.PropertyName == "")
@@ -29,25 +26,10 @@
                 </textarea>
                 <span asp-validation-for="@Model.Option.Value"></span>
             </div>
-            @if (Model.Option.CandidateId == null)
-            {
-                <a class="btn btn-dark"
-                   asp-page="/User/Candidates/Candidates">
-                    Список
-                </a>
-            }
-            else
-            {
-                <a class="btn btn-dark"
-                   asp-page="/User/Candidates/ConcreteCandidate"
-                   asp-route-CandidateId="@Model.Option.CandidateId.Value">
-                    Текущий кандидат
-                </a>
-                <a class="btn btn-dark"
-                   asp-page="/User/Candidates/Candidates">
-                    Список
-                </a>
-            }
+            <a class="btn btn-dark"
+               asp-page="/User/Candidates/Candidates">
+                Список
+            </a>
             <button class="btn btn-outline-dark float-right">Отправить</button>
         </form>
     </div>
