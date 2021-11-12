@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
@@ -10,7 +11,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 {
     public class CandidatesModel : BasePageModel
     {
-        public CandidatesModel(IMediator mediator) : base(mediator)
+        public CandidatesModel(IMediator mediator, ILogger<CandidatesModel> logger) : base(mediator, logger)
         {
         }
 

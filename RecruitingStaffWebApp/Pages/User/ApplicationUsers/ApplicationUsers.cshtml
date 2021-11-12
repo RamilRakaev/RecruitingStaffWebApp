@@ -1,0 +1,35 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.ApplicationUsers.ApplicationUsersModel
+@{
+}
+
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-success" asp-page="ApplicationUserForm">Добавить пользователя</a>
+</div>
+<div class="row justify-content-center">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Id</th>
+                <th>Почта</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.ApplicationUsers)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a class="btn btn-warning ml-2 mb-2" asp-page="ApplicationUserForm" asp-route-userId="@user.Id">Изменить</a>
+                        <form class="d-inline" method="post">
+                            <input type="hidden" name="userId" value="@user.Id" />
+                            <button class="btn btn-danger ml-2 mb-2">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

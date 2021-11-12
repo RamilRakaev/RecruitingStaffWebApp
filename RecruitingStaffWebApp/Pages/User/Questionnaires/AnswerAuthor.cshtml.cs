@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
@@ -16,7 +17,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 {
     public class AnswerAuthorModel : BasePageModel
     {
-        public AnswerAuthorModel(IMediator mediator) : base(mediator)
+        public AnswerAuthorModel(IMediator mediator, ILogger<AnswerAuthorModel> logger) : base(mediator, logger)
         { }
 
         public Candidate Candidate { get; set; }

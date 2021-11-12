@@ -3,12 +3,13 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
 using RecruitingStaff.Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
     public class OptionFormModel : BasePageModel
     {
-        public OptionFormModel(IMediator mediator) : base(mediator)
+        public OptionFormModel(IMediator mediator, ILogger<OptionFormModel> logger) : base(mediator, logger)
         {
             Option = new Option();
         }

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 {
     public class CandidatePhotoFormModel : BasePageModel
     {
-        public CandidatePhotoFormModel(IMediator mediator) : base(mediator)
+        public CandidatePhotoFormModel(IMediator mediator, ILogger<CandidatePhotoFormModel> logger) : base(mediator, logger)
         {
         }
 

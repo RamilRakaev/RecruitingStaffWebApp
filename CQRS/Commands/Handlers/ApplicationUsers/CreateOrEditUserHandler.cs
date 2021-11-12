@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 {
-    public class CreateOrEditUserHandler : IRequestHandler<CreateOrEditUserCommand, IdentityResult>
+    public class CreateOrEditUserHandler : IRequestHandler<CreateOrChangeUserCommand, IdentityResult>
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -16,22 +16,24 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
             _userManager = userManager;
         }
 
-        public async Task<IdentityResult> Handle(CreateOrEditUserCommand request, CancellationToken cancellationToken)
+        public async Task<IdentityResult> Handle(CreateOrChangeUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(request.Id.ToString());
-            if(user == null)
+            IdentityResult result;
+            if (user == null)
             {
                 var password = request.Password;
-                var newUser = new ApplicationUser() { Email = request.Email};
-                return await _userManager.CreateAsync(newUser, password);
+                var newUser = new ApplicationUser() { UserName = request.Email, Email = request.Email};
+                result = await _userManager.CreateAsync(newUser, password);
             }
             else
             {
                 user.Email = request.Email;
                 await _userManager.RemovePasswordAsync(user);
                 await _userManager.AddPasswordAsync(user, request.Password);
-                return await _userManager.UpdateAsync(user);
+                result = await _userManager.UpdateAsync(user);
             }
+            return result;
         }
     }
 }

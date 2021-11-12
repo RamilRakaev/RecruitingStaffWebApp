@@ -28,7 +28,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
 
         public async Task<bool> Handle(CreateOrEditPhotoCommand request, CancellationToken cancellationToken)
         {
-            var file = _fileRepository.GetAll().Where(f => f.CandidateId == request.CandidateId).FirstOrDefault();
+            var file = _fileRepository.GetAll().Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.Photo).FirstOrDefault();
             var candidate = await _candidateRepository.FindAsync(request.CandidateId);
 
             var extension = request.FormFile.FileName[request.FormFile.FileName.LastIndexOf('.')..];

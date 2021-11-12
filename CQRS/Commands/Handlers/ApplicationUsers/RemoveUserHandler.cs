@@ -1,8 +1,7 @@
-﻿using RecruitingStaff.Domain.Model;
+﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using RecruitingStaff.Domain.Model.UserIdentity;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

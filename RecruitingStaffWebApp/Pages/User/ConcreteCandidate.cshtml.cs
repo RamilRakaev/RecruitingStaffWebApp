@@ -7,13 +7,15 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
+using Microsoft.Extensions.Logging;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
     public class ConcreteCandidateModel : BasePageModel
     {
-        public ConcreteCandidateModel(IMediator mediator) : base(mediator)
-        { }
+        public ConcreteCandidateModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
+        {
+        }
 
         public Candidate Candidate { get; set; } 
         public Option[] Options { get; set; }
