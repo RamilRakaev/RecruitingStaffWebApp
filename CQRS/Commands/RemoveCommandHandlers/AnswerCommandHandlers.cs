@@ -37,7 +37,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
         {
             oldAnswer.CandidateId = newAnswer.CandidateId;
             oldAnswer.QuestionId = newAnswer.QuestionId;
-            oldAnswer.Comment = newAnswer.Comment;
+            oldAnswer.Text = newAnswer.Text;
             oldAnswer.Estimation = newAnswer.Estimation;
             await _answerRepository.SaveAsync();
         }

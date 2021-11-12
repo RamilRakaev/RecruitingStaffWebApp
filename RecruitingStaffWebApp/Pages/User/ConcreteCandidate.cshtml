@@ -10,7 +10,8 @@
             <div>
                 <a class="btn btn-dark" asp-page="/User/Candidates">Кандидаты</a>
                 <a class="btn btn-warning" asp-page="/User/Files/CandidatePhotoForm" asp-route-candidateId="@Model.Candidate.Id">Изменить фото</a>
-                <a class="btn btn-dark" asp-page="/User/ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
+                <a class="btn btn-info" asp-page="CandidateAnswers" asp-route-candidateId="@Model.Candidate.Id">Ответы</a>
+                <a class="btn btn-warning" asp-page="/User/ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
             </div>
         </div>
     </div>

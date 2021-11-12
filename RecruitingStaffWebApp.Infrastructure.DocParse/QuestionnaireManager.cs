@@ -167,7 +167,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             };
             PasreDateOfBirth(rows);
             currentCandidate.Address = ExtractCellTextFromRow(rows, AddressRow, AddressColumn);
-            currentCandidate.Address = currentCandidate.Address[(currentCandidate.Address.IndexOf(':') + 2)..];
+            currentCandidate.Address = currentCandidate.Address[(currentCandidate.Address.IndexOf(':') + 1)..].Trim();
             currentCandidate.TelephoneNumber = ExtractCellTextFromRow(rows, TelephoneNumberRow, TelephoneNumberColumn);
             currentCandidate.MaritalStatus = ExtractCellTextFromRow(rows, MaritalStatusRow, MaritalStatusColumn);
 
@@ -264,7 +264,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 {
                     CandidateId = currentCandidate.Id,
                     QuestionId = currentQuestion.Id,
-                    Comment = child.ChildElements[4].InnerText
+                    Text = child.ChildElements[4].InnerText
                 };
                 try
                 {
