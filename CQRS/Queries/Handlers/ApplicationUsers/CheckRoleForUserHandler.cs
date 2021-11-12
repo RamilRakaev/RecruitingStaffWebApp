@@ -25,6 +25,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
             if(id != null)
             {
                 var user = await _userManager.FindByIdAsync(id.Value);
+                if (user == null)
+                    return false;
                 var roles = await _userManager.GetRolesAsync(user);
                 return roles.Intersect(request.Roles).Any();
             }

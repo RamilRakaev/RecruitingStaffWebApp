@@ -26,7 +26,7 @@ namespace RecruitingStaffWebApp.Pages.User
                 return Page();
             }
             _logger.LogWarning("Unauthorized login attempt!");
-            return RedirectToPage("Account/Login");
+            return RedirectToPage("/Account/Login");
         }
     }
 }

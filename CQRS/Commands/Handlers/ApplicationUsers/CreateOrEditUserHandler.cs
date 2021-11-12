@@ -25,12 +25,16 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
                 var password = request.Password;
                 var newUser = new ApplicationUser() { UserName = request.Email, Email = request.Email};
                 result = await _userManager.CreateAsync(newUser, password);
+                await _userManager.AddToRoleAsync(user, request.Role);
+                await _userManager.UpdateAsync(user);
             }
             else
             {
                 user.Email = request.Email;
                 await _userManager.RemovePasswordAsync(user);
                 await _userManager.AddPasswordAsync(user, request.Password);
+                await _userManager.RemoveFromRolesAsync(user, new string[] { request.Role });
+                await _userManager.AddToRoleAsync(user, request.Role);
                 result = await _userManager.UpdateAsync(user);
             }
             return result;

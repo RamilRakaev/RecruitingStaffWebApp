@@ -46,6 +46,7 @@ namespace RecruitingStaff.Infrastructure.DatabaseServices
                     {
                         await userManager.CreateAsync(user, passwords[i++]);
                         await userManager.AddToRoleAsync(user, "user");
+                        await userManager.UpdateAsync(user);
                     }
                 }
             }

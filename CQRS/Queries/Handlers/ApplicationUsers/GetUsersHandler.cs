@@ -11,16 +11,16 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.ApplicationUsers
 {
     public class GetUsersHandler : IRequestHandler<GetUsersQuery, ApplicationUser[]>
     {
-        private readonly UserManager<ApplicationUser> _db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GetUsersHandler(UserManager<ApplicationUser> db)
+        public GetUsersHandler(UserManager<ApplicationUser> userManager)
         {
-            _db = db ?? throw new ArgumentNullException(nameof(UserManager<ApplicationUser>));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(UserManager<ApplicationUser>));
         }
 
         public async Task<ApplicationUser[]> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = _db.Users.AsNoTracking();
+            var users = _userManager.Users.AsNoTracking();
             return await users.ToArrayAsync(cancellationToken: cancellationToken);
         }
     }
