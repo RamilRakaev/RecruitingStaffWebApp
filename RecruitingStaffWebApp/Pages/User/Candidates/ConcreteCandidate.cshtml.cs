@@ -9,7 +9,7 @@ using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
 using Microsoft.Extensions.Logging;
 
-namespace RecruitingStaffWebApp.Pages.User
+namespace RecruitingStaffWebApp.Pages.User.Candidates
 {
     public class ConcreteCandidateModel : BasePageModel
     {

@@ -8,14 +8,32 @@
             <input type="hidden" asp-for="@Model.Question.Id" />
             <div class="form-group">
                 <label>Вопрос</label>
-                <input class="form-control" asp-for="@Model.Question.Name" />
+                <textarea class="form-control" rows="3" asp-for="@Model.Question.Name">
+                </textarea>
             </div>
-            <div class="form-group">
-                <label>Категория вопроса</label>
-                <select asp-for="@Model.Question.QuestionCategoryId" asp-items="@Model.QuestionCategories">
-                </select>
-            </div>
-            <button class="btn btn-dark">Отправить</button>
+            @if (Model.Question.QuestionCategoryId == 0)
+            {
+                <div class="form-group">
+                    <label>Категория вопроса</label>
+                    <select class="custom-select" asp-for="@Model.Question.QuestionCategoryId" asp-items="@Model.QuestionCategories">
+                    </select>
+                </div>
+                <a class="btn btn-dark float-left"
+                   asp-page="ConcreteQuestionnaire"
+                   asp-route-questionnaireId="@Model.QuestionnaireId">
+                    Текущая анкета
+                </a>
+            }
+            else
+            {
+                <input type="hidden" asp-for="@Model.Question.QuestionCategoryId" />
+                <a class="btn btn-dark float-left"
+                   asp-page="ConcreteQuestionCategory"
+                   asp-route-questionCategoryId="@Model.Question.QuestionCategoryId">
+                    Текущая категория
+                </a>
+            }
+            <button class="btn btn-success float-right">Отправить</button>
         </form>
     </div>
 </div>

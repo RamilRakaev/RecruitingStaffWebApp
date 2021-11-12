@@ -1,5 +1,5 @@
 ﻿@page
-@model RecruitingStaffWebApp.Pages.User.CandidatesModel
+@model RecruitingStaffWebApp.Pages.User.Candidates.CandidatesModel
 @using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 @{
     var newCandidate = new Candidate();
@@ -7,7 +7,7 @@
 }
 <div class="row justify-content-center mb-3">
     <a class="btn btn-dark m-2" asp-page="/User/Vacancies/VacancyForm">Создать вакансию</a>
-    <a class="btn btn-dark m-2" asp-page="/User/CreateCandidate">Создать кандидата</a>
+    <a class="btn btn-dark m-2" asp-page="CreateCandidate">Создать кандидата</a>
     <a class="btn btn-dark m-2" asp-page="/User/Questionnaires/QuestionnaireForm">Создать анкету</a>
     <a class="btn btn-dark m-2" asp-page="/User/Files/DocumentForm">Парсинг анкеты</a>
 </div>

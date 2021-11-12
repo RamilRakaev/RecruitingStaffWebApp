@@ -31,8 +31,17 @@ namespace RecruitingStaff.WebApp.Pages.User.ApplicationUsers
 
         public async Task<IActionResult> OnPost(CreateOrChangeUserCommand appUser)
         {
-            await _mediator.Send(appUser);
-            return RedirectToPage("ApplicationUsers");
+            if (ModelState.IsValid)
+            {
+                var result = await _mediator.Send(appUser);
+                if (result.Succeeded)
+                {
+                    return RedirectToPage("ApplicationUsers");
+                }
+                ModelState.AddModelError("", result.Errors.ElementAt(0).Description);
+            }
+            AppUser = appUser;
+            return Page();
         }
     }
 }

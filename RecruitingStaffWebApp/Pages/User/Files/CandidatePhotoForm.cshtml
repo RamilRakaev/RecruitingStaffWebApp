@@ -8,6 +8,7 @@
         <div class="form-group">
             <input class="form-control-file" type="file" name="formFile" placeholder="Фото" accept=".jpg, .png, .jpeg" />
         </div>
+        <a class="btn btn-dark" asp-page="/User/Candidates/ConcreteCandidate" asp-route-candidateId="@Model.CandidateId">Текущий кандидат</a>
         <button class="btn btn-success">Отправить</button>
     </form>
 </div>

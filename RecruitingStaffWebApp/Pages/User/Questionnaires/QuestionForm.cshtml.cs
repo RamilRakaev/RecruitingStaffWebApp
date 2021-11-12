@@ -17,13 +17,15 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
         }
 
+        public int QuestionnaireId { get; set; }
         public Question Question { get; set; }
         public SelectList QuestionCategories { get; set; }
 
-        public async Task<IActionResult> OnGet(int? questionId, int quesionnaireId)
+        public async Task<IActionResult> OnGet(int? questionId, int? questionCategoryId, int quesionnaireId)
         {
             QuestionCategories = new SelectList(
                 await _mediator.Send(new GetQuestionCategoriesByQuestionnaireIdQuery(quesionnaireId)), "Id", "Name");
+            QuestionnaireId = quesionnaireId;
             if (questionId == null)
             {
                 Question = new();
@@ -32,6 +34,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             {
                 Question = await _mediator.Send(new GetQuestionByIdQuery(questionId.Value));
             }
+            Question.QuestionCategoryId = questionCategoryId ?? 0;
             return await RightVerification();
         }
 

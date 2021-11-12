@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaffWebApp.Pages.User;
+using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Files
 {
@@ -24,7 +21,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         public async Task<IActionResult> OnPost(IFormFile formFile)
         {
             await _mediator.Send(new DocumentParseCommand(formFile));
-            return RedirectToPage("/User/Candidates");
+            return RedirectToPage("/User/Candidates/Candidates");
         }
     }
 }

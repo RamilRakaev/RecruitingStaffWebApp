@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace RecruitingStaffWebApp.Pages.User
+namespace RecruitingStaffWebApp.Pages.User.Candidates
 {
     public class OptionFormModel : BasePageModel
     {
@@ -29,9 +29,9 @@ namespace RecruitingStaffWebApp.Pages.User
             await _mediator.Send(new CreateOrEditOptionCommand(option));
             if(option.CandidateId != null)
             {
-                return RedirectToPage("/User/ConcreteCandidate", new { CandidateId = option.CandidateId.Value });
+                return RedirectToPage("ConcreteCandidate", new { CandidateId = option.CandidateId.Value });
             }
-            return RedirectToPage("/User/Candidates");
+            return RedirectToPage("Candidates");
         }
     }
 }

@@ -7,7 +7,7 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 
-namespace RecruitingStaffWebApp.Pages.User
+namespace RecruitingStaffWebApp.Pages.User.Candidates
 {
     public class ChangeCandidateModel : BasePageModel
     {

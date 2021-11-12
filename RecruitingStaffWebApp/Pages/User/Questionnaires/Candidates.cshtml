@@ -31,7 +31,7 @@
                     <td>@candidate.TelephoneNumber</td>
                     <td>@candidate.MaritalStatus</td>
                     <td>
-                        <a class="btn btn-dark d-block" asp-page="/User/ConcreteCandidate" asp-route-CandidateId="@candidate.Id">Перейти</a>
+                        <a class="btn btn-dark d-block" asp-page="/User/Candidates/ConcreteCandidate" asp-route-CandidateId="@candidate.Id">Перейти</a>
                         <form class="d-inline" method="post">
                             <input type="hidden" name="candidateId" value="@candidate.Id" />
                             <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />

@@ -6,7 +6,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using System.Threading.Tasks;
 
-namespace RecruitingStaffWebApp.Pages.User
+namespace RecruitingStaffWebApp.Pages.User.Candidates
 {
     public class CandidatesModel : BasePageModel
     {

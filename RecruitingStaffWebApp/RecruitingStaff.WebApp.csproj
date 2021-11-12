@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\User\Candidates\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
 ﻿@page
-@model RecruitingStaffWebApp.Pages.User.ChangeCandidateModel
+@model RecruitingStaffWebApp.Pages.User.Candidates.ChangeCandidateModel
 @{
     ViewData["Title"] = Model.Candidate.FullName;
 }
@@ -28,7 +28,7 @@
                 Текущий кандидат
             </a>
             <a class="btn btn-dark"
-               asp-page="/User/Candidates">
+               asp-page="Candidates">
                 Список
             </a>
             <button class="btn btn-dark float-right">Отправить</button>

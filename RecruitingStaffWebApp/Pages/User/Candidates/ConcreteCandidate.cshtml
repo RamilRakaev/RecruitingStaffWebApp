@@ -1,5 +1,5 @@
 ﻿@page
-@model RecruitingStaffWebApp.Pages.User.ConcreteCandidateModel
+@model RecruitingStaffWebApp.Pages.User.Candidates.ConcreteCandidateModel
 @{
     ViewData["Title"] = Model.Candidate.FullName;
 }
@@ -8,14 +8,15 @@
         <div class="d-flex w-100 mb-3 justify-content-between">
             <h2>@Model.Candidate.FullName</h2>
             <div>
-                <a class="btn btn-dark" asp-page="/User/Candidates">Кандидаты</a>
+                <a class="btn btn-dark" asp-page="Candidates">Кандидаты</a>
+                <a class="btn btn-warning" asp-page="ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
                 <a class="btn btn-warning" asp-page="/User/Files/CandidatePhotoForm" asp-route-candidateId="@Model.Candidate.Id">Изменить фото</a>
                 <a class="btn btn-info" asp-page="CandidateAnswers" asp-route-candidateId="@Model.Candidate.Id">Ответы</a>
-                <a class="btn btn-warning" asp-page="/User/ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
             </div>
         </div>
     </div>
     <div class="col-6 mt-4">
+        <p>Id: @Model.Candidate.Id</p>
         <p>Дата рождения: @Model.Candidate.DateOfBirth.ToString("D")</p>
         <p>Адрес места жительства: @Model.Candidate.Address</p>
         <p>Номер телефона: @Model.Candidate.TelephoneNumber</p>

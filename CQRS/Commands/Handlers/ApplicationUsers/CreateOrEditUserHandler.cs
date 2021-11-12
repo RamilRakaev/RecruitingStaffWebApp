@@ -25,8 +25,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
                 var password = request.Password;
                 var newUser = new ApplicationUser() { UserName = request.Email, Email = request.Email};
                 result = await _userManager.CreateAsync(newUser, password);
-                await _userManager.AddToRoleAsync(user, request.Role);
-                await _userManager.UpdateAsync(user);
+                if(result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(newUser, request.Role);
+                    await _userManager.UpdateAsync(newUser);
+                }
             }
             else
             {

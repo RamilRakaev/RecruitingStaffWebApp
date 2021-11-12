@@ -37,7 +37,8 @@
                         <label>@questionnaire.Name</label>
                     </div>
                 }
-                <button class="btn btn-dark">Отправить</button>
+                <a class="btn btn-dark float-left" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionCategory.QuestionnaireId">Текущая анкета</a>
+                <button class="btn btn-success float-right">Отправить</button>
             </form>
         }
     </div>

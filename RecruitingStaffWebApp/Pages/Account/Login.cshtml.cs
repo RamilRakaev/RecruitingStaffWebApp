@@ -28,7 +28,7 @@ namespace RecruitingStaffWebApp.Pages.Account
             var isUser = _mediator.Send(new CheckRoleForUserQuery("user")).Result;
             if (isUser)
             {
-                return RedirectToPage("/User/Candidates");
+                return RedirectToPage("/User/Candidates/Candidates");
             }
             _logger.LogInformation($"Login page visited");
             return Page();
@@ -40,7 +40,7 @@ namespace RecruitingStaffWebApp.Pages.Account
             {
                 login.Page = this;
                 string message = await _mediator.Send(login);
-                ModelState.AddModelError(string.Empty, message);
+                ModelState.AddModelError("", message);
                 return RedirectToPage("/User/Candidates");
             }
             else

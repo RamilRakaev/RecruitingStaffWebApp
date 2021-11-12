@@ -7,7 +7,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
 using System.Threading.Tasks;
 
-namespace RecruitingStaffWebApp.Pages.User
+namespace RecruitingStaffWebApp.Pages.User.Candidates
 {
     public class CreateCandidateModel : BasePageModel
     {
@@ -26,7 +26,7 @@ namespace RecruitingStaffWebApp.Pages.User
         public async Task<IActionResult> OnPost(Candidate candidate, int vacancyId)
         {
             await _mediator.Send(new CreateCandidateCommand(candidate, vacancyId));
-            return RedirectToPage("/User/Candidates");
+            return RedirectToPage("Candidates");
         }
     }
 }
