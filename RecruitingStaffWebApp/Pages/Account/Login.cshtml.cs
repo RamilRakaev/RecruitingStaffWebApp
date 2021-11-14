@@ -41,7 +41,7 @@ namespace RecruitingStaffWebApp.Pages.Account
                 login.Page = this;
                 string message = await _mediator.Send(login);
                 ModelState.AddModelError("", message);
-                return RedirectToPage("/User/Candidates");
+                return RedirectToPage("/User/Candidates/Candidates");
             }
             else
             {

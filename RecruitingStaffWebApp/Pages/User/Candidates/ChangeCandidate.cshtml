@@ -22,6 +22,11 @@
                 <input class="form-control" asp-for="@Model.Candidate.Address" />
                 <span asp-validation-for="@Model.Candidate.Address"></span>
             </div>
+            <div class="form-group">
+                <label class="col-form-label">Семейное положение</label>
+                <input class="form-control" asp-for="@Model.Candidate.MaritalStatus" />
+                <span asp-validation-for="@Model.Candidate.MaritalStatus"></span>
+            </div>
             <a class="btn btn-dark"
                asp-page="/User/ConcreteCandidate"
                asp-route-CandidateId="@Model.Candidate.Id">

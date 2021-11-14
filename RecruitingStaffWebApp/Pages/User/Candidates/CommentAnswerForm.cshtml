@@ -1,0 +1,18 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.CommentAnswerFormModel
+@{
+    ViewData["Title"] = "Комментарий";
+}
+<div class="row justify-content-center">
+    <form method="post">
+        <input type="hidden" asp-for="@Model.CommentAnswer.AnswerId" />
+        <input type="hidden" asp-for="@Model.CommentAnswer.CandidateId" />
+        <div class="form-group">
+            <label>Комментарий</label>
+            <textarea class="form-control" asp-for="@Model.CommentAnswer.Comment" rows="4"></textarea>
+            <span asp-validation-for="@Model.CommentAnswer.Comment"></span>
+        </div>
+        <a class="btn btn-dark" asp-page="CandidateAnswers" asp-route-candidateId="@Model.CommentAnswer.CandidateId">Ответы кандидаты</a>
+        <button class="btn btn-success">Отправить</button>
+    </form>
+</div>

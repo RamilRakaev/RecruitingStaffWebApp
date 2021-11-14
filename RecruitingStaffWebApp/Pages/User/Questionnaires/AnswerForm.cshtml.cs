@@ -20,6 +20,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public Answer Answer { get; set; }
         public Candidate[] Candidates { get; set; }
         public string Message { get; set; } = "Выберите кандидата";
+        public string UrlAddress { get; set; }
 
         public async Task<IActionResult> OnGet(int? answerId, int questionId)
         {
