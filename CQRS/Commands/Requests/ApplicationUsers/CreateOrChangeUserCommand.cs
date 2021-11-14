@@ -11,12 +11,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers
 
         }
 
-        public CreateOrChangeUserCommand(string email, string password, string role = "user", int id = 0)
+        public CreateOrChangeUserCommand(string email, string password, int id = 0, string role = "user")
         {
             Email = email ?? throw new ArgumentNullException();
             Password = password ?? throw new ArgumentNullException();
-            Role = role;
             Id = id;
+            Role = role;
         }
 
         public int Id { get; set; }

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Request.ApplicationUsers;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers;
 using RecruitingStaffWebApp.Pages.User;
 
 namespace RecruitingStaff.WebApp.Pages.User.ApplicationUsers
@@ -25,6 +27,7 @@ namespace RecruitingStaff.WebApp.Pages.User.ApplicationUsers
             if (userId != null)
             {
                 AppUser.Id = userId.Value;
+                AppUser.Email = await _mediator.Send(new GetEmailQuery(userId.Value));
             }
             return await RightVerification();
         }

@@ -1,6 +1,7 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.ApplicationUsers.ApplicationUserFormModel
 @{
+    ViewData["Title"] = Model.AppUser.Email ?? "Новый пользователь";
 }
 <div class="row justify-content-center">
     <form method="post">
@@ -16,6 +17,7 @@
             <input type="password" class="form-control" asp-for="@Model.AppUser.Password" />
         </div>
         <span class="d-block mb-3" asp-validation-for="@Model.AppUser.Password"></span>
+        <a class="btn btn-dark" asp-page="ApplicationUsers">Пользователи</a>
         <button class="btn btn-success">Отправить</button>
     </form>
 </div>
