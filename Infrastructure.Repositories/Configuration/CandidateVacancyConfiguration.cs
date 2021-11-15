@@ -10,10 +10,12 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
         {
             builder
                 .HasKey(cv => new { cv.CandidateId, cv.VacancyId });
+
             builder
                 .HasOne(c => c.Candidate)
                 .WithMany(c => c.CandidateVacancies)
                 .HasForeignKey(cv => cv.CandidateId);
+
             builder
                 .HasOne(v => v.Vacancy)
                 .WithMany(c => c.CandidateVacancies)

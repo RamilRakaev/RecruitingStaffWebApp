@@ -8,7 +8,10 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
     {
         public void Configure(EntityTypeBuilder<Option> builder)
         {
-            builder.HasOne(o => o.Candidate).WithMany(c => c.Options).HasForeignKey(o => o.CandidateId);
+            builder
+                .HasOne(o => o.Candidate)
+                .WithMany(c => c.Options)
+                .HasForeignKey(o => o.CandidateId);
         }
     }
 }

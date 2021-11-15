@@ -12,6 +12,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
                 .HasOne(f => f.Candidate)
                 .WithMany(c => c.Documents)
                 .HasForeignKey(f => f.CandidateId);
+
             builder
                 .HasOne(f => f.Questionnaire)
                 .WithMany(q => q.DocumentFiles)
