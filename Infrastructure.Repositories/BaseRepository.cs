@@ -2,6 +2,7 @@
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.Repositories
@@ -25,19 +26,19 @@ namespace RecruitingStaff.Infrastructure.Repositories
             return GetAll().AsNoTracking();
         }
 
-        public virtual async Task<Entity> FindAsync(int id)
+        public virtual async Task<Entity> FindAsync(int id, CancellationToken cancellationToken)
         {
-            return await GetAll().FirstOrDefaultAsync(e => e.Id == id);
+            return await GetAll().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public virtual async Task<Entity> FindNoTrackingAsync(int id)
+        public virtual async Task<Entity> FindNoTrackingAsync(int id, CancellationToken cancellationToken)
         {
-            return await GetAll().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+            return await GetAll().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public virtual async Task AddAsync(Entity entity)
+        public virtual async Task AddAsync(Entity entity, CancellationToken cancellationToken)
         {
-            await _context.Set<Entity>().AddAsync(entity);
+            await _context.Set<Entity>().AddAsync(entity, cancellationToken);
         }
 
         public virtual Task RemoveAsync(Entity entity)
@@ -45,9 +46,9 @@ namespace RecruitingStaff.Infrastructure.Repositories
             return Task.FromResult(_context.Remove(entity));
         }
 
-        public virtual async Task SaveAsync()
+        public virtual async Task SaveAsync(CancellationToken cancellationToken)
         {
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

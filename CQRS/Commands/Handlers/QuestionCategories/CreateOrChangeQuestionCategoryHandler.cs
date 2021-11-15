@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
@@ -19,25 +20,25 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
 
         public async Task<bool> Handle(CreateOrChangeQuestionCategoryCommand request, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionCategory.Id);
+            var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionCategory.Id, cancellationToken);
             if (questionnaire == null)
             {
-                if (_questionnaireRepository
+                if (await _questionnaireRepository
                     .GetAllAsNoTracking()
-                    .FirstOrDefault(q => q.Name.Equals(request.QuestionCategory.Name)
-                    && q.QuestionnaireId == request.QuestionCategory.QuestionnaireId)
+                    .FirstOrDefaultAsync(q => q.Name.Equals(request.QuestionCategory.Name)
+                    && q.QuestionnaireId == request.QuestionCategory.QuestionnaireId, cancellationToken)
                     != null)
                 {
                     return false;
                 }
-                await _questionnaireRepository.AddAsync(request.QuestionCategory);
+                await _questionnaireRepository.AddAsync(request.QuestionCategory, cancellationToken);
             }
             else
             {
                 questionnaire.Name = request.QuestionCategory.Name;
                 questionnaire.QuestionnaireId = request.QuestionCategory.QuestionnaireId;
             }
-            await _questionnaireRepository.SaveAsync();
+            await _questionnaireRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

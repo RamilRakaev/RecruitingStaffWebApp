@@ -30,7 +30,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             {
                 request.FormFile.CopyTo(stream);
             }
-            return _questionnaireManager.ParseAndSaved(request.FormFile.FileName);
+            return _questionnaireManager.ParseAndSaved(request.FormFile.FileName, cancellationToken);
         }
 
         /// <summary>

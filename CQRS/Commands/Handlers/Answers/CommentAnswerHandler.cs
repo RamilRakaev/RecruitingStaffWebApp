@@ -18,9 +18,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Answers
 
         public async Task<bool> Handle(CommentAnswerCommand request, CancellationToken cancellationToken)
         {
-            var answer = await _answeRepository.FindAsync(request.AnswerId);
+            var answer = await _answeRepository.FindAsync(request.AnswerId, cancellationToken);
             answer.Comment = request.Comment;
-            await _answeRepository.SaveAsync();
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return false;
+            }
+            await _answeRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

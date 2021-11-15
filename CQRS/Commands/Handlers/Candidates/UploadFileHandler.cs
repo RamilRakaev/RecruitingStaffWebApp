@@ -28,9 +28,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 
         public async Task<bool> Handle(UploadFileCommand request, CancellationToken cancellationToken)
         {
-            var candidate = await _candidateRepository.FindAsync(request.CandidateId);
-            var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionnaireId);
-            await SaveDocument(request.UploadedFile, candidate, questionnaire);
+            var candidate = await _candidateRepository.FindAsync(request.CandidateId, cancellationToken);
+            var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionnaireId, cancellationToken);
+            await SaveDocument(request.UploadedFile, $"{candidate.Id}.{candidate.FullName} - {questionnaire.Name}", cancellationToken);
             return true;
         }
     }

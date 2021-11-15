@@ -15,7 +15,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Answers
 
         public async Task<bool> Handle(RemoveAnswerCommand request, CancellationToken cancellationToken)
         {
-            await RemoveAnswer(request.AnswerId);
+            await RemoveAnswer(request.AnswerId, cancellationToken);
             return true;
         }
     }

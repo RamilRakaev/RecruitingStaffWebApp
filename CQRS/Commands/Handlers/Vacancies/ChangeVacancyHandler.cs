@@ -18,13 +18,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 
         public async Task<bool> Handle(ChangeVacancyCommand request, CancellationToken cancellationToken)
         {
-            var vacancy = await _vacancyRepository.FindAsync(request.Vacancy.Id);
+            var vacancy = await _vacancyRepository.FindAsync(request.Vacancy.Id, cancellationToken);
             vacancy.Name = request.Vacancy.Name;
             vacancy.Description = request.Vacancy.Description;
             vacancy.Responsibilities = request.Vacancy.Responsibilities;
             vacancy.Requirements = request.Vacancy.Requirements;
             vacancy.WorkingConditions = request.Vacancy.WorkingConditions;
-            await _vacancyRepository.SaveAsync();
+            await _vacancyRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

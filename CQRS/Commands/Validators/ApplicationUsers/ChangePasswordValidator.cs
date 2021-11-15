@@ -7,8 +7,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Validators.ApplicationUse
     {
         public ChangePasswordValidator()
         {
-            RuleFor(c => c.Id).NotEmpty();
-            RuleFor(c => c.Password).NotEmpty().MinimumLength(10);
+            RuleFor(c => c.Id)
+                .NotEmpty();
+
+            RuleFor(c => c.Password)
+                .NotEmpty()
+                .MinimumLength(10);
         }
     }
 }

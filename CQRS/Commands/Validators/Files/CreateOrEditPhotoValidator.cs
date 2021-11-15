@@ -7,7 +7,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Validators.Files
     {
         public CreateOrEditPhotoValidator()
         {
-            RuleFor(c => c.CandidateId).NotEqual(0);
+            RuleFor(c => c.CandidateId)
+                .NotEqual(0);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 
         public async Task<bool> Handle(RemoveVacancyCommand request, CancellationToken cancellationToken)
         {
-            await RemoveVacancy(request.VacancyId);
+            await RemoveVacancy(request.VacancyId, cancellationToken);
             return true;
         }
     }

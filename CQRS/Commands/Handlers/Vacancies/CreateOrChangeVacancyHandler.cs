@@ -18,10 +18,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 
         public async Task<bool> Handle(CreateOrChangeVacancyCommand request, CancellationToken cancellationToken)
         {
-            var vacancy = await _vacancyRepository.FindAsync(request.Vacancy.Id);
+            var vacancy = await _vacancyRepository.FindAsync(request.Vacancy.Id, cancellationToken);
             if(vacancy == null)
             {
-                await _vacancyRepository.AddAsync(request.Vacancy);
+                await _vacancyRepository.AddAsync(request.Vacancy, cancellationToken);
             }
             else
             {
@@ -31,7 +31,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
                 vacancy.Requirements = request.Vacancy.Requirements;
                 vacancy.WorkingConditions = request.Vacancy.WorkingConditions;
             }
-            await _vacancyRepository.SaveAsync();
+            await _vacancyRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

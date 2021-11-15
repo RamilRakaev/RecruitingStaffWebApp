@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Infrastructure.DocParse
@@ -76,13 +77,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public string Exception { get; private set; }
 
-        public async Task<bool> ParseAndSaved(string fileName)
+        public async Task<bool> ParseAndSaved(string fileName, CancellationToken cancellationToken)
         {
             try
             {
                 _fileName = fileName;
-                await Parse();
-                await SaveToFile();
+                await Parse(cancellationToken);
+                await SaveToFile(cancellationToken);
                 File.Delete($"{_options.DocumentsSource}\\{_fileName}");
                 return true;
             }
@@ -93,7 +94,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        private async Task Parse()
+        private async Task Parse(CancellationToken cancellationToken)
         {
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_fileName}", false))
             {
@@ -102,7 +103,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
                 foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
                 {
-                    await ParseCandidate(element);
+                    await ParseCandidate(element, cancellationToken);
                     foreach (var row in element.ChildElements.Reverse())
                     {
                         foreach (var cell in row.ChildElements)
@@ -110,8 +111,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                             var table = cell.FirstOrDefault(c => c.LocalName == "tbl");
                             if (table != null)
                             {
-                                await ParseQuestionnaire(table);
-                                await ParseCandidateQuestionnaire();
+                                await ParseQuestionnaire(table, cancellationToken);
+                                await ParseCandidateQuestionnaire(cancellationToken);
                             }
                         }
                     }
@@ -119,7 +120,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        private async Task ParseQuestionnaire(OpenXmlElement table)
+        private async Task ParseQuestionnaire(OpenXmlElement table, CancellationToken cancellationToken)
         {
             currentQuestionnaire = _questionnaireRepository
                 .GetAll()
@@ -134,28 +135,28 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                     VacancyId = currentVacancy.Id
                 };
 
-                await _questionnaireRepository.AddAsync(currentQuestionnaire);
-                await _questionnaireRepository.SaveAsync();
+                await _questionnaireRepository.AddAsync(currentQuestionnaire, cancellationToken);
+                await _questionnaireRepository.SaveAsync(cancellationToken);
             }
             foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
             {
-                await ParseQuestionCategory(child);
-                await ParseQuestion(child);
+                await ParseQuestionCategory(child, cancellationToken);
+                await ParseQuestion(child, cancellationToken);
             }
         }
 
-        private async Task ParseCandidateQuestionnaire()
+        private async Task ParseCandidateQuestionnaire(CancellationToken cancellationToken)
         {
             var candidateQuestionnaire = new CandidateQuestionnaire()
             {
                 QuestionnaireId = currentQuestionnaire.Id,
                 CandidateId = currentCandidate.Id
             };
-            await _candidateQuestionnaire.AddAsync(candidateQuestionnaire);
-            await _candidateQuestionnaire.SaveAsync();
+            await _candidateQuestionnaire.AddAsync(candidateQuestionnaire, cancellationToken);
+            await _candidateQuestionnaire.SaveAsync(cancellationToken);
         }
 
-        private async Task ParseCandidate(OpenXmlElement table)
+        private async Task ParseCandidate(OpenXmlElement table, CancellationToken cancellationToken)
         {
             var rows = table.ChildElements.Where(e => e.LocalName == "tr");
             var name = rows.ElementAt(0).InnerText;
@@ -171,10 +172,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             currentCandidate.TelephoneNumber = ExtractCellTextFromRow(rows, TelephoneNumberRow, TelephoneNumberColumn);
             currentCandidate.MaritalStatus = ExtractCellTextFromRow(rows, MaritalStatusRow, MaritalStatusColumn);
 
-            await _candidateRepository.AddAsync(currentCandidate);
-            await _candidateRepository.SaveAsync();
+            await _candidateRepository.AddAsync(currentCandidate, cancellationToken);
+            await _candidateRepository.SaveAsync(cancellationToken);
 
-            await VacancyParse(vacancyName);
+            await VacancyParse(vacancyName, cancellationToken);
         }
 
         private void PasreDateOfBirth(IEnumerable<OpenXmlElement> rows)
@@ -190,22 +191,22 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        private async Task VacancyParse(string vacancyName)
+        private async Task VacancyParse(string vacancyName, CancellationToken cancellationToken)
         {
             currentVacancy = _vacancyRepository.GetAll().Where(v => v.Name == vacancyName).FirstOrDefault();
             if (currentVacancy == null)
             {
                 currentVacancy = new Vacancy() { Name = vacancyName };
-                await _vacancyRepository.AddAsync(currentVacancy);
-                await _vacancyRepository.SaveAsync();
+                await _vacancyRepository.AddAsync(currentVacancy, cancellationToken);
+                await _vacancyRepository.SaveAsync(cancellationToken);
             }
             var candidateVacancy = new CandidateVacancy()
             {
                 CandidateId = currentCandidate.Id,
                 VacancyId = currentVacancy.Id
             };
-            await _candidateVacancyRepository.AddAsync(candidateVacancy);
-            await _candidateVacancyRepository.SaveAsync();
+            await _candidateVacancyRepository.AddAsync(candidateVacancy, cancellationToken);
+            await _candidateVacancyRepository.SaveAsync(cancellationToken);
         }
 
         private static string ExtractCellTextFromRow(IEnumerable<OpenXmlElement> rows, int rowInd, int cellInd)
@@ -217,7 +218,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 .ElementAt(cellInd).InnerText;
         }
 
-        private async Task ParseQuestionCategory(OpenXmlElement child)
+        private async Task ParseQuestionCategory(OpenXmlElement child, CancellationToken cancellationToken)
         {
             if (child.ChildElements.Count == 3)
             {
@@ -230,13 +231,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                         Name = child.ChildElements.ElementAt(2).InnerText,
                         QuestionnaireId = currentQuestionnaire.Id
                     };
-                    await _questionCategoryRepository.AddAsync(currentCategory);
-                    await _questionCategoryRepository.SaveAsync();
+                    await _questionCategoryRepository.AddAsync(currentCategory, cancellationToken);
+                    await _questionCategoryRepository.SaveAsync(cancellationToken);
                 }
             }
         }
 
-        private async Task ParseQuestion(OpenXmlElement child)
+        private async Task ParseQuestion(OpenXmlElement child, CancellationToken cancellationToken)
         {
             if (child.ChildElements.Count == 5)
             {
@@ -249,14 +250,14 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                         QuestionCategoryId = currentCategory.Id,
                         Name = child.ChildElements[2].InnerText
                     };
-                    await _questionRepository.AddAsync(currentQuestion);
-                    await _questionRepository.SaveAsync();
+                    await _questionRepository.AddAsync(currentQuestion, cancellationToken);
+                    await _questionRepository.SaveAsync(cancellationToken);
                 }
-                await ParseAnswer(child);
+                await ParseAnswer(child, cancellationToken);
             }
         }
 
-        private async Task ParseAnswer(OpenXmlElement child)
+        private async Task ParseAnswer(OpenXmlElement child, CancellationToken cancellationToken)
         {
             if (child.ChildElements[4].InnerText != string.Empty)
             {
@@ -273,12 +274,12 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 }
                 catch
                 { }
-                await _answerRepository.AddAsync(answer);
-                await _answerRepository.SaveAsync();
+                await _answerRepository.AddAsync(answer, cancellationToken);
+                await _answerRepository.SaveAsync(cancellationToken);
             }
         }
 
-        private async Task SaveToFile()
+        private async Task SaveToFile(CancellationToken cancellationToken)
         {
             _file = new RecruitingStaffWebAppFile()
             {
@@ -287,8 +288,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 CandidateId = currentCandidate.Id,
                 QuestionnaireId = currentQuestionnaire.Id
             };
-            await _fileRepository.AddAsync(_file);
-            await _fileRepository.SaveAsync();
+            await _fileRepository.AddAsync(_file, cancellationToken);
+            await _fileRepository.SaveAsync(cancellationToken);
 
             File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{_file.Source}");
         }

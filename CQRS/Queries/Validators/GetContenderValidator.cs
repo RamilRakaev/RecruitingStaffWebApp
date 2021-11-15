@@ -7,7 +7,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Validators
     {
         public GetCandidateValidator()
         {
-            RuleFor(c => c.Id).NotEqual(0);
+            RuleFor(c => c.Id)
+                .NotEqual(0);
         }
     }
 }

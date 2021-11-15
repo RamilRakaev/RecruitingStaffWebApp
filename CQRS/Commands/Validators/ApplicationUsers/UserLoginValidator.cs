@@ -7,8 +7,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Validators.ApplicationUse
     {
         public UserLoginValidator()
         {
-            RuleFor(u => u.Email).EmailAddress();
-            RuleFor(u => u.Password).NotNull().NotEmpty();
+            RuleFor(u => u.Email)
+                .EmailAddress();
+
+            RuleFor(u => u.Password)
+                .NotNull()
+                .NotEmpty();
         }
     }
 }

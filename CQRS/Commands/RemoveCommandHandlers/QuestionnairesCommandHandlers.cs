@@ -5,6 +5,7 @@ using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
@@ -27,9 +28,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             rewriter = new CandidateFileManagement(fileRepository, options, webHost);
         }
 
-        public async Task RemoveQuestionnaire(int questionnireId)
+        public async Task RemoveQuestionnaire(int questionnireId, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionnaireRepository.FindNoTrackingAsync(questionnireId);
+            var questionnaire = await _questionnaireRepository.FindNoTrackingAsync(questionnireId, cancellationToken);
             var questionCategoriesIds = 
                 _questionCategoryRepository
                 .GetAllAsNoTracking()
@@ -38,12 +39,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
                 .ToArray();
                 foreach (var questionCategoryId in questionCategoriesIds)
                 {
-                    await RemoveQuestionCategory(questionCategoryId);
+                    await RemoveQuestionCategory(questionCategoryId, cancellationToken);
                 }
             
-            await rewriter.DeleteQuestionnaireFiles(questionnireId);
+            await rewriter.DeleteQuestionnaireFiles(questionnireId, cancellationToken);
             await _questionnaireRepository.RemoveAsync(questionnaire);
-            await _questionnaireRepository.SaveAsync();
+            await _questionnaireRepository.SaveAsync(cancellationToken);
         }
     }
 }

@@ -28,14 +28,14 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Options
 
             if(option == null)
             {
-                await _optionRepository.AddAsync(request.Option);
+                await _optionRepository.AddAsync(request.Option, cancellationToken);
             }
             else
             {
                 option.Value = request.Option.Value;
                 option.CandidateId = request.Option.CandidateId;
             }
-            await _optionRepository.SaveAsync();
+            await _optionRepository.SaveAsync(cancellationToken);
             return request.Option;
         }
     }

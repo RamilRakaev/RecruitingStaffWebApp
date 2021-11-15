@@ -29,7 +29,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
         public async Task<bool> Handle(CreateOrEditPhotoCommand request, CancellationToken cancellationToken)
         {
             var file = _fileRepository.GetAll().Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.Photo).FirstOrDefault();
-            var candidate = await _candidateRepository.FindAsync(request.CandidateId);
+            var candidate = await _candidateRepository.FindAsync(request.CandidateId, cancellationToken);
 
             var extension = request.FormFile.FileName[request.FormFile.FileName.LastIndexOf('.')..];
             var contentRoot = $"{ _webHost.WebRootPath}\\img";
@@ -44,7 +44,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
                     CandidateId = request.CandidateId,
                     FileType = FileType.Photo
                 };
-                await _fileRepository.AddAsync(file);
+                await _fileRepository.AddAsync(file, cancellationToken);
             }
             else
             {
@@ -54,9 +54,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
                     file.Source = source;
                 }
             }
-            await _fileRepository.SaveAsync();
+            await _fileRepository.SaveAsync(cancellationToken);
             candidate.PhotoId = file.Id;
-            await _candidateRepository.SaveAsync();
+            await _candidateRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

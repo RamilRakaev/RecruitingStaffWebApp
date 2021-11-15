@@ -4,6 +4,7 @@ using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
@@ -31,15 +32,15 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             _vacancyRepository = vacancyRepository;
         }
 
-        public async Task RemoveVacancy(int vacancyId)
+        public async Task RemoveVacancy(int vacancyId, CancellationToken cancellationToken)
         {
-            var vacancy = await _vacancyRepository.FindNoTrackingAsync(vacancyId);
+            var vacancy = await _vacancyRepository.FindNoTrackingAsync(vacancyId, cancellationToken);
             foreach (var questionnare in _questionnaireRepository.GetAllAsNoTracking().Where(q => q.VacancyId == vacancyId).ToArray())
             {
-                await RemoveQuestionnaire(questionnare.Id);
+                await RemoveQuestionnaire(questionnare.Id, cancellationToken);
             }
             await _vacancyRepository.RemoveAsync(vacancy);
-            await _vacancyRepository.SaveAsync();
+            await _vacancyRepository.SaveAsync(cancellationToken);
         }
     }
 }

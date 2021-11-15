@@ -27,22 +27,24 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 
         public async Task<bool> Handle(CreateCandidateByQuestionnaireCommand request, CancellationToken cancellationToken)
         {
-            await _candidateRepository.AddAsync(request.Candidate);
-            await _candidateRepository.SaveAsync();
+            await _candidateRepository.AddAsync(request.Candidate, cancellationToken);
+            await _candidateRepository.SaveAsync(cancellationToken);
             await _candidateQuestionnaireRepository
                 .AddAsync(new CandidateQuestionnaire()
                 {
                     CandidateId = request.Candidate.Id,
                     QuestionnaireId = request.QuestionnaireId
-                });
-            var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionnaireId);
+                },
+                cancellationToken);
+            var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionnaireId, cancellationToken);
             await _vacancyRepository
                 .AddAsync(new CandidateVacancy()
             {
                 CandidateId = request.Candidate.Id,
                 VacancyId = questionnaire.VacancyId
-            });
-            await _vacancyRepository.SaveAsync();
+            },
+            cancellationToken);
+            await _vacancyRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

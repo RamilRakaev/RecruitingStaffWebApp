@@ -7,7 +7,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Validators
     {
         public CheckRoleForUserValidator()
         {
-            RuleFor(q => q.Roles).NotNull().NotEmpty();
+            RuleFor(q => q.Roles)
+                .NotNull()
+                .NotEmpty();
         }
     }
 }

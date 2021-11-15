@@ -19,9 +19,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questions
 
         public async Task<bool> Handle(ChangeQuestionCommand request, CancellationToken cancellationToken)
         {
-            var question = await _questionRepository.FindAsync(request.Question.Id);
+            var question = await _questionRepository.FindAsync(request.Question.Id, cancellationToken);
             question.Name = request.Question.Name;
-            await _questionRepository.SaveAsync();
+            await _questionRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

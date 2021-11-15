@@ -15,7 +15,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Answers
 
         public async Task<bool> Handle(CreateOrChangeAnswerCommand request, CancellationToken cancellationToken)
         {
-            await CreateOrChange(request.Answer);
+            await CreateOrChange(request.Answer, cancellationToken);
             return true;
         }
     }

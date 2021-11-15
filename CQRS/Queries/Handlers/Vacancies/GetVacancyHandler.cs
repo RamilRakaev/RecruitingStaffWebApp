@@ -18,7 +18,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Vacancies
 
         public async Task<Vacancy> Handle(GetVacancyQuery request, CancellationToken cancellationToken)
         {
-            return await _vacancyRepository.FindAsync(request.VacancyId);
+            return await _vacancyRepository.FindAsync(request.VacancyId, cancellationToken);
         }
     }
 }

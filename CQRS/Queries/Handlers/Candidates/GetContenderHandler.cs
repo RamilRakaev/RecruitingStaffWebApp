@@ -18,7 +18,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
 
         public async Task<Candidate> Handle(GetCandidateQuery request, CancellationToken cancellationToken)
         {
-            return await _CandidateRepository.FindAsync(request.CandidateId);
+            return await _CandidateRepository.FindAsync(request.CandidateId, cancellationToken);
         }
     }
 }

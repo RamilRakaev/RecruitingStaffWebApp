@@ -32,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 
         public async Task<bool> Handle(RemoveQuestionnaireCommand request, CancellationToken cancellationToken)
         {
-            await RemoveQuestionnaire(request.QuestionnaireId);
+            await RemoveQuestionnaire(request.QuestionnaireId, cancellationToken);
             return true;
         }
     }

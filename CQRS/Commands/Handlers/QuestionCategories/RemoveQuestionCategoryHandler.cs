@@ -19,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
 
         public async Task<bool> Handle(RemoveQuestionCategoryCommand request, CancellationToken cancellationToken)
         {
-            await RemoveQuestionCategory(request.QestionId);
+            await RemoveQuestionCategory(request.QestionId, cancellationToken);
             return true;
         }
     }

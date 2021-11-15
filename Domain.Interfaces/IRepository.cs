@@ -1,13 +1,14 @@
 ﻿using RecruitingStaff.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Domain.Interfaces
 {
     public interface IRepository<Entity> : IStorageRequests<Entity> where Entity : BaseEntity
     {
-        public Task AddAsync(Entity entity);
+        public Task AddAsync(Entity entity, CancellationToken cancellationToken);
 
         public Task RemoveAsync(Entity entity);
 
@@ -16,6 +17,6 @@ namespace RecruitingStaff.Domain.Interfaces
             throw new Exception("Method is not overridden in child class");
         }
 
-        public Task SaveAsync();
+        public Task SaveAsync(CancellationToken cancellationToken);
     }
 }

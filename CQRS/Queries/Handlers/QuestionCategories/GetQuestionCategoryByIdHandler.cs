@@ -18,7 +18,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.QuestionCategorie
 
         public async Task<QuestionCategory> Handle(GetQuestionCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _questionCategoryRepository.FindAsync(request.QuestionCategoryId);
+            return await _questionCategoryRepository.FindAsync(request.QuestionCategoryId, cancellationToken);
         }
     }
 }

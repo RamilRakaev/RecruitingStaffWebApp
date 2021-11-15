@@ -5,6 +5,7 @@ using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
@@ -33,20 +34,20 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             rewriter = new CandidateFileManagement(fileRepository, options, webHost);
         }
 
-        public async Task RemoveCandidate(int candidateId)
+        public async Task RemoveCandidate(int candidateId, CancellationToken cancellationToken)
         {
-            var candidate = await _candidateRepository.FindNoTrackingAsync(candidateId);
+            var candidate = await _candidateRepository.FindNoTrackingAsync(candidateId, cancellationToken);
             foreach (var answerId in _answerRepository.GetAllAsNoTracking().Where(a => a.CandidateId == candidateId).Select(a => a.Id).ToArray())
             {
-                await RemoveAnswer(answerId);
+                await RemoveAnswer(answerId, cancellationToken);
             }
             foreach (var option in _optionRepository.GetAllAsNoTracking().ToArray())
             {
                 await _optionRepository.RemoveAsync(option);
             }
-            await _optionRepository.SaveAsync();
+            await _optionRepository.SaveAsync(cancellationToken);
 
-            await rewriter.DeleteCandidateFiles(candidateId);
+            await rewriter.DeleteCandidateFiles(candidateId, cancellationToken);
 
             var candidateVacancies = _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId).ToArray();
             if (candidateVacancies != null)
@@ -65,7 +66,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
                 }
             }
             await _candidateRepository.RemoveAsync(candidate);
-            await _candidateRepository.SaveAsync();
+            await _candidateRepository.SaveAsync(cancellationToken);
         }
     }
 }

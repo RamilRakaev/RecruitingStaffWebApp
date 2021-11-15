@@ -18,9 +18,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
 
         public async Task<bool> Handle(ChangeQuestionCategoryCommand request, CancellationToken cancellationToken)
         {
-            var questionCategory = await _questionCategoryRepository.FindAsync(request.QuestionCategory.Id);
+            var questionCategory = await _questionCategoryRepository.FindAsync(request.QuestionCategory.Id, cancellationToken);
             questionCategory.Name = request.QuestionCategory.Name;
-            await _questionCategoryRepository.SaveAsync();
+            await _questionCategoryRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

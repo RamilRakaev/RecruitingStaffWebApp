@@ -18,8 +18,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questions
 
         public async Task<bool> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
         {
-            await _questionRepository.AddAsync(request.Question);
-            await _questionRepository.SaveAsync();
+            await _questionRepository.AddAsync(request.Question, cancellationToken);
+            await _questionRepository.SaveAsync(cancellationToken);
             return true;
         }
     }

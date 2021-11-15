@@ -7,8 +7,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Validators.Candidates
     {
         public CreateCandidateValidator()
         {
-            RuleFor(c => c.VacancyId).NotEqual(0);
-            RuleFor(c => c.Candidate).NotNull();
+            RuleFor(c => c.VacancyId)
+                .NotEqual(0);
+
+            RuleFor(c => c.Candidate)
+                .NotNull();
         }
     }
 }

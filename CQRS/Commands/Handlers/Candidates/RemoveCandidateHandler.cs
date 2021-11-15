@@ -34,7 +34,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 
         public async Task<bool> Handle(RemoveCandidateCommand request, CancellationToken cancellationToken)
         {
-            await RemoveCandidate(request.CandidateId);
+            await RemoveCandidate(request.CandidateId, cancellationToken);
             return true;
         }
     }

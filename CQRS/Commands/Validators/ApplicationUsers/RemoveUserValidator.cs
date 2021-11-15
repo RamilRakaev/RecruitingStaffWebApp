@@ -7,7 +7,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Validators.ApplicationUse
     {
         public RemoveUserValidator()
         {
-            RuleFor(b => b.Id).NotNull().NotEqual(0);
+            RuleFor(b => b.Id)
+                .NotNull()
+                .NotEqual(0);
         }
     }
 }

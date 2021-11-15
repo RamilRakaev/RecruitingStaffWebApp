@@ -19,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questions
 
         public async Task<bool> Handle(CreateOrChangeQuestionCommand request, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionRepository.FindAsync(request.Question.Id);
+            var questionnaire = await _questionRepository.FindAsync(request.Question.Id, cancellationToken);
             if (questionnaire == null)
             {
                 if (_questionRepository
@@ -30,14 +30,14 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questions
                 {
                     return false;
                 }
-                await _questionRepository.AddAsync(request.Question);
+                await _questionRepository.AddAsync(request.Question, cancellationToken);
             }
             else
             {
                 questionnaire.Name = request.Question.Name;
                 questionnaire.QuestionCategoryId = request.Question.QuestionCategoryId;
             }
-            await _questionRepository.SaveAsync();
+            await _questionRepository.SaveAsync(cancellationToken);
             return true;
         }
     }
