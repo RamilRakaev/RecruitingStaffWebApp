@@ -36,7 +36,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
                 user.Email = request.Email;
                 await _userManager.RemovePasswordAsync(user);
                 await _userManager.AddPasswordAsync(user, request.Password);
-                await _userManager.RemoveFromRolesAsync(user, new string[] { request.Role });
+                var roles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, roles);
                 await _userManager.AddToRoleAsync(user, request.Role);
                 result = await _userManager.UpdateAsync(user);
             }

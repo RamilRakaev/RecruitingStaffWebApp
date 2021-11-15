@@ -7,8 +7,11 @@ namespace RecruitingStaff.Domain.Validators
     {
         public CandidateValidator()
         {
-            RuleFor(c => c.FullName).NotNull();
-            RuleFor(c => c.Address).NotNull();
+            RuleFor(c => c.FullName)
+                .NotNull();
+
+            RuleFor(c => c.Address)
+                .NotNull();
         }
     }
 }

@@ -7,7 +7,9 @@ namespace RecruitingStaff.Domain.Validators
     {
         public VacancyValidator()
         {
-            RuleFor(v => v.Name).NotNull().NotEmpty();
+            RuleFor(v => v.Name)
+                .NotNull()
+                .NotEmpty();
         }
     }
 }

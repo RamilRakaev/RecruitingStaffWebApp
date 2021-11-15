@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.UserIdentity;
 using System;
 using System.Collections.Generic;
@@ -13,24 +15,16 @@ namespace RecruitingStaff.Infrastructure.DatabaseServices
     public class UserService : IHostedService
     {
         private readonly IServiceProvider _service;
+        private readonly WebAppOptions _options;
         private readonly ILogger<UserService> _logger;
-        private readonly List<ApplicationUser> users = new()
-        {
-            new ApplicationUser()
-            {
-                Id = 1,
-                UserName = "DefaultUser",
-                Email = "DefaultUser@gmail.com"
-            },
-        };
-        private readonly List<string> passwords = new()
-        {
-            "e23D!23df32"
-        };
+        private ApplicationUser defaultUser;
+
         public UserService(IServiceProvider service,
+            IOptions<WebAppOptions> options,
             ILogger<UserService> logger)
         {
             _service = service;
+            _options = options.Value;
             _logger = logger;
         }
 
@@ -39,15 +33,12 @@ namespace RecruitingStaff.Infrastructure.DatabaseServices
         {
             try
             {
-                int i = 0;
-                foreach (var user in users)
+                if (await userManager.FindByEmailAsync(_options.DefaultUserEmail) == null)
                 {
-                    if (await userManager.FindByEmailAsync(user.Email) == null)
-                    {
-                        await userManager.CreateAsync(user, passwords[i++]);
-                        await userManager.AddToRoleAsync(user, "user");
-                        await userManager.UpdateAsync(user);
-                    }
+                    defaultUser = new ApplicationUser() { Id = 1, UserName = _options.DefaultUserEmail, Email = _options.DefaultUserEmail };
+                    await userManager.CreateAsync(defaultUser, _options.DefaultUserPassword);
+                    await userManager.AddToRoleAsync(defaultUser, "user");
+                    await userManager.UpdateAsync(defaultUser);
                 }
             }
             catch (Exception e)

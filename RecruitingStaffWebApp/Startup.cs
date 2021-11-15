@@ -1,8 +1,6 @@
 using RecruitingStaff.Infrastructure.Repositories;
-using RecruitingStaff.Infrastructure.Repositories.SubRepositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,16 +36,16 @@ namespace RecruitingStaffWebApp
                 o => o.MigrationsAssembly(typeof(DataContext).Assembly.FullName)));
             services.AddIdentity<ApplicationUser, ApplicationRole>().AddEntityFrameworkStores<DataContext>();
 
-            services.AddTransient<IRepository<RecruitingStaffWebAppFile>, RecruitingStaffWebAppFileRepository>();
-            services.AddTransient<IRepository<Vacancy>, VacancyRepository>();
-            services.AddTransient<IRepository<Candidate>, CandidateRepository>();
-            services.AddTransient<IRepository<CandidateVacancy>, CandidateVacancyRepository>();
-            services.AddTransient<IRepository<Questionnaire>, QuestionnaireRepository>();
-            services.AddTransient<IRepository<QuestionCategory>, QuestionCategoryRepository>();
-            services.AddTransient<IRepository<Question>, QuestionRepository>();
-            services.AddTransient<IRepository<Answer>, AnswerRepository>();
-            services.AddTransient<IRepository<Option>, OptionRepository>();
-            services.AddTransient<IRepository<CandidateQuestionnaire>, CandidateQuestionnaireRepository>();
+            services.AddTransient<IRepository<RecruitingStaffWebAppFile>, BaseRepository<RecruitingStaffWebAppFile>>();
+            services.AddTransient<IRepository<Vacancy>, BaseRepository<Vacancy>>();
+            services.AddTransient<IRepository<Candidate>, BaseRepository<Candidate>>();
+            services.AddTransient<IRepository<CandidateVacancy>, BaseRepository<CandidateVacancy>>();
+            services.AddTransient<IRepository<Questionnaire>, BaseRepository<Questionnaire>>();
+            services.AddTransient<IRepository<QuestionCategory>, BaseRepository<QuestionCategory>>();
+            services.AddTransient<IRepository<Question>, BaseRepository<Question>>();
+            services.AddTransient<IRepository<Answer>, BaseRepository<Answer>>();
+            services.AddTransient<IRepository<Option>, BaseRepository<Option>>();
+            services.AddTransient<IRepository<CandidateQuestionnaire>, BaseRepository<CandidateQuestionnaire>>();
 
             services.AddHostedService<MigrationService>();
             services.AddHostedService<UserService>();

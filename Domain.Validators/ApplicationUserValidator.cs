@@ -7,7 +7,9 @@ namespace RecruitingStaff.Domain.Validators
     {
         public ApplicationUserValidator()
         {
-            RuleFor(u => u.Email).NotNull().EmailAddress();
+            RuleFor(u => u.Email)
+                .NotNull()
+                .EmailAddress();
         }
     }
 }
