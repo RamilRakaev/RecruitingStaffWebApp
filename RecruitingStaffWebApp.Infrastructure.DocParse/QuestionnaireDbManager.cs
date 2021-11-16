@@ -8,10 +8,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Infrastructure.DocParse
@@ -27,7 +24,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task SaveParsedData(ParsedData parsedData)
         {
-
             var vacancy = await _mediator.Send(new CreateOrChangeVacancyCommand(parsedData.Vacancy));
 
             parsedData.Questionnaire.VacancyId = vacancy.Id;

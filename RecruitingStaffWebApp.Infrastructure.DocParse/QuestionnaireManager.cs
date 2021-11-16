@@ -70,7 +70,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 File.Delete($"{_options.DocumentsSource}\\{_fileName}");
             }
-            return true;
         }
 
         private async Task Parse()
