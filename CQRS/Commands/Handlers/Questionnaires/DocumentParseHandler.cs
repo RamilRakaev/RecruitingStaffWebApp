@@ -30,7 +30,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             {
                 request.FormFile.CopyTo(stream);
             }
-            return _questionnaireManager.ParseAndSaved(request.FormFile.FileName, cancellationToken);
+            return _questionnaireManager.ParseAndSaved(request.FormFile.FileName);
         }
 
         /// <summary>
@@ -42,12 +42,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             ResetDb<Answer>(db);
             ResetDb<Question>(db);
             ResetDb<QuestionCategory>(db);
+            ResetDb<RecruitingStaffWebAppFile>(db);
+            ResetDb<Option>(db);
             ResetDb<Questionnaire>(db);
+            ResetDb<CandidateQuestionnaire>(db);
             ResetDb<CandidateVacancy>(db);
             ResetDb<Vacancy>(db);
-            ResetDb<Option>(db);
             ResetDb<Candidate>(db);
-            ResetDb<RecruitingStaffWebAppFile>(db);
         }
 
         public static void ResetDb<Entity>(DataContext db) where Entity : BaseEntity

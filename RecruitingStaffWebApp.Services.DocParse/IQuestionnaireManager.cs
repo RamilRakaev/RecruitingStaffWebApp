@@ -5,6 +5,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
 {
     public interface IQuestionnaireManager
     {
-        public Task<bool> ParseAndSaved(string document, CancellationToken cancellationToken);
+        public Task<bool> ParseAndSaved(string document);
     }
 }

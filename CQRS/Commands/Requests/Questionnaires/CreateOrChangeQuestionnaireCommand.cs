@@ -3,7 +3,7 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires
 {
-    public class CreateOrChangeQuestionnaireCommand : IRequest<bool>
+    public class CreateOrChangeQuestionnaireCommand : IRequest<Questionnaire>
     {
         public CreateOrChangeQuestionnaireCommand(Questionnaire questionnaire)
         {

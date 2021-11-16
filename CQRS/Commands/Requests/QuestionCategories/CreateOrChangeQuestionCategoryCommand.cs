@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
-namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories
 {
     public class CreateOrChangeQuestionCategoryCommand : IRequest<bool>
     {

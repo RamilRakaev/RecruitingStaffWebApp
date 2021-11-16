@@ -7,19 +7,22 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
-    public class CreateCandidateHandler : IRequestHandler<CreateCandidateCommand, bool>
+    public class CreateCandidateHandler : IRequestHandler<CreateCandidateCommand, Candidate>
     {
         private readonly IRepository<Candidate> _candidateRepository;
         private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
+        private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaireRepository;
 
         public CreateCandidateHandler(IRepository<Candidate> candidateRepository,
-            IRepository<CandidateVacancy> candidateVacancyRepository)
+            IRepository<CandidateVacancy> candidateVacancyRepository,
+            IRepository<CandidateQuestionnaire> candidateQuestionnaireRepository)
         {
             _candidateRepository = candidateRepository;
             _candidateVacancyRepository = candidateVacancyRepository;
+            _candidateQuestionnaireRepository = candidateQuestionnaireRepository;
         }
 
-        public async Task<bool> Handle(CreateCandidateCommand request, CancellationToken cancellationToken)
+        public async Task<Candidate> Handle(CreateCandidateCommand request, CancellationToken cancellationToken)
         {
             await _candidateRepository.AddAsync(request.Candidate, cancellationToken);
             await _candidateRepository.SaveAsync(cancellationToken);
@@ -33,7 +36,18 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
                 cancellationToken
             );
             await _candidateVacancyRepository.SaveAsync(cancellationToken);
-            return true;
+            if(request.QuestionnaireId != 0)
+            {
+                await _candidateQuestionnaireRepository.AddAsync(
+                    new CandidateQuestionnaire()
+                    {
+                        CandidateId = request.Candidate.Id,
+                        QuestionnaireId = request.QuestionnaireId
+                    }, cancellationToken
+                );
+                await _candidateQuestionnaireRepository.SaveAsync(cancellationToken);
+            }
+            return request.Candidate;
         }
     }
 }

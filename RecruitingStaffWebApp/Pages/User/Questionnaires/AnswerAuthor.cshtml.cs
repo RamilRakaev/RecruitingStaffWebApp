@@ -6,6 +6,7 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -19,12 +20,14 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public Candidate Candidate { get; set; }
         public Option[] Options { get; set; }
         public int QuestionId { get; set; }
+        public string CandidatePhotoSource { get; set; }
 
         public async Task<IActionResult> OnGet(int candidateId, int questionId)
         {
             QuestionId = questionId;
             Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             Options = await _mediator.Send(new GetOptionsQuery());
+            CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
             return await RightVerification();
         }
 
@@ -34,6 +37,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             await _mediator.Send(new RemoveOptionCommand(optionId));
             Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             Options = await _mediator.Send(new GetOptionsQuery());
+            CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
         }
     }
 }

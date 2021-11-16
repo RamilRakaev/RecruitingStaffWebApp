@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 {
-    public class CreateOrChangeQuestionnaireHandler : IRequestHandler<CreateOrChangeQuestionnaireCommand, bool>
+    public class CreateOrChangeQuestionnaireHandler : IRequestHandler<CreateOrChangeQuestionnaireCommand, Questionnaire>
     {
         private readonly IRepository<Questionnaire> _questionnaireRepository;
 
@@ -17,24 +17,27 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             _questionnaireRepository = questionnaireRepository;
         }
 
-        public async Task<bool> Handle(CreateOrChangeQuestionnaireCommand request, CancellationToken cancellationToken)
+        public async Task<Questionnaire> Handle(CreateOrChangeQuestionnaireCommand request, CancellationToken cancellationToken)
         {
             var questionnaire = await _questionnaireRepository.FindAsync(request.Questionnaire.Id, cancellationToken);
-            if(questionnaire == null)
+            if (questionnaire == null)
             {
-                if(_questionnaireRepository.GetAllAsNoTracking().FirstOrDefault(q => q.Name.Equals(request.Questionnaire.Name)) != null)
+                questionnaire = _questionnaireRepository.GetAllAsNoTracking().FirstOrDefault(q => q.Name.Equals(request.Questionnaire.Name));
+                if (questionnaire != null)
                 {
-                    return false;
+                    return questionnaire;
                 }
                 await _questionnaireRepository.AddAsync(request.Questionnaire, cancellationToken);
+                await _questionnaireRepository.SaveAsync(cancellationToken);
+                return request.Questionnaire;
             }
             else
             {
                 questionnaire.Name = request.Questionnaire.Name;
                 questionnaire.VacancyId = request.Questionnaire.VacancyId;
+                await _questionnaireRepository.SaveAsync(cancellationToken);
             }
-            await _questionnaireRepository.SaveAsync(cancellationToken);
-            return true;
+            return questionnaire;
         }
     }
 }

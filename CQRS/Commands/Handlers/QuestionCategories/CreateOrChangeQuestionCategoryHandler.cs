@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
-using System.Linq;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using System.Threading;
 using System.Threading.Tasks;
 
