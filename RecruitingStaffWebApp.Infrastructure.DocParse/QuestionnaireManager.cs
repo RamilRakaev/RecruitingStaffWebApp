@@ -49,7 +49,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             questionnaireDbManager = new QuestionnaireDbManager(mediator);
         }
 
-        public string Exception { get; private set; }
+        public List<string> Errors { get; private set; } = new List<string>();
 
         public async Task<bool> ParseAndSaved(string fileName)
         {
@@ -57,13 +57,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 _fileName = fileName;
                 await Parse();
-                await questionnaireDbManager.SaveParsedData(parsedData);
-                File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{parsedData.File.Source}");
+                var checking = new ParsedDataCheck(new string[] { "FullName"});
+                if (checking.Checking(parsedData))
+                {
+                    await questionnaireDbManager.SaveParsedData(parsedData);
+                    File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}");
+                }
+                else
+                {
+                    Errors.AddRange(checking.ExceptionMessages);
+                }
                 return true;
             }
             catch (Exception e)
             {
-                Exception = e.Message;
+                Errors.Add(e.Message);
                 return false;
             }
             finally

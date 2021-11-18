@@ -12,7 +12,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             Answers = new List<Answer>();
         }
 
-        public RecruitingStaffWebAppFile File { get; set; }
         public Vacancy Vacancy { get; set; }
         public Candidate Candidate { get; set; }
         public Questionnaire Questionnaire { get; set; }

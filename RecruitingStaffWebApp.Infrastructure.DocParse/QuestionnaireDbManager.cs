@@ -22,6 +22,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             _mediator = mediator;
         }
 
+        public RecruitingStaffWebAppFile File { get; private set; }
+
         public async Task SaveParsedData(ParsedData parsedData)
         {
             var vacancy = await _mediator.Send(new CreateOrChangeVacancyCommand(parsedData.Vacancy));
@@ -60,14 +62,14 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         private async Task CreateFile(ParsedData parsedData, int candidateId, int questionnaireId)
         {
-            parsedData.File = new RecruitingStaffWebAppFile()
+            File = new RecruitingStaffWebAppFile()
             {
                 Source = $"{candidateId}.{parsedData.Candidate.FullName}.docx",
                 FileType = FileType.Questionnaire,
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,
             };
-            await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(parsedData.File));
+            await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(File));
         }
     }
 }
