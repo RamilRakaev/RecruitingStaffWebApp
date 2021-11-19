@@ -57,7 +57,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 _fileName = fileName;
                 await Parse();
-                var checking = new ParsedDataCheck(new string[] { "FullName"});
+                var checking = new ParsedDataCheck(new string[] { "FullName" });
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData);
@@ -140,15 +140,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         private void PasreDateOfBirth(IEnumerable<OpenXmlElement> rows)
         {
-            try
-            {
-                var dateStr = ExtractCellTextFromRow(rows, DateOfBirthRow, DateOfBirthColumn);
-                parsedData.Candidate.DateOfBirth = dateStr != string.Empty ? Convert.ToDateTime(dateStr) : new DateTime();
-            }
-            catch
-            {
-                parsedData.Candidate.DateOfBirth = new DateTime();
-            }
+            var dateStr = ExtractCellTextFromRow(rows, DateOfBirthRow, DateOfBirthColumn);
+            DateTime.TryParse(dateStr, out var DateOfBirth);
+            parsedData.Candidate.DateOfBirth = DateOfBirth;
         }
 
         private Task VacancyParse(string vacancyName)
