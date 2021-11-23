@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
+using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User.Candidates
 {
@@ -16,10 +16,9 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         public Candidate Candidate { get; set; }
 
-        public async Task<IActionResult> OnGet(int CandidateId)
+        public async Task OnGet(int CandidateId)
         {
             Candidate = await _mediator.Send(new GetCandidateQuery(CandidateId));
-            return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(Candidate Candidate, IFormFile formFile)

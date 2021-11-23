@@ -20,7 +20,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public Questionnaire Questionnaire { get; set; }
         public SelectList Vacancies { get; set; }
 
-        public async Task<IActionResult> OnGet(int? questionnaireId)
+        public async Task OnGet(int? questionnaireId)
         {
             Vacancies = new SelectList(await _mediator.Send(new GetVacanciesQuery()), "Id", "Name");
             if (questionnaireId == null)
@@ -31,7 +31,6 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             {
                 Questionnaire = await _mediator.Send(new GetQuestionnaireQuery(questionnaireId.Value));
             }
-            return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(Questionnaire questionnaire)

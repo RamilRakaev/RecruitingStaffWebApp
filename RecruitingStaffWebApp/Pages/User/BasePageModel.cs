@@ -1,12 +1,11 @@
-﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.ApplicationUsers;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
+    [Authorize(Policy = "RequireUserRole")]
     public class BasePageModel : PageModel
     {
         protected readonly IMediator _mediator;
@@ -16,17 +15,6 @@ namespace RecruitingStaffWebApp.Pages.User
         {
             _mediator = mediator;
             _logger = logger;
-        }
-
-        protected async Task<IActionResult> RightVerification()
-        {
-            if (await _mediator.Send(new CheckRoleForUserQuery("user")))
-            {
-                _logger.LogInformation("Validation passed");
-                return Page();
-            }
-            _logger.LogWarning("Unauthorized login attempt!");
-            return RedirectToPage("/Account/Login");
         }
     }
 }

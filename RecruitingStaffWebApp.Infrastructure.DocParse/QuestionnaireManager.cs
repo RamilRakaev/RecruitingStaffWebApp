@@ -141,11 +141,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         private void PasreDateOfBirth(IEnumerable<OpenXmlElement> rows)
         {
             var dateStr = ExtractCellTextFromRow(rows, DateOfBirthRow, DateOfBirthColumn);
-            DateTime.TryParse(dateStr, out var DateOfBirth);
+            _ = DateTime.TryParse(dateStr, out var DateOfBirth);
             parsedData.Candidate.DateOfBirth = DateOfBirth;
         }
 
-        private Task VacancyParse(string vacancyName)
+        private Task VacancyParse(in string vacancyName)
         {
             parsedData.Vacancy = new Vacancy() { Name = vacancyName };
             return Task.CompletedTask;

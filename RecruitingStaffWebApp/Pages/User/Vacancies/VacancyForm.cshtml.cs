@@ -15,7 +15,7 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
 
         public Vacancy Vacancy { get; set; }
 
-        public async Task<IActionResult> OnGet(int? vacancyId)
+        public async Task OnGet(int? vacancyId)
         {
             if (vacancyId == null)
             {
@@ -25,7 +25,6 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
             {
                 Vacancy = await _mediator.Send(new GetVacancyQuery(vacancyId.Value));
             }
-            return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(Vacancy vacancy)

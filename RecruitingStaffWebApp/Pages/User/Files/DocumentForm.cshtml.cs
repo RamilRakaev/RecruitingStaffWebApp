@@ -13,9 +13,8 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         public DocumentFormModel(IMediator mediator, ILogger<DocumentFormModel> logger) : base(mediator, logger)
         { }
 
-        public async Task<IActionResult> OnGet()
+        public void OnGet()
         {
-            return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(IFormFile formFile)

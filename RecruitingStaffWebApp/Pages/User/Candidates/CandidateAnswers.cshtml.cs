@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
@@ -16,15 +15,17 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
         }
 
         public Answer[] Answers { get; set; }
+        public int CandidateId { get; set; }
 
-        public async Task<IActionResult> OnGet(int candidateId)
+        public async Task OnGet(int candidateId)
         {
+            CandidateId = candidateId;
             Answers = await _mediator.Send(new GetAnswersByCanidateIdQuery(candidateId));
-            return await RightVerification();
         }
 
         public async Task OnPost(int answerId, int candidateId)
         {
+            CandidateId = candidateId;
             await _mediator.Send(new RemoveAnswerCommand(answerId));
             Answers = await _mediator.Send(new GetAnswersByCanidateIdQuery(candidateId));
         }

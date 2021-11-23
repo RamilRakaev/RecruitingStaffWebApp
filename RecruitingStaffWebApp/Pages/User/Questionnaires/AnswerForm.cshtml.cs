@@ -22,7 +22,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public string Message { get; set; } = "Выберите кандидата";
         public string UrlAddress { get; set; }
 
-        public async Task<IActionResult> OnGet(int? answerId, int questionId)
+        public async Task OnGet(int? answerId, int questionId)
         {
             Candidates = Array.Empty<Candidate>();
             if (answerId == null)
@@ -33,7 +33,6 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             {
                 Answer = await _mediator.Send(new GetAnswerByIdQuery(answerId.Value));
             }
-            return await RightVerification();
         }
 
         public async Task OnPostSearchCandidates(string nameFragment, Answer answer)

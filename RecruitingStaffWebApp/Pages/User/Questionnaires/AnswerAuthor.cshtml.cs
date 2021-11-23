@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
@@ -22,13 +21,12 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public int QuestionId { get; set; }
         public string CandidatePhotoSource { get; set; }
 
-        public async Task<IActionResult> OnGet(int candidateId, int questionId)
+        public async Task OnGet(int candidateId, int questionId)
         {
             QuestionId = questionId;
             Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             Options = await _mediator.Send(new GetOptionsQuery());
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
-            return await RightVerification();
         }
 
         public async Task OnPost(int optionId, int candidateId, int questionId)

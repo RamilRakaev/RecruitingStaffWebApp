@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
@@ -17,9 +18,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Answers
             _answerRepository = answerRepository;
         }
 
-        public Task<Answer[]> Handle(GetAnswersByCanidateIdQuery request, CancellationToken cancellationToken)
+        public async Task<Answer[]> Handle(GetAnswersByCanidateIdQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_answerRepository.GetAllAsNoTracking().Where(a => a.CandidateId == request.CandidateId).ToArray());
+            return await _answerRepository
+                .GetAllAsNoTracking()
+                .Where(a => a.CandidateId == request.CandidateId)
+                .ToArrayAsync(cancellationToken);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public QuestionCategory QuestionCategory { get; set; }
         public Questionnaire[] Questionnaires { get; set; }
 
-        public async Task<IActionResult> OnGet(int? questionCategoryId, int? quesionnaireId)
+        public async Task OnGet(int? questionCategoryId, int? quesionnaireId)
         {
             Questionnaires = Array.Empty<Questionnaire>();
             if (questionCategoryId == null)
@@ -31,7 +31,6 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             {
                 QuestionCategory = await _mediator.Send(new GetQuestionCategoryByIdQuery(questionCategoryId.Value));
             }
-            return await RightVerification();
         }
 
         public async Task OnPostSearchCategories(string nameFragment, QuestionCategory questionCategory)

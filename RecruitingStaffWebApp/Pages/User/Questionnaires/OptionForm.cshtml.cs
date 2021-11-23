@@ -1,9 +1,9 @@
-using System.Threading.Tasks;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
-using RecruitingStaff.Domain.Model;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
+using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User.Questionnaires
 {
@@ -17,13 +17,12 @@ namespace RecruitingStaffWebApp.Pages.User.Questionnaires
         public Option Option { get; set; }
         public int QuestionId { get; set; }
 
-        public async Task<IActionResult> OnGet(int candidateId, int questionId, string propertyName = "", string value = "")
+        public void OnGet(int candidateId, int questionId, string propertyName = "", string value = "")
         {
             Option.PropertyName = propertyName;
             Option.CandidateId = candidateId;
             Option.Value = value;
             QuestionId = questionId;
-            return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(Option option, int questionId)

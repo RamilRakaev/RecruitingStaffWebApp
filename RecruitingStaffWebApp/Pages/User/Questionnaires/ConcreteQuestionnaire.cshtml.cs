@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
@@ -19,11 +18,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public Questionnaire Questionnaire { get; set; }
         public QuestionCategory[] QuestionCategories { get; set; }
 
-        public async Task<IActionResult> OnGet(int questionnaireId)
+        public async Task OnGet(int questionnaireId)
         {
             Questionnaire = await _mediator.Send(new GetQuestionnaireQuery(questionnaireId));
             QuestionCategories = await _mediator.Send(new GetQuestionCategoriesByQuestionnaireIdQuery(Questionnaire.Id));
-            return await RightVerification();
         }
 
         public async Task OnPost(int questionnaireId, int questionCategoryId)

@@ -64,6 +64,11 @@ namespace RecruitingStaffWebApp
             services.AddTransient<IValidator<Questionnaire>, QuestionnaireValidator>();
 
             services.AddRazorPages().AddFluentValidation();
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy("RequireUserRole",
+                    policy => policy.RequireRole("user"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

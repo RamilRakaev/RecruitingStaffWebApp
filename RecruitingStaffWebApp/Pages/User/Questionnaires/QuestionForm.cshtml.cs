@@ -21,7 +21,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public Question Question { get; set; }
         public SelectList QuestionCategories { get; set; }
 
-        public async Task<IActionResult> OnGet(int? questionId, int? questionCategoryId, int quesionnaireId)
+        public async Task OnGet(int? questionId, int? questionCategoryId, int quesionnaireId)
         {
             QuestionCategories = new SelectList(
                 await _mediator.Send(new GetQuestionCategoriesByQuestionnaireIdQuery(quesionnaireId)), "Id", "Name");
@@ -35,7 +35,6 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
                 Question = await _mediator.Send(new GetQuestionByIdQuery(questionId.Value));
             }
             Question.QuestionCategoryId = questionCategoryId ?? 0;
-            return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(Question question)

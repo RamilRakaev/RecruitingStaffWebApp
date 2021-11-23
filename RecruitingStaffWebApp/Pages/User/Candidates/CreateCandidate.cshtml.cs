@@ -17,10 +17,9 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         public SelectList Vacancies { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public async Task OnGet()
         {
             Vacancies = new SelectList(await _mediator.Send(new GetVacanciesQuery()), "Id", "Name");
-            return await RightVerification();
         }
 
         public async Task<IActionResult> OnPost(Candidate candidate, int vacancyId)
