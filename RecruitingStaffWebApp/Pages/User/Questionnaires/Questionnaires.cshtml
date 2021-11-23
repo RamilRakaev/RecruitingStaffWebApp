@@ -3,17 +3,22 @@
 @{
     ViewData["Title"] = "Анкеты";
 }
+<script src="~/js/tables.js"></script>
+<script>
+    let tables = new Tables("questionnairesBtn", "questionnairesTable");
+</script>
 <div class="row justify-content-center mb-3">
     <div class="col-11">
         <div class="d-flex w-100 mb-2 justify-content-between">
             <h4>Анкеты</h4>
             <div>
-                <a class="btn btn-dark m-2" asp-page="QuestionnaireForm">Создать анкету</a>
+                <button id="questionnairesBtn" class="btn btn-dark d-none" onclick="tables.goBack()">Вернуться к анкетам</button>
+                <a class="btn btn-success m-2" asp-page="QuestionnaireForm">Создать анкету</a>
             </div>
         </div>
     </div>
     <div class="col-12">
-        <table class="table">
+        <table id="questionnairesTable" class="table">
             <thead class="thead-light">
                 <tr>
                     <th>Анкета</th>
@@ -26,9 +31,12 @@
                     <tr>
                         <td>@questionnaire.Name</td>
                         <td>
-                            <a class="btn btn-info m-2" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@questionnaire.Id">Перейти</a>
+                            <button class="btn btn-info m-2" onclick="tables.goToTable(@questionnaire.Id)">Перейти</button>
                             <a class="btn btn-warning m-2" asp-page="QuestionnaireForm" asp-route-questionnaireId="@questionnaire.Id">Изменить</a>
-                            <form class="d-inline" method="post">
+                            <a class="btn btn-success" asp-page="QuestionCategoryForm" asp-route-quesionnaireId="@questionnaire.Id">Добавить категорию</a>
+                            <a class="btn btn-dark" asp-page="Candidates" asp-route-questionnaireId="@questionnaire.Id">Кандидаты</a>
+                            <a class="btn btn-dark" asp-page="/User/Vacancies/ConcreteVacancy" asp-route-vacancyId="@questionnaire.VacancyId">Вакансия</a>
+                            <form class="d-inline" method="post" asp-page-handler="RemoveQuestionnaire">
                                 <input type="hidden" name="questionnaireId" value="@questionnaire.Id" />
                                 <button class="btn btn-danger m-2">Удалить</button>
                             </form>
@@ -37,5 +45,39 @@
                 }
             </tbody>
         </table>
+        @foreach (var questionnaire in Model.Questionnaires)
+        {
+            <table id="@questionnaire.Id" class="table d-none">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Категории вопросов</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var questionCategory in Model.QuestionCategories.Where(qc => qc.QuestionnaireId == questionnaire.Id))
+                    {
+                        <tr>
+                            <td>
+                                @questionCategory.Name
+                            </td>
+                            <td>
+                                <a class="btn btn-info "
+                                   asp-page="QuestionsByQuestionCategory"
+                                   asp-route-questionCategoryId="@questionCategory.Id">
+                                    Перейти
+                                </a>
+                                <a class="btn btn-warning" asp-page="QuestionCategoryForm" asp-route-questionCategoryId="@questionCategory.Id">Изменить</a>
+                                <form class="d-inline" method="post" asp-page-handler="RemoveQuestionCategory">
+                                    <input type="hidden" name="questionnaireId" value="@questionnaire.Id" />
+                                    <input type="hidden" name="questionCategoryId" value="@questionCategory.Id" />
+                                    <button class="btn btn-danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>

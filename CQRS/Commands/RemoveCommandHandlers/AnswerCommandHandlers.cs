@@ -1,6 +1,5 @@
 ﻿using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,6 +38,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             oldAnswer.CandidateId = newAnswer.CandidateId;
             oldAnswer.QuestionId = newAnswer.QuestionId;
             oldAnswer.Text = newAnswer.Text;
+            oldAnswer.Comment = newAnswer.Comment;
             oldAnswer.Estimation = newAnswer.Estimation;
             await _answerRepository.SaveAsync(cancellationToken);
         }

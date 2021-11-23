@@ -1,0 +1,93 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Questionnaires.QuestionsByQuestionCategoryModel
+@{
+    ViewData["Title"] = "Вопросы";
+}
+<script src="~/js/tables.js"></script>
+<script>
+    let tables = new Tables("questionsBtn", "questionsTable");
+</script>
+<div class="row justify-content-center">
+    <div class="col-11">
+        <div class="d-flex w-100 mb-3 justify-content-between">
+            <h4>@Model.QuestionCategory.Name</h4>
+            <div>
+                <button id="questionsBtn" class="btn btn-dark d-none" onclick="tables.goBack()">Вернуться</button>
+                <a class="btn btn-dark" asp-page="Questionnaires">Анкеты</a>
+                <a class="btn btn-success" asp-page="QuestionForm" asp-route-quesionnaireId="@Model.QuestionCategory.QuestionnaireId" asp-route-questionCategoryId="@Model.QuestionCategory.Id">Создать вопрос</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <table id="questionsTable" class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Вопросы</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var question in Model.Questions)
+                {
+                    <tr>
+                        <td>
+                            <a class="text-dark d-block">@question.Name</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-info" onclick="tables.goToTable(@question.Id)">Ответы</a>
+                            <a class="btn btn-warning" asp-page="QuestionForm" asp-route-quesionnaireId="@Model.QuestionCategory.QuestionnaireId" asp-route-questionId="@question.Id">Изменить</a>
+                            <a class="btn btn-primary" asp-page="AnswerForm" asp-route-questionId="@question.Id">Добавить ответ</a>
+                            <form class="d-inline" method="post" asp-page-handler="RemoveQuestion">
+                                <input type="hidden" name="questionId" value="@question.Id" />
+                                <input type="hidden" name="questionCategoryId" value="@Model.QuestionCategory.Id" />
+                                <button class="btn btn-danger">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @foreach (var question in Model.Questions)
+        {
+            <table id="@question.Id" class="table d-none">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Ответы</th>
+                        <th>Оценки</th>
+                        <th>Комментарий</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var answer in Model.Answers.Where(a => a.QuestionId == question.Id))
+                    {
+                        <tr>
+                            <td>@answer.Text</td>
+                            <td>@answer.Estimation</td>
+                            <td>@answer.Comment</td>
+                            <td>
+                                <a class="btn btn-info ml-2 mb-2"
+                                   asp-page="AnswerAuthor"
+                                   asp-route-candidateId="@answer.CandidateId"
+                                   asp-route-questionId="@answer.QuestionId">
+                                    Автор ответа
+                                </a>
+                                <a class="btn btn-warning ml-2 mb-2"
+                                   asp-page="AnswerForm"
+                                   asp-route-answerId="@answer.Id">
+                                    Изменить
+                                </a>
+                                <form class="d-inline" method="post" asp-page-handler="RemoveAnswer">
+                                    <input type="hidden" name="questionId" value="@question.Id" />
+                                    <input type="hidden" name="answerId" value="@answer.Id" />
+                                    <button class="btn btn-danger ml-2 mb-2">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+    </div>
+</div>

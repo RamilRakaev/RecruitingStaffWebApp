@@ -27,10 +27,10 @@
             else
             {
                 <input type="hidden" asp-for="@Model.Question.QuestionCategoryId" />
-                <a class="btn btn-dark float-left"
-                   asp-page="ConcreteQuestionCategory"
+                <a class="btn btn-info"
+                   asp-page="QuestionsByQuestionCategory"
                    asp-route-questionCategoryId="@Model.Question.QuestionCategoryId">
-                    Текущая категория
+                    Категории
                 </a>
             }
             <button class="btn btn-success float-right">Отправить</button>

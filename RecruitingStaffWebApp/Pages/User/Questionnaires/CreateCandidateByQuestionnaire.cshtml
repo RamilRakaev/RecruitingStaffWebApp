@@ -6,6 +6,7 @@
 }
 <div class="row justify-content-center">
     <form method="post">
+        <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
         <div class="form-group">
             <label>Полное имя</label>
             <input type="text" class="form-control" asp-for="@candidate.FullName" />
@@ -26,7 +27,7 @@
             <label>Семейное положение</label>
             <input type="text" class="form-control" asp-for="@candidate.MaritalStatus" />
         </div>
-        <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
-        <button class="btn btn-dark">Отправить</button>
+        <a class="btn btn-dark" asp-page="Questionnaires">Анкеты</a>
+        <button class="btn btn-success float-right">Отправить</button>
     </form>
 </div>

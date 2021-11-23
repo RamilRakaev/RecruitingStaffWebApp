@@ -42,7 +42,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task<IActionResult> OnPostCreateQuestionCategory(QuestionCategory questionCategory)
         {
             await _mediator.Send(new CreateOrChangeQuestionCategoryCommand(questionCategory));
-            return RedirectToPage("ConcreteQuestionnaire", new { questionnaireId = questionCategory.QuestionnaireId });
+            return RedirectToPage("Questionnaires", new { questionnaireId = questionCategory.QuestionnaireId });
         }
     }
 }

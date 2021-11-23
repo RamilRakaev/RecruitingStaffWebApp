@@ -8,39 +8,55 @@
             <input type="hidden" name="questionId" value="@Model.Answer.QuestionId" />
             <input type="hidden" name="questionId" value="@Model.Answer.Id" />
             <div class="input-group mb-3 w-100">
-                <input type="text" class="form-control" placeholder="Фрагмент имени кандидата" aria-describedby="button-search" name="nameFragment" />
+                <input type="text"
+                       class="form-control"
+                       placeholder="Фрагмент имени кандидата"
+                       aria-describedby="button-search"
+                       name="nameFragment" />
                 <button class="btn btn-outline-primary" id="button-search">Поиск</button>
             </div>
         </form>
     </div>
     <div class="col-7">
-        <a class="btn btn-dark" asp-page="AnswersOnQuestion" asp-route-questionId="@Model.Answer.QuestionId">Ответы</a>
-        @if (Model.Candidates.Length == 0)
+        <a class="btn btn-dark" asp-page="QuestionsByQuestionCategory" asp-route-questionId="@Model.Answer.QuestionId">Вопросы</a>
+        @if (Model.Answer.Id == 0 && Model.Candidates.Length == 0)
         {
             <p class="text-warning">@Model.Message</p>
         }
         else
         {
             <form method="post" asp-page-handler="CreateAnswer">
+                <input type="hidden" asp-for="@Model.Answer.Id" />
                 <input type="hidden" asp-for="@Model.Answer.QuestionId" />
                 <div class="form-group">
                     <label>Текст ответа</label>
                     <input class="form-control" asp-for="@Model.Answer.Text" />
                 </div>
                 <div class="form-group">
+                    <label>Комментарий</label>
+                    <input class="form-control" asp-for="@Model.Answer.Comment" />
+                </div>
+                <div class="form-group">
                     <label>Оценка</label>
                     <input class="form-control" type="number" asp-for="@Model.Answer.Estimation" />
                 </div>
-                <label>Кандидат</label>
-                @foreach (var candidate in Model.Candidates)
+                @if (Model.Answer.Id == 0)
                 {
-                    <div class="form-group">
-                        <input class="custom-radio"
-                               type="radio"
-                               asp-for="@Model.Answer.CandidateId"
-                               value="@candidate.Id" checked />
-                        <label>@candidate.FullName</label>
-                    </div>
+                    <label>Кандидат</label>
+                    @foreach (var candidate in Model.Candidates)
+                    {
+                        <div class="form-group">
+                            <input class="custom-radio"
+                                   type="radio"
+                                   asp-for="@Model.Answer.CandidateId"
+                                   value="@candidate.Id" checked />
+                            <label>@candidate.Id: @candidate.FullName</label>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <input type="hidden" asp-for="@Model.Answer.CandidateId" />
                 }
                 <button class="btn btn-success">Отправить</button>
             </form>

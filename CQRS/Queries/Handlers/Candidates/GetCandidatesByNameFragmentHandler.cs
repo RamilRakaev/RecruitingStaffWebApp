@@ -20,7 +20,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
 
         public Task<Candidate[]> Handle(GetCandidatesByNameFragmentQuery request, CancellationToken cancellationToken)
         {
-            var candidates = _candidateRepository.GetAllAsNoTracking().Where(c => c.FullName.Contains(request.NameFragment));
+            var candidates = _candidateRepository
+                .GetAllAsNoTracking()
+                .Where(c => c.FullName.Contains(request.NameFragment));
             if (candidates != null)
                 return Task.FromResult(candidates.ToArray());
             else

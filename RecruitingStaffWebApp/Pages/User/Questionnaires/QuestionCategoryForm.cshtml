@@ -4,19 +4,19 @@
 }
 <div class="row justify-content-center">
     <div class="col-7">
-        <form class="form-inline" method="post" asp-page-handler="SearchCategories">
-            <input type="hidden" asp-for="QuestionCategory.Id" />
-            <input type="hidden" asp-for="QuestionCategory.QuestionnaireId" />
-            <div class="input-group mb-3 w-100">
-                <input type="text" class="form-control" placeholder="Фрагмент имени анкеты" aria-describedby="button-search" name="nameFragment" />
-                <button class="btn btn-outline-primary" id="button-search">Поиск</button>
-            </div>
-        </form>
-    </div>
-    <div class="col-7">
         @if (Model.Questionnaires.Length == 0 && Model.QuestionCategory.QuestionnaireId == 0)
         {
             <p class="text-warning">Выберите анкету</p>
+            <div class="col-7">
+                <form class="form-inline" method="post" asp-page-handler="SearchCategories">
+                    <input type="hidden" asp-for="QuestionCategory.Id" />
+                    <input type="hidden" asp-for="QuestionCategory.QuestionnaireId" />
+                    <div class="input-group mb-3 w-100">
+                        <input type="text" class="form-control" placeholder="Фрагмент имени анкеты" aria-describedby="button-search" name="nameFragment" />
+                        <button class="btn btn-outline-primary" id="button-search">Поиск</button>
+                    </div>
+                </form>
+            </div>
         }
         else
         {
@@ -37,7 +37,7 @@
                         <label>@questionnaire.Name</label>
                     </div>
                 }
-                <a class="btn btn-dark float-left" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionCategory.QuestionnaireId">Текущая анкета</a>
+                <a class="btn btn-dark" asp-page="Questionnaires">Анкеты</a>
                 <button class="btn btn-success float-right">Отправить</button>
             </form>
         }

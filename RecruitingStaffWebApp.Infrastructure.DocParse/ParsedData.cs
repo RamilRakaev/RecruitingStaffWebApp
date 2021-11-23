@@ -15,8 +15,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         public Vacancy Vacancy { get; set; }
         public Candidate Candidate { get; set; }
         public Questionnaire Questionnaire { get; set; }
-
-
         public List<QuestionCategory> QuestionCategories { get; set; }
         public List<Question> Questions { get; set; }
         public List<Answer> Answers { get; set; }

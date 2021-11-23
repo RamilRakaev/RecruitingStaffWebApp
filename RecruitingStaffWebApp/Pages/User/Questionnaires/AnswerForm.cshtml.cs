@@ -20,7 +20,6 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public Answer Answer { get; set; }
         public Candidate[] Candidates { get; set; }
         public string Message { get; set; } = "Выберите кандидата";
-        public string UrlAddress { get; set; }
 
         public async Task OnGet(int? answerId, int questionId)
         {
@@ -45,7 +44,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task<IActionResult> OnPostCreateAnswer(Answer answer)
         {
             await _mediator.Send(new CreateOrChangeAnswerCommand(answer));
-            return RedirectToPage("AnswersOnQuestion", new { questionId = answer.QuestionId });
+            return RedirectToPage("QuestionsByQuestionCategory", new { questionId = answer.QuestionId });
         }
     }
 }
