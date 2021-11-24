@@ -34,7 +34,7 @@
                     <th><h5>Имя свойства</h5></th>
                     <th><h5>Значение свойства</h5></th>
                     <th>
-                        <a class="btn btn-outline-dark font-weight-normal"
+                        <a class="btn btn-outline-success font-weight-normal"
                            asp-page="OptionForm"
                            asp-route-CandidateId="@Model.Candidate.Id">
                             Добавить
@@ -60,7 +60,7 @@
                             }
                             else
                             {
-                                <a class="btn btn-dark m-2"
+                                <a class="btn btn-warning m-2"
                                    asp-page="OptionForm"
                                    asp-route-propertyName="@option.PropertyName"
                                    asp-route-CandidateId="@option.CandidateId"

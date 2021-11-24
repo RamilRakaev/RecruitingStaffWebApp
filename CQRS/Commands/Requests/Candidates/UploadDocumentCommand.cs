@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates
 {
-    public class UploadFileCommand : IRequest<bool>
+    public class UploadDocumentCommand : IRequest<bool>
     {
-        public UploadFileCommand(IFormFile uploadedFile, int candidateId, int questionnaireId)
+        public UploadDocumentCommand(IFormFile uploadedFile, int candidateId, int questionnaireId)
         {
             UploadedFile = uploadedFile;
             CandidateId = candidateId;

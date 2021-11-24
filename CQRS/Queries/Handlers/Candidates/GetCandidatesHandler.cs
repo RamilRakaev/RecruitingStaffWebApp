@@ -1,11 +1,10 @@
-﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
-using MediatR;
+﻿using MediatR;
+using RecruitingStaff.Domain.Interfaces;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Candidates.Handlers
 {
@@ -20,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Candidates.Handlers
 
         public Task<Candidate[]> Handle(GetCandidatesQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_CandidateRepository.GetAll().ToArray());
+            return Task.FromResult(_CandidateRepository.GetAllAsNoTracking().ToArray());
         }
     }
 }

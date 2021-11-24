@@ -17,7 +17,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
         private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
         private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaireRepository;
         private readonly IRepository<Option> _optionRepository;
-        private readonly CandidateFileManagement rewriter;
+        private readonly CandidateFilesManagement fileManager;
 
         public CandidateCommandHandlers(IRepository<Answer> answerRepository,
             IRepository<Candidate> candidateRepository,
@@ -32,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             _candidateVacancyRepository = candidateVacancyRepository;
             _candidateQuestionnaireRepository = candidateQuestionnaireRepository;
             _optionRepository = optionRepository;
-            rewriter = new CandidateFileManagement(fileRepository, options, webHost);
+            fileManager = new CandidateFilesManagement(fileRepository, options, webHost);
         }
 
         public async Task RemoveCandidate(int candidateId, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             }
             await _optionRepository.SaveAsync(cancellationToken);
 
-            await rewriter.DeleteCandidateFiles(candidateId, cancellationToken);
+            await fileManager.DeleteCandidateFiles(candidateId, cancellationToken);
 
             var candidateVacancies = _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId).ToArray();
             if (candidateVacancies != null)

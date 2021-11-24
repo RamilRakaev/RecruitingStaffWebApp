@@ -36,6 +36,12 @@ namespace RecruitingStaff.Infrastructure.Repositories
             return await GetAll().AsNoTracking().FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
+        public Task Update(Entity entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            return Task.CompletedTask;
+        }
+
         public virtual async Task AddAsync(Entity entity, CancellationToken cancellationToken)
         {
             await _context.Set<Entity>().AddAsync(entity, cancellationToken);

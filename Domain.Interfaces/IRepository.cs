@@ -8,6 +8,8 @@ namespace RecruitingStaff.Domain.Interfaces
 {
     public interface IRepository<Entity> : IStorageRequests<Entity> where Entity : BaseEntity
     {
+        Task Update(Entity entity);
+
         public Task AddAsync(Entity entity, CancellationToken cancellationToken);
 
         public Task RemoveAsync(Entity entity);

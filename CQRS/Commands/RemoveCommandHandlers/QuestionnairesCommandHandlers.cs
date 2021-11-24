@@ -3,7 +3,9 @@ using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,9 +15,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
     public class QuestionnairesCommandHandlers : QuestionCategoryRemoveHandler
     {
         protected readonly IRepository<Questionnaire> _questionnaireRepository;
-        private readonly CandidateFileManagement rewriter;
+        private readonly CandidateFilesManagement documentManager;
 
-        public QuestionnairesCommandHandlers(IRepository<Answer> answerRepository,
+        public QuestionnairesCommandHandlers(
+            IRepository<Answer> answerRepository,
             IRepository<Question> questionRepository,
             IRepository<QuestionCategory> questionCategoryRepository,
             IRepository<Questionnaire> questionnaireRepository,
@@ -25,7 +28,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             : base(answerRepository, questionRepository, questionCategoryRepository)
         {
             _questionnaireRepository = questionnaireRepository;
-            rewriter = new CandidateFileManagement(fileRepository, options, webHost);
+            documentManager = new CandidateFilesManagement(
+                fileRepository,
+                options,
+                webHost);
         }
 
         public async Task RemoveQuestionnaire(int questionnireId, CancellationToken cancellationToken)
@@ -42,7 +48,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
                     await RemoveQuestionCategory(questionCategoryId, cancellationToken);
                 }
             
-            await rewriter.DeleteQuestionnaireFiles(questionnireId, cancellationToken);
+            await documentManager.DeleteQuestionnaireFiles(questionnireId, cancellationToken);
             await _questionnaireRepository.RemoveAsync(questionnaire);
             await _questionnaireRepository.SaveAsync(cancellationToken);
         }
