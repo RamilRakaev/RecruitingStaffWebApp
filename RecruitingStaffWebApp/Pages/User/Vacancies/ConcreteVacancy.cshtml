@@ -9,6 +9,7 @@
             <h4>@Model.Vacancy.Name</h4>
             <div>
                 <a class="btn btn-dark text-white" asp-page="Vacancies">Вакансии</a>
+                <a class="btn btn-dark" asp-page="/User/Questionnaires/Questionnaires">Анкеты</a>
                 <a class="btn btn-warning" asp-page="VacancyForm" asp-route-vacancyId="@Model.Vacancy.Id">Изменить</a>
                 <form class="d-inline" method="post">
                     <input type="hidden" name="vacancyId" value="@Model.Vacancy.Id" />
