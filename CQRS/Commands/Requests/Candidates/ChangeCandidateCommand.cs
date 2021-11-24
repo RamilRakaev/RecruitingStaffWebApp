@@ -6,15 +6,15 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates
 {
     public class ChangeCandidateCommand : IRequest<bool>
     {
-        public ChangeCandidateCommand(Candidate candidate, IFormFile formFile, params int[] questionnairesIds)
+        public ChangeCandidateCommand(Candidate candidate, IFormFile formFile, int questionnaireId)
         {
             Candidate = candidate;
             UploadedFile = formFile;
-            QuestionnaireIds = questionnairesIds;
+            QuestionnaireId = questionnaireId;
         }
 
         public Candidate Candidate { get; set; }
         public IFormFile UploadedFile { get; set; }
-        public int[] QuestionnaireIds { get; set; }
+        public int QuestionnaireId { get; set; }
     }
 }
