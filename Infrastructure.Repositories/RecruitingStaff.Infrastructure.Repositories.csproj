@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>Repisitories.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

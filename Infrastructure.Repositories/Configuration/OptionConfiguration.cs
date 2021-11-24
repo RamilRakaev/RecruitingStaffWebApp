@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaff.Infrastructure.Repositories.Configuration
 {

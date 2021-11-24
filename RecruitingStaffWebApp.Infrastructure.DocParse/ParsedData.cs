@@ -1,4 +1,5 @@
 ﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using System.Collections.Generic;
 
 namespace RecruitingStaffWebApp.Infrastructure.DocParse

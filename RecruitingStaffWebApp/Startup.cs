@@ -17,6 +17,7 @@ using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Validators;
 using RecruitingStaffWebApp.Services.DocParse;
 using RecruitingStaffWebApp.Infrastructure.DocParse;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaffWebApp
 {

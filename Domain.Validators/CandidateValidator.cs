@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaff.Domain.Validators
 {

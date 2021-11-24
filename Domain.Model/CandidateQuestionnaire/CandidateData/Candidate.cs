@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
+namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
 {
     public class Candidate : BaseEntity
     {
@@ -9,6 +9,7 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
         public string TelephoneNumber { get; set; }
+        public string EmailAddress { get; set; }
         public string MaritalStatus { get; set; }
 
         public List<CandidateQuestionnaire> CandidateQuestionnaires { get; set; }
@@ -20,5 +21,7 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         public RecruitingStaffWebAppFile Photo { get; set; }
 
         public List<RecruitingStaffWebAppFile> Documents { get; set; }
+        public List<PreviousJob> PreviousJobs { get; set; }
+        public List<Education> Educations { get; set; }
     }
 }

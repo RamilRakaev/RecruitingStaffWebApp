@@ -1,4 +1,5 @@
-﻿
+﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+
 namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 {
     public class CandidateQuestionnaire : BaseEntity

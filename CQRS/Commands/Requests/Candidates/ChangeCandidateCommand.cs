@@ -1,6 +1,6 @@
-﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates
 {

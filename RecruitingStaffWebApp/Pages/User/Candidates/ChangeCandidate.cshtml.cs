@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using System.Threading.Tasks;

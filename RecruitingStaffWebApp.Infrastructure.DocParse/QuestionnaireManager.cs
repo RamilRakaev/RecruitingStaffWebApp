@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using System.Threading;
 using System.Threading.Tasks;

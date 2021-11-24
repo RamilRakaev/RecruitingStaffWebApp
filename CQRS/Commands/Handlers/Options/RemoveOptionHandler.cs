@@ -4,6 +4,7 @@ using RecruitingStaff.Domain.Model;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Options
 {

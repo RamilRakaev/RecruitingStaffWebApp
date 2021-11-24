@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
 {
