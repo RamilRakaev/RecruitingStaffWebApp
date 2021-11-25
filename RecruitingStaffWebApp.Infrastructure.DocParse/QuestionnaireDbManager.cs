@@ -68,11 +68,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         {
             foreach (var questionCategory in _parsedData.QuestionCategories)
             {
-                if (await _mediator.Send(new ContainsQuestionCategoryByNameQuery(questionCategory.Name)) == false)
-                {
-                    questionCategory.QuestionnaireId = questionnaireId;
-                    await _mediator.Send(new CreateOrChangeQuestionCategoryCommand(questionCategory));
-                }
+                questionCategory.QuestionnaireId = questionnaireId;
+                await _mediator.Send(new CreateOrChangeQuestionCategoryCommand(questionCategory));
             }
             foreach (var question in _parsedData.Questions)
             {
