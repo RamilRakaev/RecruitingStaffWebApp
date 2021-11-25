@@ -34,7 +34,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement
             string questionnaireName,
             CancellationToken cancellationToken)
         {
-            
             RecruitingStaffWebAppFile file = new()
             {
                 FileType = FileType.Questionnaire,

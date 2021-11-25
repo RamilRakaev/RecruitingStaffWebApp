@@ -1,34 +1,18 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using MediatR;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors;
-using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecruitingStaffWebApp.Infrastructure.DocParse
+namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 {
-    public class QuestionnaireManager : IQuestionnaireManager
+    public class CSharpDeveloperQuestionnaireParser : ParserStrategy
     {
-        private readonly WebAppOptions _options;
-
-        ParserStrategy _parserStrategy;
-
-        private string _fileName;
-        private string questionnaireName;
-        private QuestionCategory currentCategory;
-        private Question currentQuestion;
-
-        private readonly ParsedData parsedData;
-        private readonly QuestionnaireDbManager questionnaireDbManager;
-
         private const int DateOfBirthRow = 2;
         private const int DateOfBirthColumn = 1;
 
@@ -44,52 +28,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         private const int MaritalStatusRow = 4;
         private const int MaritalStatusColumn = 1;
 
-        public QuestionnaireManager(
-            IOptions<WebAppOptions> options,
-            ParserStrategy parserStrategy,
-            IMediator mediator)
+        public CSharpDeveloperQuestionnaireParser(IOptions<WebAppOptions> options) : base(options)
         {
-            _options = options.Value;
-            _parserStrategy = parserStrategy;
-            parsedData = new ParsedData();
-            questionnaireDbManager = new QuestionnaireDbManager(mediator);
         }
 
-        public List<string> Errors { get; private set; } = new List<string>();
-
-        public async Task<bool> ParseAndSaved(string fileName)
+        public sealed override async Task<ParsedData> Parse(string fileName)
         {
-            try
-            {
-                _fileName = fileName;
-                await Parse();
-                var data = await _parserStrategy.Parse(fileName);
-                var checking = new ParsedDataCheck(new string[] { "FullName" });
-                if (checking.Checking(parsedData))
-                {
-                    await questionnaireDbManager.SaveParsedData(parsedData);
-                    File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}");
-                }
-                else
-                {
-                    Errors.AddRange(checking.ExceptionMessages);
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                Errors.Add(e.Message);
-                return false;
-            }
-            finally
-            {
-                File.Delete($"{_options.DocumentsSource}\\{_fileName}");
-            }
-        }
-
-        private async Task Parse()
-        {
-            using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{_fileName}", false))
+            using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
                 questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
@@ -110,6 +55,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                     }
                 }
             }
+            return parsedData;
         }
 
         private async Task ParseQuestionnaire(OpenXmlElement table)
@@ -157,15 +103,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             vacancyName = vacancyName.Trim(' ');
             parsedData.Vacancy = new Vacancy() { Name = vacancyName };
             return Task.CompletedTask;
-        }
-
-        private static string ExtractCellTextFromRow(IEnumerable<OpenXmlElement> rows, int rowInd, int cellInd)
-        {
-            return rows
-                .ElementAt(rowInd)
-                .ChildElements
-                .Where(e => e.LocalName == "tc")
-                .ElementAt(cellInd).InnerText;
         }
 
         private Task ParseQuestionCategory(OpenXmlElement child)
@@ -219,3 +156,4 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         }
     }
 }
+
