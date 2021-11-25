@@ -9,6 +9,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
+using RecruitingStaffWebApp.Services.DocParse;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Infrastructure.DocParse

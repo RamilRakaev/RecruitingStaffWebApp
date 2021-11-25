@@ -1,9 +1,9 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const int MaritalStatusRow = 4;
         private const int MaritalStatusColumn = 1;
 
-        public CSharpDeveloperQuestionnaireParser(IOptions<WebAppOptions> options) : base(options)
+        public CSharpDeveloperQuestionnaireParser(WebAppOptions options) : base(options)
         {
         }
 

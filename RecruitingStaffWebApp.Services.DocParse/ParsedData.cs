@@ -2,7 +2,7 @@
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using System.Collections.Generic;
 
-namespace RecruitingStaffWebApp.Infrastructure.DocParse
+namespace RecruitingStaffWebApp.Services.DocParse
 {
     public class ParsedData
     {
