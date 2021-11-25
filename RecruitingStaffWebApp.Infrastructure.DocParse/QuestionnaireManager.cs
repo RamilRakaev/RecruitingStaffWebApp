@@ -66,11 +66,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 parserStrategy = new CSharpDeveloperQuestionnaireParser(_options);
             }
-            if (jobQuestionnaire == JobQuestionnaire.PHPDeveloperQuestionnaire)
+            if (jobQuestionnaire == JobQuestionnaire.PhpDeveloperQuestionnaire)
             {
-                parserStrategy = new CSharpDeveloperQuestionnaireParser(_options);
+                parserStrategy = new PhpDeveloperQuestionnaireParser(_options);
             }
-
             return Task.CompletedTask;
         }
     }

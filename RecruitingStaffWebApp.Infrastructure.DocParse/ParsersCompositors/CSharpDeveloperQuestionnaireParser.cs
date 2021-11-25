@@ -143,13 +143,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                     Question = currentQuestion,
                     Text = child.ChildElements[4].InnerText
                 };
-                try
-                {
-                    answer.Estimation = child.ChildElements[3].InnerText == string.Empty ?
-                        (byte)0 : Convert.ToByte(child.ChildElements[3].InnerText);
-                }
-                catch
-                { }
+                _ = byte.TryParse(child.ChildElements[3].InnerText, out byte estimation);
+                answer.Estimation = estimation;
                 parsedData.Answers.Add(answer);
             }
             return Task.CompletedTask;

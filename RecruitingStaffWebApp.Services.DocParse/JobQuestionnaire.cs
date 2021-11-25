@@ -3,7 +3,7 @@
     public enum JobQuestionnaire
     {
         CSharpDeveloperQuestionnaire,
-        PHPDeveloperQuestionnaire,
+        PhpDeveloperQuestionnaire,
         OfficeQuestionnaire,
         DevOpsQuestionnaire
     }

@@ -22,12 +22,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
             var questionnaire = await _questionnaireRepository.FindAsync(request.QuestionCategory.Id, cancellationToken);
             if (questionnaire == null)
             {
-                if (await _questionnaireRepository
+                var category = await _questionnaireRepository
                     .GetAllAsNoTracking()
                     .FirstOrDefaultAsync(q => q.Name.Equals(request.QuestionCategory.Name)
-                    && q.QuestionnaireId == request.QuestionCategory.QuestionnaireId, cancellationToken)
-                    != null)
+                    && q.QuestionnaireId == request.QuestionCategory.QuestionnaireId, cancellationToken);
+                if (category != null)
                 {
+                    request.QuestionCategory.Id = category.Id;
                     return false;
                 }
                 await _questionnaireRepository.AddAsync(request.QuestionCategory, cancellationToken);

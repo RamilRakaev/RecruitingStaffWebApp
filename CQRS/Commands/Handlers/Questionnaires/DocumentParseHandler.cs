@@ -27,13 +27,20 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 
         public Task<bool> Handle(DocumentParseCommand request, CancellationToken cancellationToken)
         {
-            using(var stream = new FileStream($"{_options.DocumentsSource}\\{request.FormFile.FileName}", FileMode.CreateNew))
+            if (request.FormFile != null)
             {
-                request.FormFile.CopyTo(stream);
+                using (var stream = new FileStream($"{_options.DocumentsSource}\\{request.FormFile.FileName}", FileMode.CreateNew))
+                {
+                    request.FormFile.CopyTo(stream);
+                }
+                return _questionnaireManager.ParseAndSaved(
+                    request.FormFile.FileName,
+                    JobQuestionnaire.PhpDeveloperQuestionnaire);
             }
-            return _questionnaireManager.ParseAndSaved(
-                request.FormFile.FileName,
-                JobQuestionnaire.CSharpDeveloperQuestionnaire);
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         /// <summary>
