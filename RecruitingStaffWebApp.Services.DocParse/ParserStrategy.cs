@@ -11,7 +11,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
     {
         protected readonly WebAppOptions _options;
 
-        protected string questionnaireName;
         protected QuestionCategory currentCategory;
         protected Question currentQuestion;
 

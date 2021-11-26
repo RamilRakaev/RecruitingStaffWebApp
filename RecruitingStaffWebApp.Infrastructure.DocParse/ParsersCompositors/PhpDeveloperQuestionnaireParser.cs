@@ -13,6 +13,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 {
     public class PhpDeveloperQuestionnaireParser : ParserStrategy
     {
+        private const string questionnaireName = "Анкета PHP Junior разработчика";
+
         private const int DateOfBirthRow = 2;
         private const int DateOfBirthColumn = 1;
 
@@ -52,8 +54,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
-                questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
-
 
                 var table = body.ChildElements.Where(e => e.LocalName == "tbl").First();
 

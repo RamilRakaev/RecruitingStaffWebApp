@@ -13,6 +13,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 {
     public class CSharpDeveloperQuestionnaireParser : ParserStrategy
     {
+        private const string questionnaireName = "Анкета си шарп разработчика";
+
         private const int DateOfBirthRow = 2;
         private const int DateOfBirthColumn = 1;
 
@@ -37,7 +39,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
-                questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
+                //questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
 
                 foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
                 {
@@ -56,21 +58,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 }
             }
             return parsedData;
-        }
-
-        private async Task ParseQuestionnaire(OpenXmlElement table)
-        {
-            parsedData.Questionnaire = new Questionnaire
-            {
-                Name = questionnaireName,
-                VacancyId = parsedData.Vacancy.Id
-            };
-
-            foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
-            {
-                await ParseQuestionCategory(child);
-                await ParseQuestion(child);
-            }
         }
 
         private async Task ParseCandidate(OpenXmlElement table)
@@ -103,6 +90,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             vacancyName = vacancyName.Trim(' ');
             parsedData.Vacancy = new Vacancy() { Name = vacancyName };
             return Task.CompletedTask;
+        }
+
+        private async Task ParseQuestionnaire(OpenXmlElement table)
+        {
+            parsedData.Questionnaire = new Questionnaire
+            {
+                Name = questionnaireName,
+                VacancyId = parsedData.Vacancy.Id
+            };
+
+            foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
+            {
+                await ParseQuestionCategory(child);
+                await ParseQuestion(child);
+            }
         }
 
         private Task ParseQuestionCategory(OpenXmlElement child)

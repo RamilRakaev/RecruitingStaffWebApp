@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
@@ -19,22 +20,23 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 
         public async Task<Questionnaire> Handle(CreateOrChangeQuestionnaireCommand request, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionnaireRepository.FindAsync(request.Questionnaire.Id, cancellationToken);
+            var questionnaire = await _questionnaireRepository
+                .FindAsync(request.Questionnaire.Id, cancellationToken)
+                ?? await _questionnaireRepository
+                .GetAllAsNoTracking()
+                .Where(q => q.Name.Equals(request.Questionnaire.Name))
+                .FirstOrDefaultAsync(cancellationToken);
+            
             if (questionnaire == null)
             {
-                questionnaire = _questionnaireRepository.GetAllAsNoTracking().FirstOrDefault(q => q.Name.Equals(request.Questionnaire.Name));
-                if (questionnaire != null)
-                {
-                    return questionnaire;
-                }
                 await _questionnaireRepository.AddAsync(request.Questionnaire, cancellationToken);
                 await _questionnaireRepository.SaveAsync(cancellationToken);
                 return request.Questionnaire;
             }
             else
             {
-                questionnaire.Name = request.Questionnaire.Name;
-                questionnaire.VacancyId = request.Questionnaire.VacancyId;
+                request.Questionnaire.Id = questionnaire.Id;
+                await _questionnaireRepository.Update(request.Questionnaire);
                 await _questionnaireRepository.SaveAsync(cancellationToken);
             }
             return questionnaire;
