@@ -32,16 +32,18 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task<bool> ParseAndSaved(string fileName, JobQuestionnaire jobQuestionnaire)
         {
+            _fileName = fileName;
+            var oldPath = $"{_options.DocumentsSource}\\{_fileName}";
             try
             {
-                _fileName = fileName;
                 await Parsersearch(jobQuestionnaire);
                 parsedData = await parserStrategy.Parse(fileName);
                 var checking = new ParsedDataCheck(new string[] { "FullName" });
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData);
-                    File.Copy($"{_options.DocumentsSource}\\{_fileName}", $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}");
+                    var newPath = $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}";
+                    File.Copy(oldPath, newPath);
                 }
                 else
                 {
@@ -56,7 +58,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
             finally
             {
-                File.Delete($"{_options.DocumentsSource}\\{_fileName}");
+                File.Delete(oldPath);
             }
         }
 

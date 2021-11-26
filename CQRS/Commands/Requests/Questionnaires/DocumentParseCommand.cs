@@ -5,15 +5,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires
 {
     public class DocumentParseCommand : IRequest<bool>
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="documentName">Example: 1.Александров Александр Александрович.docx</param>
-        public DocumentParseCommand(IFormFile formFile)
+        public DocumentParseCommand(IFormFile formFile, int jobQuestionnaire)
         {
             FormFile = formFile;
+            JobQuestionnaire = jobQuestionnaire;
         }
 
         public IFormFile FormFile { get; set; }
+        public int JobQuestionnaire { get; set; }
     }
 }

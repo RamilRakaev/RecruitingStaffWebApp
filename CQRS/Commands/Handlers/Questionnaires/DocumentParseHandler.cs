@@ -6,6 +6,7 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Services.DocParse;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -29,12 +30,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
         {
             if (request.FormFile != null)
             {
-                using (var stream = new FileStream($"{_options.DocumentsSource}\\{request.FormFile.FileName}", FileMode.CreateNew))
+                var guid = Guid.NewGuid();
+                using (var stream = new FileStream($"{_options.DocumentsSource}\\{guid}", FileMode.CreateNew))
                 {
                     request.FormFile.CopyTo(stream);
                 }
                 return _questionnaireManager.ParseAndSaved(
-                    request.FormFile.FileName,
+                    guid.ToString(),
                     JobQuestionnaire.PhpDeveloperQuestionnaire);
             }
             else

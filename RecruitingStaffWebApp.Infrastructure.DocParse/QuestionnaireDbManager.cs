@@ -88,7 +88,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         {
             File = new RecruitingStaffWebAppFile()
             {
-                Source = $"{candidateId}.{parsedData.Candidate.FullName}.docx",
+                Source = $"{candidateId}.{parsedData.Candidate.FullName}" + parsedData.FileExtension,
                 FileType = FileType.Questionnaire,
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,

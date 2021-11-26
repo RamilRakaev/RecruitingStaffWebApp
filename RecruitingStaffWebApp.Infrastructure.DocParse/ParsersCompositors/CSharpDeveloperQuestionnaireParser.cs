@@ -39,20 +39,15 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
-                //questionnaireName = body.ChildElements.Where(e => e.LocalName == "p").FirstOrDefault().InnerText;
-
-                foreach (var element in body.ChildElements.Where(e => e.LocalName == "tbl"))
+                foreach (var candidateDataTable in body.ChildElements.Where(e => e.LocalName == "tbl"))
                 {
-                    await ParseCandidate(element);
-                    foreach (var row in element.ChildElements.Reverse())
+                    await ParseCandidate(candidateDataTable);
+                    foreach (var cell in candidateDataTable.ExtractCellsFromTable())
                     {
-                        foreach (var cell in row.ChildElements)
+                        var questionsTable = cell.FirstOrDefault(c => c.LocalName == "tbl");
+                        if (questionsTable != null)
                         {
-                            var table = cell.FirstOrDefault(c => c.LocalName == "tbl");
-                            if (table != null)
-                            {
-                                await ParseQuestionnaire(table);
-                            }
+                            await ParseQuestionnaire(questionsTable);
                         }
                     }
                 }
@@ -62,26 +57,17 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private async Task ParseCandidate(OpenXmlElement table)
         {
-            var rows = table.ChildElements.Where(e => e.LocalName == "tr");
+            var rows = table.ExtractRowsFromCandidateDataTable();
             var vacancyName = rows.ElementAt(0).InnerText;
-
             parsedData.Candidate = new Candidate
             {
-                FullName = ExtractCellTextFromRow(rows, FullNameRow, FullNameColumn)
+                FullName = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
+                DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
+                Address = rows.ExtractTextAfterCharacterFromRow(AddressRow, AddressColumn, ':'),
+                TelephoneNumber = rows.ExtractCellTextFromRow(TelephoneNumberRow, TelephoneNumberColumn),
+                MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
             };
-            PasreDateOfBirth(rows);
-            parsedData.Candidate.Address = ExtractCellTextFromRow(rows, AddressRow, AddressColumn);
-            parsedData.Candidate.Address = parsedData.Candidate.Address[(parsedData.Candidate.Address.IndexOf(':') + 1)..].Trim();
-            parsedData.Candidate.TelephoneNumber = ExtractCellTextFromRow(rows, TelephoneNumberRow, TelephoneNumberColumn);
-            parsedData.Candidate.MaritalStatus = ExtractCellTextFromRow(rows, MaritalStatusRow, MaritalStatusColumn);
             await VacancyParse(vacancyName);
-        }
-
-        private void PasreDateOfBirth(IEnumerable<OpenXmlElement> rows)
-        {
-            var dateStr = ExtractCellTextFromRow(rows, DateOfBirthRow, DateOfBirthColumn);
-            _ = DateTime.TryParse(dateStr, out var DateOfBirth);
-            parsedData.Candidate.DateOfBirth = DateOfBirth;
         }
 
         private Task VacancyParse(string vacancyName)
@@ -100,10 +86,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 VacancyId = parsedData.Vacancy.Id
             };
 
-            foreach (var child in table.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
+            foreach (var row in table.ExtractRowsFromTable())
             {
-                await ParseQuestionCategory(child);
-                await ParseQuestion(child);
+                await ParseQuestionCategory(row);
+                await ParseQuestion(row);
             }
         }
 

@@ -21,9 +21,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const int FullNameRow = 1;
         private const int FullNameColumn = 1;
 
-        private const int AddressRow = 2;
-        private const int AddressColumn = 2;
-
         private const int TelephoneNumberRow = 3;
         private const int TelephoneNumberColumn = 1;
 
@@ -77,19 +74,17 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private async Task ParseCandidate(OpenXmlElement table)
         {
-            var rows = table.ChildElements.Where(e => e.LocalName == "tr");
+            var rows = table.ExtractRowsFromCandidateDataTable();
             var vacancyName = rows.ElementAt(0).InnerText;
 
             parsedData.Candidate = new Candidate
             {
-                FullName = ExtractCellTextFromRow(rows, FullNameRow, FullNameColumn)
+                FullName = ExtractCellTextFromRow(rows, FullNameRow, FullNameColumn),
+                DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
+                TelephoneNumber = ExtractCellTextFromRow(rows, TelephoneNumberRow, TelephoneNumberColumn),
+                MaritalStatus = ExtractCellTextFromRow(rows, MaritalStatusRow, MaritalStatusColumn),
+                EmailAddress = ExtractCellTextFromRow(rows, EmailAddressRow, EmailAddressColumn),
             };
-            var dateStr = ExtractCellTextFromRow(rows, DateOfBirthRow, DateOfBirthColumn);
-            _ = DateTime.TryParse(dateStr, out var DateOfBirth);
-            parsedData.Candidate.DateOfBirth = DateOfBirth;
-            parsedData.Candidate.TelephoneNumber = ExtractCellTextFromRow(rows, TelephoneNumberRow, TelephoneNumberColumn);
-            parsedData.Candidate.MaritalStatus = ExtractCellTextFromRow(rows, MaritalStatusRow, MaritalStatusColumn);
-            parsedData.Candidate.EmailAddress = ExtractCellTextFromRow(rows, EmailAddressRow, EmailAddressColumn);
             EducationParse(rows, parsedData.Candidate);
             await VacancyParse(vacancyName);
         }
@@ -107,23 +102,14 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 specificationAndQualificationColumn).Split(",");
             education.Specification = specificationAndQualification[0].Trim(' ');
             education.Qualification = specificationAndQualification[1].Trim(' ');
-            //var dates = ExtractCellTextFromRow(table, DateOfEndTrainingRow, DateOfTrainingColumn).Split("\\");
-            var dateOfStart = ExtractCellTextFromRow(row, DateOfStartTrainingRow, DateOfStartTrainingColumn);
-            var dateOfEnd = ExtractCellTextFromRow(row, DateOfEndTrainingRow, DateOfEndTrainingColumn);
-            //_ = DateTime.TryParse(dates[0], out var startDateOfTraining);
-            //_ = DateTime.TryParse(dates[1], out var endDateOfTraining);
-            _ = DateTime.TryParse(dateOfStart, out var startDateOfTraining);
-            _ = DateTime.TryParse(dateOfEnd, out var endDateOfTraining);
-            education.StartDateOfTraining = startDateOfTraining;
-            education.EndDateOfTraining = endDateOfTraining;
+            education.StartDateOfTraining = row.TryExtractDate(DateOfStartTrainingRow, DateOfStartTrainingColumn);
+            education.EndDateOfTraining = row.TryExtractDate(DateOfEndTrainingRow, DateOfEndTrainingColumn);
             parsedData.Educations.Add(education);
         }
 
         private Task VacancyParse(string vacancyName)
         {
-            vacancyName = vacancyName[(vacancyName.IndexOf(':') + 1)..];
-            vacancyName = vacancyName.Trim(' ');
-            parsedData.Vacancy = new Vacancy() { Name = vacancyName };
+            parsedData.Vacancy = new Vacancy() { Name = vacancyName.GetTextAfterCharacter(':') };
             return Task.CompletedTask;
         }
 
@@ -144,7 +130,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 }
                 else if (elements.LocalName == "tbl")
                 {
-                    foreach (var row in elements.ChildElements.Where(e => e.LocalName == "tr").Skip(1))
+                    foreach (var row in elements.ExtractRowsFromTable())
                     {
                         await ParseQuestion(row);
                     }
@@ -154,7 +140,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private async Task ParseQuestion(OpenXmlElement row)
         {
-            var cells = row.ChildElements.Where(e => e.LocalName == "tc");
+            var cells = row.ExtractCellsFromRow();
             currentQuestion = new Question
             {
                 QuestionCategory = currentCategory,
