@@ -1,5 +1,7 @@
-﻿using RecruitingStaff.Domain.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,12 +21,19 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             var oldAnswer = await _answerRepository.FindAsync(newAnswer.Id, cancellationToken);
             if (oldAnswer == null)
             {
-                await CreateAnswer(newAnswer, cancellationToken);
+                oldAnswer = await _answerRepository
+                    .GetAllAsNoTracking()
+                    .Where(a => a.Equals(newAnswer))
+                    .FirstOrDefaultAsync(cancellationToken);
+                if (oldAnswer == null)
+                {
+                    newAnswer.Question = null;
+                    newAnswer.Candidate = null;
+                    await CreateAnswer(newAnswer, cancellationToken);
+                    return;
+                }
             }
-            else
-            {
-                await ChangeAnswer(newAnswer, oldAnswer, cancellationToken);
-            }
+            await ChangeAnswer(newAnswer, oldAnswer, cancellationToken);
         }
 
         public async Task CreateAnswer(Answer answer, CancellationToken cancellationToken)
@@ -35,11 +44,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
 
         public async Task ChangeAnswer(Answer newAnswer, Answer oldAnswer, CancellationToken cancellationToken)
         {
-            oldAnswer.CandidateId = newAnswer.CandidateId;
-            oldAnswer.QuestionId = newAnswer.QuestionId;
-            oldAnswer.Text = newAnswer.Text;
-            oldAnswer.Comment = newAnswer.Comment;
-            oldAnswer.Estimation = newAnswer.Estimation;
+            //oldAnswer.CandidateId = newAnswer.CandidateId;
+            //oldAnswer.QuestionId = newAnswer.QuestionId;
+            //oldAnswer.Text = newAnswer.Text;
+            //oldAnswer.Comment = newAnswer.Comment;
+            //oldAnswer.Estimation = newAnswer.Estimation;
+            newAnswer.Id = oldAnswer.Id;
+            await _answerRepository.Update(newAnswer);
             await _answerRepository.SaveAsync(cancellationToken);
         }
 

@@ -19,24 +19,25 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questions
 
         public async Task<bool> Handle(CreateOrChangeQuestionCommand request, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionRepository.FindAsync(request.Question.Id, cancellationToken);
-            if (questionnaire == null)
+            var questionById = await _questionRepository.FindAsync(request.Question.Id, cancellationToken);
+            if (questionById == null)
             {
-                var question = _questionRepository
+                var questionByName = _questionRepository
                     .GetAllAsNoTracking()
                     .FirstOrDefault(q => q.Name.Equals(request.Question.Name)
                 && q.QuestionCategoryId == request.Question.QuestionCategoryId);
-                if (question != null)
+                if (questionByName != null)
                 {
-                    request.Question.Id = question.Id;
+                    request.Question.Id = questionByName.Id;
                     return false;
                 }
+                request.Question.QuestionCategory = null;
                 await _questionRepository.AddAsync(request.Question, cancellationToken);
             }
             else
             {
-                questionnaire.Name = request.Question.Name;
-                questionnaire.QuestionCategoryId = request.Question.QuestionCategoryId;
+                questionById.Name = request.Question.Name;
+                questionById.QuestionCategoryId = request.Question.QuestionCategoryId;
             }
             await _questionRepository.SaveAsync(cancellationToken);
             return true;

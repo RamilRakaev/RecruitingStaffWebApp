@@ -31,6 +31,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
                     request.QuestionCategory.Id = category.Id;
                     return false;
                 }
+                request.QuestionCategory.Questionnaire = null;
                 await _questionCategoryRepository.AddAsync(request.QuestionCategory, cancellationToken);
             }
             else
