@@ -14,18 +14,19 @@ namespace RecruitingStaffWebApp
     {
         public static void Main(string[] args)
         {
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            var nLogger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                logger.Debug("init main");
+                nLogger.Debug("init main");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception e)
             {
-                logger.Error(e, "Stopped program because of exception");
+                nLogger.Error(e, "Stopped program because of exception");
             }
             finally
             {
+                
                 NLog.LogManager.Shutdown();
             }
         }
@@ -45,6 +46,7 @@ namespace RecruitingStaffWebApp
                 {
                     log.ClearProviders();
                     log.SetMinimumLevel(LogLevel.Trace);
+                    log.AddConsole();
                 }
                 ).UseNLog();
     }

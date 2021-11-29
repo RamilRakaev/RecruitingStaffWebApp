@@ -25,18 +25,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.QuestionCategorie
         public async Task<Dictionary<QuestionCategory, Question[]>> Handle(GetConcreteQuestionnaireQuery request, CancellationToken cancellationToken)
         {
             var questionCategories =
-                _questionCategoryRepository
+                await _questionCategoryRepository
                 .GetAllAsNoTracking()
-                .Where(qc => qc.QuestionnaireId == request.QuestionnaireId);
+                .Where(qc => qc.QuestionnaireId == request.QuestionnaireId).ToArrayAsync(cancellationToken);
             var categoriesIds = questionCategories.Select(qc => qc.Id);
-            var questions = _questionRepository.GetAllAsNoTracking().Where(q => categoriesIds.Contains(q.QuestionCategoryId));
+            var questions = await _questionRepository.GetAllAsNoTracking().Where(q => categoriesIds.Contains(q.QuestionCategoryId)).ToArrayAsync(cancellationToken);
             Dictionary<QuestionCategory, Question[]> questionnaire = new();
             foreach(var questionCategory in questionCategories)
             {
                 questionnaire.Add(questionCategory,
-                    await questions
-                    .Where(q => q.QuestionCategoryId == questionCategory.Id)
-                    .ToArrayAsync(cancellationToken));
+                    questions
+                    .Where(q => q.QuestionCategoryId == questionCategory.Id).ToArray());
             }
             return questionnaire;
         }
