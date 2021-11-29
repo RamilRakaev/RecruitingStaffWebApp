@@ -35,8 +35,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             var extension = request.FormFile.FileName[request.FormFile.FileName.LastIndexOf('.')..];
             var contentRoot = $"{ _webHost.WebRootPath}\\img";
             var source = $"{candidate.Id}.{candidate.FullName}{extension}";
-            
-            await request.FormFile.CreateNewFileAsync(contentRoot + "\\" + source);
             if (file == null)
             {
                 file = new RecruitingStaffWebAppFile()
@@ -49,15 +47,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             }
             else
             {
-                if(file.Source != source)
-                {
-                    File.Delete(contentRoot + "\\" + file.Source);
-                    file.Source = source;
-                }
+                File.Delete(contentRoot + "\\" + file.Source);
+                file.Source = source;
             }
+            await request.FormFile.CreateNewFileAsync(contentRoot + "\\" + source);
             await _fileRepository.SaveAsync(cancellationToken);
-            candidate.PhotoId = file.Id;
-            await _candidateRepository.SaveAsync(cancellationToken);
             return true;
         }
     }
