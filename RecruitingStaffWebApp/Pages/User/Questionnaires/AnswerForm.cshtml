@@ -5,8 +5,9 @@
 <div class="row justify-content-center">
     <div class="col-7">
         <form class="form-inline" method="post" asp-page-handler="SearchCandidates">
-            <input type="hidden" name="questionId" value="@Model.Answer.QuestionId" />
-            <input type="hidden" name="questionId" value="@Model.Answer.Id" />
+            <input type="hidden" asp-for="@Model.Answer.Id" />
+            <input type="hidden" asp-for="@Model.Answer.QuestionId" />
+            <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
             <div class="input-group mb-3 w-100">
                 <input type="text"
                        class="form-control"
@@ -18,7 +19,10 @@
         </form>
     </div>
     <div class="col-7">
-        <a class="btn btn-dark" asp-page="QuestionsByQuestionCategory" asp-route-questionId="@Model.Answer.QuestionId">Вопросы</a>
+        <a class="btn btn-dark" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Анкета</a>
+        <a class="btn btn-dark" asp-page="AnswersOnQuestion"
+           asp-route-questionId="@Model.Answer.QuestionId"
+           asp-route-questionnaireId="@Model.QuestionnaireId">Ответы</a>
         @if (Model.Answer.Id == 0 && Model.Candidates.Length == 0)
         {
             <p class="text-warning">@Model.Message</p>
@@ -26,6 +30,7 @@
         else
         {
             <form method="post" asp-page-handler="CreateAnswer">
+                <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
                 <input type="hidden" asp-for="@Model.Answer.Id" />
                 <input type="hidden" asp-for="@Model.Answer.QuestionId" />
                 <div class="form-group">

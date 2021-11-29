@@ -6,6 +6,7 @@
     <div class="col-7">
         <form method="post">
             <input type="hidden" asp-for="@Model.Question.Id" />
+            <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
             <div class="form-group">
                 <label>Вопрос</label>
                 <textarea class="form-control" rows="3" asp-for="@Model.Question.Name">
@@ -27,10 +28,10 @@
             else
             {
                 <input type="hidden" asp-for="@Model.Question.QuestionCategoryId" />
-                <a class="btn btn-info"
-                   asp-page="QuestionsByQuestionCategory"
-                   asp-route-questionCategoryId="@Model.Question.QuestionCategoryId">
-                    Категории
+                <a class="btn btn-dark"
+                   asp-page="ConcreteQuestionnaire"
+                   asp-route-questionnaireId="@Model.QuestionnaireId">
+                    Анкета
                 </a>
             }
             <button class="btn btn-success float-right">Отправить</button>

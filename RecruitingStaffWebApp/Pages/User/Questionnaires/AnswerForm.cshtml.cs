@@ -18,12 +18,14 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
         }
 
+        public int QuestionnaireId { get; set; }
         public Answer Answer { get; set; }
         public Candidate[] Candidates { get; set; }
         public string Message { get; set; } = "Выберите кандидата";
 
-        public async Task OnGet(int? answerId, int questionId)
+        public async Task OnGet(int? answerId, int questionId, int questionnaireId)
         {
+            QuestionnaireId = questionnaireId;
             Candidates = Array.Empty<Candidate>();
             if (answerId == null)
             {
@@ -35,17 +37,19 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
         }
 
-        public async Task OnPostSearchCandidates(string nameFragment, Answer answer)
+        public async Task OnPostSearchCandidates(string nameFragment, Answer answer, int questionnaireId)
         {
+            QuestionnaireId = questionnaireId;
             Candidates = await _mediator.Send(new GetCandidatesByNameFragmentQuery(nameFragment));
             Message = "Кандидатов с таким именем не существует";
             Answer = answer;
         }
 
-        public async Task<IActionResult> OnPostCreateAnswer(Answer answer)
+        public async Task<IActionResult> OnPostCreateAnswer(Answer answer, int questionnaireId)
         {
+            QuestionnaireId = questionnaireId;
             await _mediator.Send(new CreateOrChangeAnswerCommand(answer));
-            return RedirectToPage("QuestionsByQuestionCategory", new { questionId = answer.QuestionId });
+            return RedirectToPage("AnswersOnQuestion", new { questionId = answer.QuestionId, questionnaireId });
         }
     }
 }

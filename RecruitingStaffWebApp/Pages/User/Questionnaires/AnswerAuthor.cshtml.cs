@@ -19,22 +19,25 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public Option[] Options { get; set; }
         public int QuestionId { get; set; }
         public string CandidatePhotoSource { get; set; }
+        public int QuestionnaireId { get; set; }
 
-        public async Task OnGet(int candidateId, int questionId)
+        public async Task OnGet(int candidateId, int questionId, int questionnaireId)
         {
             QuestionId = questionId;
             Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             Options = await _mediator.Send(new GetOptionsQuery());
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
+            QuestionnaireId = questionnaireId;
         }
 
-        public async Task OnPost(int optionId, int candidateId, int questionId)
+        public async Task OnPost(int optionId, int candidateId, int questionId, int questionnaireId)
         {
             QuestionId = questionId;
             await _mediator.Send(new RemoveOptionCommand(optionId));
             Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             Options = await _mediator.Send(new GetOptionsQuery());
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
+            QuestionnaireId = questionnaireId;
         }
     }
 }

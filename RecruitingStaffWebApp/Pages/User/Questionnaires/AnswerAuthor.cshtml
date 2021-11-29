@@ -7,8 +7,10 @@
         <div class="d-flex w-100 mb-3 justify-content-between">
             <h2>@Model.Candidate.FullName</h2>
             <div>
-                <a class="btn btn-dark" asp-page="AnswersOnQuestion" asp-route-questionId="@Model.QuestionId">Ответы на вопрос</a>
-                <a class="btn btn-warning" asp-page="/User/Candidates/ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить</a>
+                <a class="btn btn-dark"
+                   asp-page="AnswersOnQuestion"
+                   asp-route-questionId="@Model.QuestionId"
+                   asp-route-questionnaireId="@Model.QuestionnaireId">Ответы на вопрос</a>
             </div>
         </div>
     </div>
@@ -71,6 +73,7 @@
                                 <input type="hidden" name="questionId" value="@Model.QuestionId" />
                                 <input type="hidden" name="candidateId" value="@Model.Candidate.Id" />
                                 <input type="hidden" name="optionId" value="@option.Id" />
+                                <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
                                 <button class="btn btn-danger m-2">Удалить</button>
                             </form>
                         </td>

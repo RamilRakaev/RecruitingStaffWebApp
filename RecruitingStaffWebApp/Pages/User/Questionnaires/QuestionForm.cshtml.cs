@@ -41,10 +41,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
         }
 
-        public async Task<IActionResult> OnPost(Question question)
+        public async Task<IActionResult> OnPost(Question question, int questionnaireId)
         {
             await _mediator.Send(new CreateOrChangeQuestionCommand(question));
-            return RedirectToPage("QuestionsByQuestionCategory", new { questionCategoryId = question.QuestionCategoryId });
+            return RedirectToPage("ConcreteQuestionnaire", new { questionnaireId });
         }
     }
 }

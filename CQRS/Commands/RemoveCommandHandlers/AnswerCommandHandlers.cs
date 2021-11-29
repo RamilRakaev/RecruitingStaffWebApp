@@ -18,7 +18,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
 
         public async Task CreateOrChange(Answer newAnswer, CancellationToken cancellationToken)
         {
-            var oldAnswer = await _answerRepository.FindAsync(newAnswer.Id, cancellationToken);
+            var oldAnswer = await _answerRepository.FindNoTrackingAsync(newAnswer.Id, cancellationToken);
             if (oldAnswer == null)
             {
                 oldAnswer = await _answerRepository
@@ -33,7 +33,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
                     return;
                 }
             }
-            await ChangeAnswer(newAnswer, oldAnswer, cancellationToken);
+            await ChangeAnswer(newAnswer, cancellationToken);
         }
 
         public async Task CreateAnswer(Answer answer, CancellationToken cancellationToken)
@@ -42,14 +42,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
             await _answerRepository.SaveAsync(cancellationToken);
         }
 
-        public async Task ChangeAnswer(Answer newAnswer, Answer oldAnswer, CancellationToken cancellationToken)
+        public async Task ChangeAnswer(Answer newAnswer, CancellationToken cancellationToken)
         {
-            //oldAnswer.CandidateId = newAnswer.CandidateId;
-            //oldAnswer.QuestionId = newAnswer.QuestionId;
-            //oldAnswer.Text = newAnswer.Text;
-            //oldAnswer.Comment = newAnswer.Comment;
-            //oldAnswer.Estimation = newAnswer.Estimation;
-            newAnswer.Id = oldAnswer.Id;
             await _answerRepository.Update(newAnswer);
             await _answerRepository.SaveAsync(cancellationToken);
         }
