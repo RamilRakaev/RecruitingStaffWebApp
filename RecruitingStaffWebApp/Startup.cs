@@ -39,19 +39,20 @@ namespace RecruitingStaffWebApp
 
             services.AddTransient<IRepository<RecruitingStaffWebAppFile>, BaseRepository<RecruitingStaffWebAppFile>>();
             services.AddTransient<IRepository<Vacancy>, BaseRepository<Vacancy>>();
+            
+            services.AddTransient(typeof(IRepository<>), typeof(BaseRepository<>));
+            //services.AddTransient<IRepository<Candidate>, BaseRepository<Candidate>>();
+            //services.AddTransient<IRepository<PreviousJob>, BaseRepository<PreviousJob>>();
+            //services.AddTransient<IRepository<Education>, BaseRepository<Education>>();
+            //services.AddTransient<IRepository<Recommender>, BaseRepository<Recommender>>();
+            //services.AddTransient<IRepository<CandidateVacancy>, BaseRepository<CandidateVacancy>>();
 
-            services.AddTransient<IRepository<Candidate>, BaseRepository<Candidate>>();
-            services.AddTransient<IRepository<PreviousJob>, BaseRepository<PreviousJob>>();
-            services.AddTransient<IRepository<Education>, BaseRepository<Education>>();
-            services.AddTransient<IRepository<Recommender>, BaseRepository<Recommender>>();
-            services.AddTransient<IRepository<CandidateVacancy>, BaseRepository<CandidateVacancy>>();
-
-            services.AddTransient<IRepository<Questionnaire>, BaseRepository<Questionnaire>>();
-            services.AddTransient<IRepository<QuestionCategory>, BaseRepository<QuestionCategory>>();
-            services.AddTransient<IRepository<Question>, BaseRepository<Question>>();
-            services.AddTransient<IRepository<Answer>, BaseRepository<Answer>>();
-            services.AddTransient<IRepository<Option>, BaseRepository<Option>>();
-            services.AddTransient<IRepository<CandidateQuestionnaire>, BaseRepository<CandidateQuestionnaire>>();
+            //services.AddTransient<IRepository<Questionnaire>, BaseRepository<Questionnaire>>();
+            //services.AddTransient<IRepository<QuestionCategory>, BaseRepository<QuestionCategory>>();
+            //services.AddTransient<IRepository<Question>, BaseRepository<Question>>();
+            //services.AddTransient<IRepository<Answer>, BaseRepository<Answer>>();
+            //services.AddTransient<IRepository<Option>, BaseRepository<Option>>();
+            //services.AddTransient<IRepository<CandidateQuestionnaire>, BaseRepository<CandidateQuestionnaire>>();
 
             services.AddHostedService<MigrationService>();
             services.AddHostedService<UserService>();

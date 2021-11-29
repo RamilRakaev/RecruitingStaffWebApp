@@ -37,7 +37,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
                 }
                 return _questionnaireManager.ParseAndSaved(
                     guid.ToString(),
-                    JobQuestionnaire.PhpDeveloperQuestionnaire);
+                    (JobQuestionnaire)request.JobQuestionnaire);
             }
             else
             {

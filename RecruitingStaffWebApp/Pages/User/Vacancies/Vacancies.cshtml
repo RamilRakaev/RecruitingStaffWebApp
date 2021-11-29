@@ -7,6 +7,25 @@
     <div class="col-9">
         <a class="btn btn-info mb-3" asp-page="VacancyForm">Создать вакансию</a>
     </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Название вакансии</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var vacancy in Model.Vacancies)
+            {
+                <tr>
+                    <td>@vacancy.Id</td>
+                    <td>@vacancy.Name</td>
+                    <td>@vacancy.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
     @foreach (var vacancy in Model.Vacancies)
     {
         <div class="col-9 mb-3 border border-dark rounded">
