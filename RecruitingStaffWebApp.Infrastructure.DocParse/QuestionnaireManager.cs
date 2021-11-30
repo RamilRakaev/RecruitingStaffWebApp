@@ -72,6 +72,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 parserStrategy = new PhpDeveloperQuestionnaireParser(_options);
             }
+            if (jobQuestionnaire == JobQuestionnaire.OfficeQuestionnaire)
+            {
+                parserStrategy = new OfficeQuestionnaireParser(_options);
+            }
             return Task.CompletedTask;
         }
     }

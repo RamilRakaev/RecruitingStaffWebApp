@@ -100,7 +100,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 ExtractCellTextFromRow(row,
                 specificationAndQualificationRow,
                 specificationAndQualificationColumn).Split(",");
-            education.Specification = specificationAndQualification[0].Trim(' ');
+            education.Specialization = specificationAndQualification[0].Trim(' ');
             education.Qualification = specificationAndQualification[1].Trim(' ');
             education.StartDateOfTraining = row.TryExtractDate(DateOfStartTrainingRow, DateOfStartTrainingColumn);
             education.EndDateOfTraining = row.TryExtractDate(DateOfEndTrainingRow, DateOfEndTrainingColumn);
