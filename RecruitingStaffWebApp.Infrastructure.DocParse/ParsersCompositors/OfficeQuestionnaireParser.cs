@@ -15,14 +15,26 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 {
     public class OfficeQuestionnaireParser : ParserStrategy
     {
+        private Questionnaire currentQuestionnaire;
+        private QuestionCategory currentQuestionCategory;
         private PreviousJob currentPreviousJob;
-        private IEnumerable<OpenXmlElement> rows;
+        private IEnumerable<OpenXmlElement> currentRows;
+
+        private const string questionnaireName = "Анкета Офис";
+        private const string salaryQuestionCategoryName = "Зарплата";
+        private const string otherQuestionCategoryName = "Другое";
+
         public OfficeQuestionnaireParser(WebAppOptions options) : base(options)
         {
             parsedData.Candidate = new Candidate()
             {
                 PreviousJobs = new List<PreviousJob>(),
                 Educations = new List<Education>()
+            };
+            currentQuestionnaire = new Questionnaire()
+            {
+                Name = questionnaireName,
+                QuestionCategories = new()
             };
         }
 
@@ -32,13 +44,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
 
-                var table = body.ChildElements.Where(e => e.LocalName == "tbl").First();
-
-                rows = table.ExtractRowsFromTable();
+                var tables = body.ChildElements.Where(e => e.LocalName == "tbl");
+                var paragraphs = body.ChildElements.Where(e => e.LocalName == "p" && e.InnerText != "");
+                currentRows = tables.First().ExtractRowsFromTable();
 
                 await ParseEducation(8);
                 await ParsePreviousJobs(12);
-                await ParseQuestions(34);
+                int startRow = 34;
+                await ParseQuestionCategory(ref startRow);
+                await ParseQuestionCategory(ref startRow);
+                await ParseOtherQuestions(ref startRow);
+                await ParseSalaryQuestions(ref startRow);
+
+                currentRows = tables.Last().ChildElements;
+                startRow = 0;
+                await ParseQuestionCategory(ref startRow, categoryName: paragraphs.ElementAt(1).InnerText);
             }
             return null;
         }
@@ -51,16 +71,16 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         }
         private Task ParseEducation(int index)
         {
-            var title = rows.ExtractCellTextFromRow(index, 2);
+            var title = currentRows.ExtractCellTextFromRow(index, 2);
             if (title != string.Empty)
             {
                 Education education = new()
                 {
                     EducationalInstitutionName = title,
-                    StartDateOfTraining = rows.TryExtractDate(index, 1),
-                    EndDateOfTraining = rows.TryExtractDate(index, 2),
+                    StartDateOfTraining = currentRows.TryExtractDate(index, 1),
+                    EndDateOfTraining = currentRows.TryExtractDate(index, 2),
                 };
-                var specialtyAndQualification = rows.ExtractCellTextFromRow(index, 3);
+                var specialtyAndQualification = currentRows.ExtractCellTextFromRow(index, 3);
                 if (specialtyAndQualification.Contains(','))
                 {
                     education.Specialization = specialtyAndQualification.GetTextBeforeCharacter(',');
@@ -77,25 +97,25 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private async Task ParsePreviousJob(int index)
         {
-            var name = rows.ExtractCellTextFromRow(index, 1);
+            var name = currentRows.ExtractCellTextFromRow(index, 1);
             if (name != string.Empty)
             {
-                var startDate = rows.TryExtractDate(index + 3, 0);
-                var endDate = rows.TryExtractDate(index + 3, 1);
-                var responsibilities = rows.ExtractCellTextFromRow(index + 2, 1, @"([\n,:])(\W*\w*\W*)*");
+                var startDate = currentRows.TryExtractDate(index + 3, 0);
+                var endDate = currentRows.TryExtractDate(index + 3, 1);
+                var responsibilities = currentRows.ExtractCellTextFromRow(index + 2, 1, @"([\n,:])(\W*\w*\W*)*");
                 responsibilities = Regex.Replace(responsibilities, @"[\n:]", "");
 
                 PreviousJob previousJob = new()
                 {
                     OrganizationName = name,
-                    PositionAtWork = rows.ExtractCellTextFromRow(index + 1, 1),
-                    Salary = rows.ExtractTextAfterCharacterFromRow(index + 1, 2, ' '),
+                    PositionAtWork = currentRows.ExtractCellTextFromRow(index + 1, 1),
+                    Salary = currentRows.ExtractTextAfterCharacterFromRow(index + 1, 2, ' '),
                     DateOfStart = startDate,
                     DateOfEnd = endDate,
                     Responsibilities = responsibilities,
-                    LeavingReason = rows.ExtractCellTextFromRow(index + 4, 1),
+                    LeavingReason = currentRows.ExtractCellTextFromRow(index + 4, 1),
                 };
-                var organizationPhoneNumberAndAddress = rows
+                var organizationPhoneNumberAndAddress = currentRows
                     .ExtractCellTextFromRow(index, 2)
                     .GetTextAfterCharacter(' ', 4);
                 if (organizationPhoneNumberAndAddress.Contains(','))
@@ -110,38 +130,108 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             }
         }
 
-        private Task ParseRecommender(int index)
+        private Task ParseRecommender(in int index)
         {
-            var name = rows.ExtractCellTextFromRow(index + 6, 1);
+            var name = currentRows.ExtractCellTextFromRow(index + 6, 1);
             if (name != "" || name == null)
             {
                 Recommender recommender = new()
                 {
-                    FullName = rows.ExtractCellTextFromRow(index, 1)
+                    FullName = currentRows.ExtractCellTextFromRow(index, 1)
                 };
                 currentPreviousJob.Recommenders.Add(recommender);
             }
             return Task.CompletedTask;
         }
 
-        private Task ParseQuestions(int start)
+        private Task ParseQuestionCategory(ref int startRow, in int columnIndex = 1, string categoryName = null)
+        {
+            categoryName ??= currentRows.ElementAt(startRow).InnerText;
+            while (categoryName == "")
+            {
+                categoryName = currentRows.ElementAt(++startRow).InnerText;
+            }
+            currentQuestionCategory = new()
+            {
+                Name = currentRows.ElementAt(startRow).InnerText,
+                Questions = new()
+            };
+            currentQuestionnaire.QuestionCategories.Add(currentQuestionCategory);
+            ParseQuestionsFromTable(ref startRow, columnIndex);
+            return Task.CompletedTask;
+        }
+
+        private Task ParseQuestionsFromTable(ref int startRow, int columnIndex = 1)
+        {
+            for (int i = ++startRow; ; i++)
+            {
+                var cells = currentRows.ElementAt(i).ExtractCellsFromRow();
+                if (cells.Count() == 1 || cells.First().InnerText != "")
+                {
+                    startRow = i;
+                    break;
+                }
+                var text = cells.ElementAt(columnIndex).InnerText;
+                if (text != "")
+                {
+                    currentQuestionCategory.Questions.Add(new Question()
+                    {
+                        Name = text
+                    });
+                }
+            }
+            return Task.CompletedTask;
+        }
+
+        private Task ParseOtherQuestions(ref int startRow)
         {
             QuestionCategory questionCategory = new()
             {
-                Name = rows.ElementAt(start).InnerText,
+                Name = otherQuestionCategoryName,
                 Questions = new()
             };
-            for (int i = 0; i < rows.Count(); i++)
+            currentQuestionnaire.QuestionCategories.Add(questionCategory);
+            for (int i = startRow; ; i++)
             {
-                if (rows.ElementAt(i).ExtractParagraphsFromRow().Any())
+                var cells = currentRows.ElementAt(i).ExtractCellsFromRow();
+                if (cells.Count() > 2)
                 {
+                    startRow = i;
                     break;
                 }
-                questionCategory.Questions.Add(new Question()
+                var text = cells.ElementAt(0).InnerText;
+                if (text != "")
                 {
-                    Name = rows.ElementAt(i).ExtractCellTextFromRow(i, 0)
-                });
+                    questionCategory.Questions.Add(new Question()
+                    {
+                        Name = cells.ElementAt(0).InnerText,
+                    });
+                }
             }
+
+            return Task.CompletedTask;
+        }
+
+        private Task ParseSalaryQuestions(ref int startRow)
+        {
+            var cells = currentRows.ElementAt(startRow).ExtractCellsFromRow();
+            QuestionCategory questionCategory = new()
+            {
+                Name = salaryQuestionCategoryName,
+                Questions = new()
+                {
+                    new Question()
+                    {
+                        Name = cells.ElementAt(0).InnerText
+                    },
+                    new Question()
+                    {
+                        Name = cells.ElementAt(2).InnerText
+                    },
+                },
+            };
+            currentQuestionnaire.QuestionCategories.Add(questionCategory);
+            startRow++;
             return Task.CompletedTask;
         }
     }

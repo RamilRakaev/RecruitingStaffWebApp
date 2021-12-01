@@ -15,8 +15,13 @@ namespace RecruitingStaffWebApp.Services.DocParse
 
         public static IEnumerable<OpenXmlElement> ExtractParagraphsFromRow(this OpenXmlElement element)
         {
+            List<OpenXmlElement> paragraphs = new();
             var cells = element.ChildElements.Where(e => e.LocalName == "tc");
-            return cells.Where(e => e.LocalName == "p");
+            foreach (var cell in cells)
+            {
+                paragraphs.AddRange(cell.ChildElements.Where(e => e.LocalName == "p"));
+            }
+            return paragraphs;
         }
 
         public static IEnumerable<OpenXmlElement> ExtractCellsFromRow(this OpenXmlElement element)
