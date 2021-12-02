@@ -74,7 +74,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private async Task ParseCandidate(OpenXmlElement table)
         {
-            var rows = table.ExtractRowsFromCandidateDataTable();
+            var rows = table.ExtractRowsFromTable(false);
             var vacancyName = rows.ElementAt(0).InnerText;
 
             parsedData.Candidate = new Candidate

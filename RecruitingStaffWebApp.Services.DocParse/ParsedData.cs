@@ -17,20 +17,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
             Answers = new List<Answer>();
         }
 
-        //public ParsedData()
-        //{
-        //    Educations = new List<Education>();
-        //    PreviousJobs = new List<PreviousJob>();
-        //    Recommenders = new List<Recommender>();
-
-        //    QuestionCategories = new List<QuestionCategory>();
-        //    Questions = new List<Question>();
-        //    Answers = new List<Answer>();
-
-        //    Questionnaire = new Questionnaire();
-        //    Questionnaire.QuestionCategories = QuestionCategories;
-        //}
-
         public Vacancy Vacancy { get; set; }
         public Candidate Candidate { get; set; }
         public Questionnaire Questionnaire { get; set; }

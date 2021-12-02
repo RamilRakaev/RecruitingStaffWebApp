@@ -17,6 +17,11 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
                 .HasMany(c => c.Educations)
                 .WithOne(e => e.Candidate)
                 .HasForeignKey(e => e.CandidateId);
+
+            builder
+                .HasMany(c => c.Kids)
+                .WithOne(e => e.Candidate)
+                .HasForeignKey(e => e.CandidateId);
         }
     }
 }

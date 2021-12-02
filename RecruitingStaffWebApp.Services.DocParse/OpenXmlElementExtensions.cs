@@ -13,19 +13,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
             var rows = element.ChildElements.Where(e => e.LocalName == "tr");
             return firstElementDeleting ? rows.Skip(1) : rows;
         }
-        public static IEnumerable<OpenXmlElement> ExtractParagraphsFromRows(this IEnumerable<OpenXmlElement> elements)
-        {
-            foreach (var row in elements)
-            {
-                foreach (var paragraph in row.ExtractParagraphsFromRow())
-                {
-                    if (paragraph.InnerText != "")
-                    {
-                        yield return paragraph;
-                    }
-                }
-            }
-        }
 
         public static IEnumerable<OpenXmlElement> ExtractParagraphsFromRow(this OpenXmlElement element, bool notNulls = false)
         {
@@ -49,11 +36,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
         public static IEnumerable<OpenXmlElement> ExtractCellsFromRow(this OpenXmlElement element)
         {
             return element.ChildElements.Where(e => e.LocalName == "tc");
-        }
-
-        public static IEnumerable<OpenXmlElement> ExtractRowsFromCandidateDataTable(this OpenXmlElement element)
-        {
-            return element.ChildElements.Where(e => e.LocalName == "tr");
         }
 
         public static string ExtractCellTextFromRow(this IEnumerable<OpenXmlElement> rows, in int rowIndex, in int cellIndex)

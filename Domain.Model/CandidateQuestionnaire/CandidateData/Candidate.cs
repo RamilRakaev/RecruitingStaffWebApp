@@ -7,6 +7,8 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
     {
         public string FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string PlaceOfBirth { get; set; }
+        public string AddressIndex { get; set; }
         public string Address { get; set; }
         public string TelephoneNumber { get; set; }
         public string EmailAddress { get; set; }
@@ -23,5 +25,6 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
         public List<RecruitingStaffWebAppFile> Documents { get; set; }
         public List<PreviousJob> PreviousJobs { get; set; }
         public List<Education> Educations { get; set; }
+        public List<Kid> Kids { get; set; }
     }
 }

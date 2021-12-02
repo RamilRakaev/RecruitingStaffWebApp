@@ -13,7 +13,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 {
     public class OfficeQuestionnaireParser : ParserStrategy
     {
-        private Questionnaire currentQuestionnaire;
         private QuestionCategory currentQuestionCategory;
         private PreviousJob currentPreviousJob;
         private IEnumerable<OpenXmlElement> currentRows;
@@ -24,12 +23,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         public OfficeQuestionnaireParser(WebAppOptions options) : base(options)
         {
-            parsedData.Candidate = new Candidate()
-            {
-                PreviousJobs = new List<PreviousJob>(),
-                Educations = new List<Education>()
-            };
-            currentQuestionnaire = new Questionnaire()
+            parsedData.Questionnaire = new Questionnaire()
             {
                 Name = questionnaireName,
                 QuestionCategories = new()
@@ -46,7 +40,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 var paragraphs = body.ChildElements.Where(e => e.LocalName == "p" && e.InnerText != "");
                 currentRows = tables.First().ExtractRowsFromTable();
 
+                await ParseCandidate(0);
                 await ParseEducation(8);
+                await ParseEducation(9);
                 await ParsePreviousJobs(12);
                 int startRow = 34;
                 await ParseQuestionCategory(ref startRow);
@@ -61,14 +57,49 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return null;
         }
 
-        private async Task ParsePreviousJobs(int index)
+        private Task ParseCandidate(in int index)
         {
-            await ParsePreviousJob(index);
-            await ParsePreviousJob(index + 7);
-            await ParsePreviousJob(index + 15);
+            parsedData.Candidate = new Candidate()
+            {
+                FullName = currentRows.ExtractCellTextFromRow(index, 1),
+                DateOfBirth = currentRows.TryExtractDate(index + 1, 1),
+                PlaceOfBirth = currentRows.ExtractCellTextFromRow(index + 1, 2),
+                AddressIndex = currentRows.ExtractCellTextFromRow(index + 2, 1),
+                Address = currentRows.ExtractCellTextFromRow(index + 3, 1),
+                TelephoneNumber = currentRows.ExtractCellTextFromRow(index + 4, 1),
+                MaritalStatus = currentRows.ExtractCellTextFromRow(index + 5, 1),
+            };
+            parsedData.Candidate.EmailAddress = Regex.Replace(
+                currentRows.ExtractCellTextFromRow(index + 4, 2, @"(E-Mail).*"),
+                "E-Mail",
+                "");
+            var placeOfBirth = currentRows.ExtractCellTextFromRow(index + 1, 2).ToLower();
+            parsedData.Candidate.PlaceOfBirth = Regex.Replace(placeOfBirth, @"(место рождения)\W?", "");
+            ParseKids(index + 5);
+            return Task.CompletedTask;
         }
-        private Task ParseEducation(int index)
+
+        private Task ParseKids(in int index)
         {
+            parsedData.Candidate.Kids = new();
+            var kids = currentRows.ExtractCellTextFromRow(index, 2).ToLower();
+            var kidsArray = FindMatches(kids, @"[^(](\b[\w]+\b)\W*,{1}\W*(\b[\w]+\b)");
+            foreach (var kid in kidsArray)
+            {
+                var properties = kid.Split(',');
+                _ = int.TryParse(properties[1], out var age);
+                parsedData.Candidate.Kids.Add(new()
+                {
+                    Age = age,
+                    Gender = properties[0].Trim(' '),
+                });
+            }
+            return Task.CompletedTask;
+        }
+
+        private Task ParseEducation(in int index)
+        {
+            parsedData.Candidate.Educations = new();
             var title = currentRows.ExtractCellTextFromRow(index, 2);
             if (title != string.Empty)
             {
@@ -88,13 +119,22 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 {
                     education.Specialization = specialtyAndQualification;
                 }
-                parsedData.Educations.Add(education);
+                parsedData.Candidate.Educations.Add(education);
             }
             return Task.CompletedTask;
         }
 
+        private async Task ParsePreviousJobs(int index)
+        {
+            parsedData.Candidate.PreviousJobs = new();
+            await ParsePreviousJob(index);
+            await ParsePreviousJob(index + 7);
+            await ParsePreviousJob(index + 15);
+        }
+
         private async Task ParsePreviousJob(int index)
         {
+            parsedData.Candidate.PreviousJobs = new();
             var name = currentRows.ExtractCellTextFromRow(index, 1);
             if (name != string.Empty)
             {
@@ -123,13 +163,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 }
                 parsedData.Candidate.PreviousJobs.Add(previousJob);
                 currentPreviousJob = previousJob;
-                currentPreviousJob.Recommenders = new List<Recommender>();
                 await ParseRecommender(index);
             }
         }
 
         private Task ParseRecommender(in int index)
         {
+            currentPreviousJob.Recommenders = new();
             var name = currentRows.ExtractCellTextFromRow(index + 6, 1);
             if (name != "" || name == null)
             {
@@ -154,14 +194,14 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 Name = categoryName,
                 Questions = new()
             };
-            currentQuestionnaire.QuestionCategories.Add(currentQuestionCategory);
+            parsedData.Questionnaire.QuestionCategories.Add(currentQuestionCategory);
             ParseQuestionsFromTable(ref startRow, columnIndex);
             return Task.CompletedTask;
         }
 
         private Task ParseQuestionsFromTable(ref int currentRow, int columnIndex = 1)
         {
-            for (++currentRow; currentRow < currentRows.Count() ; currentRow++)
+            for (++currentRow; currentRow < currentRows.Count(); currentRow++)
             {
                 var cells = currentRows.ElementAt(currentRow).ExtractCellsFromRow();
                 if (cells.Count() == 1)
@@ -187,7 +227,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 Name = otherQuestionCategoryName,
                 Questions = new()
             };
-            currentQuestionnaire.QuestionCategories.Add(questionCategory);
+            parsedData.Questionnaire.QuestionCategories.Add(questionCategory);
             for (int i = startRow; ; i++)
             {
                 var cells = currentRows.ElementAt(i).ExtractCellsFromRow();
@@ -227,7 +267,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                     },
                 },
             };
-            currentQuestionnaire.QuestionCategories.Add(questionCategory);
+            parsedData.Questionnaire.QuestionCategories.Add(questionCategory);
             startRow++;
             return Task.CompletedTask;
         }
@@ -239,7 +279,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 Name = categoryName,
                 Questions = new()
             };
-            currentQuestionnaire.QuestionCategories.Add(currentQuestionCategory);
+            parsedData.Questionnaire.QuestionCategories.Add(currentQuestionCategory);
             for (; ; startRow++)
             {
                 var cells = currentRows.ElementAt(startRow).ExtractCellsFromRow();
@@ -267,13 +307,20 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return Task.CompletedTask;
         }
 
-        private string FindText(string input, string pattern, string removementPattern = "")
+        private static string FindText(string input, string pattern, string removementPattern = "")
         {
             Regex regex = new(pattern);
             var matches = regex.Matches(input);
             var text = matches.Any() ? matches.First().Value : "";
             text = removementPattern != "" ? Regex.Replace(text, removementPattern, "") : text;
             return text;
+        }
+
+        private static string[] FindMatches(string input, string pattern)
+        {
+            Regex regex = new(pattern);
+            var matches = regex.Matches(input);
+            return matches.Select(m => m.Value).ToArray();
         }
     }
 }
