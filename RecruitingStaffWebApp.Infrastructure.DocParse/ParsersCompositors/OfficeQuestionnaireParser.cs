@@ -4,10 +4,8 @@ using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaffWebApp.Services.DocParse;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -56,9 +54,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 await ParseOtherQuestions(ref startRow);
                 await ParseSalaryQuestions(ref startRow);
 
-                currentRows = tables.Last().ChildElements;
+                currentRows = tables.Last().ExtractRowsFromTable(false);
                 startRow = 0;
-                await ParseQuestionCategory(ref startRow, categoryName: paragraphs.ElementAt(1).InnerText);
+                await ParseQuestionsFromDoubleTable(ref startRow, categoryName: paragraphs.ElementAt(1).InnerText);
             }
             return null;
         }
@@ -144,16 +142,16 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return Task.CompletedTask;
         }
 
-        private Task ParseQuestionCategory(ref int startRow, in int columnIndex = 1, string categoryName = null)
+        private Task ParseQuestionCategory(ref int startRow, in int columnIndex = 1)
         {
-            categoryName ??= currentRows.ElementAt(startRow).InnerText;
+            var categoryName = currentRows.ElementAt(startRow).InnerText;
             while (categoryName == "")
             {
                 categoryName = currentRows.ElementAt(++startRow).InnerText;
             }
             currentQuestionCategory = new()
             {
-                Name = currentRows.ElementAt(startRow).InnerText,
+                Name = categoryName,
                 Questions = new()
             };
             currentQuestionnaire.QuestionCategories.Add(currentQuestionCategory);
@@ -161,14 +159,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return Task.CompletedTask;
         }
 
-        private Task ParseQuestionsFromTable(ref int startRow, int columnIndex = 1)
+        private Task ParseQuestionsFromTable(ref int currentRow, int columnIndex = 1)
         {
-            for (int i = ++startRow; ; i++)
+            for (++currentRow; currentRow < currentRows.Count() ; currentRow++)
             {
-                var cells = currentRows.ElementAt(i).ExtractCellsFromRow();
-                if (cells.Count() == 1 || cells.First().InnerText != "")
+                var cells = currentRows.ElementAt(currentRow).ExtractCellsFromRow();
+                if (cells.Count() == 1)
                 {
-                    startRow = i;
                     break;
                 }
                 var text = cells.ElementAt(columnIndex).InnerText;
@@ -233,6 +230,50 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             currentQuestionnaire.QuestionCategories.Add(questionCategory);
             startRow++;
             return Task.CompletedTask;
+        }
+
+        public Task ParseQuestionsFromDoubleTable(ref int startRow, string categoryName)
+        {
+            currentQuestionCategory = new()
+            {
+                Name = categoryName,
+                Questions = new()
+            };
+            currentQuestionnaire.QuestionCategories.Add(currentQuestionCategory);
+            for (; ; startRow++)
+            {
+                var cells = currentRows.ElementAt(startRow).ExtractCellsFromRow();
+                if (cells.Count() == 2)
+                {
+                    var firstCell = cells.ElementAt(0).InnerText;
+                    var secondCell = cells.ElementAt(1).InnerText;
+                    var pattern = @"(\W*\w+\W*)+([:])";
+                    var removementPattern = @"\W*[:]";
+                    currentQuestionCategory.Questions.Add(
+                        new()
+                        {
+                            Name = FindText(firstCell, pattern, removementPattern)
+                        });
+                    currentQuestionCategory.Questions.Add(
+                        new()
+                        {
+                            Name = FindText(secondCell, pattern, removementPattern)
+                        });
+                    continue;
+                }
+                break;
+            }
+            ParseQuestionsFromTable(ref startRow, 0);
+            return Task.CompletedTask;
+        }
+
+        private string FindText(string input, string pattern, string removementPattern = "")
+        {
+            Regex regex = new(pattern);
+            var matches = regex.Matches(input);
+            var text = matches.Any() ? matches.First().Value : "";
+            text = removementPattern != "" ? Regex.Replace(text, removementPattern, "") : text;
+            return text;
         }
     }
 }

@@ -8,18 +8,40 @@ namespace RecruitingStaffWebApp.Services.DocParse
 {
     public static class OpenXmlElementExtensions
     {
-        public static IEnumerable<OpenXmlElement> ExtractRowsFromTable(this OpenXmlElement element)
+        public static IEnumerable<OpenXmlElement> ExtractRowsFromTable(this OpenXmlElement element, bool firstElementDeleting = true)
         {
-            return element.ChildElements.Where(e => e.LocalName == "tr").Skip(1);
+            var rows = element.ChildElements.Where(e => e.LocalName == "tr");
+            return firstElementDeleting ? rows.Skip(1) : rows;
+        }
+        public static IEnumerable<OpenXmlElement> ExtractParagraphsFromRows(this IEnumerable<OpenXmlElement> elements)
+        {
+            foreach (var row in elements)
+            {
+                foreach (var paragraph in row.ExtractParagraphsFromRow())
+                {
+                    if (paragraph.InnerText != "")
+                    {
+                        yield return paragraph;
+                    }
+                }
+            }
         }
 
-        public static IEnumerable<OpenXmlElement> ExtractParagraphsFromRow(this OpenXmlElement element)
+        public static IEnumerable<OpenXmlElement> ExtractParagraphsFromRow(this OpenXmlElement element, bool notNulls = false)
         {
             List<OpenXmlElement> paragraphs = new();
             var cells = element.ChildElements.Where(e => e.LocalName == "tc");
             foreach (var cell in cells)
             {
-                paragraphs.AddRange(cell.ChildElements.Where(e => e.LocalName == "p"));
+                var nullableParagraphs =
+                    cell
+                    .ChildElements
+                    .Where(e => e.LocalName == "p");
+
+                nullableParagraphs =
+                    notNulls ?
+                    nullableParagraphs.Where(p => p.InnerText != "") : nullableParagraphs;
+                paragraphs.AddRange(nullableParagraphs);
             }
             return paragraphs;
         }
