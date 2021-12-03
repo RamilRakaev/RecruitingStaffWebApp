@@ -1,18 +1,9 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates.CandidateData.Educations;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates.CandidateData.PreviousJobs;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates.CandidateData.Recommenders;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
 using RecruitingStaffWebApp.Services.DocParse;
 using System.Threading.Tasks;
 
