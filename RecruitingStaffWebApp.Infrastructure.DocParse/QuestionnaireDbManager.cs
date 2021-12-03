@@ -2,7 +2,6 @@
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaffWebApp.Services.DocParse;
 using System.Threading.Tasks;
@@ -20,29 +19,44 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public RecruitingStaffWebAppFile File { get; private set; }
 
-        public async Task SaveParsedData(ParsedData parsedData)
+        public async Task SaveParsedData(ParsedData parsedData, bool parseAnswers = false)
         {
-            var vacancy = await _mediator.Send(new CreateOrChangeVacancyCommand(parsedData.Vacancy));
-
-            parsedData.Questionnaire.VacancyId = vacancy.Id;
-            var questionnaire = await _mediator.Send(new CreateOrChangeQuestionnaireCommand(parsedData.Questionnaire));
-
-            var candidate = await _mediator.Send(
-                new CreateOrChangeCandidateCommand(
-                parsedData.Candidate,
-                parsedData.Vacancy.Id,
-                parsedData.Questionnaire.Id));
-            await CreateFile(parsedData, candidate.Id, questionnaire.Id);
+            parsedData.Questionnaire.VacancyId = parsedData.Vacancy.Id;
+            await _mediator.Send(new CreateOrChangeQuestionnaireCommand(parsedData.Questionnaire));
+            if (parseAnswers)
+            {
+                await _mediator.Send(
+                    new CreateOrChangeCandidateCommand(
+                    parsedData.Candidate,
+                    parsedData.Vacancy.Id,
+                    parsedData.Questionnaire.Id));
+                await CreateCandidateDocument(parsedData, parsedData.Candidate.Id, parsedData.Questionnaire.Id);
+            }
+            else
+            {
+                await CreateQuestionnaireDocument(parsedData);
+            }
         }
 
-        private async Task CreateFile(ParsedData parsedData, int candidateId, int questionnaireId)
+        private async Task CreateCandidateDocument(ParsedData parsedData, int candidateId, int questionnaireId)
         {
-            File = new RecruitingStaffWebAppFile()
+            File = new()
             {
                 Source = $"{candidateId}.{parsedData.Candidate.FullName}{parsedData.FileExtension}",
                 FileType = FileType.Questionnaire,
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,
+            };
+            await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(File));
+        }
+
+        private async Task CreateQuestionnaireDocument(ParsedData parsedData)
+        {
+            File = new()
+            {
+                Source = $"{parsedData.Questionnaire.Id}.{parsedData.Questionnaire.Name}{parsedData.FileExtension}",
+                FileType = FileType.Questionnaire,
+                QuestionnaireId = parsedData.Questionnaire.Id,
             };
             await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(File));
         }

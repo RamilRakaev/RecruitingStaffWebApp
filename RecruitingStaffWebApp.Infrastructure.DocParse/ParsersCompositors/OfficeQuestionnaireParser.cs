@@ -30,7 +30,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             };
         }
 
-        public async override Task<ParsedData> Parse(string fileName)
+        public async override Task<ParsedData> Parse(string fileName, bool parseAnswers = false)
         {
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {

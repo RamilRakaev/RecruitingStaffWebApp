@@ -21,7 +21,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 
         public DocumentParseHandler(IQuestionnaireManager questionnaireManager, IOptions<WebAppOptions> options, DataContext db)
         {
-            ResetDb(db);
+            //ResetDb(db);
             _questionnaireManager = questionnaireManager;
             _options = options.Value;
         }
@@ -35,7 +35,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
                 {
                     request.FormFile.CopyTo(stream);
                 }
-                return _questionnaireManager.ParseAndSaved(
+                return _questionnaireManager.ParseAndSaveQuestions(
                     guid.ToString(),
                     (JobQuestionnaire)request.JobQuestionnaire);
             }

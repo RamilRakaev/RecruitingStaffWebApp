@@ -30,19 +30,20 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public List<string> Errors { get; private set; } = new List<string>();
 
-        public async Task<bool> ParseAndSaved(string fileName, JobQuestionnaire jobQuestionnaire)
+        public async Task<bool> ParseAndSaveQuestions(string fileName, JobQuestionnaire jobQuestionnaire)
         {
             _fileName = fileName;
             var oldPath = $"{_options.DocumentsSource}\\{_fileName}";
+            await Parsersearch(jobQuestionnaire);
             try
             {
-                await Parsersearch(jobQuestionnaire);
                 parsedData = await parserStrategy.Parse(fileName);
                 var checking = new ParsedDataCheck(new string[] { "FullName" });
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData);
                     var newPath = $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}";
+                    File.Delete(newPath);
                     File.Copy(oldPath, newPath);
                 }
                 else
@@ -50,6 +51,69 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                     Errors.AddRange(checking.ExceptionMessages);
                 }
                 return true;
+            }
+            catch (Exception e)
+            {
+                Errors.Add(e.Message);
+                return false;
+            }
+            finally
+            {
+                File.Delete(oldPath);
+            }
+        }
+
+        private async Task<bool> ParseAndSaveQuestionsFunc(string oldPath)
+        {
+            parsedData = await parserStrategy.Parse(oldPath);
+            var checking = new ParsedDataCheck(new string[] { "FullName" });
+            if (checking.Checking(parsedData))
+            {
+                await questionnaireDbManager.SaveParsedData(parsedData, true);
+                var newPath = $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}";
+                File.Delete(newPath);
+                File.Copy(oldPath, newPath);
+                return true;
+            }
+            else
+            {
+                Errors.AddRange(checking.ExceptionMessages);
+                return false;
+            }
+        }
+
+        public async Task<bool> ParseAndSaveAnswers(string fileName, JobQuestionnaire jobQuestionnaire)
+        {
+            return await Parse(fileName, jobQuestionnaire, ParseAndSaveAnswersFunc);
+        }
+        
+        private async Task<bool> ParseAndSaveAnswersFunc(string oldPath)
+        {
+            parsedData = await parserStrategy.Parse(oldPath);
+            var checking = new ParsedDataCheck(new string[] { "FullName" });
+            if (checking.Checking(parsedData))
+            {
+                await questionnaireDbManager.SaveParsedData(parsedData, true);
+                var newPath = $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}";
+                File.Delete(newPath);
+                File.Copy(oldPath, newPath);
+                return true;
+            }
+            else
+            {
+                Errors.AddRange(checking.ExceptionMessages);
+                return false;
+            }
+        }
+
+        public async Task<bool> Parse(string fileName, JobQuestionnaire jobQuestionnaire, Func<string, Task<bool>> parseFunc)
+        {
+            _fileName = fileName;
+            var oldPath = $"{_options.DocumentsSource}\\{_fileName}";
+            await Parsersearch(jobQuestionnaire);
+            try
+            {
+                return await parseFunc(oldPath);
             }
             catch (Exception e)
             {

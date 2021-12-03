@@ -4,30 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using RecruitingStaffWebApp.Pages.User;
-using RecruitingStaffWebApp.Services.DocParse;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Files
 {
-    public class DocumentFormModel : BasePageModel
+    public class QuestionsParseFormModel : BasePageModel
     {
-        public DocumentFormModel(IMediator mediator, ILogger<DocumentFormModel> logger) : base(mediator, logger)
+        public QuestionsParseFormModel(IMediator mediator, ILogger<QuestionsParseFormModel> logger) : base(mediator, logger)
         { }
 
         public SelectList QuestionnaireTypes { get; set; }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-            var questionnaires = Enum.GetValues(typeof(JobQuestionnaire));
-            Dictionary<int, string> dictionary = new ();
-            for(int i = 0; i < questionnaires.Length; i++)
-            {
-                dictionary.Add(i, questionnaires.GetValue(i).ToString());
-            }
-            QuestionnaireTypes = new SelectList(dictionary, "Key", "Value");
+            QuestionnaireTypes = new SelectList(
+                await _mediator.Send(new GetJobQuestionnairesDictionaryQuery()),
+                "Key",
+                "Value");
         }
 
         public async Task<IActionResult> OnPost(IFormFile formFile, int jobQuestionnaire)

@@ -4,8 +4,6 @@ using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaffWebApp.Services.DocParse;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,21 +32,22 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public sealed override async Task<ParsedData> Parse(string fileName)
+        public sealed override async Task<ParsedData> Parse(string fileName, bool parseAnswers = false)
         {
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
-                foreach (var candidateDataTable in body.ChildElements.Where(e => e.LocalName == "tbl"))
+                var candidateDataTable = body.ChildElements.Where(e => e.LocalName == "tbl").First();
+                if (parseAnswers)
                 {
                     await ParseCandidate(candidateDataTable);
-                    foreach (var cell in candidateDataTable.ExtractCellsFromTable())
+                }
+                foreach (var cell in candidateDataTable.ExtractCellsFromTable())
+                {
+                    var questionsTable = cell.FirstOrDefault(c => c.LocalName == "tbl");
+                    if (questionsTable != null)
                     {
-                        var questionsTable = cell.FirstOrDefault(c => c.LocalName == "tbl");
-                        if (questionsTable != null)
-                        {
-                            await ParseQuestionnaire(questionsTable);
-                        }
+                        await ParseQuestionnaire(questionsTable);
                     }
                 }
             }
@@ -86,6 +85,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 VacancyId = parsedData.Vacancy.Id
             };
 
+            parsedData.Questionnaire.QuestionCategories = new();
+            parsedData.Candidate.Answers = new();
             foreach (var row in table.ExtractRowsFromTable())
             {
                 await ParseQuestionCategory(row);
@@ -100,9 +101,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 currentCategory = new QuestionCategory()
                 {
                     Name = child.ChildElements.ElementAt(2).InnerText,
-                    Questionnaire = parsedData.Questionnaire
+                    Questions = new(),
                 };
-                parsedData.QuestionCategories.Add(currentCategory);
+                parsedData.Questionnaire.QuestionCategories.Add(currentCategory);
             }
             return Task.CompletedTask;
         }
@@ -116,7 +117,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                     QuestionCategory = currentCategory,
                     Name = child.ChildElements[2].InnerText
                 };
-                parsedData.Questions.Add(currentQuestion);
+                currentCategory.Questions.Add(currentQuestion);
                 await ParseAnswer(child);
             }
         }
@@ -133,7 +134,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 };
                 _ = byte.TryParse(child.ChildElements[3].InnerText, out byte estimation);
                 answer.Estimation = estimation;
-                parsedData.Answers.Add(answer);
+                parsedData.Candidate.Answers.Add(answer);
             }
             return Task.CompletedTask;
         }

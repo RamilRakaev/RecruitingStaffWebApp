@@ -4,6 +4,8 @@ namespace RecruitingStaffWebApp.Services.DocParse
 {
     public interface IQuestionnaireManager
     {
-        public Task<bool> ParseAndSaved(string document, JobQuestionnaire jobQuestionnaire);
+        public Task<bool> ParseAndSaveQuestions(string document, JobQuestionnaire jobQuestionnaire);
+
+        public Task<bool> ParseAndSaveAnswers(string document, JobQuestionnaire jobQuestionnaire);
     }
 }

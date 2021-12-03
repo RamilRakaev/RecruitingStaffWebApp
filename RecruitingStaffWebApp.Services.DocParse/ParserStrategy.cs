@@ -19,26 +19,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
             parsedData = new ParsedData();
         }
 
-        public abstract Task<ParsedData> Parse(string fileName);
-
-        //protected Task LinkTheQuestionnaireAndTheCandidate()
-        //{
-        //    parsedData.CandidateQuestionnaire = new()
-        //    {
-        //        CandidateId = parsedData.Candidate.Id,
-        //        QuestionnaireId = parsedData.Questionnaire.Id,
-        //    };
-        //    return Task.CompletedTask;
-        //}
-
-        //protected Task LinkTheVacancyAndTheCandidate()
-        //{
-        //    parsedData.CandidateVacancy = new()
-        //    {
-        //        CandidateId = parsedData.Candidate.Id,
-        //        VacancyId = parsedData.Vacancy.Id,
-        //    };
-        //    return Task.CompletedTask;
-        //}
+        public abstract Task<ParsedData> Parse(string fileName, bool parseAnswers = false);
     }
 }
