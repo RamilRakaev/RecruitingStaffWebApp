@@ -8,10 +8,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
     {
         public ParsedData()
         {
-            Educations = new List<Education>();
-            PreviousJobs = new List<PreviousJob>();
-            Recommenders = new List<Recommender>();
-
             QuestionCategories = new List<QuestionCategory>();
             Questions = new List<Question>();
             Answers = new List<Answer>();
@@ -21,13 +17,12 @@ namespace RecruitingStaffWebApp.Services.DocParse
         public Candidate Candidate { get; set; }
         public Questionnaire Questionnaire { get; set; }
 
-        public List<Education> Educations { get; set; }
-        public List<PreviousJob> PreviousJobs { get; set; }
-        public List<Recommender> Recommenders { get; set; }
-
         public List<QuestionCategory> QuestionCategories { get; set; }
         public List<Question> Questions { get; set; }
         public List<Answer> Answers { get; set; }
+
+        public CandidateVacancy CandidateVacancy { get; set; }
+        public CandidateQuestionnaire CandidateQuestionnaire { get; set; }
 
         public string FileExtension { get; set; } = ".docx";
     }

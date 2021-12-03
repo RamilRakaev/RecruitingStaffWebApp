@@ -26,7 +26,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             parsedData.Questionnaire = new Questionnaire()
             {
                 Name = questionnaireName,
-                QuestionCategories = new()
+                QuestionCategories = new(),
             };
         }
 
@@ -38,13 +38,14 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
                 var tables = body.ChildElements.Where(e => e.LocalName == "tbl");
                 var paragraphs = body.ChildElements.Where(e => e.LocalName == "p" && e.InnerText != "");
-                currentRows = tables.First().ExtractRowsFromTable();
+                currentRows = tables.First().ExtractRowsFromTable(false);
 
-                await ParseCandidate(0);
-                await ParseEducation(8);
+                await ParseVacancy(0);
+                await ParseCandidate(1);
                 await ParseEducation(9);
-                await ParsePreviousJobs(12);
-                int startRow = 34;
+                await ParseEducation(10);
+                await ParsePreviousJobs(13);
+                int startRow = 35;
                 await ParseQuestionCategory(ref startRow);
                 await ParseQuestionCategory(ref startRow);
                 await ParseOtherQuestions(ref startRow);
@@ -53,8 +54,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 currentRows = tables.Last().ExtractRowsFromTable(false);
                 startRow = 0;
                 await ParseQuestionsFromDoubleTable(ref startRow, categoryName: paragraphs.ElementAt(1).InnerText);
+                return parsedData;
             }
-            return null;
         }
 
         private Task ParseCandidate(in int index)
@@ -76,6 +77,20 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             var placeOfBirth = currentRows.ExtractCellTextFromRow(index + 1, 2).ToLower();
             parsedData.Candidate.PlaceOfBirth = Regex.Replace(placeOfBirth, @"(место рождения)\W?", "");
             ParseKids(index + 5);
+            return Task.CompletedTask;
+        }
+
+        private Task ParseVacancy(in int index)
+        {
+            var name = Regex.Replace(
+                currentRows.ExtractCellTextFromRow(index, 1)
+                .ToLower(),
+                @"вакансия\W*",
+                "");
+            parsedData.Vacancy = new Vacancy()
+            {
+                Name = name
+            };
             return Task.CompletedTask;
         }
 

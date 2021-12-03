@@ -21,7 +21,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
     public class QuestionnaireDbManager
     {
         private readonly IMediator _mediator;
-        private ParsedData _parsedData;
 
         public QuestionnaireDbManager(IMediator mediator)
         {
@@ -32,63 +31,24 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task SaveParsedData(ParsedData parsedData)
         {
-            _parsedData = parsedData;
             var vacancy = await _mediator.Send(new CreateOrChangeVacancyCommand(parsedData.Vacancy));
 
             parsedData.Questionnaire.VacancyId = vacancy.Id;
             var questionnaire = await _mediator.Send(new CreateOrChangeQuestionnaireCommand(parsedData.Questionnaire));
 
-            var candidate = await _mediator.Send(new CreateCandidateCommand(parsedData.Candidate, vacancy.Id, questionnaire.Id));
+            var candidate = await _mediator.Send(
+                new CreateOrChangeCandidateCommand(
+                parsedData.Candidate,
+                parsedData.Vacancy.Id,
+                parsedData.Questionnaire.Id));
             await CreateFile(parsedData, candidate.Id, questionnaire.Id);
-
-            await SaveCandidateData();
-            await SaveQuestionnaire(questionnaire.Id);
-        }
-
-        private async Task SaveCandidateData()
-        {
-            foreach (var education in _parsedData.Educations)
-            {
-                education.CandidateId = education.Candidate.Id;
-                await _mediator.Send(new CreateEducationCommand(education));
-            }
-            foreach (var previousJob in _parsedData.PreviousJobs)
-            {
-                previousJob.CandidateId = previousJob.CandidateId;
-                await _mediator.Send(new CreatePreviousJobCommand(previousJob));
-            }
-            foreach (var recommender in _parsedData.Recommenders)
-            {
-                recommender.PreviousJobId = recommender.PreviousJob.Id;
-                await _mediator.Send(new CreateRecommenderCommand(recommender));
-            }
-        }
-
-        private async Task SaveQuestionnaire(int questionnaireId)
-        {
-            foreach (var questionCategory in _parsedData.QuestionCategories)
-            {
-                questionCategory.QuestionnaireId = questionnaireId;
-                await _mediator.Send(new CreateOrChangeQuestionCategoryCommand(questionCategory));
-            }
-            foreach (var question in _parsedData.Questions)
-            {
-                question.QuestionCategoryId = question.QuestionCategory.Id;
-                await _mediator.Send(new CreateOrChangeQuestionCommand(question));
-            }
-            foreach (var answer in _parsedData.Answers)
-            {
-                answer.QuestionId = answer.Question.Id;
-                answer.CandidateId = answer.Candidate.Id;
-                await _mediator.Send(new CreateOrChangeAnswerCommand(answer));
-            }
         }
 
         private async Task CreateFile(ParsedData parsedData, int candidateId, int questionnaireId)
         {
             File = new RecruitingStaffWebAppFile()
             {
-                Source = $"{candidateId}.{parsedData.Candidate.FullName}" + parsedData.FileExtension,
+                Source = $"{candidateId}.{parsedData.Candidate.FullName}{parsedData.FileExtension}",
                 FileType = FileType.Questionnaire,
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,

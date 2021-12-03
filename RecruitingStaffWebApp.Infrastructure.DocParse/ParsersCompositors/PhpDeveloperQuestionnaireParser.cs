@@ -79,32 +79,33 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
             parsedData.Candidate = new Candidate
             {
-                FullName = ExtractCellTextFromRow(rows, FullNameRow, FullNameColumn),
+                FullName = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
                 DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
-                TelephoneNumber = ExtractCellTextFromRow(rows, TelephoneNumberRow, TelephoneNumberColumn),
-                MaritalStatus = ExtractCellTextFromRow(rows, MaritalStatusRow, MaritalStatusColumn),
-                EmailAddress = ExtractCellTextFromRow(rows, EmailAddressRow, EmailAddressColumn),
+                TelephoneNumber = rows.ExtractCellTextFromRow(TelephoneNumberRow, TelephoneNumberColumn),
+                MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
+                EmailAddress = rows.ExtractCellTextFromRow(EmailAddressRow, EmailAddressColumn),
             };
+            parsedData.Candidate.Educations = new();
             EducationParse(rows, parsedData.Candidate);
             await VacancyParse(vacancyName);
         }
 
-        private void EducationParse(IEnumerable<OpenXmlElement> row, Candidate candidate)
+        private void EducationParse(IEnumerable<OpenXmlElement> rows, Candidate candidate)
         {
             var education = new Education
             {
                 Candidate = candidate,
-                EducationalInstitutionName = ExtractCellTextFromRow(row, EducationNameRow, EducationNameColumn)
+                EducationalInstitutionName = rows.ExtractCellTextFromRow(EducationNameRow, EducationNameColumn)
             };
             var specificationAndQualification =
-                ExtractCellTextFromRow(row,
+                rows.ExtractCellTextFromRow(
                 specificationAndQualificationRow,
                 specificationAndQualificationColumn).Split(",");
             education.Specialization = specificationAndQualification[0].Trim(' ');
             education.Qualification = specificationAndQualification[1].Trim(' ');
-            education.StartDateOfTraining = row.TryExtractDate(DateOfStartTrainingRow, DateOfStartTrainingColumn);
-            education.EndDateOfTraining = row.TryExtractDate(DateOfEndTrainingRow, DateOfEndTrainingColumn);
-            parsedData.Educations.Add(education);
+            education.StartDateOfTraining = rows.TryExtractDate(DateOfStartTrainingRow, DateOfStartTrainingColumn);
+            education.EndDateOfTraining = rows.TryExtractDate(DateOfEndTrainingRow, DateOfEndTrainingColumn);
+            parsedData.Candidate.Educations.Add(education);
         }
 
         private Task VacancyParse(string vacancyName)

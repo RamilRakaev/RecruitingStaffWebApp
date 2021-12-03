@@ -20,17 +20,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         public bool Checking(ParsedData parsedData)
         {
             var parseDataProperties = parsedData.GetType().GetProperties();
-            foreach (var parseDataPropertyType in parseDataProperties)
-            {
-                var value = parseDataPropertyType.GetValue(parsedData);
-                if (parseDataPropertyType.GetValue(parsedData) == null)
-                {
-                    ExceptionMessages.Add("Неправильно введена анкета");
-                    return false;
-                }
-            }
 
-            foreach (var parseDataPropertyType in parseDataProperties)
+            foreach (var parseDataPropertyType in parseDataProperties
+                .Where(d => d.GetValue(parsedData) != null))
             {
                 foreach (var property in parseDataPropertyType
                     .GetValue(parsedData)

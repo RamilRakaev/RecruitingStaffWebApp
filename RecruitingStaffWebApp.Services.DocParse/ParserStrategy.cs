@@ -1,8 +1,5 @@
-﻿using DocumentFormat.OpenXml;
-using RecruitingStaff.Domain.Model;
+﻿using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Services.DocParse
@@ -24,13 +21,24 @@ namespace RecruitingStaffWebApp.Services.DocParse
 
         public abstract Task<ParsedData> Parse(string fileName);
 
-        protected static string ExtractCellTextFromRow(IEnumerable<OpenXmlElement> rows, int rowInd, int cellInd)
-        {
-            return rows
-                .ElementAt(rowInd)
-                .ChildElements
-                .Where(e => e.LocalName == "tc")
-                .ElementAt(cellInd).InnerText;
-        }
+        //protected Task LinkTheQuestionnaireAndTheCandidate()
+        //{
+        //    parsedData.CandidateQuestionnaire = new()
+        //    {
+        //        CandidateId = parsedData.Candidate.Id,
+        //        QuestionnaireId = parsedData.Questionnaire.Id,
+        //    };
+        //    return Task.CompletedTask;
+        //}
+
+        //protected Task LinkTheVacancyAndTheCandidate()
+        //{
+        //    parsedData.CandidateVacancy = new()
+        //    {
+        //        CandidateId = parsedData.Candidate.Id,
+        //        VacancyId = parsedData.Vacancy.Id,
+        //    };
+        //    return Task.CompletedTask;
+        //}
     }
 }
