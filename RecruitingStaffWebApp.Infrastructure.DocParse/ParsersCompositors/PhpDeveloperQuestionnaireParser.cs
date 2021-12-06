@@ -46,50 +46,29 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public override Task<ParsedData> Parse(string fileName)
+        public sealed override async Task<ParsedData> Parse(string fileName)
         {
-            ParsedData parsedData = new();
-            parsedData.Candidate = new()
-            {
-                Answers = new(),
-            };
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
 
-                var mainTable = body.ChildElements.Where(e => e.LocalName == "tbl").First();
-                var tables = mainTable.Last().Where(e => e.LocalName == "tc").First();
-                foreach (var elements in tables.ChildElements
-                       .Where(e => e.LocalName == "tbl" ||
-                                  (e.LocalName == "p" &&
-                                  e.InnerText != " " &&
-                                  e.InnerText != ""))
-                       .Skip(1))
-                {
-                    foreach (var row in elements.ExtractRowsFromTable())
-                    {
-                        var cells = row.ExtractCellsFromRow();
-                        var answer = new Answer
-                        {
-                            Candidate = parsedData.Candidate,
-                            Text = cells.ElementAt(3).InnerText
-                        };
-                        parsedData.Candidate.Answers.Add(answer);
-                    }
-                }
+                var table = body.ChildElements.Where(e => e.LocalName == "tbl").First();
+
+                await ParseCandidate(table);
+                await CreateQuestionnaire();
+                var questionCategories = table.Last().Where(e => e.LocalName == "tc").First();
+                await ParseQuestionCategory(questionCategories);
             }
-            return Task.FromResult(parsedData);
+            return parsedData;
         }
-
-
 
         private Task CreateQuestionnaire()
         {
-            parsedData.Questionnaire = new Questionnaire
+            parsedData.AddQuestionnaire(new Questionnaire
             {
                 Name = questionnaireName,
-                Vacancy = parsedData.Vacancy
-            };
+                Vacancy = parsedData.Vacancy,
+            });
             return Task.CompletedTask;
         }
 
@@ -135,9 +114,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return Task.CompletedTask;
         }
 
-        private async Task ParseQuestionCategories(OpenXmlElement tables)
+        private async Task ParseQuestionCategory(OpenXmlElement tables)
         {
-            parsedData.Questionnaire.QuestionCategories = new();
             foreach (var elements in tables.ChildElements
                 .Where(e => e.LocalName == "tbl" ||
                            (e.LocalName == "p" &&
@@ -147,17 +125,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 if (elements.LocalName == "p")
                 {
-                    currentCategory = new()
-                    {
-                        Name = elements.InnerText,
-                        Questions = new(),
-                    };
-                    currentCategory.Name = elements.InnerText;
-                    parsedData.Questionnaire.QuestionCategories.Add(currentCategory);
+                    await parsedData.AddQuestionCategory(new() { Name = elements.InnerText });
                 }
                 else if (elements.LocalName == "tbl")
                 {
-                    parsedData.Candidate.Answers = new();
                     foreach (var row in elements.ExtractRowsFromTable())
                     {
                         await ParseQuestion(row);
@@ -169,13 +140,23 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private async Task ParseQuestion(OpenXmlElement row)
         {
             var cells = row.ExtractCellsFromRow();
-            currentCategory.Questions.Add(new Question
+            await parsedData.AddQuestion(new Question
             {
-                QuestionCategory = currentCategory,
                 Name = cells.ElementAt(1).InnerText
             });
-            //await ParseAnswer(cells);
+            await ParseAnswer(cells);
+
+        }
+
+        private Task ParseAnswer(IEnumerable<OpenXmlElement> cells)
+        {
+            parsedData.AddAnswer(new Answer
+            {
+                Candidate = parsedData.Candidate,
+                Question = currentQuestion,
+                Text = cells.ElementAt(3).InnerText
+            });
+            return Task.CompletedTask;
         }
     }
 }
-

@@ -1,5 +1,6 @@
 ﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaffWebApp.Services.DocParse.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +13,9 @@ namespace RecruitingStaffWebApp.Services.DocParse
             FileExtension = fileExtension;
             AnswersOnQuestions = new();
         }
+
+        public QuestionnaireParsedData QuestionnaireParsedData { get; set; }
+        public CandidateParsedData CandidateParsedData { get; set; }
 
         private QuestionCategory currentQuestionCategory;
         private Question currentQuestion;
