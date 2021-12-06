@@ -19,25 +19,21 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
 
         public async Task<bool> Handle(CreateOrChangeQuestionCategoryCommand request, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionCategoryRepository.FindAsync(request.QuestionCategory.Id, cancellationToken);
-            if (questionnaire == null)
-            {
-                var category = await _questionCategoryRepository
+            var questionCategory = await _questionCategoryRepository
+                .FindAsync(request.QuestionCategory.Id, cancellationToken) ??
+                await _questionCategoryRepository
                     .GetAllAsNoTracking()
                     .FirstOrDefaultAsync(q => q.Name.Equals(request.QuestionCategory.Name)
                     && q.QuestionnaireId == request.QuestionCategory.QuestionnaireId, cancellationToken);
-                if (category != null)
-                {
-                    request.QuestionCategory.Id = category.Id;
-                    return false;
-                }
+            if(questionCategory == null)
+            {
                 request.QuestionCategory.Questionnaire = null;
                 await _questionCategoryRepository.AddAsync(request.QuestionCategory, cancellationToken);
             }
             else
             {
-                questionnaire.Name = request.QuestionCategory.Name;
-                questionnaire.QuestionnaireId = request.QuestionCategory.QuestionnaireId;
+                request.QuestionCategory.Id = questionCategory.Id;
+                await _questionCategoryRepository.Update(request.QuestionCategory);
             }
             await _questionCategoryRepository.SaveAsync(cancellationToken);
             return true;

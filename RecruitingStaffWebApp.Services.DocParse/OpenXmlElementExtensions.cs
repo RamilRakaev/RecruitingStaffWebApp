@@ -108,5 +108,14 @@ namespace RecruitingStaffWebApp.Services.DocParse
         {
             return rows.ExtractCellTextFromRow(rowIndex, cellIndex).GetTextAfterCharacter(character);
         }
+
+        public static string FindText(this string input, string pattern, string removementPattern = "")
+        {
+            Regex regex = new(pattern);
+            var matches = regex.Matches(input);
+            var text = matches.Any() ? matches.First().Value : "";
+            text = removementPattern != "" ? Regex.Replace(text, removementPattern, "") : text;
+            return text;
+        }
     }
 }

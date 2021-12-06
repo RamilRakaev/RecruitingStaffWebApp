@@ -20,31 +20,23 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 
         public async Task<Vacancy> Handle(CreateOrChangeVacancyCommand request, CancellationToken cancellationToken)
         {
-            var vacancy = await _vacancyRepository.FindAsync(request.Vacancy.Id, cancellationToken);
-            if (vacancy == null)
+            var vacancy = await _vacancyRepository
+                .FindAsync(request.Vacancy.Id, cancellationToken) ??
+                await _vacancyRepository
+                .GetAllAsNoTracking()
+                .Where(v => v.Name.Equals(request.Vacancy.Name))
+                .FirstOrDefaultAsync(cancellationToken);
+            if (vacancy != null)
             {
-                vacancy = await _vacancyRepository
-                    .GetAllAsNoTracking()
-                    .Where(v => v.Name.Equals(request.Vacancy.Name))
-                    .FirstOrDefaultAsync(cancellationToken);
-                if (vacancy != null)
-                {
-                    return vacancy;
-                }
-                await _vacancyRepository.AddAsync(request.Vacancy, cancellationToken);
-                await _vacancyRepository.SaveAsync(cancellationToken);
-                vacancy = request.Vacancy;
+                request.Vacancy.Id = vacancy.Id;
+                await _vacancyRepository.Update(request.Vacancy);
             }
             else
             {
-                vacancy.Name = request.Vacancy.Name;
-                vacancy.Description = request.Vacancy.Description;
-                vacancy.Responsibilities = request.Vacancy.Responsibilities;
-                vacancy.Requirements = request.Vacancy.Requirements;
-                vacancy.WorkingConditions = request.Vacancy.WorkingConditions;
-                await _vacancyRepository.SaveAsync(cancellationToken);
+                await _vacancyRepository.AddAsync(request.Vacancy, cancellationToken);
             }
-            return vacancy;
+            await _vacancyRepository.SaveAsync(cancellationToken);
+            return request.Vacancy;
         }
     }
 }

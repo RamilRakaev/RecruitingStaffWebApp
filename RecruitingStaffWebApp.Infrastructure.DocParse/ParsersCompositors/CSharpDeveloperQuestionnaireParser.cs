@@ -32,16 +32,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public sealed override async Task<ParsedData> Parse(string fileName, bool parseAnswers = false)
+        public sealed override async Task<ParsedData> Parse(string fileName)
         {
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
                 var candidateDataTable = body.ChildElements.Where(e => e.LocalName == "tbl").First();
-                if (parseAnswers)
-                {
-                    await ParseCandidate(candidateDataTable);
-                }
+                await ParseCandidate(candidateDataTable);
                 foreach (var cell in candidateDataTable.ExtractCellsFromTable())
                 {
                     var questionsTable = cell.FirstOrDefault(c => c.LocalName == "tbl");
@@ -65,6 +62,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 Address = rows.ExtractTextAfterCharacterFromRow(AddressRow, AddressColumn, ':'),
                 TelephoneNumber = rows.ExtractCellTextFromRow(TelephoneNumberRow, TelephoneNumberColumn),
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
+                Answers = new(),
             };
             await VacancyParse(vacancyName);
         }
@@ -79,14 +77,12 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private async Task ParseQuestionnaire(OpenXmlElement table)
         {
-            parsedData.Questionnaire = new Questionnaire
+            await parsedData.AddQuestionnaire(
+            new Questionnaire
             {
-                Name = questionnaireName,
-                VacancyId = parsedData.Vacancy.Id
-            };
+                Name = questionnaireName
+            });
 
-            parsedData.Questionnaire.QuestionCategories = new();
-            parsedData.Candidate.Answers = new();
             foreach (var row in table.ExtractRowsFromTable())
             {
                 await ParseQuestionCategory(row);
@@ -98,12 +94,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             if (child.ChildElements.Count == 3)
             {
-                currentCategory = new QuestionCategory()
+                parsedData.AddQuestionCategory(new QuestionCategory()
                 {
                     Name = child.ChildElements.ElementAt(2).InnerText,
-                    Questions = new(),
-                };
-                parsedData.Questionnaire.QuestionCategories.Add(currentCategory);
+                });
             }
             return Task.CompletedTask;
         }
@@ -112,12 +106,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             if (child.ChildElements.Count == 5)
             {
-                currentQuestion = new Question
+                await parsedData.AddQuestion(new Question
                 {
-                    QuestionCategory = currentCategory,
                     Name = child.ChildElements[2].InnerText
-                };
-                currentCategory.Questions.Add(currentQuestion);
+                });
                 await ParseAnswer(child);
             }
         }
@@ -128,13 +120,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 var answer = new Answer
                 {
-                    Candidate = parsedData.Candidate,
-                    Question = currentQuestion,
                     Text = child.ChildElements[4].InnerText
                 };
+                parsedData.AddAnswer(answer);
                 _ = byte.TryParse(child.ChildElements[3].InnerText, out byte estimation);
                 answer.Estimation = estimation;
-                parsedData.Candidate.Answers.Add(answer);
             }
             return Task.CompletedTask;
         }

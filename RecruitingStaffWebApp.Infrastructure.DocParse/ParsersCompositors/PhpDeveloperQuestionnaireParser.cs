@@ -46,7 +46,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public override Task<ParsedData> Parse(string fileName, bool parseAnswers = false)
+        public override Task<ParsedData> Parse(string fileName)
         {
             ParsedData parsedData = new();
             parsedData.Candidate = new()

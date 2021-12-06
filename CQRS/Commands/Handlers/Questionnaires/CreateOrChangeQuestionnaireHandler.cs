@@ -30,16 +30,14 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             if (questionnaire == null)
             {
                 await _questionnaireRepository.AddAsync(request.Questionnaire, cancellationToken);
-                await _questionnaireRepository.SaveAsync(cancellationToken);
-                return request.Questionnaire;
             }
             else
             {
                 request.Questionnaire.Id = questionnaire.Id;
                 await _questionnaireRepository.Update(request.Questionnaire);
-                await _questionnaireRepository.SaveAsync(cancellationToken);
             }
-            return questionnaire;
+            await _questionnaireRepository.SaveAsync(cancellationToken);
+            return request.Questionnaire;
         }
     }
 }

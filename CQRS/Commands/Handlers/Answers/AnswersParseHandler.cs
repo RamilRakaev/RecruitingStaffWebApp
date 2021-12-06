@@ -30,9 +30,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Answers
                 {
                     request.FormFile.CopyTo(stream);
                 }
-                return _questionnaireManager.ParseAndSaveAnswers(
+                return _questionnaireManager.Parse(
                     guid.ToString(),
-                    (JobQuestionnaire)request.JobQuestionnaire);
+                    (JobQuestionnaire)request.JobQuestionnaire,
+                    false);
             }
             else
             {

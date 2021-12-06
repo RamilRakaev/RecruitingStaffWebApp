@@ -30,7 +30,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             };
         }
 
-        public async override Task<ParsedData> Parse(string fileName, bool parseAnswers = false)
+        public async override Task<ParsedData> Parse(string fileName)
         {
             using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
             {
@@ -69,6 +69,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 Address = currentRows.ExtractCellTextFromRow(index + 3, 1),
                 TelephoneNumber = currentRows.ExtractCellTextFromRow(index + 4, 1),
                 MaritalStatus = currentRows.ExtractCellTextFromRow(index + 5, 1),
+                Answers = new(),
             };
             parsedData.Candidate.EmailAddress = Regex.Replace(
                 currentRows.ExtractCellTextFromRow(index + 4, 2, @"(E-Mail).*"),
@@ -226,12 +227,20 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 var text = cells.ElementAt(columnIndex).InnerText;
                 if (text != "")
                 {
-                    currentQuestionCategory.Questions.Add(new Question()
+                    var question = new Question()
                     {
-                        Name = text
-                    });
+                        Name = text,
+                    };
+                    ParseAnswer(cells.ElementAt(columnIndex == 1 ? 0 : 1).InnerText, question);
+                    currentQuestionCategory.Questions.Add(question);
                 }
             }
+            return Task.CompletedTask;
+        }
+
+        private Task ParseAnswer(in string textAnswer, Question question)
+        {
+            parsedData.AnswersOnQuestions.Add(question, new Answer() { Text = textAnswer });
             return Task.CompletedTask;
         }
 
@@ -254,32 +263,37 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 var text = cells.ElementAt(0).InnerText;
                 if (text != "")
                 {
-                    questionCategory.Questions.Add(new Question()
+                    var question = new Question()
                     {
-                        Name = cells.ElementAt(0).InnerText,
-                    });
+                        Name = text.FindText(@".*[?]"),
+                    };
+                    questionCategory.Questions.Add(question);
+                    ParseAnswer(text.FindText(@"[?].*", @"[?]"), question);
                 }
             }
-
             return Task.CompletedTask;
         }
 
         private Task ParseSalaryQuestions(ref int startRow)
         {
             var cells = currentRows.ElementAt(startRow).ExtractCellsFromRow();
+            var wishesAboutQuestion = new Question()
+            {
+                Name = cells.ElementAt(0).InnerText
+            };
+            var formOfPayment = new Question()
+            {
+                Name = cells.ElementAt(2).InnerText
+            };
+            ParseAnswer(cells.ElementAt(1).InnerText, wishesAboutQuestion);
+            ParseAnswer(cells.ElementAt(3).InnerText, formOfPayment);
             QuestionCategory questionCategory = new()
             {
                 Name = salaryQuestionCategoryName,
                 Questions = new()
                 {
-                    new Question()
-                    {
-                        Name = cells.ElementAt(0).InnerText
-                    },
-                    new Question()
-                    {
-                        Name = cells.ElementAt(2).InnerText
-                    },
+                    wishesAboutQuestion,
+                    formOfPayment
                 },
             };
             parsedData.Questionnaire.QuestionCategories.Add(questionCategory);
@@ -302,33 +316,27 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 {
                     var firstCell = cells.ElementAt(0).InnerText;
                     var secondCell = cells.ElementAt(1).InnerText;
-                    var pattern = @"(\W*\w+\W*)+([:])";
-                    var removementPattern = @"\W*[:]";
-                    currentQuestionCategory.Questions.Add(
-                        new()
-                        {
-                            Name = FindText(firstCell, pattern, removementPattern)
-                        });
-                    currentQuestionCategory.Questions.Add(
-                        new()
-                        {
-                            Name = FindText(secondCell, pattern, removementPattern)
-                        });
+                    var pattern = @".*([:])";
+                    var firstQuestion = new Question()
+                    {
+                        Name = firstCell.FindText(pattern)
+                    };
+                    var secondQuestion = new Question()
+                    {
+                        Name = secondCell.FindText(pattern)
+                    };
+                    currentQuestionCategory.Questions.Add(firstQuestion);
+                    currentQuestionCategory.Questions.Add(secondQuestion);
+                    pattern = @"([:].*)";
+                    var removementPattern = @"[:]";
+                    ParseAnswer(firstCell.FindText(pattern, removementPattern), firstQuestion);
+                    ParseAnswer(firstCell.FindText(pattern, removementPattern), secondQuestion);
                     continue;
                 }
                 break;
             }
             ParseQuestionsFromTable(ref startRow, 0);
             return Task.CompletedTask;
-        }
-
-        private static string FindText(string input, string pattern, string removementPattern = "")
-        {
-            Regex regex = new(pattern);
-            var matches = regex.Matches(input);
-            var text = matches.Any() ? matches.First().Value : "";
-            text = removementPattern != "" ? Regex.Replace(text, removementPattern, "") : text;
-            return text;
         }
 
         private static string[] FindMatches(string input, string pattern)
