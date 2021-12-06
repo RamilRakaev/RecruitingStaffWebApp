@@ -154,6 +154,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 Candidate = parsedData.Candidate,
                 Question = currentQuestion,
+                FamiliarWithTheTechnology = cells.ElementAt(2).InnerText,
                 Text = cells.ElementAt(3).InnerText
             });
             return Task.CompletedTask;

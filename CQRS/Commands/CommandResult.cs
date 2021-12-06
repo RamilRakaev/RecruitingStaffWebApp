@@ -1,6 +1,6 @@
-﻿namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
+﻿namespace RecruitingStaff.Infrastructure.CQRS.Commands
 {
-    public enum ResultCommand
+    public enum CommandResult
     {
         ExistingOneBeenChanged,
         NewOneHasBeenCreated,

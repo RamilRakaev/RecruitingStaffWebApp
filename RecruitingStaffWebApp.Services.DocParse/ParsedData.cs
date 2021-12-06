@@ -14,8 +14,56 @@ namespace RecruitingStaffWebApp.Services.DocParse
             AnswersOnQuestions = new();
         }
 
-        public QuestionnaireParsedData QuestionnaireParsedData { get; set; }
+        public QuestionnaireElement QuestionnaireRp { get; set; }
         public CandidateParsedData CandidateParsedData { get; set; }
+
+        private QuestionnaireElement currentQuestionCategoryRp { get; set; }
+        private QuestionnaireElement currentQuestionRp { get; set; }
+        private QuestionnaireElement currentAnswerRp { get; set; }
+
+        public string FileExtension { get; set; }
+        public Task AddQuestionnaire(string name)
+        {
+            QuestionnaireRp = new()
+            {
+                Name = name,
+                ChildElements = new(),
+            };
+            return Task.CompletedTask;
+        }
+
+        public Task AddQuestionCategory(string name)
+        {
+            currentQuestionCategoryRp = new()
+            {
+                Name = name,
+                ChildElements = new(),
+            };
+            QuestionnaireRp.ChildElements.Add(currentQuestionCategoryRp);
+            return Task.CompletedTask;
+        }
+
+        public Task AddQuestion(string name)
+        {
+            currentQuestionRp = new()
+            {
+                Name = name,
+                ChildElements = new(),
+            };
+            currentQuestionCategoryRp.ChildElements.Add(currentQuestionRp);
+            return Task.CompletedTask;
+        }
+
+        public Task AddAnswer(string name)
+        {
+            currentAnswerRp = new()
+            {
+                Name = name,
+                ChildElements = new(),
+            };
+            currentQuestionRp.ChildElements.Add(currentAnswerRp);
+            return Task.CompletedTask;
+        }
 
         private QuestionCategory currentQuestionCategory;
         private Question currentQuestion;
@@ -25,8 +73,8 @@ namespace RecruitingStaffWebApp.Services.DocParse
         public Questionnaire Questionnaire { get; set; }
 
         public Dictionary<Question, Answer> AnswersOnQuestions { get; set; }
-        public string FileExtension { get; set; }
 
+        
         public Task AddQuestionnaire(Questionnaire questionnaire)
         {
             Questionnaire = questionnaire;
