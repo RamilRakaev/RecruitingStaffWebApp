@@ -77,6 +77,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 parserStrategy = new OfficeQuestionnaireParser(_options);
             }
+            if (jobQuestionnaire == JobQuestionnaire.DevOpsQuestionnaire)
+            {
+                parserStrategy = new DevOpsQuestionnaireParser(_options);
+            }
             return Task.CompletedTask;
         }
     }

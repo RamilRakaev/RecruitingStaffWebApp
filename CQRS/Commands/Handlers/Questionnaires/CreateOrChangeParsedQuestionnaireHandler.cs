@@ -1,45 +1,58 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
 {
-    public class CreateOrChangeParsedQuestionnaireHandler : IRequestHandler<CreateOrChangeParsedQuestionnaireCommand, CommandResult>
+    public class CreateOrChangeParsedQuestionnaireHandler : IRequestHandler<CreateOrChangeParsedQuestionnaireCommand, Questionnaire>
     {
-        private readonly IRepository<Questionnaire> _questionnaireRepository;
+        private readonly IMediator _mediator;
 
-        public CreateOrChangeParsedQuestionnaireHandler(IRepository<Questionnaire> questionnaireRepository)
+        public CreateOrChangeParsedQuestionnaireHandler(IMediator mediator)
         {
-            _questionnaireRepository = questionnaireRepository;
+            _mediator = mediator;
         }
 
-        public async Task<CommandResult> Handle(CreateOrChangeParsedQuestionnaireCommand request, CancellationToken cancellationToken)
+        public async Task<Questionnaire> Handle(CreateOrChangeParsedQuestionnaireCommand request, CancellationToken cancellationToken)
         {
-            var questionnaire = await _questionnaireRepository
-                .GetAllAsNoTracking()
-                .Where(q => q.Name == request.Questionnaire.Name)
-                .FirstOrDefaultAsync(cancellationToken);
-            if(questionnaire == null)
+            Vacancy vacancy = new()
             {
-                questionnaire = new()
+                Name = request.Vacancy.Name,
+            };
+            await _mediator.Send(new CreateOrChangeVacancyCommand(vacancy), cancellationToken);
+            Questionnaire questionnaire = new()
+            {
+                Name = request.Questionnaire.Name,
+                VacancyId = vacancy.Id,
+            };
+            await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
+            if (questionnaire == null)
+            {
+                foreach (var questionCategoryItem in request.Questionnaire.ChildElements)
                 {
-                    Name = request.Questionnaire.Name,
-                    QuestionCategories = new(),
-                };
-                foreach (var questionCategory in request.Questionnaire.ChildElements)
-                {
-
+                    QuestionCategory questionCategory = new()
+                    {
+                        Name = questionCategoryItem.Name,
+                        QuestionnaireId = questionnaire.Id,
+                    };
+                    await _mediator.Send(new CreateOrChangeQuestionCategoryCommand(questionCategory), cancellationToken);
+                    foreach (var questionItem in questionCategoryItem.ChildElements)
+                    {
+                        Question question = new()
+                        {
+                            Name = questionItem.Name,
+                            QuestionCategoryId = questionCategory.Id,
+                        };
+                        await _mediator.Send(new CreateOrChangeQuestionCommand(question), cancellationToken);
+                    }
                 }
             }
-            throw new NotImplementedException();
+            return questionnaire;
         }
     }
 }

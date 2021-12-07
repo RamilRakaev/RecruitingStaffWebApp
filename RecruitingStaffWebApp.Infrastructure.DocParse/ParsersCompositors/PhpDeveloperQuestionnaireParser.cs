@@ -125,7 +125,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 if (elements.LocalName == "p")
                 {
-                    await parsedData.AddQuestionCategory(new() { Name = elements.InnerText });
+                    await parsedData.AddQuestionCategory(new QuestionCategory() { Name = elements.InnerText });
                 }
                 else if (elements.LocalName == "tbl")
                 {

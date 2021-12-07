@@ -2,9 +2,9 @@
 {
     public enum CommandResult
     {
-        ExistingOneBeenChanged,
-        NewOneHasBeenCreated,
-        ExistingOneHasBeenRemoved,
+        ExistingEntityBeenChanged,
+        NewEntityHasBeenCreated,
+        ExistingEntityHasBeenRemoved,
         DataEnteredIncorrectly,
         Error
     }
