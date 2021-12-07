@@ -8,7 +8,7 @@
         <div class="d-flex w-100 mb-3 justify-content-between">
             <h2>@Model.Candidate.FullName</h2>
             <div>
-                <a class="btn btn-dark" asp-page="/User/Files/AnswersParseForm">Парсинг ответов</a>
+                <a class="btn btn-dark" asp-route-candidateId="@Model.Candidate.Id" asp-page="/User/Files/AnswersParseForm">Парсинг ответов</a>
                 <a class="btn btn-info" asp-page="CandidateAnswers" asp-route-candidateId="@Model.Candidate.Id">Ответы</a>
                 <a class="btn btn-warning" asp-page="ChangeCandidate" asp-route-CandidateId="@Model.Candidate.Id">Изменить данные</a>
                 <a class="btn btn-warning" asp-page="/User/Files/CandidatePhotoForm" asp-route-candidateId="@Model.Candidate.Id">Изменить фото</a>

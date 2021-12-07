@@ -35,9 +35,19 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
                 {
                     request.FormFile.CopyTo(stream);
                 }
-                return _questionnaireManager.Parse(
+                if (request.ParseQuestions)
+                {
+                    return _questionnaireManager.ParseQuestionnaire(
                     guid.ToString(),
-                    (JobQuestionnaire)request.JobQuestionnaire, request.ParseQuestions);
+                    (JobQuestionnaire)request.JobQuestionnaire);
+                }
+                else
+                {
+                    return _questionnaireManager.ParseAnswersAndCandidateData(
+                        guid.ToString(),
+                        (JobQuestionnaire)request.JobQuestionnaire,
+                        request.CandidateId);
+                }
             }
             else
             {

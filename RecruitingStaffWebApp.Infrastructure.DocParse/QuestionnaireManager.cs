@@ -30,7 +30,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public List<string> Errors { get; private set; } = new List<string>();
 
-        public async Task<bool> Parse(string fileName, JobQuestionnaire jobQuestionnaire, bool parseQuestions)
+        public async Task<bool> ParseQuestionnaire(string fileName, JobQuestionnaire jobQuestionnaire)
         {
             _fileName = fileName;
             var oldPath = $"{_options.DocumentsSource}\\{_fileName}";
@@ -38,11 +38,45 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             try
             {
                 parsedData = await parserStrategy.Parse(fileName);
-                var checking = new ParsedDataCheck(new string[] { "FullName" });
+                var checking = new ParsedDataCheck(new string[] {  });
                 if (checking.Checking(parsedData))
                 {
-                    await questionnaireDbManager.SaveParsedData(parsedData, parseQuestions);
-                    var newPath = $"{_options.DocumentsSource}\\{questionnaireDbManager.File.Source}";
+                    await questionnaireDbManager.SaveParsedData(parsedData, true);
+                    var newPath = $"{_options.DocumentsSource}\\{parsedData.FileSource}";
+                    File.Delete(newPath);
+                    File.Copy(oldPath, newPath);
+                }
+                else
+                {
+                    Errors.AddRange(checking.ExceptionMessages);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Errors.Add(e.Message);
+                return false;
+            }
+            finally
+            {
+                File.Delete(oldPath);
+            }
+        }
+
+        public async Task<bool> ParseAnswersAndCandidateData(string fileName, JobQuestionnaire jobQuestionnaire, int candidateId)
+        {
+            _fileName = fileName;
+            var oldPath = $"{_options.DocumentsSource}\\{_fileName}";
+            await Parsersearch(jobQuestionnaire);
+            try
+            {
+                parsedData = await parserStrategy.Parse(fileName);
+                parsedData.CandidateId = candidateId;
+                var checking = new ParsedDataCheck(new string[] { });
+                if (checking.Checking(parsedData))
+                {
+                    await questionnaireDbManager.SaveParsedData(parsedData, false);
+                    var newPath = $"{_options.DocumentsSource}\\{parsedData.FileSource}";
                     File.Delete(newPath);
                     File.Copy(oldPath, newPath);
                 }

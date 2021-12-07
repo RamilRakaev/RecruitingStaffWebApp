@@ -15,13 +15,17 @@ namespace RecruitingStaffWebApp.Services.DocParse
         }
 
         public QuestionnaireElement QuestionnaireRp { get; set; }
+        public VacancyParsedData VacancyParsedData { get; set; }
         public CandidateParsedData CandidateParsedData { get; set; }
+        public int CandidateId { get; set; }
 
         private QuestionnaireElement currentQuestionCategoryRp { get; set; }
         private QuestionnaireElement currentQuestionRp { get; set; }
         private QuestionnaireElement currentAnswerRp { get; set; }
 
         public string FileExtension { get; set; }
+        public string FileSource { get; set; }
+
         public Task AddQuestionnaire(string name)
         {
             QuestionnaireRp = new()
@@ -37,6 +41,7 @@ namespace RecruitingStaffWebApp.Services.DocParse
             currentQuestionCategoryRp = new()
             {
                 Name = name,
+                Parent = QuestionnaireRp,
                 ChildElements = new(),
             };
             QuestionnaireRp.ChildElements.Add(currentQuestionCategoryRp);
@@ -48,6 +53,7 @@ namespace RecruitingStaffWebApp.Services.DocParse
             currentQuestionRp = new()
             {
                 Name = name,
+                Parent = currentQuestionCategoryRp,
                 ChildElements = new(),
             };
             currentQuestionCategoryRp.ChildElements.Add(currentQuestionRp);
@@ -59,6 +65,7 @@ namespace RecruitingStaffWebApp.Services.DocParse
             currentAnswerRp = new()
             {
                 Name = name,
+                Parent = currentQuestionRp,
                 ChildElements = new(),
             };
             currentQuestionRp.ChildElements.Add(currentAnswerRp);
