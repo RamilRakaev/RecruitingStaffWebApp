@@ -21,7 +21,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const string salaryQuestionCategoryName = "Зарплата";
         private const string otherQuestionCategoryName = "Другое";
 
-        public OfficeQuestionnaireParser(WebAppOptions options) : base(options)
+        public OfficeQuestionnaireParser()
         {
             parsedData.Questionnaire = new Questionnaire()
             {

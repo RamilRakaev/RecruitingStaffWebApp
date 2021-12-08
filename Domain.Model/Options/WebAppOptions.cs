@@ -1,5 +1,5 @@
 ﻿
-namespace RecruitingStaff.Domain.Model
+namespace RecruitingStaff.Domain.Model.Options
 {
     public class WebAppOptions
     {

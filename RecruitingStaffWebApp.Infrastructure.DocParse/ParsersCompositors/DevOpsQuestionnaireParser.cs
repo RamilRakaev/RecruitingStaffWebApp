@@ -16,9 +16,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const int endOfSequenceOfCapitalLetters = 91;
         private string[] headers;
 
-        public DevOpsQuestionnaireParser(WebAppOptions options) : base(options)
+        public DevOpsQuestionnaireParser()
         {
-            parsedData.VacancyParsedData = new() { Name = "DevOps" };
+            parsedData.Vacancy = new() { Name = "DevOps" };
         }
 
         private WorksheetPart wsPart;

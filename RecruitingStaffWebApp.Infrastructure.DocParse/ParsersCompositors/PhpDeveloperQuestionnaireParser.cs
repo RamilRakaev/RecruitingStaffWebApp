@@ -1,9 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using RecruitingStaff.Domain.Model;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaffWebApp.Services.DocParse;
+using RecruitingStaffWebApp.Services.DocParse.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,13 +40,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const int specificationAndQualificationRow = 5;
         private const int specificationAndQualificationColumn = 2;
 
-        public PhpDeveloperQuestionnaireParser(WebAppOptions options) : base(options)
+        public PhpDeveloperQuestionnaireParser()
         {
         }
 
-        public sealed override async Task<ParsedData> Parse(string fileName)
+        public sealed override async Task<ParsedData> Parse(string path)
         {
-            using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
+            using (var wordDoc = WordprocessingDocument.Open(path, false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
 
@@ -64,11 +62,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private Task CreateQuestionnaire()
         {
-            parsedData.AddQuestionnaire(new Questionnaire
-            {
-                Name = questionnaireName,
-                Vacancy = parsedData.Vacancy,
-            });
+            parsedData.AddQuestionnaire(questionnaireName);
             return Task.CompletedTask;
         }
 
@@ -77,7 +71,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             var rows = table.ExtractRowsFromTable(false);
             var vacancyName = rows.ElementAt(0).InnerText;
 
-            parsedData.Candidate = new Candidate
+            parsedData.Candidate = new()
             {
                 FullName = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
                 DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
@@ -94,7 +88,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             var education = new Education
             {
-                Candidate = candidate,
                 EducationalInstitutionName = rows.ExtractCellTextFromRow(EducationNameRow, EducationNameColumn)
             };
             var specificationAndQualification =
@@ -125,7 +118,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 if (elements.LocalName == "p")
                 {
-                    await parsedData.AddQuestionCategory(new QuestionCategory() { Name = elements.InnerText });
+                    await parsedData.AddQuestionCategory(elements.InnerText);
                 }
                 else if (elements.LocalName == "tbl")
                 {
@@ -140,23 +133,17 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private async Task ParseQuestion(OpenXmlElement row)
         {
             var cells = row.ExtractCellsFromRow();
-            await parsedData.AddQuestion(new Question
-            {
-                Name = cells.ElementAt(1).InnerText
-            });
+            await parsedData.AddQuestion(cells.ElementAt(1).InnerText);
             await ParseAnswer(cells);
 
         }
 
         private Task ParseAnswer(IEnumerable<OpenXmlElement> cells)
         {
-            parsedData.AddAnswer(new Answer
-            {
-                Candidate = parsedData.Candidate,
-                Question = currentQuestion,
-                FamiliarWithTheTechnology = cells.ElementAt(2).InnerText,
-                Text = cells.ElementAt(3).InnerText
-            });
+            parsedData.AddAnswer(
+                text: cells.ElementAt(3).InnerText,
+                familiarWithTheTechnology: cells.ElementAt(2).InnerText
+            );
             return Task.CompletedTask;
         }
     }

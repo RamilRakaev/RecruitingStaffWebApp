@@ -1,6 +1,6 @@
 ﻿namespace RecruitingStaffWebApp.Services.DocParse.Model
 {
-    public class VacancyParsedData
+    public class Vacancy
     {
         public string Name { get; set; }
         public string Description { get; set; }

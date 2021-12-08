@@ -2,7 +2,7 @@
 
 namespace RecruitingStaffWebApp.Services.DocParse.Model
 {
-    public class EducationParsedData
+    public class Education
     {
         public DateTime StartDateOfTraining { get; set; }
         public DateTime EndDateOfTraining { get; set; }

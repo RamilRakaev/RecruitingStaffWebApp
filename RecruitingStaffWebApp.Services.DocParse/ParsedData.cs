@@ -1,7 +1,4 @@
-﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaffWebApp.Services.DocParse.Model;
-using System.Collections.Generic;
+﻿using RecruitingStaffWebApp.Services.DocParse.Model;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Services.DocParse
@@ -11,24 +8,23 @@ namespace RecruitingStaffWebApp.Services.DocParse
         public ParsedData(string fileExtension = ".docx")
         {
             FileExtension = fileExtension;
-            AnswersOnQuestions = new();
         }
 
-        public QuestionnaireElement QuestionnaireRp { get; set; }
-        public VacancyParsedData VacancyParsedData { get; set; }
-        public CandidateParsedData CandidateParsedData { get; set; }
+        public QuestionnaireElement Questionnaire { get; set; }
+        public Vacancy Vacancy { get; set; }
+        public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
 
-        private QuestionnaireElement currentQuestionCategoryRp { get; set; }
-        private QuestionnaireElement currentQuestionRp { get; set; }
-        private QuestionnaireElement currentAnswerRp { get; set; }
+        private QuestionnaireElement currentQuestionCategory { get; set; }
+        private QuestionnaireElement currentQuestion { get; set; }
+        private QuestionnaireElement currentAnswer { get; set; }
 
         public string FileExtension { get; set; }
         public string FileSource { get; set; }
 
         public Task AddQuestionnaire(string name)
         {
-            QuestionnaireRp = new()
+            Questionnaire = new()
             {
                 Name = name,
                 ChildElements = new(),
@@ -38,76 +34,46 @@ namespace RecruitingStaffWebApp.Services.DocParse
 
         public Task AddQuestionCategory(string name)
         {
-            currentQuestionCategoryRp = new()
+            currentQuestionCategory = new()
             {
                 Name = name,
-                Parent = QuestionnaireRp,
                 ChildElements = new(),
             };
-            QuestionnaireRp.ChildElements.Add(currentQuestionCategoryRp);
+            Questionnaire.ChildElements.Add(currentQuestionCategory);
             return Task.CompletedTask;
         }
 
         public Task AddQuestion(string name)
         {
-            currentQuestionRp = new()
+            currentQuestion = new()
             {
                 Name = name,
-                Parent = currentQuestionCategoryRp,
                 ChildElements = new(),
             };
-            currentQuestionCategoryRp.ChildElements.Add(currentQuestionRp);
+            currentQuestionCategory.ChildElements.Add(currentQuestion);
             return Task.CompletedTask;
         }
 
-        public Task AddAnswer(string name)
+        public Task AddAnswer(string text)
         {
-            currentAnswerRp = new()
+            currentAnswer = new()
             {
-                Name = name,
-                Parent = currentQuestionRp,
+                Name = text,
                 ChildElements = new(),
             };
-            currentQuestionRp.ChildElements.Add(currentAnswerRp);
+            currentQuestion.ChildElements.Add(currentAnswer);
             return Task.CompletedTask;
         }
 
-        private QuestionCategory currentQuestionCategory;
-        private Question currentQuestion;
-
-        public Vacancy Vacancy { get; set; }
-        public Candidate Candidate { get; set; }
-        public Questionnaire Questionnaire { get; set; }
-
-        public Dictionary<Question, Answer> AnswersOnQuestions { get; set; }
-
-        
-        public Task AddQuestionnaire(Questionnaire questionnaire)
+        public Task AddAnswer(string text, string familiarWithTheTechnology)
         {
-            Questionnaire = questionnaire;
-            Questionnaire.QuestionCategories ??= new();
-            return Task.CompletedTask;
-        }
-
-        public Task AddQuestionCategory(QuestionCategory questionCategory)
-        {
-            Questionnaire.QuestionCategories.Add(questionCategory);
-            currentQuestionCategory = questionCategory;
-            currentQuestionCategory.Questions ??= new();
-            return Task.CompletedTask;
-        }
-
-        public Task AddQuestion(Question question)
-        {
-            currentQuestionCategory.Questions.Add(question);
-            currentQuestion = question;
-            currentQuestion.Answers ??= new();
-            return Task.CompletedTask;
-        }
-
-        public Task AddAnswer(Answer answer)
-        {
-            AnswersOnQuestions.Add(currentQuestion, answer);
+            currentAnswer = new()
+            {
+                Properties = new(),
+            };
+            currentAnswer.Properties.Add("FamiliarWithTheTechnology", familiarWithTheTechnology);
+            currentAnswer.Properties.Add("Text", text);
+            currentQuestion.ChildElements.Add(currentAnswer);
             return Task.CompletedTask;
         }
     }

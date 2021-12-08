@@ -18,6 +18,6 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
 
         public string LeavingReason { get; set; }
 
-        public List<RecommenderParsedData> Recommenders { get; set; }
+        public List<Recommender> Recommenders { get; set; }
     }
 }

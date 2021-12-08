@@ -25,16 +25,16 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
         {
             Vacancy vacancy = new()
             {
-                Name = request.ParsedData.VacancyParsedData.Name,
+                Name = request.ParsedData.Vacancy.Name,
             };
             await _mediator.Send(new CreateOrChangeVacancyCommand(vacancy), cancellationToken);
             Questionnaire questionnaire = new()
             {
-                Name = request.ParsedData.QuestionnaireRp.Name,
+                Name = request.ParsedData.Questionnaire.Name,
                 VacancyId = vacancy.Id,
             };
             await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
-            foreach (var questionCategoryItem in request.ParsedData.QuestionnaireRp.ChildElements)
+            foreach (var questionCategoryItem in request.ParsedData.Questionnaire.ChildElements)
             {
                 QuestionCategory questionCategory = new()
                 {

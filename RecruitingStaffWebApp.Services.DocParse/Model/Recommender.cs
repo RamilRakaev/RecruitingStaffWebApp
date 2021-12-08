@@ -1,6 +1,6 @@
 ﻿namespace RecruitingStaffWebApp.Services.DocParse.Model
 {
-    public class RecommenderParsedData
+    public class Recommender
     {
         public string FullName { get; set; }
         public string PositionAtWork { get; set; }

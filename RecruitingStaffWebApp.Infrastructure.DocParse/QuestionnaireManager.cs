@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Options;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
@@ -14,7 +14,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
     {
         private readonly WebAppOptions _options;
 
-        private string _fileName;
+        private string _path;
 
         private ParsedData parsedData;
         private readonly QuestionnaireDbManager questionnaireDbManager;
@@ -30,21 +30,20 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public List<string> Errors { get; private set; } = new List<string>();
 
-        public async Task<bool> ParseQuestionnaire(string fileName, JobQuestionnaire jobQuestionnaire)
+        public async Task<bool> ParseQuestionnaire(string path, JobQuestionnaire jobQuestionnaire)
         {
-            _fileName = fileName;
-            var oldPath = $"{_options.DocumentsSource}\\{_fileName}";
+            _path = path;
             await Parsersearch(jobQuestionnaire);
             try
             {
-                parsedData = await parserStrategy.Parse(fileName);
-                var checking = new ParsedDataCheck(new string[] {  });
+                parsedData = await parserStrategy.Parse(path);
+                var checking = new ParsedDataCheck(new string[] { });
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, true);
-                    var newPath = $"{_options.DocumentsSource}\\{parsedData.FileSource}";
+                    var newPath = $"{path[..path.LastIndexOf('\\')]}{parsedData.FileSource}";
                     File.Delete(newPath);
-                    File.Copy(oldPath, newPath);
+                    File.Copy(path, newPath);
                 }
                 else
                 {
@@ -59,14 +58,14 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
             finally
             {
-                File.Delete(oldPath);
+                File.Delete(path);
             }
         }
 
         public async Task<bool> ParseAnswersAndCandidateData(string fileName, JobQuestionnaire jobQuestionnaire, int candidateId)
         {
-            _fileName = fileName;
-            var oldPath = $"{_options.DocumentsSource}\\{_fileName}";
+            _path = fileName;
+            var oldPath = $"{_options.DocumentsSource}\\{_path}";
             await Parsersearch(jobQuestionnaire);
             try
             {
@@ -101,19 +100,19 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
         {
             if (jobQuestionnaire == JobQuestionnaire.CSharpDeveloperQuestionnaire)
             {
-                parserStrategy = new CSharpDeveloperQuestionnaireParser(_options);
+                parserStrategy = new CSharpDeveloperQuestionnaireParser();
             }
             if (jobQuestionnaire == JobQuestionnaire.PhpDeveloperQuestionnaire)
             {
-                parserStrategy = new PhpDeveloperQuestionnaireParser(_options);
+                parserStrategy = new PhpDeveloperQuestionnaireParser();
             }
             if (jobQuestionnaire == JobQuestionnaire.OfficeQuestionnaire)
             {
-                parserStrategy = new OfficeQuestionnaireParser(_options);
+                parserStrategy = new OfficeQuestionnaireParser();
             }
             if (jobQuestionnaire == JobQuestionnaire.DevOpsQuestionnaire)
             {
-                parserStrategy = new DevOpsQuestionnaireParser(_options);
+                parserStrategy = new DevOpsQuestionnaireParser();
             }
             return Task.CompletedTask;
         }

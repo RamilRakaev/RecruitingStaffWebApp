@@ -28,7 +28,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const int MaritalStatusRow = 4;
         private const int MaritalStatusColumn = 1;
 
-        public CSharpDeveloperQuestionnaireParser(WebAppOptions options) : base(options)
+        public CSharpDeveloperQuestionnaireParser()
         {
         }
 

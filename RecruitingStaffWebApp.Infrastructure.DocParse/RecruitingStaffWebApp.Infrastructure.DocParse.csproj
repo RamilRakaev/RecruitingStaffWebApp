@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CQRS\RecruitingStaff.Infrastructure.CQRS.csproj" />
-    <ProjectReference Include="..\Domain.Interfaces\RecruitingStaff.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\RecruitingStaffWebApp.Services.DocParse\RecruitingStaffWebApp.Services.DocParse.csproj" />
   </ItemGroup>
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RecruitingStaffWebApp.Services.DocParse.Model
 {
-    public class CandidateParsedData
+    public class Candidate
     {
         public string FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -18,7 +18,7 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
         public List<string> Documents { get; set; }
 
         public List<PreviousJobParsedData> PreviousJobs { get; set; }
-        public List<EducationParsedData> Educations { get; set; }
-        public List<KidParsedData> Kids { get; set; }
+        public List<Education> Educations { get; set; }
+        public List<Kid> Kids { get; set; }
     }
 }
