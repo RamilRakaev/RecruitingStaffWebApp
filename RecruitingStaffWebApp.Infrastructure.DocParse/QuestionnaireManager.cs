@@ -62,14 +62,12 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        public async Task<bool> ParseAnswersAndCandidateData(string fileName, JobQuestionnaire jobQuestionnaire, int candidateId)
+        public async Task<bool> ParseAnswersAndCandidateData(string path, JobQuestionnaire jobQuestionnaire, int candidateId)
         {
-            _path = fileName;
-            var oldPath = $"{_options.DocumentsSource}\\{_path}";
             await Parsersearch(jobQuestionnaire);
             try
             {
-                parsedData = await parserStrategy.Parse(fileName);
+                parsedData = await parserStrategy.Parse(path);
                 parsedData.CandidateId = candidateId;
                 var checking = new ParsedDataCheck(new string[] { });
                 if (checking.Checking(parsedData))
@@ -77,7 +75,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                     await questionnaireDbManager.SaveParsedData(parsedData, false);
                     var newPath = $"{_options.DocumentsSource}\\{parsedData.FileSource}";
                     File.Delete(newPath);
-                    File.Copy(oldPath, newPath);
+                    File.Copy(path, newPath);
                 }
                 else
                 {
@@ -92,7 +90,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
             finally
             {
-                File.Delete(oldPath);
+                File.Delete(path);
             }
         }
 

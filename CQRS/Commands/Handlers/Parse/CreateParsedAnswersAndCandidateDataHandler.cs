@@ -24,6 +24,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
         private readonly IMediator _mediator;
         private RecruitingStaffWebAppFile _file;
         private ParsedData parsedData;
+        private Candidate _candidate;
 
         public CreateParsedAnswersAndCandidateDataHandler(IMediator mediator)
         {
@@ -44,8 +45,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 VacancyId = vacancy.Id,
             };
             await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire));
-            var candidate = await CreateCandidate();
-            await _mediator.Send(new CreateOrChangeCandidateCommand(candidate, vacancy.Id, questionnaire.Id));
+            _candidate = await CreateCandidate();
+            await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate, vacancy.Id, questionnaire.Id));
 
             await SaveAnswers(questionnaire.Id, cancellationToken);
             await CreateCandidateDocument(request.ParsedData.CandidateId, questionnaire.Id);
@@ -74,6 +75,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                     foreach (var answerItem in questionItem.ChildElements)
                     {
                         Answer answer = new();
+                        answer.QuestionId = question.Id;
+                        answer.CandidateId = _candidate.Id;
                         foreach (var property in typeof(Answer).GetProperties())
                         {
                             if (answerItem.Properties.ContainsKey(property.Name))

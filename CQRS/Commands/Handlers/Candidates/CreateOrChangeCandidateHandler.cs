@@ -36,18 +36,24 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             {
                 await _candidateRepository.AddAsync(request.Candidate, cancellationToken);
                 await _candidateRepository.SaveAsync(cancellationToken);
-                await _candidateVacancyRepository.AddAsync(new()
+                if (request.VacancyId != 0)
                 {
-                    CandidateId = request.Candidate.Id,
-                    VacancyId = request.VacancyId,
-                },
-                cancellationToken);
-                await _candidateQuestionnaireRepository.AddAsync(new()
+                    await _candidateVacancyRepository.AddAsync(new()
+                    {
+                        CandidateId = request.Candidate.Id,
+                        VacancyId = request.VacancyId,
+                    },
+                    cancellationToken);
+                }
+                if (request.QuestionnaireId != 0)
                 {
-                    CandidateId = request.Candidate.Id,
-                    QuestionnaireId = request.QuestionnaireId,
-                },
-                cancellationToken);
+                    await _candidateQuestionnaireRepository.AddAsync(new()
+                    {
+                        CandidateId = request.Candidate.Id,
+                        QuestionnaireId = request.QuestionnaireId,
+                    },
+                    cancellationToken);
+                }
             }
             else
             {

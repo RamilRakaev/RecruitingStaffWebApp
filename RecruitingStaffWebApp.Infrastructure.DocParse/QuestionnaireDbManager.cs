@@ -25,7 +25,5 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 await _mediator.Send(new CreateParsedAnswersAndCandidateDataCommand(parsedData));
             }
         }
-
-        
     }
 }

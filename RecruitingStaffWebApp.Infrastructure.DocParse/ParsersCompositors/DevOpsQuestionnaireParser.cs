@@ -30,10 +30,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         public async Task ParseQuestionnaire(string fileName, string sheetName)
         {
-            using (SpreadsheetDocument document =
-                SpreadsheetDocument.Open(fileName, false))
+            using SpreadsheetDocument document =
+                SpreadsheetDocument.Open(fileName, false);
                 currentWbPart = document.WorkbookPart;
-
+            var f1 = currentWbPart.Workbook;
             Sheet theSheet = currentWbPart.Workbook.Descendants<Sheet>().
               Where(s => s.Name == sheetName).FirstOrDefault();
 
