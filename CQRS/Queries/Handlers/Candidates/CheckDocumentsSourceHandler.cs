@@ -1,11 +1,11 @@
-﻿using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
-using RecruitingStaff.Domain.Model;
-using MediatR;
+﻿using MediatR;
+using Microsoft.Extensions.Options;
+using RecruitingStaff.Domain.Model.Options;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
-using Microsoft.Extensions.Options;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
 {

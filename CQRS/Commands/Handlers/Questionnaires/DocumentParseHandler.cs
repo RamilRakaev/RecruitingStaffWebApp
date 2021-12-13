@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Services.DocParse;
@@ -30,21 +31,21 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
         {
             if (request.FormFile != null)
             {
-                var guid = Guid.NewGuid();
-                using (var stream = new FileStream($"{_options.DocumentsSource}\\{guid}", FileMode.CreateNew))
+                var path = $"{_options.DocumentsSource}\\{Guid.NewGuid()}";
+                using (var stream = new FileStream(path, FileMode.CreateNew))
                 {
                     request.FormFile.CopyTo(stream);
                 }
                 if (request.ParseQuestions)
                 {
                     return _questionnaireManager.ParseQuestionnaire(
-                    guid.ToString(),
+                    path,
                     (JobQuestionnaire)request.JobQuestionnaire);
                 }
                 else
                 {
                     return _questionnaireManager.ParseAnswersAndCandidateData(
-                        guid.ToString(),
+                        path,
                         (JobQuestionnaire)request.JobQuestionnaire,
                         request.CandidateId);
                 }

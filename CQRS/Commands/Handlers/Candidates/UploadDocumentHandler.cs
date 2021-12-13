@@ -5,6 +5,7 @@ using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using System.Threading;

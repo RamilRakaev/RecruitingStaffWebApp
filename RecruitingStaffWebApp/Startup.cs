@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NLog.Extensions.Logging;
 using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Domain.Model.UserIdentity;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaff.WebApp;
@@ -17,6 +19,7 @@ namespace RecruitingStaffWebApp
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            NLog.LogManager.Configuration = new NLogLoggingConfiguration(configuration.GetSection("NLog"));
         }
 
         public IConfiguration Configuration { get; }

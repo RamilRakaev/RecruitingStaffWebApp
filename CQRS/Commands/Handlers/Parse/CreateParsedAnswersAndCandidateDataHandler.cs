@@ -78,7 +78,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                         {
                             if (answerItem.Properties.ContainsKey(property.Name))
                             {
-                                property.SetValue(answer, answerItem.Properties[property.Name]);
+                                object answerValue = answerItem.Properties[property.Name];
+                                if(property.PropertyType != typeof(string))
+                                {
+                                    Convert.ChangeType(answerValue, property.PropertyType);
+                                }
+                                property.SetValue(answer, answerValue);
                             }
                         }
                         await _mediator.Send(new CreateAnswerCommand(answer), cancellationToken);

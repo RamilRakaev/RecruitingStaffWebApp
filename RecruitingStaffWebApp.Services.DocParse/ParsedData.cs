@@ -15,9 +15,9 @@ namespace RecruitingStaffWebApp.Services.DocParse
         public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
 
-        private QuestionnaireElement currentQuestionCategory { get; set; }
-        private QuestionnaireElement currentQuestion { get; set; }
-        private QuestionnaireElement currentAnswer { get; set; }
+        private QuestionnaireElement currentQuestionCategory;
+        private QuestionnaireElement currentQuestion;
+        private QuestionnaireElement currentAnswer;
 
         public string FileExtension { get; set; }
         public string FileSource { get; set; }
@@ -27,7 +27,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
             Questionnaire = new()
             {
                 Name = name,
-                ChildElements = new(),
             };
             return Task.CompletedTask;
         }
@@ -37,7 +36,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
             currentQuestionCategory = new()
             {
                 Name = name,
-                ChildElements = new(),
             };
             Questionnaire.ChildElements.Add(currentQuestionCategory);
             return Task.CompletedTask;
@@ -48,7 +46,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
             currentQuestion = new()
             {
                 Name = name,
-                ChildElements = new(),
             };
             currentQuestionCategory.ChildElements.Add(currentQuestion);
             return Task.CompletedTask;
@@ -56,24 +53,15 @@ namespace RecruitingStaffWebApp.Services.DocParse
 
         public Task AddAnswer(string text)
         {
-            currentAnswer = new()
-            {
-                Name = text,
-                ChildElements = new(),
-            };
+            currentAnswer = new();
+            currentAnswer.Properties.Add("Text", text);
             currentQuestion.ChildElements.Add(currentAnswer);
             return Task.CompletedTask;
         }
 
-        public Task AddAnswer(string text, string familiarWithTheTechnology)
+        public Task AddAnswer(QuestionnaireElement answer)
         {
-            currentAnswer = new()
-            {
-                Properties = new(),
-            };
-            currentAnswer.Properties.Add("FamiliarWithTheTechnology", familiarWithTheTechnology);
-            currentAnswer.Properties.Add("Text", text);
-            currentQuestion.ChildElements.Add(currentAnswer);
+            currentQuestion.ChildElements.Add(answer);
             return Task.CompletedTask;
         }
     }

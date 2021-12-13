@@ -1,6 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using RecruitingStaff.Domain.Model;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;
@@ -23,9 +22,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private WorksheetPart wsPart;
         private WorkbookPart currentWbPart;
-        public override async Task<ParsedData> Parse(string fileName)
+        public override async Task<ParsedData> Parse(string path)
         {
-            await ParseQuestionnaire($"{_options.DocumentsSource}\\{fileName}", "Лист1");
+            await ParseQuestionnaire(path, "Лист1");
             return parsedData;
         }
 
@@ -33,26 +32,25 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             using (SpreadsheetDocument document =
                 SpreadsheetDocument.Open(fileName, false))
-            {
                 currentWbPart = document.WorkbookPart;
 
-                Sheet theSheet = currentWbPart.Workbook.Descendants<Sheet>().
-                  Where(s => s.Name == sheetName).FirstOrDefault();
+            Sheet theSheet = currentWbPart.Workbook.Descendants<Sheet>().
+              Where(s => s.Name == sheetName).FirstOrDefault();
 
-                if (theSheet == null)
-                {
-                    throw new ArgumentException("sheetName");
-                }
-
-                wsPart =
-                    (WorksheetPart)(currentWbPart.GetPartById(theSheet.Id));
-                List<Cell> cells = new();
-                await parsedData.AddQuestionnaire(questionnaireName);
-                int rowIndex = 5;
-                await ParseHeader(ref rowIndex, startOfSequenceOfCapitalLetters + 1);
-                while (await ParseQuestionCategory(ref rowIndex, startOfSequenceOfCapitalLetters + 1))
-                { }
+            if (theSheet == null)
+            {
+                throw new ArgumentException(null, nameof(sheetName));
             }
+
+            wsPart =
+                (WorksheetPart)(currentWbPart.GetPartById(theSheet.Id));
+            List<Cell> cells = new();
+            await parsedData.AddQuestionnaire(questionnaireName);
+            int rowIndex = 5;
+            await ParseHeader(ref rowIndex, startOfSequenceOfCapitalLetters + 1);
+            while (await ParseQuestionCategory(ref rowIndex, startOfSequenceOfCapitalLetters + 1))
+            { }
+
         }
 
         private Task ParseHeader(ref int rowIndex, int columnIndex)
@@ -151,15 +149,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                             break;
 
                         case CellValues.Boolean:
-                            switch (value)
+                            value = value switch
                             {
-                                case "0":
-                                    value = "FALSE";
-                                    break;
-                                default:
-                                    value = "TRUE";
-                                    break;
-                            }
+                                "0" => "FALSE",
+                                _ => "TRUE",
+                            };
                             break;
                     }
                 }

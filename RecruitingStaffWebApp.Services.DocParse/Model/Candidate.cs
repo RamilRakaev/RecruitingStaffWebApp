@@ -15,10 +15,23 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
         public string MaritalStatus { get; set; }
 
         public string Photo { get; set; }
-        public List<string> Documents { get; set; }
+        public List<string> Documents { get; private set; } = new();
 
-        public List<PreviousJobParsedData> PreviousJobs { get; set; }
-        public List<Education> Educations { get; set; }
-        public List<Kid> Kids { get; set; }
+        public List<PreviousJob> PreviousJobs { get; private set; } = new();
+        public List<Education> Educations { get; private set; } = new();
+        public List<Kid> Kids { get; private set; } = new();
+
+        private PreviousJob currentPreviousJob;
+
+        public void AddPreviousJob(PreviousJob previousJob)
+        {
+            currentPreviousJob = previousJob;
+            PreviousJobs.Add(previousJob);
+        }
+
+        public void AddRecommender(Recommender recommender)
+        {
+            currentPreviousJob.Recommenders.Add(recommender);
+        }
     }
 }

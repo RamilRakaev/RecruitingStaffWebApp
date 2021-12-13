@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Domain.Model.UserIdentity;
 using System;
 using System.Threading;

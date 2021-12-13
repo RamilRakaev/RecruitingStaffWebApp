@@ -79,7 +79,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
                 EmailAddress = rows.ExtractCellTextFromRow(EmailAddressRow, EmailAddressColumn),
             };
-            parsedData.Candidate.Educations = new();
             EducationParse(rows, parsedData.Candidate);
             await VacancyParse(vacancyName);
         }
@@ -140,10 +139,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private Task ParseAnswer(IEnumerable<OpenXmlElement> cells)
         {
-            parsedData.AddAnswer(
-                text: cells.ElementAt(3).InnerText,
-                familiarWithTheTechnology: cells.ElementAt(2).InnerText
-            );
+            QuestionnaireElement answer = new();
+            answer.Properties.Add("Text", cells.ElementAt(3).InnerText);
+            answer.Properties.Add("FamiliarWithTheTechnology", cells.ElementAt(2).InnerText);
+            parsedData.AddAnswer(answer);
             return Task.CompletedTask;
         }
     }

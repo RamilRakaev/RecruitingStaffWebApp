@@ -1,9 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using RecruitingStaff.Domain.Model;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaffWebApp.Services.DocParse;
+using RecruitingStaffWebApp.Services.DocParse.Model;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,9 +30,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public sealed override async Task<ParsedData> Parse(string fileName)
+        public sealed override async Task<ParsedData> Parse(string path)
         {
-            using (var wordDoc = WordprocessingDocument.Open($"{_options.DocumentsSource}\\{fileName}", false))
+            using (var wordDoc = WordprocessingDocument.Open(path, false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
                 var candidateDataTable = body.ChildElements.Where(e => e.LocalName == "tbl").First();
@@ -55,14 +53,13 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             var rows = table.ExtractRowsFromTable(false);
             var vacancyName = rows.ElementAt(0).InnerText;
-            parsedData.Candidate = new Candidate
+            parsedData.Candidate = new()
             {
                 FullName = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
                 DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
                 Address = rows.ExtractTextAfterCharacterFromRow(AddressRow, AddressColumn, ':'),
                 TelephoneNumber = rows.ExtractCellTextFromRow(TelephoneNumberRow, TelephoneNumberColumn),
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
-                Answers = new(),
             };
             await VacancyParse(vacancyName);
         }
@@ -77,11 +74,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private async Task ParseQuestionnaire(OpenXmlElement table)
         {
-            await parsedData.AddQuestionnaire(
-            new Questionnaire
-            {
-                Name = questionnaireName
-            });
+            await parsedData.AddQuestionnaire(questionnaireName);
 
             foreach (var row in table.ExtractRowsFromTable())
             {
@@ -94,10 +87,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             if (child.ChildElements.Count == 3)
             {
-                parsedData.AddQuestionCategory(new QuestionCategory()
-                {
-                    Name = child.ChildElements.ElementAt(2).InnerText,
-                });
+                parsedData.AddQuestionCategory(child.ChildElements.ElementAt(2).InnerText);
             }
             return Task.CompletedTask;
         }
@@ -106,10 +96,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             if (child.ChildElements.Count == 5)
             {
-                await parsedData.AddQuestion(new Question
-                {
-                    Name = child.ChildElements[2].InnerText
-                });
+                await parsedData.AddQuestion(child.ChildElements[2].InnerText);
                 await ParseAnswer(child);
             }
         }
@@ -118,13 +105,12 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             if (child.ChildElements[4].InnerText != string.Empty)
             {
-                var answer = new Answer
+                QuestionnaireElement answer = new()
                 {
-                    Text = child.ChildElements[4].InnerText
+                    Name = child.ChildElements[4].InnerText,
                 };
+                answer.Properties.Add("Estimation", child.ChildElements[3].InnerText);
                 parsedData.AddAnswer(answer);
-                _ = byte.TryParse(child.ChildElements[3].InnerText, out byte estimation);
-                answer.Estimation = estimation;
             }
             return Task.CompletedTask;
         }

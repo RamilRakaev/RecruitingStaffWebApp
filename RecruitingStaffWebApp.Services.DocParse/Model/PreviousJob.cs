@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RecruitingStaffWebApp.Services.DocParse.Model
 {
-    public class PreviousJobParsedData
+    public class PreviousJob
     {
         public string OrganizationName { get; set; }
         public string OrganizationPhoneNumber { get; set; }
@@ -18,6 +18,6 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
 
         public string LeavingReason { get; set; }
 
-        public List<Recommender> Recommenders { get; set; }
+        public List<Recommender> Recommenders { get; private set; } = new();
     }
 }
