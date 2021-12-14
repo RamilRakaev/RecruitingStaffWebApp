@@ -38,19 +38,19 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             {
                 Name = request.ParsedData.Vacancy.Name,
             };
-            await _mediator.Send(new CreateOrChangeVacancyCommand(vacancy));
+            await _mediator.Send(new CreateOrChangeVacancyCommand(vacancy), cancellationToken);
             Questionnaire questionnaire = new()
             {
                 Name = request.ParsedData.Questionnaire.Name,
                 VacancyId = vacancy.Id,
             };
-            await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire));
+            await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
             _candidate = await CreateCandidate();
-            await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate, vacancy.Id, questionnaire.Id));
+            await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate, vacancy.Id, questionnaire.Id), cancellationToken);
 
             await SaveAnswers(questionnaire.Id, cancellationToken);
             await CreateCandidateDocument(request.ParsedData.CandidateId, questionnaire.Id);
-            request.ParsedData.FileSource = _file.Source;
+            request.ParsedData.FileSource = _file.Name;
             return true;
         }
 
@@ -100,7 +100,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             var candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
             _file = new()
             {
-                Source = $"{candidateId}.{candidate.FullName}{parsedData.FileExtension}",
+                Name = $"{candidateId}.{candidate.Name}{parsedData.FileExtension}",
                 FileType = FileType.Questionnaire,
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,
@@ -122,11 +122,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             candidate.Kids = await AssignValuesToPropertiesCompositeObject(
                 parsedData.Candidate.Kids, () => new Kid());
             candidate.PreviousJobs = await AssignValuesToPropertiesCompositeObject(
-                parsedData.Candidate.PreviousJobs, () => new PreviousJob());
+                parsedData.Candidate.PreviousJobs, () => new PreviousJobPlacement());
             return candidate;
         }
 
-        public T AssignValuesToProperties<T, V>(T obj, V value)
+        public static T AssignValuesToProperties<T, V>(T obj, V value)
         {
             var objProperties = obj.GetType().GetProperties();
             foreach (var valueProperty in value
@@ -146,7 +146,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             return obj;
         }
 
-        public Task<List<T>> AssignValuesToPropertiesCompositeObject<T>(List<string> values, string propertyName, Func<T> createObj)
+        public static Task<List<T>> AssignValuesToPropertiesCompositeObject<T>(List<string> values, string propertyName, Func<T> createObj)
         {
             List<T> objects = new();
             if (values == null)
@@ -164,7 +164,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             return Task.FromResult(objects);
         }
 
-        public Task<List<T>> AssignValuesToPropertiesCompositeObject<T, V>(List<V> values, Func<T> createObj)
+        public static Task<List<T>> AssignValuesToPropertiesCompositeObject<T, V>(List<V> values, Func<T> createObj)
         {
             if (values == null)
             {

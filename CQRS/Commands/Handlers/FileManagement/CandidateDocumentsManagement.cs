@@ -33,7 +33,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement
             {
                 FileType = FileType.Questionnaire,
                 CandidateId = candidate.Id,
-                Source = $"{candidate.Id}.{candidate.FullName} - {questionnaireName}.docx"
+                Name = $"{candidate.Id}.{candidate.Name} - {questionnaireName}.docx"
             };
             await SaveFile(formFile, file, cancellationToken);
         }

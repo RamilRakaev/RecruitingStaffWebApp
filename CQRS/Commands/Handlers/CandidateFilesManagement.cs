@@ -31,7 +31,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
 
         public async Task SaveFile(IFormFile formFile, RecruitingStaffWebAppFile file, CancellationToken cancellationToken)
         {
-            await formFile.CreateNewFileAsync($"{_options.DocumentsSource}\\{file.Source}");
+            await formFile.CreateNewFileAsync($"{_options.DocumentsSource}\\{file.Name}");
             await _fileRepository.AddAsync(file, cancellationToken);
             await _fileRepository.SaveAsync(cancellationToken);
         }
@@ -50,7 +50,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
 
         public async Task DeleteCandidateFile(RecruitingStaffWebAppFile file, CancellationToken cancellationToken)
         {
-            File.Delete($"{_options.DocumentsSource}\\{file.Source}");
+            File.Delete($"{_options.DocumentsSource}\\{file.Name}");
             await _fileRepository.RemoveAsync(file);
             await _fileRepository.SaveAsync(cancellationToken);
         }

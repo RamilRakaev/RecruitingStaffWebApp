@@ -24,11 +24,11 @@ namespace RecruitingStaff.Infrastructure.Repositories
             builder.ApplyConfiguration(new ApplicationRoleConfiguration());
             builder.ApplyConfiguration(new RecruitingStaffWebAppFileConfiguration());
             builder.ApplyConfiguration(new CandidateConfiguration());
-            builder.ApplyConfiguration(new CandidateVacancyConfiguration());
+            //builder.ApplyConfiguration(new CandidateVacancyConfiguration());
             builder.ApplyConfiguration(new OptionConfiguration());
             builder.ApplyConfiguration(new QuestionCategoryConfiguration());
             builder.ApplyConfiguration(new QuestionConfiguration());
-            builder.ApplyConfiguration(new CandidateQuestionnaireConfiguration());
+            //builder.ApplyConfiguration(new CandidateQuestionnaireConfiguration());
             builder.ApplyConfiguration(new VacancyConfiguration());
             base.OnModelCreating(builder);
         }

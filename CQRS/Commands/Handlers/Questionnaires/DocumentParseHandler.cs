@@ -68,11 +68,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             ResetDb<RecruitingStaffWebAppFile>(db);
             ResetDb<Option>(db);
             ResetDb<Questionnaire>(db);
-            ResetDb<CandidateQuestionnaire>(db);
-            ResetDb<CandidateVacancy>(db);
+            //ResetDb<CandidateQuestionnaire>(db);
+            //ResetDb<CandidateVacancy>(db);
             ResetDb<Vacancy>(db);
             ResetDb<Recommender>(db);
-            ResetDb<PreviousJob>(db);
+            ResetDb<PreviousJobPlacement>(db);
             ResetDb<Education>(db);
             ResetDb<Candidate>(db);
         }

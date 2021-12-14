@@ -18,7 +18,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         public void OnGet(int? CandidateId, string propertyName = "", string value = "")
         {
-            Option.PropertyName = propertyName;
+            Option.Name = propertyName;
             Option.CandidateId = CandidateId;
             Option.Value = value;
         }

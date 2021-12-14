@@ -19,7 +19,7 @@ namespace RecruitingStaffWebApp.Pages.User.Questionnaires
 
         public void OnGet(int candidateId, int questionId, string propertyName = "", string value = "")
         {
-            Option.PropertyName = propertyName;
+            Option.Name = propertyName;
             Option.CandidateId = candidateId;
             Option.Value = value;
             QuestionId = questionId;

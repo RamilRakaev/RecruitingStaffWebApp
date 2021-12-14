@@ -13,47 +13,46 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
     public class CreateOrChangeCandidateHandler : IRequestHandler<CreateOrChangeCandidateCommand, Candidate>
     {
         private readonly IRepository<Candidate> _candidateRepository;
-        private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
-        private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaireRepository;
+        //private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
+        //private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaireRepository;
 
-        public CreateOrChangeCandidateHandler(IRepository<Candidate> candidateRepository,
-            IRepository<CandidateVacancy> candidateVacancyRepository,
-            IRepository<CandidateQuestionnaire> candidateQuestionnaireRepository)
+        public CreateOrChangeCandidateHandler(IRepository<Candidate> candidateRepository
+            )
         {
             _candidateRepository = candidateRepository;
-            _candidateVacancyRepository = candidateVacancyRepository;
-            _candidateQuestionnaireRepository = candidateQuestionnaireRepository;
+            //_candidateVacancyRepository = candidateVacancyRepository;
+            //_candidateQuestionnaireRepository = candidateQuestionnaireRepository;
         }
 
         public async Task<Candidate> Handle(CreateOrChangeCandidateCommand request, CancellationToken cancellationToken)
         {
             var candidate = await _candidateRepository
                 .GetAllAsNoTracking()
-                .Where(c => c.FullName == request.Candidate.FullName
+                .Where(c => c.Name == request.Candidate.Name
                 || c.Id == request.Candidate.Id)
                 .FirstOrDefaultAsync(cancellationToken);
             if (candidate == null)
             {
                 await _candidateRepository.AddAsync(request.Candidate, cancellationToken);
                 await _candidateRepository.SaveAsync(cancellationToken);
-                if (request.VacancyId != 0)
-                {
-                    await _candidateVacancyRepository.AddAsync(new()
-                    {
-                        CandidateId = request.Candidate.Id,
-                        VacancyId = request.VacancyId,
-                    },
-                    cancellationToken);
-                }
-                if (request.QuestionnaireId != 0)
-                {
-                    await _candidateQuestionnaireRepository.AddAsync(new()
-                    {
-                        CandidateId = request.Candidate.Id,
-                        QuestionnaireId = request.QuestionnaireId,
-                    },
-                    cancellationToken);
-                }
+                //if (request.VacancyId != 0)
+                //{
+                //    await _candidateVacancyRepository.AddAsync(new()
+                //    {
+                //        CandidateId = request.Candidate.Id,
+                //        VacancyId = request.VacancyId,
+                //    },
+                //    cancellationToken);
+                //}
+                //if (request.QuestionnaireId != 0)
+                //{
+                //    await _candidateQuestionnaireRepository.AddAsync(new()
+                //    {
+                //        CandidateId = request.Candidate.Id,
+                //        QuestionnaireId = request.QuestionnaireId,
+                //    },
+                //    cancellationToken);
+                //}
             }
             else
             {

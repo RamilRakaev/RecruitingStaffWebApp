@@ -1,14 +1,14 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.Candidates.CreateCandidateModel
-@using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+@using RecruitingStaff.WebApp.ViewModels;
 @{
-    var candidate = new Candidate();
+    var candidate = new CandidateViewModel();
 }
 <div class="row justify-content-center">
     <form method="post">
         <div class="form-group">
             <label>Полное имя</label>
-            <input type="text" class="form-control" asp-for="@candidate.FullName" />
+            <input type="text" class="form-control" asp-for="@candidate.Name" />
         </div>
         <div class="form-group">
             <label>Дата рождения</label>

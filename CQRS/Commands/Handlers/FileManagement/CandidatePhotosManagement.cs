@@ -39,7 +39,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement
                         file = new()
                         {
                             FileType = FileType.Photo,
-                            Source = $"{candidate.Id}.{candidate.FullName}{extension}"
+                            Name = $"{candidate.Id}.{candidate.Name}{extension}"
                         };
                     }
                     await SaveFile(formFile, file, cancellationToken);
@@ -49,7 +49,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement
 
         public async Task DeleteCandidatePhoto(RecruitingStaffWebAppFile file, CancellationToken cancellationToken)
         {
-            var path = $"{_webHost.WebRootPath}\\img\\{file.Source}";
+            var path = $"{_webHost.WebRootPath}\\img\\{file.Name}";
             File.Delete(path);
             await _fileRepository.RemoveAsync(file);
             await _fileRepository.SaveAsync(cancellationToken);

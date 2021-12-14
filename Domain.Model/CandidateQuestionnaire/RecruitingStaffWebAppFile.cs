@@ -2,11 +2,9 @@
 
 namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 {
-    public enum FileType { Questionnaire, Photo}
-
     public class RecruitingStaffWebAppFile : BaseEntity
     {
-        public string Source { get; set; }
+        //public string Name { get; set; }
         public FileType FileType { get; set; }
 
         public int? CandidateId { get; set; }

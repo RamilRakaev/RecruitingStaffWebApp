@@ -16,16 +16,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
     {
         public RemoveCandidateHandler(IRepository<Answer> answerRepository,
             IRepository<Candidate> candidateRepository,
-            IRepository<CandidateVacancy> candidateVacancyRepository,
-            IRepository<CandidateQuestionnaire> candidateQuestionnaireRepository,
             IRepository<Option> optionRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IOptions<WebAppOptions> options,
             IWebHostEnvironment webHost) 
             : base(answerRepository,
                   candidateRepository,
-                  candidateVacancyRepository,
-                  candidateQuestionnaireRepository,
                   optionRepository,
                   fileRepository,
                   options,

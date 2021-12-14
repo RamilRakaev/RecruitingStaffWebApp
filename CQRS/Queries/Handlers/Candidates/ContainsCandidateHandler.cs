@@ -24,7 +24,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
             {
                 return await _candidateRepository
                     .GetAllAsNoTracking()
-                    .Where(c => c.FullName == request.CandidateName)
+                    .Where(c => c.Name == request.CandidateName)
                     .FirstOrDefaultAsync(cancellationToken) != null;
             }
             return await _candidateRepository.FindNoTrackingAsync(request.CandidateId, cancellationToken) != null;

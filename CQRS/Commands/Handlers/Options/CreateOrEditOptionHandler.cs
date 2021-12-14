@@ -23,7 +23,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Options
             var option = await _optionRepository
                 .GetAll()
                 .FirstOrDefaultAsync(
-                o => o.PropertyName == request.Option.PropertyName &&
+                o => o.Name == request.Option.Name &&
                 o.CandidateId == request.Option.CandidateId, 
                 cancellationToken: cancellationToken);
 

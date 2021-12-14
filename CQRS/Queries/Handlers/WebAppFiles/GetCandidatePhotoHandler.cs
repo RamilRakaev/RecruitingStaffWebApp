@@ -1,14 +1,12 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.WebAppFiles
 {
@@ -32,7 +30,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.WebAppFiles
             {
                 return string.Empty;
             }
-            return photo.Source;
+            return photo.Name;
         }
     }
 }

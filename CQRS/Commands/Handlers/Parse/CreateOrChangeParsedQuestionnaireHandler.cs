@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
@@ -53,7 +54,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 }
             }
             await CreateQuestionnaireDocument(questionnaire, request.ParsedData.FileExtension);
-            request.ParsedData.FileSource = _file.Source;
+            request.ParsedData.FileSource = _file.Name;
             return questionnaire;
         }
 
@@ -61,7 +62,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
         {
             _file = new()
             {
-                Source = $"{questionnaire.Id}.{questionnaire.Name}{fileExtension}",
+                Name = $"{questionnaire.Id}.{questionnaire.Name}{fileExtension}",
                 FileType = FileType.Questionnaire,
                 QuestionnaireId = questionnaire.Id,
             };

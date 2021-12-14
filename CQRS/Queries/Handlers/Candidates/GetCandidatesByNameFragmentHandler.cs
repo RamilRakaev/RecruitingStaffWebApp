@@ -22,7 +22,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
         {
             var candidates = _candidateRepository
                 .GetAllAsNoTracking()
-                .Where(c => c.FullName.Contains(request.NameFragment));
+                .Where(c => c.Name.Contains(request.NameFragment));
             if (candidates != null)
                 return Task.FromResult(candidates.ToArray());
             else

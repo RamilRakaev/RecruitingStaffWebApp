@@ -14,23 +14,19 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
     public class CandidateCommandHandlers : AnswerCommandHandlers
     {
         private readonly IRepository<Candidate> _candidateRepository;
-        private readonly IRepository<CandidateVacancy> _candidateVacancyRepository;
-        private readonly IRepository<CandidateQuestionnaire> _candidateQuestionnaireRepository;
         private readonly IRepository<Option> _optionRepository;
         private readonly CandidateFilesManagement fileManager;
 
         public CandidateCommandHandlers(IRepository<Answer> answerRepository,
             IRepository<Candidate> candidateRepository,
-            IRepository<CandidateVacancy> candidateVacancyRepository,
-            IRepository<CandidateQuestionnaire> candidateQuestionnaireRepository,
             IRepository<Option> optionRepository,
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IOptions<WebAppOptions> options,
             IWebHostEnvironment webHost) : base(answerRepository)
         {
             _candidateRepository = candidateRepository;
-            _candidateVacancyRepository = candidateVacancyRepository;
-            _candidateQuestionnaireRepository = candidateQuestionnaireRepository;
+            //_candidateVacancyRepository = candidateVacancyRepository;
+            //_candidateQuestionnaireRepository = candidateQuestionnaireRepository;
             _optionRepository = optionRepository;
             fileManager = new CandidateFilesManagement(fileRepository, options, webHost);
         }
@@ -50,22 +46,22 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers
 
             await fileManager.DeleteCandidateFiles(candidateId, cancellationToken);
 
-            var candidateVacancies = _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId).ToArray();
-            if (candidateVacancies != null)
-            {
-                foreach (var candidateVacancy in candidateVacancies.ToArray())
-                {
-                    await _candidateVacancyRepository.RemoveAsync(candidateVacancy);
-                }
-            }
-            var candidateQuestionnaires = _candidateQuestionnaireRepository.GetAllAsNoTracking().Where(cq => cq.CandidateId == candidateId).ToArray();
-            if (candidateQuestionnaires != null)
-            {
-                foreach (var candidateQuestionnaire in candidateQuestionnaires.ToArray())
-                {
-                    await _candidateQuestionnaireRepository.RemoveAsync(candidateQuestionnaire);
-                }
-            }
+            //var candidateVacancies = _candidateVacancyRepository.GetAllAsNoTracking().Where(cv => cv.CandidateId == candidateId).ToArray();
+            //if (candidateVacancies != null)
+            //{
+            //    foreach (var candidateVacancy in candidateVacancies.ToArray())
+            //    {
+            //        await _candidateVacancyRepository.RemoveAsync(candidateVacancy);
+            //    }
+            //}
+            //var candidateQuestionnaires = _candidateQuestionnaireRepository.GetAllAsNoTracking().Where(cq => cq.CandidateId == candidateId).ToArray();
+            //if (candidateQuestionnaires != null)
+            //{
+            //    foreach (var candidateQuestionnaire in candidateQuestionnaires.ToArray())
+            //    {
+            //        await _candidateQuestionnaireRepository.RemoveAsync(candidateQuestionnaire);
+            //    }
+            //}
             await _candidateRepository.RemoveAsync(candidate);
             await _candidateRepository.SaveAsync(cancellationToken);
         }
