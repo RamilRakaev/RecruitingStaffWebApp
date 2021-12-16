@@ -33,8 +33,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
                 .FirstOrDefault();
             var constructor = type.GetConstructor(Array.Empty<Type>());
             var entity = constructor.Invoke(Array.Empty<object>());
-            await _mediator.Send(new CreateOrChangeEntityCommand<BaseEntity>(entity as BaseEntity), cancellationToken);
-            throw new NotImplementedException();
+            await _mediator.Send(new CreateOrChangeEntityCommand(entity as BaseEntity), cancellationToken);
+            return true;
         }
     }
 }

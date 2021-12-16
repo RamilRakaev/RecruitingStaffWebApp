@@ -3,27 +3,26 @@ using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.Repositories;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
-    public interface ICreateOrChangeEntityHandler<T> : IRequestHandler<CreateOrChangeEntityCommand<T>, bool> where T : BaseEntity
+    public class CreateOrChangeEntityHandler<TEntity> : IRequestHandler<CreateOrChangeEntityCommand<TEntity>, bool> where TEntity : BaseEntity
     {
+        private readonly DataContext _context;
 
-    }
-    public class CreateOrChangeEntityHandler<T> : ICreateOrChangeEntityHandler<T> where T : BaseEntity
-    {
-        private readonly IRepository<T> _repository;
-
-        public CreateOrChangeEntityHandler(IRepository<T> repository)
+        public CreateOrChangeEntityHandler(DataContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
-        public async Task<bool> Handle(CreateOrChangeEntityCommand<T> request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateOrChangeEntityCommand<TEntity> request, CancellationToken cancellationToken)
         {
+            var _repository = new BaseRepository<TEntity>(_context);
             var entity = await _repository
                 .FindAsync(request.Entity.Id, cancellationToken)
                 ?? await _repository

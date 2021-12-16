@@ -1,14 +1,15 @@
 ﻿using MediatR;
+using RecruitingStaff.Domain.Model;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
 {
-    public class CreateOrChangeEntityCommand<T> : IRequest<bool>
+    public class CreateOrChangeEntityCommand<TEntity> : IRequest<bool> where TEntity : BaseEntity
     {
-        public CreateOrChangeEntityCommand(T entity)
+        public CreateOrChangeEntityCommand(TEntity entity)
         {
             Entity = entity;
         }
 
-        public T Entity { get; set; }
+        public TEntity Entity { get; set; }
     }
 }
