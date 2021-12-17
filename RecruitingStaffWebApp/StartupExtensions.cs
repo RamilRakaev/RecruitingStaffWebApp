@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
@@ -11,7 +10,6 @@ using RecruitingStaff.Infrastructure.DatabaseServices;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Infrastructure.DocParse;
 using RecruitingStaffWebApp.Services.DocParse;
-using System;
 using System.Linq;
 
 namespace RecruitingStaff.WebApp
@@ -30,15 +28,23 @@ namespace RecruitingStaff.WebApp
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
+            services.ConfigrueHandlers();
+        }
 
-            foreach(Type type in typeof(BaseEntity).Assembly.GetTypes().Where(t => t.BaseType == typeof(BaseEntity)))
+        public static void ConfigrueHandlers(this IServiceCollection services)
+        {
+            var types = typeof(BaseEntity)
+                .Assembly
+                .GetTypes()
+                .Where(t => t.BaseType.Equals(typeof(BaseEntity)));
+            foreach (var entityType in types)
             {
-                services.AddTransient()
+                var commandType = typeof(CreateOrChangeEntityCommand<>).MakeGenericType(entityType);
+                var iRequestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(commandType, typeof(bool));
+                var handlerType = typeof(CreateOrChangeEntityHandler<>).MakeGenericType(entityType);
+
+                services.AddTransient(iRequestHandlerType, handlerType);
             }
-            //services.AddTransient<IValidator<ApplicationUser>, ApplicationUserValidator>();
-            //services.AddTransient<IValidator<Candidate>, CandidateValidator>();
-            //services.AddTransient<IValidator<Vacancy>, VacancyValidator>();
-            //services.AddTransient<IValidator<Questionnaire>, QuestionnaireValidator>();
         }
     }
 }

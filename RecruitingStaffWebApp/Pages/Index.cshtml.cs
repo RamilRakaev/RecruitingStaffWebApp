@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.WebApp.ViewModels;
 
 namespace RecruitingStaffWebApp.Pages
 {
@@ -8,9 +11,10 @@ namespace RecruitingStaffWebApp.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(ILogger<IndexModel> logger, IMediator mediator)
         {
             _logger = logger;
+            mediator.Send(new CreateOrChangeByViewModelCommand(new CandidateViewModel() {Name = "name" }));
         }
 
         public IActionResult OnGet()
