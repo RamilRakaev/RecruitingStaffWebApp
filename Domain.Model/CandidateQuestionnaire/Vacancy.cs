@@ -7,7 +7,6 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 {
     public class Vacancy : BaseEntity
     {
-        //public string Name { get; set; }
         public string Description { get; set; }
         public string Responsibilities { get; set; }
         public string Requirements { get; set; }

@@ -2,8 +2,18 @@
 
 namespace RecruitingStaff.WebApp.ViewModels
 {
-    public class CandidateViewModel
+    public class CandidateViewModel : BaseViewModel
     {
+        public CandidateViewModel()
+        {
+
+        }
+
+        public CandidateViewModel(object obj) : base(obj)
+        {
+
+        }
+
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }

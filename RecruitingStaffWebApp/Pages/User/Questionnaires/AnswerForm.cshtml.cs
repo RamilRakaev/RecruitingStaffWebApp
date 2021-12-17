@@ -4,8 +4,10 @@ using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
+using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System;
 using System.Threading.Tasks;
@@ -19,7 +21,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         }
 
         public int QuestionnaireId { get; set; }
-        public Answer Answer { get; set; }
+        public AnswerViewModel Answer { get; set; }
         public Candidate[] Candidates { get; set; }
         public string Message { get; set; } = "Выберите кандидата";
 
@@ -29,15 +31,15 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             Candidates = Array.Empty<Candidate>();
             if (answerId == null)
             {
-                Answer = new Answer() { QuestionId = questionId };
+                Answer = new AnswerViewModel() { QuestionId = questionId };
             }
             else
             {
-                Answer = await _mediator.Send(new GetAnswerByIdQuery(answerId.Value));
+                Answer = new AnswerViewModel(await _mediator.Send(new GetAnswerByIdQuery(answerId.Value)));
             }
         }
 
-        public async Task OnPostSearchCandidates(string nameFragment, Answer answer, int questionnaireId)
+        public async Task OnPostSearchCandidates(string nameFragment, AnswerViewModel answer, int questionnaireId)
         {
             QuestionnaireId = questionnaireId;
             Candidates = await _mediator.Send(new GetCandidatesByNameFragmentQuery(nameFragment));
@@ -45,10 +47,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             Answer = answer;
         }
 
-        public async Task<IActionResult> OnPostCreateAnswer(Answer answer, int questionnaireId)
+        public async Task<IActionResult> OnPostCreateAnswer(AnswerViewModel answer, int questionnaireId)
         {
             QuestionnaireId = questionnaireId;
-            await _mediator.Send(new CreateOrChangeAnswerCommand(answer));
+            await _mediator.Send(new CreateOrChangeByViewModelCommand(answer));
             return RedirectToPage("AnswersOnQuestion", new { questionId = answer.QuestionId, questionnaireId });
         }
     }

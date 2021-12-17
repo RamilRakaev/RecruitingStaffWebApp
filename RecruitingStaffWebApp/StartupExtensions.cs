@@ -10,6 +10,7 @@ using RecruitingStaff.Infrastructure.DatabaseServices;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Infrastructure.DocParse;
 using RecruitingStaffWebApp.Services.DocParse;
+using System;
 using System.Linq;
 
 namespace RecruitingStaff.WebApp
@@ -28,10 +29,10 @@ namespace RecruitingStaff.WebApp
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
-            services.ConfigrueHandlers();
+            services.ConfigrueHandlers<bool>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
         }
 
-        public static void ConfigrueHandlers(this IServiceCollection services)
+        public static void ConfigrueHandlers<TResult>(this IServiceCollection services, Type commandType, Type handlerType)
         {
             var types = typeof(BaseEntity)
                 .Assembly
@@ -39,11 +40,11 @@ namespace RecruitingStaff.WebApp
                 .Where(t => t.BaseType.Equals(typeof(BaseEntity)));
             foreach (var entityType in types)
             {
-                var commandType = typeof(CreateOrChangeEntityCommand<>).MakeGenericType(entityType);
-                var iRequestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(commandType, typeof(bool));
-                var handlerType = typeof(CreateOrChangeEntityHandler<>).MakeGenericType(entityType);
+                var currentCommandType = commandType.MakeGenericType(entityType);
+                var iRequestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(currentCommandType, typeof(TResult));
+                var currentHandlerType = handlerType.MakeGenericType(entityType);
 
-                services.AddTransient(iRequestHandlerType, handlerType);
+                services.AddTransient(iRequestHandlerType, currentHandlerType);
             }
         }
     }

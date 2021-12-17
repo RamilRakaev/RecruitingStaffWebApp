@@ -1,10 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.Repositories;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,7 +22,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
         {
             var _repository = new BaseRepository<TEntity>(_context);
             var entity = await _repository
-                .FindAsync(request.Entity.Id, cancellationToken)
+                .FindNoTrackingAsync(request.Entity.Id, cancellationToken)
                 ?? await _repository
                 .GetAllAsNoTracking()
                 .Where(e => e.Name == request.Entity.Name)

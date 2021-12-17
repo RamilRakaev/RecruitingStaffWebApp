@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using RecruitingStaff.WebApp.ViewModels;
+using System;
 
 namespace RecruitingStaff.WebApp.Validators
 {
-    public class EducationViewModel
+    public class EducationViewModel : BaseViewModel
     {
+        public EducationViewModel()
+        {
+
+        }
+
+        public EducationViewModel(object obj) : base(obj)
+        {
+
+        }
+
         public DateTime StartDateOfTraining { get; set; }
         public DateTime EndDateOfTraining { get; set; }
 

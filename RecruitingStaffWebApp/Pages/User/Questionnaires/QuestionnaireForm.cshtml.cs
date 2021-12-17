@@ -6,6 +6,7 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
+using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
         }
 
-        public Questionnaire Questionnaire { get; set; }
+        public QuestionnaireViewModel Questionnaire { get; set; }
         public SelectList Vacancies { get; set; }
 
         public async Task OnGet(int? questionnaireId)
@@ -25,11 +26,12 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             Vacancies = new SelectList(await _mediator.Send(new GetVacanciesQuery()), "Id", "Name");
             if (questionnaireId == null)
             {
-                Questionnaire = new Questionnaire();
+                Questionnaire = new QuestionnaireViewModel();
             }
             else
             {
-                Questionnaire = await _mediator.Send(new GetQuestionnaireQuery(questionnaireId.Value));
+                Questionnaire = new QuestionnaireViewModel(
+                    await _mediator.Send(new GetQuestionnaireQuery(questionnaireId.Value)));
             }
         }
 
