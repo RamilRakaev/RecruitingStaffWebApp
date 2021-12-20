@@ -1,7 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.WebApp.ViewModels;
 
 namespace RecruitingStaffWebApp.Pages.User
 {
@@ -16,5 +19,24 @@ namespace RecruitingStaffWebApp.Pages.User
             _mediator = mediator;
             _logger = logger;
         }
+
+        public static ViewModel GetViewModel<Entity, ViewModel>(Entity entity)
+            where Entity : BaseEntity
+            where ViewModel : BaseViewModel
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Entity, ViewModel>());
+            var mapper = new Mapper(config);
+            return mapper.Map<ViewModel>(entity);
+        }
+
+        public static Entity GetEntity<Entity, ViewModel>(ViewModel entity)
+            where Entity : BaseEntity
+            where ViewModel : BaseViewModel
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<ViewModel, Entity>());
+            var mapper = new Mapper(config);
+            return mapper.Map<Entity>(entity);
+        }
+
     }
 }

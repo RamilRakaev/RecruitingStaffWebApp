@@ -1,9 +1,11 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
@@ -30,14 +32,15 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             else
             {
-                Questionnaire = new QuestionnaireViewModel(
-                    await _mediator.Send(new GetQuestionnaireQuery(questionnaireId.Value)));
+                var questionnaireEntity = await _mediator.Send(new GetQuestionnaireQuery(questionnaireId.Value));
+                Questionnaire = GetViewModel<Questionnaire, QuestionnaireViewModel>(questionnaireEntity);
             }
         }
 
-        public async Task<IActionResult> OnPost(Questionnaire questionnaire)
+        public async Task<IActionResult> OnPost(QuestionnaireViewModel questionnaire)
         {
-            await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire));
+            var questionnaireEntity = GetEntity<Questionnaire, QuestionnaireViewModel>(questionnaire);
+            await _mediator.Send(new CreateOrChangeEntityCommand<Questionnaire>(questionnaireEntity));
             return RedirectToPage("Questionnaires");
         }
     }
