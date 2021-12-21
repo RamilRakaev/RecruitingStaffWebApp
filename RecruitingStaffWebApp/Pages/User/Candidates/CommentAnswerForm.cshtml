@@ -5,14 +5,17 @@
 }
 <div class="row justify-content-center">
     <form method="post">
-        <input type="hidden" asp-for="@Model.CommentAnswer.AnswerId" />
-        <input type="hidden" asp-for="@Model.CommentAnswer.CandidateId" />
+        <input type="hidden" asp-for="@Model.Answer.Id" />
+        <input type="hidden" asp-for="@Model.Answer.CandidateId" />
+        <input type="hidden" asp-for="@Model.Answer.Text" />
+        <input type="hidden" asp-for="@Model.Answer.Estimation" />
+        <input type="hidden" asp-for="@Model.Answer.QuestionId" />
         <div class="form-group">
             <label>Комментарий</label>
-            <textarea class="form-control" asp-for="@Model.CommentAnswer.Comment" rows="4"></textarea>
-            <span asp-validation-for="@Model.CommentAnswer.Comment"></span>
+            <textarea class="form-control" asp-for="@Model.Answer.Comment" rows="4"></textarea>
+            <span asp-validation-for="@Model.Answer.Comment"></span>
         </div>
-        <a class="btn btn-dark" asp-page="CandidateAnswers" asp-route-candidateId="@Model.CommentAnswer.CandidateId">Ответы кандидаты</a>
+        <a class="btn btn-dark" asp-page="CandidateAnswers" asp-route-candidateId="@Model.Answer.CandidateId">Ответы кандидаты</a>
         <button class="btn btn-success">Отправить</button>
     </form>
 </div>

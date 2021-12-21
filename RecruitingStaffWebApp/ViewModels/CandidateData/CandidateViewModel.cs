@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RecruitingStaff.WebApp.ViewModels
+namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 {
     public class CandidateViewModel : BaseViewModel
     {
@@ -14,6 +14,7 @@ namespace RecruitingStaff.WebApp.ViewModels
 
         }
 
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }
@@ -22,5 +23,6 @@ namespace RecruitingStaff.WebApp.ViewModels
         public string TelephoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public string MaritalStatus { get; set; }
+        public int VacancyId { get; set; }
     }
 }

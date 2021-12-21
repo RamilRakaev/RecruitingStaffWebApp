@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
@@ -47,11 +46,19 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             Answer = answer;
         }
 
-        public async Task<IActionResult> OnPostCreateAnswer(AnswerViewModel answer, int questionnaireId)
+        public async Task<IActionResult> OnPostCreateAnswer(AnswerViewModel answerViewModel, int questionnaireId)
         {
             QuestionnaireId = questionnaireId;
-            await _mediator.Send(new CreateOrChangeByViewModelCommand(answer));
-            return RedirectToPage("AnswersOnQuestion", new { questionId = answer.QuestionId, questionnaireId });
+            var answerEntity = GetEntity<Answer, AnswerViewModel>(answerViewModel);
+            if(answerViewModel.Id == 0)
+            {
+                await _mediator.Send(new CreateEntityCommand<Answer>(answerEntity));
+            }
+            else
+            {
+                await _mediator.Send(new ChangeEntityCommand<Answer>(answerEntity));
+            }
+            return RedirectToPage("AnswersOnQuestion", new { questionId = answerViewModel.QuestionId, questionnaireId });
         }
     }
 }

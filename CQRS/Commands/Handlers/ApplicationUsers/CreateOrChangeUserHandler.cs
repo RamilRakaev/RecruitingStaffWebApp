@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.ApplicationUsers
 {
-    public class CreateOrEditUserHandler : IRequestHandler<CreateOrChangeUserCommand, IdentityResult>
+    public class CreateOrChangeUserHandler : IRequestHandler<CreateOrChangeUserCommand, IdentityResult>
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateOrEditUserHandler(UserManager<ApplicationUser> userManager)
+        public CreateOrChangeUserHandler(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }

@@ -6,11 +6,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.ApplicationUsers
 {
     public class CreateOrChangeUserCommand : IRequest<IdentityResult>
     {
-        public CreateOrChangeUserCommand()
-        {
-
-        }
-
         public CreateOrChangeUserCommand(string email, string password, int id = 0, string role = "user")
         {
             Email = email ?? throw new ArgumentNullException();

@@ -5,6 +5,8 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
+using RecruitingStaff.WebApp.ViewModels;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -15,8 +17,8 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public AnswerAuthorModel(IMediator mediator, ILogger<AnswerAuthorModel> logger) : base(mediator, logger)
         { }
 
-        public Candidate Candidate { get; set; }
-        public Option[] Options { get; set; }
+        public CandidateViewModel Candidate { get; set; }
+        public OptionViewModel[] Options { get; set; }
         public int QuestionId { get; set; }
         public string CandidatePhotoSource { get; set; }
         public int QuestionnaireId { get; set; }
@@ -24,8 +26,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task OnGet(int candidateId, int questionId, int questionnaireId)
         {
             QuestionId = questionId;
-            Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
-            Options = await _mediator.Send(new GetOptionsQuery());
+            Candidate = GetViewModel<Candidate, CandidateViewModel>(
+                await _mediator.Send(new GetCandidateQuery(candidateId)));
+            Options = GetViewModels<Option, OptionViewModel>(
+                await _mediator.Send(new GetOptionsByCandidateIdQuery(candidateId)));
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
             QuestionnaireId = questionnaireId;
         }
@@ -34,8 +38,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
             QuestionId = questionId;
             await _mediator.Send(new RemoveOptionCommand(optionId));
-            Candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
-            Options = await _mediator.Send(new GetOptionsQuery());
+            Candidate = GetViewModel<Candidate, CandidateViewModel>(
+                await _mediator.Send(new GetCandidateQuery(candidateId)));
+            Options = GetViewModels<Option, OptionViewModel>(
+                await _mediator.Send(new GetOptionsByCandidateIdQuery(candidateId)));
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
             QuestionnaireId = questionnaireId;
         }

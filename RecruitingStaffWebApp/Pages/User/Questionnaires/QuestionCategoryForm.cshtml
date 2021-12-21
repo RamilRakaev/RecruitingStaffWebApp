@@ -4,13 +4,13 @@
 }
 <div class="row justify-content-center">
     <div class="col-7">
-        @if (Model.Questionnaires.Length == 0 && Model.QuestionCategory.QuestionnaireId == 0)
+        @if (Model.Questionnaires.Length == 0 && Model.QuestionCategoryViewModel.QuestionnaireId == 0)
         {
             <p class="text-warning">Выберите анкету</p>
             <div class="col-7">
                 <form class="form-inline" method="post" asp-page-handler="SearchCategories">
-                    <input type="hidden" asp-for="QuestionCategory.Id" />
-                    <input type="hidden" asp-for="QuestionCategory.QuestionnaireId" />
+                    <input type="hidden" asp-for="QuestionCategoryViewModel.Id" />
+                    <input type="hidden" asp-for="QuestionCategoryViewModel.QuestionnaireId" />
                     <div class="input-group mb-3 w-100">
                         <input type="text" class="form-control" placeholder="Фрагмент имени анкеты" aria-describedby="button-search" name="nameFragment" />
                         <button class="btn btn-outline-primary" id="button-search">Поиск</button>
@@ -21,25 +21,25 @@
         else
         {
             <form method="post" asp-page-handler="CreateQuestionCategory">
-                <input type="hidden" asp-for="QuestionCategory.Id" />
+                <input type="hidden" asp-for="QuestionCategoryViewModel.Id" />
                 @if (Model.Questionnaires.Length == 0)
                 {
-                    <input type="hidden" asp-for="QuestionCategory.QuestionnaireId" />
+                    <input type="hidden" asp-for="QuestionCategoryViewModel.QuestionnaireId" />
                 }
                 <div class="form-group">
                     <label>Наименование категории</label>
-                    <input class="form-control" asp-for="@Model.QuestionCategory.Name" />
+                    <input class="form-control" asp-for="@Model.QuestionCategoryViewModel.Name" />
                 </div>
                 @foreach (var questionnaire in Model.Questionnaires)
                 {
                     <div class="form-group">
-                        <input class="custom-radio" type="radio" asp-for="@Model.QuestionCategory.QuestionnaireId" value="@questionnaire.Id" />
+                        <input class="custom-radio" type="radio" asp-for="@Model.QuestionCategoryViewModel.QuestionnaireId" value="@questionnaire.Id" />
                         <label>@questionnaire.Name</label>
                     </div>
                 }
                 <a class="btn btn-dark"
                    asp-page="ConcreteQuestionnaire"
-                   asp-route-QuestionnaireId="@Model.QuestionCategory.QuestionnaireId">Анкета</a>
+                   asp-route-QuestionnaireId="@Model.QuestionCategoryViewModel.QuestionnaireId">Анкета</a>
                 <button class="btn btn-success float-right">Отправить</button>
             </form>
         }

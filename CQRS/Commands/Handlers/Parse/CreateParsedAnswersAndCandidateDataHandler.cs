@@ -118,7 +118,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             candidate.Educations = await AssignValuesToPropertiesCompositeObject(
                 parsedData.Candidate.Educations, () => new Education());
             candidate.Documents = await AssignValuesToPropertiesCompositeObject(
-                parsedData.Candidate.Documents, "Source", () => new RecruitingStaffWebAppFile());
+                parsedData.Candidate.Documents, "Name", () => new RecruitingStaffWebAppFile());
             candidate.Kids = await AssignValuesToPropertiesCompositeObject(
                 parsedData.Candidate.Kids, () => new Kid());
             candidate.PreviousJobs = await AssignValuesToPropertiesCompositeObject(

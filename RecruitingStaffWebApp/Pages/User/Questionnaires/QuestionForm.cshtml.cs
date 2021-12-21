@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
+using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         }
 
         public int QuestionnaireId { get; set; }
-        public Question Question { get; set; }
+        public QuestionViewModel Question { get; set; }
         public SelectList QuestionCategories { get; set; }
 
         public async Task OnGet(int? questionId, int? questionCategoryId, int questionnaireId)
@@ -37,13 +38,22 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             else
             {
-                Question = await _mediator.Send(new GetQuestionByIdQuery(questionId.Value));
+                Question = GetViewModel<Question, QuestionViewModel>(
+                    await _mediator.Send(new GetQuestionByIdQuery(questionId.Value)));
             }
         }
 
-        public async Task<IActionResult> OnPost(Question question, int questionnaireId)
+        public async Task<IActionResult> OnPost(QuestionViewModel question, int questionnaireId)
         {
-            await _mediator.Send(new CreateOrChangeQuestionCommand(question));
+            var questionEntity = GetEntity<Question, QuestionViewModel>(question);
+            if (question.Id == 0)
+            {
+                await _mediator.Send(new CreateEntityCommand<Question>(questionEntity));
+            }
+            else
+            {
+                await _mediator.Send(new ChangeEntityCommand<Question>(questionEntity));
+            }
             return RedirectToPage("ConcreteQuestionnaire", new { questionnaireId });
         }
     }

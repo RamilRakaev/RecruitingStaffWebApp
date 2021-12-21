@@ -1,30 +1,34 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.Candidates.CreateCandidateModel
-@using RecruitingStaff.WebApp.ViewModels;
+@using RecruitingStaff.WebApp.ViewModels.CandidateData;
 @{
-    var candidate = new CandidateViewModel();
+    var candidateViewModel = new CandidateViewModel();
 }
 <div class="row justify-content-center">
     <form method="post">
         <div class="form-group">
             <label>Полное имя</label>
-            <input type="text" class="form-control" asp-for="@candidate.Name" />
+            <input type="text" class="form-control" asp-for="@candidateViewModel.Name" />
         </div>
         <div class="form-group">
             <label>Дата рождения</label>
-            <input type="date" class="form-control" asp-for="@candidate.DateOfBirth" />
+            <input type="date" class="form-control" asp-for="@candidateViewModel.DateOfBirth" />
         </div>
         <div class="form-group">
             <label>Адрес</label>
-            <input type="text" class="form-control" asp-for="@candidate.Address" />
+            <input type="text" class="form-control" asp-for="@candidateViewModel.Address" />
         </div>
         <div class="form-group">
             <label>Номер телефона</label>
-            <input type="text" class="form-control" asp-for="@candidate.TelephoneNumber" />
+            <input type="text" class="form-control" asp-for="@candidateViewModel.TelephoneNumber" />
         </div>
         <div class="form-group">
             <label>Семейное положение</label>
-            <input type="text" class="form-control" asp-for="@candidate.MaritalStatus" />
+            <input type="text" class="form-control" asp-for="@candidateViewModel.MaritalStatus" />
+        </div>
+        <div class="form-group">
+            <label>Вакансия</label>
+            <select asp-for="@candidateViewModel.VacancyId" asp-items="@Model.Vacancies"></select>
         </div>
         <button class="btn btn-dark">Отправить</button>
     </form>

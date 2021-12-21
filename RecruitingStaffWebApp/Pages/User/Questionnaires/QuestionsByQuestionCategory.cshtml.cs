@@ -6,6 +6,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
+using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -17,20 +18,24 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
         }
 
-        public Question[] Questions { get; set; }
-        public Answer[] Answers { get; set; }
-        public QuestionCategory QuestionCategory { get; set; }
+        public QuestionViewModel[] Questions { get; set; }
+        public AnswerViewModel[] Answers { get; set; }
+        public QuestionCategoryViewModel QuestionCategory { get; set; }
 
         public async Task Initialize(int questionCategoryId)
         {
-            QuestionCategory = await _mediator.Send(new GetQuestionCategoryByIdQuery(questionCategoryId));
-            Questions = await _mediator.Send(new GetQuestionsByCategoryIdQuery(questionCategoryId));
-            Answers = await _mediator.Send(new GetAnswersByQuestionCategoryQuery(questionCategoryId));
+            QuestionCategory = GetViewModel<QuestionCategory, QuestionCategoryViewModel>(
+                await _mediator.Send(new GetQuestionCategoryByIdQuery(questionCategoryId))
+                );
+            Questions = GetViewModels<Question, QuestionViewModel>(
+                await _mediator.Send(new GetQuestionsByCategoryIdQuery(questionCategoryId)));
+            Answers = GetViewModels<Answer, AnswerViewModel>(
+                await _mediator.Send(new GetAnswersByQuestionCategoryQuery(questionCategoryId)));
         }
 
         public async Task OnGet(int questionCategoryId, int questionId)
         {
-            if(questionCategoryId != 0)
+            if (questionCategoryId != 0)
             {
                 await Initialize(questionCategoryId);
             }
@@ -46,6 +51,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             await _mediator.Send(new RemoveQuestionCommand(questionId));
             await Initialize(questionCategoryId);
         }
+
         public async Task OnPostRemoveAnswer(int questionId, int answerId)
         {
             await _mediator.Send(new RemoveAnswerCommand(answerId));

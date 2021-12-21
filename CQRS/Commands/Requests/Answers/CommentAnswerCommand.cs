@@ -1,20 +1,16 @@
 ﻿using MediatR;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers
 {
     public class CommentAnswerCommand : IRequest<bool>
     {
-        public CommentAnswerCommand()
+        public CommentAnswerCommand(Answer answer)
         {
-
+            Answer = answer;
         }
 
-        public CommentAnswerCommand(int aswerId, int candidateId)
-        {
-            AnswerId = aswerId;
-            CandidateId = candidateId;
-        }
-
+        public Answer Answer { get; set; }
         public int AnswerId { get; set; }
         public int CandidateId { get; set; }
         public string Comment { get; set; }

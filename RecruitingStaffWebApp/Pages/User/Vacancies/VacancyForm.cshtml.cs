@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
+using RecruitingStaff.WebApp.ViewModels;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User.Vacancies
@@ -13,17 +14,18 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
         public VacancyFormModel(IMediator mediator, ILogger<VacancyFormModel> logger) : base(mediator, logger)
         { }
 
-        public Vacancy Vacancy { get; set; }
+        public VacancyViewModel Vacancy { get; set; }
 
         public async Task OnGet(int? vacancyId)
         {
             if (vacancyId == null)
             {
-                Vacancy = new Vacancy();
+                Vacancy = new VacancyViewModel();
             }
             else
             {
-                Vacancy = await _mediator.Send(new GetVacancyQuery(vacancyId.Value));
+                Vacancy = GetViewModel<Vacancy, VacancyViewModel>(
+                    await _mediator.Send(new GetVacancyQuery(vacancyId.Value)));
             }
         }
 

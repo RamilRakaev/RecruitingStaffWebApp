@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using RecruitingStaff.WebApp.ViewModels;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 
 namespace RecruitingStaff.WebApp.Validators
 {

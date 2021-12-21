@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -21,9 +22,11 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             QuestionnaireId = questionnaireId;
         }
 
-        public async Task<IActionResult> OnPost(Candidate candidate, int questionnaireId)
+        public async Task<IActionResult> OnPost(CandidateViewModel candidateViewModel, int questionnaireId)
         {
-            await _mediator.Send(new CreateCandidateByQuestionnaireCommand(candidate, questionnaireId));
+            await _mediator.Send(new CreateCandidateByQuestionnaireCommand(
+                GetEntity<Candidate, CandidateViewModel>(candidateViewModel),
+                questionnaireId));
             return RedirectToPage("Candidates", new { questionnaireId });
         }
     }

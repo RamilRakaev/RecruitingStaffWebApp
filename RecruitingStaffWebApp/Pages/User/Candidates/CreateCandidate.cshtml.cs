@@ -1,12 +1,15 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
-using RecruitingStaff.WebApp.ViewModels;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User.Candidates
@@ -24,11 +27,17 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
             Vacancies = new SelectList(await _mediator.Send(new GetVacanciesQuery()), "Id", "Name");
         }
 
-        public async Task<IActionResult> OnPost(CandidateViewModel candidate, int vacancyId)
+        public async Task<IActionResult> OnPost(CandidateViewModel candidateViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateOrChangeByViewModelCommand(candidate));
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<CandidateViewModel, Candidate>());
+                var mapper = new Mapper(config);
+                var candidateEntity = mapper.Map<Candidate>(candidateViewModel);
+                var vacancy = await _mediator.Send(new GetEntityByIdQuery<Vacancy>(candidateViewModel.VacancyId));
+                candidateEntity.Vacancies = new();
+                candidateEntity.Vacancies.Add(vacancy);
+                await _mediator.Send(new CreateEntityCommand<Candidate>(candidateEntity));
             }
             return RedirectToPage("Candidates");
         }

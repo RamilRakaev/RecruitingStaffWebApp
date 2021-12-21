@@ -10,7 +10,7 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
         public int VacancyId { get; set; }
         public Vacancy Vacancy { get; set; }
 
-        public List<Candidate> CandidateQuestionnaires { get; set; }
+        public List<Candidate> Candidates { get; set; }
         public List<RecruitingStaffWebAppFile> DocumentFiles { get; set; }
         public List<QuestionCategory> QuestionCategories { get; set; }
     }

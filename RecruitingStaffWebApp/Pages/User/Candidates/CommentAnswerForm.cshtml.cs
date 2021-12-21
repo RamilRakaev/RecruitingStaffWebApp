@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
+using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -13,17 +15,22 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
         {
         }
 
-        public CommentAnswerCommand CommentAnswer { get; set; }
+        public AnswerViewModel Answer { get; set; }
 
         public void OnGet(int answerId, int candidateId)
         {
-            CommentAnswer = new CommentAnswerCommand(answerId, candidateId);
+            Answer = new()
+            {
+                Id = answerId,
+                CandidateId = candidateId
+            };
         }
 
-        public async Task<IActionResult> OnPost(CommentAnswerCommand commentAnswer)
+        public async Task<IActionResult> OnPost(AnswerViewModel answer)
         {
-            await _mediator.Send(commentAnswer);
-            return RedirectToPage("CandidateAnswers", new { candidateId = commentAnswer.CandidateId });
+            var answerEntity = GetEntity<Answer, AnswerViewModel>(answer);
+            await _mediator.Send(new CommentAnswerCommand(answerEntity));
+            return RedirectToPage("CandidateAnswers", new { candidateId = answerEntity.CandidateId });
         }
     }
 }

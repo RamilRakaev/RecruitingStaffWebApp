@@ -18,7 +18,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Answers
 
         public async Task<Answer> Handle(GetAnswerByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _answerRepository.FindAsync(request.AnswerId, cancellationToken);
+            return await _answerRepository.FindNoTrackingAsync(request.AnswerId, cancellationToken);
         }
     }
 }

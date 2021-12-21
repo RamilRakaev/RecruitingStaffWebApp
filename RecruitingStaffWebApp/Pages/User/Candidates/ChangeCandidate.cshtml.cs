@@ -7,6 +7,7 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User.Candidates
@@ -16,19 +17,22 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         public ChangeCandidateModel(IMediator mediator, ILogger<ChangeCandidateModel> logger) : base(mediator, logger)
         { }
 
-        public Candidate Candidate { get; set; }
+        public CandidateViewModel Candidate { get; set; }
         public SelectList Questionnaires { get; set; }
 
         public async Task OnGet(int CandidateId)
         {
-            Candidate = await _mediator.Send(new GetCandidateQuery(CandidateId));
+            Candidate = GetViewModel<Candidate, CandidateViewModel>(
+                await _mediator.Send(new GetCandidateQuery(CandidateId))
+                );
             Questionnaires = new SelectList(await _mediator.Send(new GetQuestionnairesQuery()), "Id", "Name");
         }
 
-        public async Task<IActionResult> OnPost(Candidate Candidate, int questionnaireId, IFormFile formFile)
+        public async Task<IActionResult> OnPost(CandidateViewModel candidate, int questionnaireId, IFormFile formFile)
         {
-            await _mediator.Send(new ChangeCandidateCommand(Candidate, formFile, questionnaireId));
-            return RedirectToPage("ConcreteCandidate", new { CandidateId = Candidate.Id });
+            var candidateEntity = GetEntity<Candidate, CandidateViewModel>(candidate);
+            await _mediator.Send(new ChangeCandidateCommand(candidateEntity, formFile, questionnaireId));
+            return RedirectToPage("ConcreteCandidate", new { CandidateId = candidate.Id });
         }
     }
 }

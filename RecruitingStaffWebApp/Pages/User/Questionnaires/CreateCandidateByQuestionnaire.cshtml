@@ -1,8 +1,8 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Questionnaires.CreateCandidateByQuestionnaireModel
-@using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+@using RecruitingStaff.WebApp.ViewModels.CandidateData;
 @{
-    Candidate candidate = new Candidate();
+    CandidateViewModel candidate = new ();
 }
 <div class="row justify-content-center">
     <form method="post">
