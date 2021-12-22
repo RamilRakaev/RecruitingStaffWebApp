@@ -5,14 +5,14 @@ using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 
 namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 {
-    public class Vacancy : BaseEntity
+    public class Vacancy : CandidateQuestionnaireEntity
     {
         public string Description { get; set; }
         public string Responsibilities { get; set; }
         public string Requirements { get; set; }
         public string WorkingConditions { get; set; }
 
-        public List<Candidate> Candidate { get; set; }
+        public List<CandidateVacancy> CandidateVacancy { get; set; }
         public List<Questionnaire> Questionnaires { get; set; }
     }
 }

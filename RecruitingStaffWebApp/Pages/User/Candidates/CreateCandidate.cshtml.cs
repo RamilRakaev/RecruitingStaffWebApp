@@ -31,13 +31,14 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         {
             if (ModelState.IsValid)
             {
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<CandidateViewModel, Candidate>());
-                var mapper = new Mapper(config);
-                var candidateEntity = mapper.Map<Candidate>(candidateViewModel);
-                var vacancy = await _mediator.Send(new GetEntityByIdQuery<Vacancy>(candidateViewModel.VacancyId));
-                candidateEntity.Vacancies = new();
-                candidateEntity.Vacancies.Add(vacancy);
-                await _mediator.Send(new CreateEntityCommand<Candidate>(candidateEntity));
+                //    var config = new MapperConfiguration(cfg => cfg.CreateMap<CandidateViewModel, Candidate>());
+                //    var mapper = new Mapper(config);
+                //    var candidateEntity = GetEntity<Candidate, CandidateViewModel>(candidateViewModel);
+                //    await _mediator.Send(new CreateEntityCommand<Candidate>(candidateEntity));
+                //    await _mediator.Send(new Create)
+                //    var vacancy = await _mediator.Send(new GetEntityByIdQuery<Vacancy>(candidateViewModel.VacancyId));
+                //    candidateEntity.CandidateVacancy = new();
+                //    candidateEntity.CandidateVacancy.Add(vacancy);
             }
             return RedirectToPage("Candidates");
         }

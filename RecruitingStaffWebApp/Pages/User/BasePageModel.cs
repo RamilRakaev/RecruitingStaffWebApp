@@ -21,7 +21,7 @@ namespace RecruitingStaffWebApp.Pages.User
         }
 
         public static ViewModel GetViewModel<Entity, ViewModel>(Entity entity)
-            where Entity : BaseEntity
+            where Entity : CandidateQuestionnaireEntity
             where ViewModel : BaseViewModel
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Entity, ViewModel>());
@@ -30,7 +30,7 @@ namespace RecruitingStaffWebApp.Pages.User
         }
 
         public static ViewModel[] GetViewModels<Entity, ViewModel>(Entity[] entity)
-            where Entity : BaseEntity
+            where Entity : CandidateQuestionnaireEntity
             where ViewModel : BaseViewModel
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Entity, ViewModel>());

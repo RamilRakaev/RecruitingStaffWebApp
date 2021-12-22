@@ -1,7 +1,7 @@
 ﻿
 namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
 {
-    public class Option : BaseEntity
+    public class Option : CandidateQuestionnaireEntity
     {
         public string Value { get; set; }
         public int? CandidateId { get; set; }

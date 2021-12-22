@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers
 {
-    public class GetEntityByIdHandler<TEntity> : IRequestHandler<GetEntityByIdQuery<TEntity>, TEntity> where TEntity : BaseEntity
+    public class GetEntityByIdHandler<TEntity> : IRequestHandler<GetEntityByIdQuery<TEntity>, TEntity> where TEntity : CandidateQuestionnaireEntity
     {
         private readonly IRepository<TEntity> _repository;
 

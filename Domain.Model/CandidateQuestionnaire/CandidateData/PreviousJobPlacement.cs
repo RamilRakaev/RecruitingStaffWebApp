@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
 {
-    public class PreviousJobPlacement : BaseEntity
+    public class PreviousJobPlacement : CandidateQuestionnaireEntity
     {
-        public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string PositionAtWork { get; set; }

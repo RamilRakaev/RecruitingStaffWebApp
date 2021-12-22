@@ -1,8 +1,7 @@
 ﻿namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
 {
-    public class Recommender : BaseEntity
+    public class Recommender : CandidateQuestionnaireEntity
     {
-        public string Name { get; set; }
         public string PositionAtWork { get; set; }
         public string PhoneNumber { get; set; }
 

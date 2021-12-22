@@ -34,7 +34,8 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             else
             {
-                Answer = new AnswerViewModel(await _mediator.Send(new GetAnswerByIdQuery(answerId.Value)));
+                Answer = GetViewModel<Answer, AnswerViewModel>(
+                    await _mediator.Send(new GetAnswerByIdQuery(answerId.Value)));
             }
         }
 

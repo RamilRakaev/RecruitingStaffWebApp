@@ -18,7 +18,6 @@
     <ProjectReference Include="..\CQRS\RecruitingStaff.Infrastructure.CQRS.csproj" />
     <ProjectReference Include="..\Domain.Interfaces\RecruitingStaff.Domain.Interfaces.csproj" />
     <ProjectReference Include="..\Domain.Model\RecruitingStaff.Domain.Model.csproj" />
-    <ProjectReference Include="..\Domain.Validators\RecruitingStaff.Domain.Validators.csproj" />
     <ProjectReference Include="..\Infrastructure.Repositories\RecruitingStaff.Infrastructure.Repositories.csproj" />
     <ProjectReference Include="..\RecruitingStaff.Infrastructure.DatabaseServices\RecruitingStaff.Infrastructure.DatabaseServices.csproj" />
     <ProjectReference Include="..\RecruitingStaffWebApp.Infrastructure.DocParse\RecruitingStaffWebApp.Infrastructure.DocParse.csproj" />

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 
-namespace RecruitingStaff.Domain.Validators
+namespace RecruitingStaff.WebApp.Validators
 {
     public class VacancyValidator : AbstractValidator<Vacancy>
     {

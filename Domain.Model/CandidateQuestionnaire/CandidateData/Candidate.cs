@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
 {
-    public class Candidate : BaseEntity
+    public class Candidate : CandidateQuestionnaireEntity
     {
         public DateTime DateOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }
@@ -13,8 +13,8 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
         public string EmailAddress { get; set; }
         public string MaritalStatus { get; set; }
 
-        public List<Questionnaire> Questionnaires { get; set; }
-        public List<Vacancy> Vacancies { get; set; }
+        public List<CandidateQuestionnaire> CandidateQuestionnaire { get; set; }
+        public List<CandidateVacancy> CandidateVacancy { get; set; }
         public List<Option> Options { get; set; }
         public List<Answer> Answers { get; set; }
 

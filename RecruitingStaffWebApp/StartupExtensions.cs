@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
-using RecruitingStaff.Domain.Validators;
 using RecruitingStaff.Infrastructure.CQRS;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
@@ -11,11 +10,15 @@ using RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.DatabaseServices;
 using RecruitingStaff.Infrastructure.Repositories;
+using RecruitingStaff.WebApp.Validators;
+using RecruitingStaff.WebApp.ViewModels;
 using RecruitingStaff.WebApp.ViewModels.ApplicationUser;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Infrastructure.DocParse;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace RecruitingStaff.WebApp
 {
@@ -32,12 +35,10 @@ namespace RecruitingStaff.WebApp
 
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
+            services.AddValidatorsFromAssembly(typeof(CandidateValidator).Assembly);
 
-            services.AddTransient<IValidator<ApplicationUserViewModel>, ApplicationUserValidator>();
-            //services.AddTransient<IValidator<Candidate>, CandidateValidator>();
-            //services.AddTransient<IValidator<Vacancy>, VacancyValidator>();
-            //services.AddTransient<IValidator<Questionnaire>, QuestionnaireValidator>();
+            //services.ConfigureValidators();
+
             services.ConfigrueHandlers<bool>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
             services.ConfigrueHandlers<bool>(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
             services.ConfigrueHandlers<bool>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
@@ -47,10 +48,10 @@ namespace RecruitingStaff.WebApp
 
         public static void ConfigrueHandlers<TResult>(this IServiceCollection services, Type commandType, Type handlerType)
         {
-            var types = typeof(BaseEntity)
+            var types = typeof(CandidateQuestionnaireEntity)
                 .Assembly
                 .GetTypes()
-                .Where(t => t.BaseType.Equals(typeof(BaseEntity)));
+                .Where(t => t.BaseType.Equals(typeof(CandidateQuestionnaireEntity)));
             foreach (var entityType in types)
             {
                 var currentCommandType = commandType.MakeGenericType(entityType);
@@ -63,10 +64,10 @@ namespace RecruitingStaff.WebApp
 
         public static void ConfigrueHandlers(this IServiceCollection services, Type commandType, Type handlerType)
         {
-            var types = typeof(BaseEntity)
+            var types = typeof(CandidateQuestionnaireEntity)
                 .Assembly
                 .GetTypes()
-                .Where(t => t.BaseType.Equals(typeof(BaseEntity)));
+                .Where(t => t.BaseType.Equals(typeof(CandidateQuestionnaireEntity)));
             foreach (var entityType in types)
             {
                 var currentCommandType = commandType.MakeGenericType(entityType);
@@ -74,6 +75,21 @@ namespace RecruitingStaff.WebApp
                 var currentHandlerType = handlerType.MakeGenericType(entityType);
 
                 services.AddTransient(iRequestHandlerType, currentHandlerType);
+            }
+        }
+
+        public static void ConfigureValidators(this IServiceCollection services)
+        {
+            var validatorTypes = Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => t.Name.Contains("Validator"));
+            foreach(var validatorType in validatorTypes)
+            {
+                var viewModel = validatorType.BaseType.GetGenericArguments();
+                var abstractValidatorType = typeof(AbstractValidator<>);
+                abstractValidatorType.MakeGenericType(viewModel);
+                services.AddTransient(abstractValidatorType, validatorType);
             }
         }
     }

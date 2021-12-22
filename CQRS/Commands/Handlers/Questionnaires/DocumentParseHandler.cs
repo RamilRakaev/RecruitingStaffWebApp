@@ -77,7 +77,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             ResetDb<Candidate>(db);
         }
 
-        public static void ResetDb<Entity>(DataContext db) where Entity : BaseEntity
+        public static void ResetDb<Entity>(DataContext db) where Entity : CandidateQuestionnaireEntity
         {
             var entities = db.Set<Entity>().ToArray();
             for (int i = 0; i < entities.Length; i++)

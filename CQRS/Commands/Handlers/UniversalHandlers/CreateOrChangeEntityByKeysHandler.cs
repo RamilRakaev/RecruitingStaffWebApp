@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
-    public class CreateOrChangeEntityByKeysHandler<TEntity> : IRequestHandler<CreateOrChangeEntityByKeysCommand<TEntity>, bool> where TEntity : BaseEntity
+    public class CreateOrChangeEntityByKeysHandler<TEntity> : IRequestHandler<CreateOrChangeEntityByKeysCommand<TEntity>, bool> where TEntity : CandidateQuestionnaireEntity
     {
         private readonly IRepository<TEntity> _repository;
         private PropertyInfo[] _entityKeysProperties;

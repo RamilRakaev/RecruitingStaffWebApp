@@ -1,6 +1,6 @@
 ﻿namespace RecruitingStaff.Domain.Model
 {
-    public class BaseEntity
+    public class BaseMap
     {
         public int Id { get; set; }
     }

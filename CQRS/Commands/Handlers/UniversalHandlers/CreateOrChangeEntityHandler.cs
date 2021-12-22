@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
-    public class CreateOrChangeEntityHandler<TEntity> : IRequestHandler<CreateOrChangeEntityCommand<TEntity>, bool> where TEntity : BaseEntity
+    public class CreateOrChangeEntityHandler<TEntity> : IRequestHandler<CreateOrChangeEntityCommand<TEntity>, bool> where TEntity : CandidateQuestionnaireEntity
     {
         private readonly DataContext _context;
 

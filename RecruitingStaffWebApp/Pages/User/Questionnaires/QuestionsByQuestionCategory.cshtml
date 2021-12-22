@@ -62,7 +62,7 @@
                     @foreach (var answer in Model.Answers.Where(a => a.QuestionId == question.Id))
                     {
                         <tr>
-                            <td>@answer.Text</td>
+                            <td>@answer.Name</td>
                             <td>@answer.Estimation</td>
                             <td>@answer.Comment</td>
                             <td>

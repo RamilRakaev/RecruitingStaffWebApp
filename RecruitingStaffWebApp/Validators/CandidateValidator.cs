@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using RecruitingStaff.WebApp.ViewModels;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
 
 namespace RecruitingStaff.WebApp.Validators
@@ -8,14 +7,16 @@ namespace RecruitingStaff.WebApp.Validators
     {
         public CandidateValidator()
         {
-            //RuleFor(c => c.Name)
-            //    .NotNull();
+            RuleFor(c => c.Name)
+                .NotNull()
+                .NotEmpty();
 
-            //RuleFor(c => c.DateOfBirth)
-            //    .NotNull();
+            RuleFor(c => c.DateOfBirth)
+                .NotNull();
 
-            //RuleFor(c => c.TelephoneNumber)
-            //    .NotEmpty();
+            RuleFor(c => c.TelephoneNumber)
+                .NotNull()
+                .NotEmpty();
         }
     }
 }
