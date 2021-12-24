@@ -88,9 +88,8 @@ namespace RecruitingStaff.WebApp
             foreach (var validatorType in validatorTypes)
             {
                 var viewModel = validatorType.BaseType.GetGenericArguments();
-                var abstractValidatorType = typeof(AbstractValidator<>);
-                abstractValidatorType.MakeGenericType(viewModel);
-                services.AddTransient(abstractValidatorType, validatorType);
+                var iValidatorType = typeof(IValidator<>).MakeGenericType(viewModel);
+                services.AddTransient(iValidatorType, validatorType);
             }
         }
     }
