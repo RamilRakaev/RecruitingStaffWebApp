@@ -31,38 +31,34 @@ namespace RecruitingStaffWebApp.Services.DocParse
             return Task.CompletedTask;
         }
 
-        public Task AddQuestionCategory(string name)
+        public void AddQuestionCategory(string name)
         {
             currentQuestionCategory = new()
             {
                 Name = name,
             };
-            Questionnaire.ChildElements.Add(currentQuestionCategory);
-            return Task.CompletedTask;
+            Questionnaire.AddChildElement(currentQuestionCategory);
         }
 
-        public Task AddQuestion(string name)
+        public void AddQuestion(string name)
         {
             currentQuestion = new()
             {
                 Name = name,
             };
-            currentQuestionCategory.ChildElements.Add(currentQuestion);
-            return Task.CompletedTask;
+            currentQuestionCategory.AddChildElement(currentQuestion);
         }
 
-        public Task AddAnswer(string text)
+        public void AddAnswer(string name)
         {
             currentAnswer = new();
-            currentAnswer.Properties.Add("Text", text);
-            currentQuestion.ChildElements.Add(currentAnswer);
-            return Task.CompletedTask;
+            currentAnswer.Properties.Add("Name", name);
+            currentQuestion.AddChildElement(currentAnswer);
         }
 
-        public Task AddAnswer(QuestionnaireElement answer)
+        public void AddAnswer(QuestionnaireElement answer)
         {
-            currentQuestion.ChildElements.Add(answer);
-            return Task.CompletedTask;
+            currentQuestion.AddChildElement(answer);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using RecruitingStaffWebApp.Services.DocParse;
+using RecruitingStaffWebApp.Services.DocParse.Exceptions;
 using RecruitingStaffWebApp.Services.DocParse.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +32,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             var paragraphs = body.ChildElements.Where(e => e.LocalName == "p" && e.InnerText != "");
             currentRows = tables.First().ExtractRowsFromTable(false);
 
-            await ParseVacancy(0);
-            await ParseCandidate(1);
-            await ParseEducation(9);
-            await ParseEducation(10);
-            await ParsePreviousJobs(13);
+            parsedData.Vacancy = ParseVacancy(0);
+            parsedData.Candidate = ParseCandidate(1);
+            parsedData.Candidate.Educations.Add(ParseEducation(9));
+            parsedData.Candidate.Educations.Add(ParseEducation(10));
+            parsedData.Candidate.PreviousJobs = ParsePreviousJobs(13);
             int startRow = 35;
             await ParseQuestionCategory(ref startRow);
             await ParseQuestionCategory(ref startRow);
@@ -49,9 +50,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         }
 
-        private Task ParseCandidate(in int index)
+        private Candidate ParseCandidate(in int index)
         {
-            parsedData.Candidate = new()
+            Candidate candidate = new()
             {
                 FullName = currentRows.ExtractCellTextFromRow(index, 1),
                 DateOfBirth = currentRows.TryExtractDate(index + 1, 1),
@@ -61,48 +62,49 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 TelephoneNumber = currentRows.ExtractCellTextFromRow(index + 4, 1),
                 MaritalStatus = currentRows.ExtractCellTextFromRow(index + 5, 1),
             };
-            parsedData.Candidate.EmailAddress = Regex.Replace(
+            candidate.EmailAddress = Regex.Replace(
                 currentRows.ExtractCellTextFromRow(index + 4, 2, @"(E-Mail).*"),
                 "E-Mail",
                 "");
             var placeOfBirth = currentRows.ExtractCellTextFromRow(index + 1, 2).ToLower();
-            parsedData.Candidate.PlaceOfBirth = Regex.Replace(placeOfBirth, @"(место рождения)\W?", "");
-            ParseKids(index + 5);
-            return Task.CompletedTask;
+            candidate.PlaceOfBirth = Regex.Replace(placeOfBirth, @"(место рождения)\W?", "");
+            candidate.Kids = ParseKids(index + 5);
+            return candidate;
         }
 
-        private Task ParseVacancy(in int index)
+        private Vacancy ParseVacancy(in int index)
         {
             var name = Regex.Replace(
                 currentRows.ExtractCellTextFromRow(index, 1)
                 .ToLower(),
                 @"вакансия\W*",
                 "");
-            parsedData.Vacancy = new()
+            Vacancy vacancy = new()
             {
                 Name = name
             };
-            return Task.CompletedTask;
+            return vacancy;
         }
 
-        private Task ParseKids(in int index)
+        private List<Kid> ParseKids(in int index)
         {
-            var kids = currentRows.ExtractCellTextFromRow(index, 2).ToLower();
-            var kidsArray = FindMatches(kids, @"[^(](\b[\w]+\b)\W*,{1}\W*(\b[\w]+\b)");
+            var kidsText = currentRows.ExtractCellTextFromRow(index, 2).ToLower();
+            var kidsArray = FindMatches(kidsText, @"[^(](\b[\w]+\b)\W*,{1}\W*(\b[\w]+\b)");
+            List<Kid> kids = new(kidsArray.Length);
             foreach (var kid in kidsArray)
             {
                 var properties = kid.Split(',', System.StringSplitOptions.RemoveEmptyEntries);
                 _ = int.TryParse(properties[1], out var age);
-                parsedData.Candidate.Kids.Add(new()
+                kids.Add(new()
                 {
                     Age = age,
                     Gender = properties[0].Trim(' '),
                 });
             }
-            return Task.CompletedTask;
+            return kids;
         }
 
-        private Task ParseEducation(in int index)
+        private Education ParseEducation(in int index)
         {
             var title = currentRows.ExtractCellTextFromRow(index, 2);
             if (title != string.Empty)
@@ -123,19 +125,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 {
                     education.Specialization = specialtyAndQualification;
                 }
-                parsedData.Candidate.Educations.Add(education);
+                return education;
             }
-            return Task.CompletedTask;
+            throw new ParseException();
         }
 
-        private async Task ParsePreviousJobs(int index)
+        private List<PreviousJob> ParsePreviousJobs(int index)
         {
-            await ParsePreviousJob(index);
-            await ParsePreviousJob(index + 7);
-            await ParsePreviousJob(index + 15);
+            List<PreviousJob> previousJobs = new();
+            previousJobs.Add(ParsePreviousJob(index));
+            previousJobs.Add(ParsePreviousJob(index + 7));
+            previousJobs.Add(ParsePreviousJob(index + 15));
+            return previousJobs;
         }
 
-        private async Task ParsePreviousJob(int index)
+        private PreviousJob ParsePreviousJob(int index)
         {
             var name = currentRows.ExtractCellTextFromRow(index, 1);
             if (name != string.Empty)
@@ -163,23 +167,25 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                     previousJob.OrganizationPhoneNumber = organizationPhoneNumberAndAddress.GetTextBeforeCharacter(',');
                     previousJob.OrganizationAddress = organizationPhoneNumberAndAddress.GetTextAfterCharacter(',');
                 }
-                parsedData.Candidate.AddPreviousJob(previousJob);
-                await ParseRecommender(index);
+                previousJob.Recommenders.Add(ParseRecommender(index));
+                return previousJob;
             }
+            throw new ParseException();
         }
 
-        private Task ParseRecommender(in int index)
+        private Recommender ParseRecommender(in int index)
         {
             var name = currentRows.ExtractCellTextFromRow(index + 6, 1);
             if (name != "" || name == null)
             {
+                var data = currentRows.ExtractCellTextFromRow(index, 1);
                 Recommender recommender = new()
                 {
-                    FullName = currentRows.ExtractCellTextFromRow(index, 1),
+                    FullName = currentRows.ExtractCellTextFromRow(index, 1, @"^(\W*\w{2:}\W+){3}"),
                 };
-                parsedData.Candidate.AddRecommender(recommender);
+                return recommender;
             }
-            return Task.CompletedTask;
+            throw new ParseException();
         }
 
         private Task ParseQuestionCategory(ref int startRow, in int columnIndex = 1)

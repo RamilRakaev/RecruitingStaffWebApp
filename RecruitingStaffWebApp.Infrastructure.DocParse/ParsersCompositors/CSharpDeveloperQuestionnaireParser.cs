@@ -96,7 +96,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             if (child.ChildElements.Count == 5)
             {
-                await parsedData.AddQuestion(child.ChildElements[2].InnerText);
+                parsedData.AddQuestion(child.ChildElements[2].InnerText);
                 await ParseAnswer(child);
             }
         }

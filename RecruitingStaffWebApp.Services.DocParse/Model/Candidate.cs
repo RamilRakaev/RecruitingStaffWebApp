@@ -17,9 +17,9 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
         public string Photo { get; set; }
         public List<string> Documents { get; private set; } = new();
 
-        public List<PreviousJob> PreviousJobs { get; private set; } = new();
-        public List<Education> Educations { get; private set; } = new();
-        public List<Kid> Kids { get; private set; } = new();
+        public List<PreviousJob> PreviousJobs { get; set; }
+        public List<Education> Educations { get; set; } = new();
+        public List<Kid> Kids { get; set; }
 
         private PreviousJob currentPreviousJob;
 

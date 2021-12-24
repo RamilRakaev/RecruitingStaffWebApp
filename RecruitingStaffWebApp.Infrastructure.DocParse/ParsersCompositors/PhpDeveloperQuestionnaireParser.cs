@@ -43,34 +43,32 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public sealed override async Task<ParsedData> Parse(string path)
+        public sealed override Task<ParsedData> Parse(string path)
         {
-            using (var wordDoc = WordprocessingDocument.Open(path, false))
-            {
-                var body = wordDoc.MainDocumentPart.Document.Body;
+            using var wordDoc = WordprocessingDocument.Open(path, false);
+            var body = wordDoc.MainDocumentPart.Document.Body;
 
-                var table = body.ChildElements.Where(e => e.LocalName == "tbl").First();
+            var table = body.ChildElements.Where(e => e.LocalName == "tbl").First();
 
-                await ParseCandidate(table);
-                await CreateQuestionnaire();
-                var questionCategories = table.Last().Where(e => e.LocalName == "tc").First();
-                await ParseQuestionCategory(questionCategories);
-            }
-            return parsedData;
+            return Task.FromResult(ParseData(table));
         }
 
-        private Task CreateQuestionnaire()
+        private ParsedData ParseData(OpenXmlElement table)
         {
-            parsedData.AddQuestionnaire(questionnaireName);
-            return Task.CompletedTask;
-        }
-
-        private async Task ParseCandidate(OpenXmlElement table)
-        {
+            ParsedData parsedData = new();
             var rows = table.ExtractRowsFromTable(false);
             var vacancyName = rows.ElementAt(0).InnerText;
 
-            parsedData.Candidate = new()
+            parsedData.Candidate = ParseCandidate(rows);
+            parsedData.Vacancy = VacancyParse(vacancyName);
+            var questionCategories = table.Last().Where(e => e.LocalName == "tc").First();
+            parsedData.Questionnaire = ParseQuestionnaire(questionCategories);
+            return parsedData;
+        }
+
+        private Candidate ParseCandidate(IEnumerable<OpenXmlElement> rows)
+        {
+            Candidate candidate = new()
             {
                 FullName = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
                 DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
@@ -78,11 +76,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
                 EmailAddress = rows.ExtractCellTextFromRow(EmailAddressRow, EmailAddressColumn),
             };
-            EducationParse(rows);
-            await VacancyParse(vacancyName);
+            candidate.Educations.Add(EducationParse(rows));
+            return candidate;
         }
 
-        private void EducationParse(IEnumerable<OpenXmlElement> rows)
+        private Education EducationParse(IEnumerable<OpenXmlElement> rows)
         {
             var education = new Education
             {
@@ -96,17 +94,17 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             education.Qualification = specificationAndQualification[1].Trim(' ');
             education.StartDateOfTraining = rows.TryExtractDate(DateOfStartTrainingRow, DateOfStartTrainingColumn);
             education.EndDateOfTraining = rows.TryExtractDate(DateOfEndTrainingRow, DateOfEndTrainingColumn);
-            parsedData.Candidate.Educations.Add(education);
+            return education;
         }
 
-        private Task VacancyParse(string vacancyName)
+        private Vacancy VacancyParse(string vacancyName)
         {
-            parsedData.Vacancy = new Vacancy() { Name = vacancyName.GetTextAfterCharacter(':') };
-            return Task.CompletedTask;
+            return new Vacancy() { Name = vacancyName.GetTextAfterCharacter(':') };
         }
 
-        private async Task ParseQuestionCategory(OpenXmlElement tables)
+        private QuestionnaireElement ParseQuestionnaire(OpenXmlElement tables)
         {
+            QuestionnaireElement currentQuestionnaire = new() { Name = questionnaireName };
             foreach (var elements in tables.ChildElements
                 .Where(e => e.LocalName == "tbl" ||
                            (e.LocalName == "p" &&
@@ -116,33 +114,37 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 if (elements.LocalName == "p")
                 {
-                    await parsedData.AddQuestionCategory(elements.InnerText);
+                    var currentQuestionCategory = QuestionnaireElement.CreateQuestionnaireElement(elements.InnerText);
+                    currentQuestionnaire.AddChildElement(currentQuestionCategory);
                 }
                 else if (elements.LocalName == "tbl")
                 {
                     foreach (var row in elements.ExtractRowsFromTable())
                     {
-                        await ParseQuestion(row);
+                        currentQuestionnaire.CurrentElement.AddChildElement(ParseQuestion(row));
                     }
                 }
             }
+            return currentQuestionnaire;
         }
 
-        private async Task ParseQuestion(OpenXmlElement row)
+        private QuestionnaireElement ParseQuestion(OpenXmlElement row)
         {
             var cells = row.ExtractCellsFromRow();
-            await parsedData.AddQuestion(cells.ElementAt(1).InnerText);
-            await ParseAnswer(cells);
-
+            var question = QuestionnaireElement.CreateQuestionnaireElement(
+                            cells.ElementAt(1).InnerText);
+            question.AddChildElement(ParseAnswer(cells));
+            return question;
         }
 
-        private Task ParseAnswer(IEnumerable<OpenXmlElement> cells)
+        private QuestionnaireElement ParseAnswer(IEnumerable<OpenXmlElement> cells)
         {
-            QuestionnaireElement answer = new();
-            answer.Properties.Add("Text", cells.ElementAt(3).InnerText);
-            answer.Properties.Add("FamiliarWithTheTechnology", cells.ElementAt(2).InnerText);
-            parsedData.AddAnswer(answer);
-            return Task.CompletedTask;
+            Dictionary<string, string> properties = new()
+            {
+                { "Name", cells.ElementAt(3).InnerText },
+                { "FamiliarWithTheTechnology", cells.ElementAt(2).InnerText }
+            };
+            return QuestionnaireElement.CreateQuestionnaireElement(properties);
         }
     }
 }
