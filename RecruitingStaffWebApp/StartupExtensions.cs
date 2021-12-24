@@ -41,6 +41,8 @@ namespace RecruitingStaff.WebApp
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
             services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));
+
+            services.ConfigureViewModelValidators();
         }
 
         public static void ConfigrueEntitiesQueryHandlers<Entity>(this IServiceCollection services, Type commandType, Type handlerType)
@@ -77,7 +79,7 @@ namespace RecruitingStaff.WebApp
             }
         }
 
-        public static void ConfigureValidators(this IServiceCollection services)
+        public static void ConfigureViewModelValidators(this IServiceCollection services)
         {
             var validatorTypes = Assembly
                 .GetExecutingAssembly()
