@@ -8,6 +8,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;
@@ -97,7 +98,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
 
         private async Task CreateCandidateDocument(int candidateId, int questionnaireId)
         {
-            var candidate = await _mediator.Send(new GetCandidateQuery(candidateId));
+            var candidate = await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId));
             _file = new()
             {
                 Name = $"{candidateId}.{candidate.Name}{parsedData.FileExtension}",

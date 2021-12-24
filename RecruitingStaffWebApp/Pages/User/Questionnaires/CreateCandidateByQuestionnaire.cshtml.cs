@@ -1,8 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -24,9 +25,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 
         public async Task<IActionResult> OnPost(CandidateViewModel candidateViewModel, int questionnaireId)
         {
-            await _mediator.Send(new CreateCandidateByQuestionnaireCommand(
-                GetEntity<Candidate, CandidateViewModel>(candidateViewModel),
-                questionnaireId));
+            var candidateEntity = GetEntity<Candidate, CandidateViewModel>(candidateViewModel);
+            await _mediator.Send(new CreateEntityCommand<Candidate>(candidateEntity));
+            await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(candidateEntity.Id, questionnaireId));
             return RedirectToPage("Candidates", new { questionnaireId });
         }
     }

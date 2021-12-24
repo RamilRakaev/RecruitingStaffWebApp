@@ -2,8 +2,8 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using RecruitingStaff.WebApp.ViewModels;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
@@ -27,7 +27,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
             QuestionId = questionId;
             Candidate = GetViewModel<Candidate, CandidateViewModel>(
-                await _mediator.Send(new GetCandidateQuery(candidateId)));
+                await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId)));
             Options = GetViewModels<Option, OptionViewModel>(
                 await _mediator.Send(new GetOptionsByCandidateIdQuery(candidateId)));
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
@@ -39,7 +39,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             QuestionId = questionId;
             await _mediator.Send(new RemoveOptionCommand(optionId));
             Candidate = GetViewModel<Candidate, CandidateViewModel>(
-                await _mediator.Send(new GetCandidateQuery(candidateId)));
+                await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId)));
             Options = GetViewModels<Option, OptionViewModel>(
                 await _mediator.Send(new GetOptionsByCandidateIdQuery(candidateId)));
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
