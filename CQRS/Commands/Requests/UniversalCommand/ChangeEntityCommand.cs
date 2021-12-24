@@ -4,7 +4,8 @@ using System;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
 {
-    public class ChangeEntityCommand<TEntity> : IRequest<bool> where TEntity : CandidateQuestionnaireEntity
+    public class ChangeEntityCommand<TEntity> : IRequest<TEntity>
+        where TEntity : CandidateQuestionnaireEntity
     {
         public ChangeEntityCommand(TEntity entity)
         {

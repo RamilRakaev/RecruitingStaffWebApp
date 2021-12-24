@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
-    public class ChangeEntityHandler<TEntity> : IRequestHandler<ChangeEntityCommand<TEntity>, bool> where TEntity : CandidateQuestionnaireEntity
+    public class ChangeEntityHandler<TEntity> : IRequestHandler<ChangeEntityCommand<TEntity>, TEntity>
+        where TEntity : CandidateQuestionnaireEntity
     {
         private readonly IRepository<TEntity> _repository;
 
@@ -17,11 +18,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
             _repository = repository;
         }
 
-        public async Task<bool> Handle(ChangeEntityCommand<TEntity> request, CancellationToken cancellationToken)
+        public async Task<TEntity> Handle(ChangeEntityCommand<TEntity> request, CancellationToken cancellationToken)
         {
             await _repository.Update(request.Entity);
             await _repository.SaveAsync(cancellationToken);
-            throw new NotImplementedException();
+            return request.Entity;
         }
     }
 }

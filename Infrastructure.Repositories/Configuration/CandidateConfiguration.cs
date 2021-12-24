@@ -26,12 +26,12 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
             builder
                 .HasMany(c => c.CandidateQuestionnaire)
                 .WithOne(cq => cq.Candidate)
-                .HasForeignKey(c => c.CandidateId);
+                .HasForeignKey(c => c.FirstEntityId);
 
             builder
                 .HasMany(c => c.CandidateVacancy)
                 .WithOne(cv => cv.Candidate)
-                .HasForeignKey(cv => cv.CandidateId);
+                .HasForeignKey(cv => cv.FirstEntityId);
         }
     }
 }

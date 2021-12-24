@@ -1,16 +1,18 @@
 ﻿using MediatR;
+using RecruitingStaff.Domain.Model;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
 {
     public class CreateMapCommand<TMap> : IRequest<TMap>
+        where TMap : BaseMap, new()
     {
         public CreateMapCommand(int firstEntityId, int secondEntityId)
         {
-            FirstEntityId = firstEntityId;
-            SecondEntityId = secondEntityId;
+            Map = new();
+            Map.FirstEntityId = firstEntityId;
+            Map.SecondEntityId = secondEntityId;
         }
 
-        public int FirstEntityId { get; set; }
-        public int SecondEntityId { get; set; }
+        public TMap Map { get; set; }
     }
 }

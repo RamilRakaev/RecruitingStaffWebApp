@@ -10,13 +10,11 @@ using RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.DatabaseServices;
 using RecruitingStaff.Infrastructure.Repositories;
-using RecruitingStaff.WebApp.Validators;
-using RecruitingStaff.WebApp.ViewModels;
-using RecruitingStaff.WebApp.ViewModels.ApplicationUser;
-using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Infrastructure.DocParse;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -35,39 +33,41 @@ namespace RecruitingStaff.WebApp
 
             services.AddMediatR(CQRSAssemblyInfo.Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            services.AddValidatorsFromAssembly(typeof(CandidateValidator).Assembly);
+            services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
 
-            //services.ConfigureValidators();
-
-            services.ConfigrueHandlers<bool>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
-            services.ConfigrueHandlers<bool>(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
-            services.ConfigrueHandlers<bool>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
-            services.ConfigrueHandlers(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
-            services.ConfigrueHandlers(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
+            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
+            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
+            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
+            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
+            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
+            services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));
         }
 
-        public static void ConfigrueHandlers<TResult>(this IServiceCollection services, Type commandType, Type handlerType)
+        public static void ConfigrueEntitiesQueryHandlers<Entity>(this IServiceCollection services, Type commandType, Type handlerType)
         {
-            var types = typeof(CandidateQuestionnaireEntity)
+            var types = typeof(BaseEntity)
                 .Assembly
                 .GetTypes()
-                .Where(t => t.BaseType.Equals(typeof(CandidateQuestionnaireEntity)));
+                .Where(t => t.BaseType.Equals(typeof(Entity)));
             foreach (var entityType in types)
             {
+                var arrayType = Array.CreateInstance(entityType, 0).GetType();
+                
                 var currentCommandType = commandType.MakeGenericType(entityType);
-                var iRequestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(currentCommandType, typeof(TResult));
+                var iRequestHandlerType = typeof(IRequestHandler<,>).MakeGenericType(currentCommandType, arrayType);
                 var currentHandlerType = handlerType.MakeGenericType(entityType);
 
                 services.AddTransient(iRequestHandlerType, currentHandlerType);
             }
         }
 
-        public static void ConfigrueHandlers(this IServiceCollection services, Type commandType, Type handlerType)
+        public static void ConfigrueHandlers<Entity>(this IServiceCollection services, Type commandType, Type handlerType)
         {
-            var types = typeof(CandidateQuestionnaireEntity)
+            var types = typeof(BaseEntity)
                 .Assembly
                 .GetTypes()
-                .Where(t => t.BaseType.Equals(typeof(CandidateQuestionnaireEntity)));
+                .Where(t => t.BaseType.Equals(typeof(Entity)));
             foreach (var entityType in types)
             {
                 var currentCommandType = commandType.MakeGenericType(entityType);
@@ -84,7 +84,7 @@ namespace RecruitingStaff.WebApp
                 .GetExecutingAssembly()
                 .GetTypes()
                 .Where(t => t.Name.Contains("Validator"));
-            foreach(var validatorType in validatorTypes)
+            foreach (var validatorType in validatorTypes)
             {
                 var viewModel = validatorType.BaseType.GetGenericArguments();
                 var abstractValidatorType = typeof(AbstractValidator<>);

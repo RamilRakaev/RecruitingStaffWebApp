@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RecruitingStaff.WebApp.ViewModels
+namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 {
     public class VacancyViewModel : BaseViewModel
     {

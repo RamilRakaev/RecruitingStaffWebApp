@@ -3,7 +3,7 @@ using RecruitingStaff.Domain.Model;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
 {
-    public class CreateOrChangeEntityByKeysCommand<TEntity> : IRequest<bool> where TEntity : CandidateQuestionnaireEntity
+    public class CreateOrChangeEntityByKeysCommand<TEntity> : IRequest<TEntity> where TEntity : CandidateQuestionnaireEntity, new()
     {
         public CreateOrChangeEntityByKeysCommand(TEntity entity)
         {

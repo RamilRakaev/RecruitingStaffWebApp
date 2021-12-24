@@ -2,16 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RecruitingStaff.Infrastructure.Repositories;
 
-namespace RecruitingStaff.Infrastructure.Repositories.Migrations
+namespace Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211223112250_changeBaseMapEntities")]
+    partial class changeBaseMapEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -438,7 +440,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "dd98b64c-f4eb-413b-821e-5c2eadd58e7f",
+                            ConcurrencyStamp = "137d12d1-2dca-4221-9366-9fc1c2decf07",
                             Name = "user",
                             NormalizedName = "USER"
                         });

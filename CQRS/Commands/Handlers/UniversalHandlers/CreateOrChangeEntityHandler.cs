@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
-    public class CreateOrChangeEntityHandler<TEntity> : IRequestHandler<CreateOrChangeEntityCommand<TEntity>, bool> where TEntity : CandidateQuestionnaireEntity
+    public class CreateOrChangeEntityHandler<TEntity> : IRequestHandler<CreateOrChangeEntityCommand<TEntity>, TEntity>
+        where TEntity : CandidateQuestionnaireEntity, new()
     {
         private readonly DataContext _context;
 
@@ -18,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
             _context = context;
         }
 
-        public async Task<bool> Handle(CreateOrChangeEntityCommand<TEntity> request, CancellationToken cancellationToken)
+        public async Task<TEntity> Handle(CreateOrChangeEntityCommand<TEntity> request, CancellationToken cancellationToken)
         {
             var _repository = new BaseRepository<TEntity>(_context);
             var entity = await _repository
@@ -38,7 +39,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
                 await _repository.Update(request.Entity);
             }
             await _repository.SaveAsync(cancellationToken);
-            return true;
+            return request.Entity;
         }
     }
 }

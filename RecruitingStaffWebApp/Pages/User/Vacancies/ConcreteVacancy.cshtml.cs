@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies;
-using RecruitingStaff.WebApp.ViewModels;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
