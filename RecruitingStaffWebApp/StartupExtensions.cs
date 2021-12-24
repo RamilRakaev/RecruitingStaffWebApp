@@ -13,8 +13,6 @@ using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Infrastructure.DocParse;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -39,6 +37,7 @@ namespace RecruitingStaff.WebApp
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
+            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
             services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));

@@ -5,6 +5,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using System.Threading;
@@ -50,7 +51,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                         Name = questionItem.Name,
                         QuestionCategoryId = questionCategory.Id,
                     };
-                    await _mediator.Send(new CreateOrChangeQuestionCommand(question), cancellationToken);
+                    await _mediator.Send(new CreateOrChangeEntityCommand<Question>(question), cancellationToken);
                 }
             }
             await CreateQuestionnaireDocument(questionnaire, request.ParsedData.FileExtension);

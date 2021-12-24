@@ -2,7 +2,6 @@
 using DocumentFormat.OpenXml.Packaging;
 using RecruitingStaffWebApp.Services.DocParse;
 using RecruitingStaffWebApp.Services.DocParse.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -79,11 +78,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
                 EmailAddress = rows.ExtractCellTextFromRow(EmailAddressRow, EmailAddressColumn),
             };
-            EducationParse(rows, parsedData.Candidate);
+            EducationParse(rows);
             await VacancyParse(vacancyName);
         }
 
-        private void EducationParse(IEnumerable<OpenXmlElement> rows, Candidate candidate)
+        private void EducationParse(IEnumerable<OpenXmlElement> rows)
         {
             var education = new Education
             {

@@ -5,8 +5,8 @@
 <div class="row justify-content-center">
     <div class="col-7">
         <form class="form-inline" method="post" asp-page-handler="SearchCandidates">
-            <input type="hidden" asp-for="@Model.Answer.Id" />
-            <input type="hidden" asp-for="@Model.Answer.QuestionId" />
+            <input type="hidden" asp-for="@Model.AnswerViewModel.Id" />
+            <input type="hidden" asp-for="@Model.AnswerViewModel.QuestionId" />
             <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
             <div class="input-group mb-3 w-100">
                 <input type="text"
@@ -21,9 +21,9 @@
     <div class="col-7">
         <a class="btn btn-dark" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@Model.QuestionnaireId">Анкета</a>
         <a class="btn btn-dark" asp-page="AnswersOnQuestion"
-           asp-route-questionId="@Model.Answer.QuestionId"
+           asp-route-questionId="@Model.AnswerViewModel.QuestionId"
            asp-route-questionnaireId="@Model.QuestionnaireId">Ответы</a>
-        @if (Model.Answer.Id == 0 && Model.Candidates.Length == 0)
+        @if (Model.AnswerViewModel.Id == 0 && Model.Candidates.Length == 0)
         {
             <p class="text-warning">@Model.Message</p>
         }
@@ -31,21 +31,21 @@
         {
             <form method="post" asp-page-handler="CreateAnswer">
                 <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
-                <input type="hidden" asp-for="@Model.Answer.Id" />
-                <input type="hidden" asp-for="@Model.Answer.QuestionId" />
+                <input type="hidden" asp-for="@Model.AnswerViewModel.Id" />
+                <input type="hidden" asp-for="@Model.AnswerViewModel.QuestionId" />
                 <div class="form-group">
                     <label>Текст ответа</label>
-                    <input class="form-control" asp-for="@Model.Answer.Name" />
+                    <input class="form-control" asp-for="@Model.AnswerViewModel.Name" />
                 </div>
                 <div class="form-group">
                     <label>Комментарий</label>
-                    <input class="form-control" asp-for="@Model.Answer.Comment" />
+                    <input class="form-control" asp-for="@Model.AnswerViewModel.Comment" />
                 </div>
                 <div class="form-group">
                     <label>Оценка</label>
-                    <input class="form-control" type="number" asp-for="@Model.Answer.Estimation" />
+                    <input class="form-control" type="number" asp-for="@Model.AnswerViewModel.Estimation" />
                 </div>
-                @if (Model.Answer.Id == 0)
+                @if (Model.AnswerViewModel.Id == 0)
                 {
                     <label>Кандидат</label>
                     @foreach (var candidate in Model.Candidates)
@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <input class="custom-radio"
                                    type="radio"
-                                   asp-for="@Model.Answer.CandidateId"
+                                   asp-for="@Model.AnswerViewModel.CandidateId"
                                    value="@candidate.Id" checked />
                             <label>@candidate.Id: @candidate.Name</label>
                         </div>
@@ -61,7 +61,7 @@
                 }
                 else
                 {
-                    <input type="hidden" asp-for="@Model.Answer.CandidateId" />
+                    <input type="hidden" asp-for="@Model.AnswerViewModel.CandidateId" />
                 }
                 <button class="btn btn-success">Отправить</button>
             </form>

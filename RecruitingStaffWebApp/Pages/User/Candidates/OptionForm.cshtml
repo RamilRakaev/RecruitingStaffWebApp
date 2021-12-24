@@ -1,35 +1,35 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.Candidates.OptionFormModel
 @{
-    ViewData["Title"] = Model.Option.Name;
+    ViewData["Title"] = Model.OptionViewModel.Name;
 }
 <div class="row justify-content-center">
     <div class="col-5">
         <form method="post">
-            @if (Model.Option.CandidateId != null)
+            @if (Model.OptionViewModel.CandidateId != null)
             {
-                <input type="hidden" asp-for="@Model.Option.CandidateId" />
+                <input type="hidden" asp-for="@Model.OptionViewModel.CandidateId" />
             }
             <div class="form-group">
                 <label class="col-form-label">Имя свойства</label>
-                @if (Model.Option.Name == "")
+                @if (Model.OptionViewModel.Name == "")
                 {
-                    <input class="form-control" asp-for="@Model.Option.Name" />
+                    <input class="form-control" asp-for="@Model.OptionViewModel.Name" />
                 }
                 else
                 {
-                    <input class="form-control" asp-for="@Model.Option.Name" readonly />
+                    <input class="form-control" asp-for="@Model.OptionViewModel.Name" readonly />
                 }
-                <span asp-validation-for="@Model.Option.Name"></span>
+                <span asp-validation-for="@Model.OptionViewModel.Name"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Значение свойства</label>
-                <textarea class="form-control" rows="5" asp-for="@Model.Option.Value">
-                    @Model.Option.Value
+                <textarea class="form-control" rows="5" asp-for="@Model.OptionViewModel.Value">
+                    @Model.OptionViewModel.Value
                 </textarea>
-                <span asp-validation-for="@Model.Option.Value"></span>
+                <span asp-validation-for="@Model.OptionViewModel.Value"></span>
             </div>
-            @if (Model.Option.CandidateId == null)
+            @if (Model.OptionViewModel.CandidateId == null)
             {
                 <a class="btn btn-dark"
                    asp-page="/User/Candidates/Candidates">
@@ -40,7 +40,7 @@
             {
                 <a class="btn btn-dark"
                    asp-page="/User/Candidates/ConcreteCandidate"
-                   asp-route-CandidateId="@Model.Option.CandidateId.Value">
+                   asp-route-CandidateId="@Model.OptionViewModel.CandidateId.Value">
                     Текущий кандидат
                 </a>
                 <a class="btn btn-dark"

@@ -1,21 +1,26 @@
 ﻿@page
-@model RecruitingStaff.WebApp.Pages.User.Candidates.CommentAnswerFormModel
+@model RecruitingStaff.WebApp.Pages.User.Candidates.AnswerEvaluationFormModel
 @{
-    ViewData["Title"] = "Комментарий";
+    ViewData["Title"] = "Оценка ответа";
 }
 <div class="row justify-content-center">
     <form method="post">
-        <input type="hidden" asp-for="@Model.Answer.Id" />
-        <input type="hidden" asp-for="@Model.Answer.CandidateId" />
-        <input type="hidden" asp-for="@Model.Answer.Name" />
-        <input type="hidden" asp-for="@Model.Answer.Estimation" />
-        <input type="hidden" asp-for="@Model.Answer.QuestionId" />
+        <input type="hidden" asp-for="@Model.AnswerViewModel.Id" />
+        <input type="hidden" asp-for="@Model.AnswerViewModel.CandidateId" />
+        <input type="hidden" asp-for="@Model.AnswerViewModel.Name" />
+        <input type="hidden" asp-for="@Model.AnswerViewModel.Estimation" />
+        <input type="hidden" asp-for="@Model.AnswerViewModel.QuestionId" />
         <div class="form-group">
             <label>Комментарий</label>
-            <textarea class="form-control" asp-for="@Model.Answer.Comment" rows="4"></textarea>
-            <span asp-validation-for="@Model.Answer.Comment"></span>
+            <textarea class="form-control" asp-for="@Model.AnswerViewModel.Comment" rows="4"></textarea>
+            <span asp-validation-for="@Model.AnswerViewModel.Comment"></span>
         </div>
-        <a class="btn btn-dark" asp-page="CandidateAnswers" asp-route-candidateId="@Model.Answer.CandidateId">Ответы кандидаты</a>
+        <div class="form-group">
+            <label>Оценки</label>
+            <input type="number" min="0" max="5" asp-for="@Model.AnswerViewModel.Estimation" />
+            <span asp-validation-for="@Model.AnswerViewModel.Estimation"></span>
+        </div>
+        <a class="btn btn-dark" asp-page="CandidateAnswers" asp-route-candidateId="@Model.AnswerViewModel.CandidateId">Ответы кандидаты</a>
         <button class="btn btn-success">Отправить</button>
     </form>
 </div>

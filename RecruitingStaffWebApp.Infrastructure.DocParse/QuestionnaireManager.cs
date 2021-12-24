@@ -37,7 +37,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             try
             {
                 parsedData = await parserStrategy.Parse(path);
-                var checking = new ParsedDataCheck(new string[] { });
+                var checking = new ParsedDataCheck(Array.Empty<string>());
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, true);
@@ -69,7 +69,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 parsedData = await parserStrategy.Parse(path);
                 parsedData.CandidateId = candidateId;
-                var checking = new ParsedDataCheck(new string[] { });
+                var checking = new ParsedDataCheck(Array.Empty<string>());
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, false);

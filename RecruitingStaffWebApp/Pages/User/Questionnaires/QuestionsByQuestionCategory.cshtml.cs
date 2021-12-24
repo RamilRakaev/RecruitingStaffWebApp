@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
@@ -54,7 +54,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 
         public async Task OnPostRemoveAnswer(int questionId, int answerId)
         {
-            await _mediator.Send(new RemoveAnswerCommand(answerId));
+            await _mediator.Send(new RemoveEntityCommand<Answer>(answerId));
             var question = await _mediator.Send(new GetQuestionByIdQuery(questionId));
             await Initialize(question.QuestionCategoryId);
         }

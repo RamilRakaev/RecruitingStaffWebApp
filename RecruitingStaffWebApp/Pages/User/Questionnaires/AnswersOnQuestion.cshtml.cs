@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
@@ -31,7 +31,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 
         public async Task OnPost(int questionId, int answerId)
         {
-            await _mediator.Send(new RemoveAnswerCommand(answerId));
+            await _mediator.Send(new RemoveEntityCommand<Answer>(answerId));
             Question = GetViewModel<Question, QuestionViewModel>(
                 await _mediator.Send(new GetQuestionByIdQuery(questionId)));
             Answers = GetViewModels<Answer, AnswerViewModel>(

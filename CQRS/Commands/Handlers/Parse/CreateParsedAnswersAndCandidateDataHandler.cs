@@ -1,12 +1,10 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Answers;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
@@ -46,7 +44,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             };
             await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
             _candidate = await CreateCandidate();
-            await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate, vacancy.Id, questionnaire.Id), cancellationToken);
+            await _mediator.Send(new CreateOrChangeEntityCommand<Candidate>(_candidate), cancellationToken);
+            await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(_candidate.Id, questionnaire.Id), cancellationToken);
+            await _mediator.Send(new CreateMapCommand<CandidateVacancy>(_candidate.Id, vacancy.Id), cancellationToken);
 
             await SaveAnswers(questionnaire.Id, cancellationToken);
             await CreateCandidateDocument(request.ParsedData.CandidateId, questionnaire.Id);
@@ -71,7 +71,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                         Name = questionItem.Name,
                         QuestionCategoryId = questionCategory.Id,
                     };
-                    await _mediator.Send(new CreateOrChangeQuestionCommand(question), cancellationToken);
+                    await _mediator.Send(new CreateOrChangeEntityCommand<Question>(question), cancellationToken);
                     foreach (var answerItem in questionItem.ChildElements)
                     {
                         Answer answer = new();
@@ -89,7 +89,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                                 property.SetValue(answer, answerValue);
                             }
                         }
-                        await _mediator.Send(new CreateAnswerCommand(answer), cancellationToken);
+                        await _mediator.Send(new CreateEntityCommand<Answer>(answer), cancellationToken);
                     }
                 }
             }

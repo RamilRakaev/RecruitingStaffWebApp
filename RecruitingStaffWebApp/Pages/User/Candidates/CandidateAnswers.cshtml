@@ -25,8 +25,7 @@
                     <td>@answer.Comment</td>
                     <td>
                         <a class="btn btn-primary mb-2" asp-page="CommentAnswerForm"
-                           asp-route-answerId="@answer.Id"
-                           asp-route-candidateId="@answer.CandidateId">Комментировать</a>
+                           asp-route-answerId="@answer.Id">Комментировать</a>
                         <form class="d-inline" method="post">
                             <input type="hidden" name="answerId" value="@answer.Id" />
                             <input type="hidden" name="candidateId" value="@answer.CandidateId" />

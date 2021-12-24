@@ -20,7 +20,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         }
 
         public int QuestionnaireId { get; set; }
-        public AnswerViewModel Answer { get; set; }
+        public AnswerViewModel AnswerViewModel { get; set; }
         public Candidate[] Candidates { get; set; }
         public string Message { get; set; } = "Выберите кандидата";
 
@@ -30,21 +30,21 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             Candidates = Array.Empty<Candidate>();
             if (answerId == null)
             {
-                Answer = new AnswerViewModel() { QuestionId = questionId };
+                AnswerViewModel = new AnswerViewModel() { QuestionId = questionId };
             }
             else
             {
-                Answer = GetViewModel<Answer, AnswerViewModel>(
+                AnswerViewModel = GetViewModel<Answer, AnswerViewModel>(
                     await _mediator.Send(new GetAnswerByIdQuery(answerId.Value)));
             }
         }
 
-        public async Task OnPostSearchCandidates(string nameFragment, AnswerViewModel answer, int questionnaireId)
+        public async Task OnPostSearchCandidates(string nameFragment, AnswerViewModel answerViewModel, int questionnaireId)
         {
             QuestionnaireId = questionnaireId;
             Candidates = await _mediator.Send(new GetCandidatesByNameFragmentQuery(nameFragment));
             Message = "Кандидатов с таким именем не существует";
-            Answer = answer;
+            AnswerViewModel = answerViewModel;
         }
 
         public async Task<IActionResult> OnPostCreateAnswer(AnswerViewModel answerViewModel, int questionnaireId)
