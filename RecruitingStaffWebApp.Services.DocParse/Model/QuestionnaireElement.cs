@@ -8,16 +8,35 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
         {
             ChildElements = new();
         }
+    
+        public QuestionnaireElement(string name)
+        {
+            Name = name;
+            ChildElements = new();
+        }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
         public Dictionary<string, string> Properties = new();
         public List<QuestionnaireElement> ChildElements { get; private set; }
-        public QuestionnaireElement CurrentElement { get; private set; }
+        public QuestionnaireElement CurrentChildElement { get; private set; }
+        public int Count { get { return ChildElements.Count; } }
 
         public void AddChildElement(QuestionnaireElement element)
         {
-            CurrentElement = element;
+            CurrentChildElement = element;
             ChildElements.Add(element);
+        }
+
+        public void AddRangeElements(IEnumerable<QuestionnaireElement> elements)
+        {
+            ChildElements.AddRange(elements);
+        }
+
+        public QuestionnaireElement CreateChildElement(string name)
+        {
+            CurrentChildElement = CreateQuestionnaireElement(name);
+            ChildElements.Add(CurrentChildElement);
+            return CurrentChildElement;
         }
 
         public static QuestionnaireElement CreateQuestionnaireElement(string name)

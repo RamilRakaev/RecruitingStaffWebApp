@@ -105,10 +105,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             if (child.ChildElements[4].InnerText != string.Empty)
             {
-                QuestionnaireElement answer = new()
-                {
-                    Name = child.ChildElements[4].InnerText,
-                };
+                QuestionnaireElement answer = new(child.ChildElements[4].InnerText);
                 answer.Properties.Add("Estimation", child.ChildElements[3].InnerText);
                 parsedData.AddAnswer(answer);
             }

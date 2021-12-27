@@ -104,7 +104,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         private QuestionnaireElement ParseQuestionnaire(OpenXmlElement tables)
         {
-            QuestionnaireElement currentQuestionnaire = new() { Name = questionnaireName };
+            QuestionnaireElement currentQuestionnaire = new(questionnaireName);
             foreach (var elements in tables.ChildElements
                 .Where(e => e.LocalName == "tbl" ||
                            (e.LocalName == "p" &&
@@ -121,7 +121,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 {
                     foreach (var row in elements.ExtractRowsFromTable())
                     {
-                        currentQuestionnaire.CurrentElement.AddChildElement(ParseQuestion(row));
+                        currentQuestionnaire.CurrentChildElement.AddChildElement(ParseQuestion(row));
                     }
                 }
             }

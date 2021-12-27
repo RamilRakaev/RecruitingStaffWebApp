@@ -24,34 +24,25 @@ namespace RecruitingStaffWebApp.Services.DocParse
 
         public Task AddQuestionnaire(string name)
         {
-            Questionnaire = new()
-            {
-                Name = name,
-            };
+            Questionnaire = new(name);
             return Task.CompletedTask;
         }
 
         public void AddQuestionCategory(string name)
         {
-            currentQuestionCategory = new()
-            {
-                Name = name,
-            };
+            currentQuestionCategory = new(name);
             Questionnaire.AddChildElement(currentQuestionCategory);
         }
 
         public void AddQuestion(string name)
         {
-            currentQuestion = new()
-            {
-                Name = name,
-            };
+            currentQuestion = new(name);
             currentQuestionCategory.AddChildElement(currentQuestion);
         }
 
         public void AddAnswer(string name)
         {
-            currentAnswer = new();
+            currentAnswer = new(name);
             currentAnswer.Properties.Add("Name", name);
             currentQuestion.AddChildElement(currentAnswer);
         }
