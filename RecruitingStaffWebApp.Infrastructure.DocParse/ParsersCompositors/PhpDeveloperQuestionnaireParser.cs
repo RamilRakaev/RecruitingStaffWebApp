@@ -70,7 +70,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             Candidate candidate = new()
             {
-                FullName = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
+                Name = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
                 DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
                 TelephoneNumber = rows.ExtractCellTextFromRow(TelephoneNumberRow, TelephoneNumberColumn),
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
@@ -84,7 +84,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             var education = new Education
             {
-                EducationalInstitutionName = rows.ExtractCellTextFromRow(EducationNameRow, EducationNameColumn)
+                Name = rows.ExtractCellTextFromRow(EducationNameRow, EducationNameColumn)
             };
             var specificationAndQualification =
                 rows.ExtractCellTextFromRow(

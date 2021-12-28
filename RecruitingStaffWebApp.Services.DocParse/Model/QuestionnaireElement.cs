@@ -21,10 +21,15 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
         public QuestionnaireElement CurrentChildElement { get; private set; }
         public int Count { get { return ChildElements.Count; } }
 
-        public void AddChildElement(QuestionnaireElement element)
+        public bool AddChildElement(QuestionnaireElement element)
         {
-            CurrentChildElement = element;
-            ChildElements.Add(element);
+            if(element != null)
+            {
+                CurrentChildElement = element;
+                ChildElements.Add(element);
+                return true;
+            }
+            return false;
         }
 
         public void AddRangeElements(IEnumerable<QuestionnaireElement> elements)

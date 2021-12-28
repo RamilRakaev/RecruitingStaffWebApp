@@ -1,14 +1,12 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;
@@ -21,7 +19,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
     public class CreateParsedAnswersAndCandidateDataHandler : IRequestHandler<CreateParsedAnswersAndCandidateDataCommand, bool>
     {
         private readonly IMediator _mediator;
-        private RecruitingStaffWebAppFile _file;
         private ParsedData parsedData;
         private Candidate _candidate;
 
@@ -37,7 +34,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             {
                 Name = request.ParsedData.Vacancy.Name,
             };
-            await _mediator.Send(new CreateOrChangeVacancyCommand(vacancy), cancellationToken);
+            await _mediator.Send(new CreateOrChangeEntityCommand<Vacancy>(vacancy), cancellationToken);
             Questionnaire questionnaire = new()
             {
                 Name = request.ParsedData.Questionnaire.Name,
@@ -45,13 +42,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             };
             await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
             _candidate = await CreateCandidate();
-            await _mediator.Send(new CreateOrChangeEntityCommand<Candidate>(_candidate), cancellationToken);
+            await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate), cancellationToken);
             await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(_candidate.Id, questionnaire.Id), cancellationToken);
             await _mediator.Send(new CreateMapCommand<CandidateVacancy>(_candidate.Id, vacancy.Id), cancellationToken);
 
             await SaveAnswers(questionnaire.Id, cancellationToken);
-            await CreateCandidateDocument(request.ParsedData.CandidateId, questionnaire.Id);
-            request.ParsedData.FileSource = _file.Name;
+            request.ParsedData.FileSource = (await CreateCandidateDocument(_candidate, questionnaire.Id)).Name;
             return true;
         }
 
@@ -83,7 +79,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                             if (answerItem.Properties.ContainsKey(property.Name))
                             {
                                 object answerValue = answerItem.Properties[property.Name];
-                                if(property.PropertyType != typeof(string))
+                                if (property.PropertyType != typeof(string))
                                 {
                                     Convert.ChangeType(answerValue, property.PropertyType);
                                 }
@@ -96,17 +92,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             }
         }
 
-        private async Task CreateCandidateDocument(int candidateId, int questionnaireId)
+        private async Task<RecruitingStaffWebAppFile> CreateCandidateDocument(Candidate candidate, int questionnaireId)
         {
-            var candidate = await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId));
-            _file = new()
+            RecruitingStaffWebAppFile file = new()
             {
-                Name = $"{candidateId}.{candidate.Name}{parsedData.FileExtension}",
+                Name = $"{candidate.Id}.{candidate.Name}{parsedData.FileExtension}",
                 FileType = FileType.Questionnaire,
-                CandidateId = candidateId,
+                CandidateId = candidate.Id,
                 QuestionnaireId = questionnaireId,
             };
-            await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(_file));
+            await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(file));
+            return file;
         }
 
         private async Task<Candidate> CreateCandidate()
@@ -116,14 +112,15 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             {
                 return candidate;
             }
-            candidate.Educations = await AssignValuesToPropertiesCompositeObject(
+            candidate.Educations = await AssignValuesToPropertiesListObjects(
                 parsedData.Candidate.Educations, () => new Education());
             candidate.Documents = await AssignValuesToPropertiesCompositeObject(
                 parsedData.Candidate.Documents, "Name", () => new RecruitingStaffWebAppFile());
-            candidate.Kids = await AssignValuesToPropertiesCompositeObject(
+            candidate.Kids = await AssignValuesToPropertiesListObjects(
                 parsedData.Candidate.Kids, () => new Kid());
-            candidate.PreviousJobs = await AssignValuesToPropertiesCompositeObject(
+            candidate.PreviousJobs = await AssignValuesToPropertiesListObjects(
                 parsedData.Candidate.PreviousJobs, () => new PreviousJobPlacement());
+            AssignValuesToProperties(candidate, parsedData.Candidate);
             return candidate;
         }
 
@@ -165,11 +162,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             return Task.FromResult(objects);
         }
 
-        public static Task<List<T>> AssignValuesToPropertiesCompositeObject<T, V>(List<V> values, Func<T> createObj)
+        public static Task<List<T>> AssignValuesToPropertiesListObjects<T, V>(List<V> values, Func<T> createObj)
         {
             if (values == null)
             {
-                return null;
+                return Task.FromResult(new List<T>());
             }
             List<T> objects = new();
             foreach (var value in values)

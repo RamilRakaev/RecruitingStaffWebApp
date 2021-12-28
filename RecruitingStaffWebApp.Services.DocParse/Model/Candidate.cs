@@ -5,7 +5,7 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
 {
     public class Candidate
     {
-        public string FullName { get; set; }
+        public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }
         public string AddressIndex { get; set; }

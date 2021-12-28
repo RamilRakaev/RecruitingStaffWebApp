@@ -55,7 +55,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
             Candidate candidate = new()
             {
-                FullName = currentRows.ExtractCellTextFromRow(index, 1),
+                Name = currentRows.ExtractCellTextFromRow(index, 1),
                 DateOfBirth = currentRows.TryExtractDate(index + 1, 1),
                 PlaceOfBirth = currentRows.ExtractCellTextFromRow(index + 1, 2),
                 AddressIndex = currentRows.ExtractCellTextFromRow(index + 2, 1),
@@ -114,7 +114,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 var endYear = int.Parse(currentRows.ExtractCellTextFromRow(index, 1));
                 Education education = new()
                 {
-                    EducationalInstitutionName = title,
+                    Name = title,
                     StartDateOfTraining = new(startYear, 1, 1),
                     EndDateOfTraining = new(endYear, 1, 1),
                 };

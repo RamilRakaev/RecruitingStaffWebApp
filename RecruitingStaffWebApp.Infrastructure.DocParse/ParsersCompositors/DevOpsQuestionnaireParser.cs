@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using RecruitingStaffWebApp.Services.DocParse;
+using RecruitingStaffWebApp.Services.DocParse.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +16,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const int endOfSequenceOfCapitalLetters = 91;
         private string[] headers;
 
+        private WorksheetPart wsPart;
+        private WorkbookPart currentWbPart;
+
         public DevOpsQuestionnaireParser()
         {
             parsedData.Vacancy = new() { Name = "DevOps" };
         }
 
-        private WorksheetPart wsPart;
-        private WorkbookPart currentWbPart;
-        public override async Task<ParsedData> Parse(string path)
+        public override Task<ParsedData> Parse(string path)
         {
-            await ParseQuestionnaire(path, "Лист1");
-            return parsedData;
+            parsedData.Questionnaire = ParseQuestionnaire(path, "Лист1");
+            return  Task.FromResult(parsedData);
         }
 
-        public async Task ParseQuestionnaire(string fileName, string sheetName)
+        public QuestionnaireElement ParseQuestionnaire(string fileName, string sheetName)
         {
             using SpreadsheetDocument document =
                 SpreadsheetDocument.Open(fileName, false);
@@ -45,15 +47,16 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             wsPart =
                 (WorksheetPart)(currentWbPart.GetPartById(theSheet.Id));
             List<Cell> cells = new();
-            await parsedData.AddQuestionnaire(questionnaireName);
+            parsedData.AddQuestionnaire(questionnaireName);
             int rowIndex = 5;
-            await ParseHeader(ref rowIndex, startOfSequenceOfCapitalLetters + 1);
-            while (await ParseQuestionCategory(ref rowIndex, startOfSequenceOfCapitalLetters + 1))
+            headers = ParseHeader(ref rowIndex, startOfSequenceOfCapitalLetters + 1);
+            var questionnaire = QuestionnaireElement.CreateQuestionnaireElement(questionnaireName);
+            while (questionnaire.AddChildElement(ParseQuestionCategory(ref rowIndex, startOfSequenceOfCapitalLetters + 1)))
             { }
-
+            return questionnaire;
         }
 
-        private Task ParseHeader(ref int rowIndex, int columnIndex)
+        private string[] ParseHeader(ref int rowIndex, int columnIndex)
         {
             List<string> cellsText = new();
             while (true)
@@ -69,20 +72,20 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 columnIndex++;
             }
             rowIndex++;
-            headers = cellsText.ToArray();
-            return Task.CompletedTask;
+            //headers = cellsText.ToArray();
+            return cellsText.ToArray();
         }
 
-        private Task<bool> ParseQuestionCategory(ref int rowIndex, int letterOfAddressIndex)
+        private QuestionnaireElement ParseQuestionCategory(ref int rowIndex, int letterOfAddressIndex)
         {
             var questionCategoryName = GetTextFromTheCell(
                 ExtractCell((char)letterOfAddressIndex + rowIndex.ToString())
                 );
             if (questionCategoryName == "")
             {
-                return Task.FromResult(false);
+                return null;
             }
-            parsedData.AddQuestionCategory(questionCategoryName);
+            var questionCategory = QuestionnaireElement.CreateQuestionnaireElement(questionCategoryName);
             rowIndex++;
             while (true)
             {
@@ -92,15 +95,16 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                     break;
                 }
                 var questionCell = ExtractCell((char)(letterOfAddressIndex) + rowIndex.ToString());
-                parsedData.AddQuestion(GetTextFromTheCell(questionCell));
-                ParseAnswers(rowIndex, letterOfAddressIndex + 1);
+                var question = questionCategory.CreateChildElement(GetTextFromTheCell(questionCell));
+                question.AddRangeElements(ParseAnswers(rowIndex, letterOfAddressIndex + 1));
                 rowIndex++;
             }
-            return Task.FromResult(true);
+            return questionCategory;
         }
 
-        private Task ParseAnswers(in int rowIndex, int letterOfAddressIndex)
+        private IEnumerable<QuestionnaireElement> ParseAnswers(in int rowIndex, int letterOfAddressIndex)
         {
+            List<QuestionnaireElement> answers = new();
             for (int columnIndex = 1, letterIndex = letterOfAddressIndex; columnIndex < headers.Length; columnIndex++, letterIndex++)
             {
                 string addressName = (char)letterIndex + rowIndex.ToString();
@@ -110,9 +114,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 {
                     break;
                 }
-                parsedData.AddAnswer($"{headers[columnIndex]}: {cellText}");
+                answers.Add(QuestionnaireElement.CreateQuestionnaireElement($"{headers[columnIndex]}: {cellText}"));
             }
-            return Task.CompletedTask;
+            return answers;
         }
 
         private Cell ExtractCell(string addressName)

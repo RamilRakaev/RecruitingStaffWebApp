@@ -1,7 +1,9 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using RecruitingStaffWebApp.Services.DocParse;
+using RecruitingStaffWebApp.Services.DocParse.Exceptions;
 using RecruitingStaffWebApp.Services.DocParse.Model;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,86 +32,97 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public sealed override async Task<ParsedData> Parse(string path)
+        public sealed override Task<ParsedData> Parse(string path)
         {
             using (var wordDoc = WordprocessingDocument.Open(path, false))
             {
                 var body = wordDoc.MainDocumentPart.Document.Body;
                 var candidateDataTable = body.ChildElements.Where(e => e.LocalName == "tbl").First();
-                await ParseCandidate(candidateDataTable);
+                parsedData.Candidate = ParseCandidate(candidateDataTable);
+                parsedData.Vacancy = VacancyParse(candidateDataTable);
                 foreach (var cell in candidateDataTable.ExtractCellsFromTable())
                 {
                     var questionsTable = cell.FirstOrDefault(c => c.LocalName == "tbl");
                     if (questionsTable != null)
                     {
-                        await ParseQuestionnaire(questionsTable);
+                        parsedData.Questionnaire = ParseQuestionnaire(questionsTable);
                     }
                 }
             }
-            return parsedData;
+            return Task.FromResult(parsedData);
         }
 
-        private async Task ParseCandidate(OpenXmlElement table)
+        private static Candidate ParseCandidate(OpenXmlElement table)
         {
             var rows = table.ExtractRowsFromTable(false);
-            var vacancyName = rows.ElementAt(0).InnerText;
-            parsedData.Candidate = new()
+            Candidate candidate = new()
             {
-                FullName = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
+                Name = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
                 DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
                 Address = rows.ExtractTextAfterCharacterFromRow(AddressRow, AddressColumn, ':'),
                 TelephoneNumber = rows.ExtractCellTextFromRow(TelephoneNumberRow, TelephoneNumberColumn),
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
             };
-            await VacancyParse(vacancyName);
+            return candidate;
         }
 
-        private Task VacancyParse(string vacancyName)
+        private static Vacancy VacancyParse(OpenXmlElement table)
         {
+            var rows = table.ExtractRowsFromTable(false);
+            var vacancyName = rows.ElementAt(0).InnerText;
             vacancyName = vacancyName[(vacancyName.IndexOf(':') + 1)..];
             vacancyName = vacancyName.Trim(' ');
-            parsedData.Vacancy = new Vacancy() { Name = vacancyName };
-            return Task.CompletedTask;
+            return new Vacancy() { Name = vacancyName };
         }
 
-        private async Task ParseQuestionnaire(OpenXmlElement table)
+        private static QuestionnaireElement ParseQuestionnaire(OpenXmlElement table)
         {
-            await parsedData.AddQuestionnaire(questionnaireName);
-
+            var questionnaire = QuestionnaireElement.CreateQuestionnaireElement(questionnaireName);
             foreach (var row in table.ExtractRowsFromTable())
             {
-                await ParseQuestionCategory(row);
-                await ParseQuestion(row);
+                if (questionnaire.AddChildElement(ParseQuestionCategory(row)) == false)
+                {
+                    questionnaire.CurrentChildElement.AddChildElement(ParseQuestion(row));
+                }
             }
+            return questionnaire;
         }
 
-        private Task ParseQuestionCategory(OpenXmlElement child)
+        private static QuestionnaireElement ParseQuestionCategory(OpenXmlElement row)
         {
-            if (child.ChildElements.Count == 3)
+            if (row.ChildElements.Count == 3)
             {
-                parsedData.AddQuestionCategory(child.ChildElements.ElementAt(2).InnerText);
+                var questionCategory = QuestionnaireElement.CreateQuestionnaireElement(
+                    row.ChildElements.ElementAt(2).InnerText);
+                return questionCategory;
             }
-            return Task.CompletedTask;
+            return null;
         }
 
-        private async Task ParseQuestion(OpenXmlElement child)
+        private static QuestionnaireElement ParseQuestion(OpenXmlElement element)
         {
-            if (child.ChildElements.Count == 5)
+            if (element.ChildElements.Count == 5)
             {
-                parsedData.AddQuestion(child.ChildElements[2].InnerText);
-                await ParseAnswer(child);
+                var question = QuestionnaireElement.CreateQuestionnaireElement(element.ChildElements[2].InnerText);
+                question.AddChildElement(ParseAnswer(element));
+                return question;
             }
+            return null;
         }
 
-        private Task ParseAnswer(OpenXmlElement child)
+        private static QuestionnaireElement ParseAnswer(OpenXmlElement child)
         {
             if (child.ChildElements[4].InnerText != string.Empty)
             {
-                QuestionnaireElement answer = new(child.ChildElements[4].InnerText);
-                answer.Properties.Add("Estimation", child.ChildElements[3].InnerText);
-                parsedData.AddAnswer(answer);
+                Dictionary<string, string> properties = new()
+                {
+                    { "Name", child.ChildElements[4].InnerText },
+                    { "Estimation", child.ChildElements[3].InnerText },
+                };
+                var answer = QuestionnaireElement.CreateQuestionnaireElement(properties);
+                return answer;
             }
-            return Task.CompletedTask;
+            return null;
         }
     }
 }
