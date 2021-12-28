@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
@@ -28,7 +28,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         public async Task OnPost(int optionId, int candidateId)
         {
-            await _mediator.Send(new RemoveOptionCommand(optionId));
+            await _mediator.Send(new RemoveEntityCommand<Option>(optionId));
             await Initialize(candidateId);
         }
 

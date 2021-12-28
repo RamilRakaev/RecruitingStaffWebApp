@@ -38,8 +38,11 @@ namespace RecruitingStaff.WebApp
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
             services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));
+            services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesByForeignKeyQuery<>), typeof(GetEntitiesByForeignKeyHandler<>));
+            services.ConfigrueEntitiesQueryHandlers<BaseMap>(typeof(GetEntitiesByForeignKeyQuery<>), typeof(GetEntitiesByForeignKeyHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));
 
             services.ConfigureViewModelValidators();

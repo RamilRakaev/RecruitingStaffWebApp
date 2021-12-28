@@ -68,8 +68,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             ResetDb<RecruitingStaffWebAppFile>(db);
             ResetDb<Option>(db);
             ResetDb<Questionnaire>(db);
-            //ResetDb<CandidateQuestionnaire>(db);
-            //ResetDb<CandidateVacancy>(db);
+            ResetDb<CandidateQuestionnaire>(db);
+            ResetDb<CandidateVacancy>(db);
             ResetDb<Vacancy>(db);
             ResetDb<Recommender>(db);
             ResetDb<PreviousJobPlacement>(db);
@@ -77,7 +77,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             ResetDb<Candidate>(db);
         }
 
-        public static void ResetDb<Entity>(DataContext db) where Entity : CandidateQuestionnaireEntity
+        public static void ResetDb<Entity>(DataContext db) where Entity : BaseEntity
         {
             var entities = db.Set<Entity>().ToArray();
             for (int i = 0; i < entities.Length; i++)

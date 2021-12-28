@@ -6,9 +6,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategori
     {
         public RemoveQuestionCategoryCommand(int qestionId)
         {
-            QestionId = qestionId;
+            QestionCategoryId = qestionId;
         }
 
-        public int QestionId { get; set; }
+        public int QestionCategoryId { get; set; }
     }
 }

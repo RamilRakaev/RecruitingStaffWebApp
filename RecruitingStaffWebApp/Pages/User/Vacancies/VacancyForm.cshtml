@@ -6,28 +6,28 @@
 <div class="row justify-content-center">
     <div class="col-6">
         <form method="post">
-            <input type="hidden" asp-for="@Model.Vacancy.Id" />
+            <input type="hidden" asp-for="@Model.VacancyViewModel.Id" />
             <div class="form-group">
                 <label class="col-form-label">Наименование вакансии</label>
-                <input class="form-control" type="text" asp-for="@Model.Vacancy.Name" />
+                <input class="form-control" type="text" asp-for="@Model.VacancyViewModel.Name" />
             </div>
             <div class="form-group">
                 <label class="col-form-label">Описание</label>
-                <textarea class="form-control" rows="4" asp-for="@Model.Vacancy.Description"></textarea>
+                <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.Description"></textarea>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Обязанности</label>
-                <textarea class="form-control" rows="4" asp-for="@Model.Vacancy.Responsibilities"></textarea>
+                <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.Responsibilities"></textarea>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Требования</label>
-                <textarea class="form-control" rows="4" asp-for="@Model.Vacancy.Requirements"></textarea>
+                <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.Requirements"></textarea>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Условия работа</label>
-                <textarea class="form-control" rows="4" asp-for="@Model.Vacancy.WorkingConditions"></textarea>
+                <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.WorkingConditions"></textarea>
             </div>
-            <a class="btn btn-dark" asp-page="ConcreteVacancy" asp-route-vacancyId="@Model.Vacancy.Id">Текущая вакансия</a>
+            <a class="btn btn-dark" asp-page="ConcreteVacancy" asp-route-vacancyId="@Model.VacancyViewModel.Id">Текущая вакансия</a>
             <a class="btn btn-dark" asp-page="Vacancies">Вакансии</a>
             <button class="btn btn-success float-right">Отправить</button>
         </form>

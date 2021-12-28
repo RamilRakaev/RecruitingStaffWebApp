@@ -3,23 +3,32 @@ using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
 using RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategories
 {
-    public class RemoveQuestionCategoryHandler : QuestionCategoryRemoveHandler, IRequestHandler<RemoveQuestionCategoryCommand, bool>
+    public class RemoveQuestionCategoryHandler : IRequestHandler<RemoveQuestionCategoryCommand, bool>
     {
-        public RemoveQuestionCategoryHandler(
-            IRepository<Answer> answerRepository,
-            IRepository<Question> questionRepository,
-            IRepository<QuestionCategory> questionCategoryRepository)
-            : base(answerRepository, questionRepository, questionCategoryRepository)
-        { }
+        private readonly IMediator _mediator;
+
+        public RemoveQuestionCategoryHandler(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public async Task<bool> Handle(RemoveQuestionCategoryCommand request, CancellationToken cancellationToken)
         {
-            await RemoveQuestionCategory(request.QestionId, cancellationToken);
+            var questions = await _mediator.Send(
+                new GetEntitiesByForeignKeyQuery<Question>(q => q.QuestionCategoryId == request.QestionCategoryId));
+            foreach(var question in questions)
+            {
+                await _mediator.Send(new RemoveQuestionCommand(question.Id));
+            }
+            await _mediator.Send(new RemoveEntityCommand<QuestionCategory>(request.QestionCategoryId));
             return true;
         }
     }

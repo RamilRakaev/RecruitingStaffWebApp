@@ -20,7 +20,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Questionnaires
 
         public Task<Questionnaire[]> Handle(GetQuestionnairesByNameFragmentQuery request, CancellationToken cancellationToken)
         {
-            var questionnaires = _questionnaireRepository.GetAllAsNoTracking().Where(q => q.Name.Contains(request.NameFragment)).ToArray();
+            var questionnaires = _questionnaireRepository
+                .GetAllAsNoTracking()
+                .Where(q => q.Name.Contains(request.NameFragment))
+                .ToArray();
             if(questionnaires == null)
             {
                 return Task.FromResult(Array.Empty<Questionnaire>());

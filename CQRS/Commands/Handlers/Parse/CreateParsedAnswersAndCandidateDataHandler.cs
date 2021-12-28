@@ -42,6 +42,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             };
             await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
             _candidate = await CreateCandidate();
+            _candidate.Id = request.ParsedData.CandidateId;
             await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate), cancellationToken);
             await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(_candidate.Id, questionnaire.Id), cancellationToken);
             await _mediator.Send(new CreateMapCommand<CandidateVacancy>(_candidate.Id, vacancy.Id), cancellationToken);

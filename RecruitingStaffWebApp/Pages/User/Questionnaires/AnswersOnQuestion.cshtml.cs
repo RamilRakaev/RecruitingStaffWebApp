@@ -29,8 +29,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
                 await _mediator.Send(new AnswersOnQuestionQuery(questionId)));
         }
 
-        public async Task OnPost(int questionId, int answerId)
+        public async Task OnPost(int questionnaireId, int questionId, int answerId)
         {
+            QuestionnaireId = questionnaireId;
             await _mediator.Send(new RemoveEntityCommand<Answer>(answerId));
             Question = GetViewModel<Question, QuestionViewModel>(
                 await _mediator.Send(new GetQuestionByIdQuery(questionId)));

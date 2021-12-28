@@ -44,7 +44,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
                     candidate,
                     questionnaire.Name,
                     cancellationToken);
-
             }
             await _candidateRepository.SaveAsync(cancellationToken);
             return true;

@@ -1,39 +1,32 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
-using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.Options;
-using RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Vacancies;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
 {
-    public class RemoveVacancyHandler : VacancyCommandHandler, IRequestHandler<RemoveVacancyCommand, bool>
+    public class RemoveVacancyHandler : IRequestHandler<RemoveVacancyCommand, bool>
     {
-        public RemoveVacancyHandler(
-            IRepository<Answer> answerRepository,
-            IRepository<Question> questionRepository,
-            IRepository<QuestionCategory> questionCategoryRepository,
-            IRepository<Questionnaire> questionnaireRepository,
-            IRepository<RecruitingStaffWebAppFile> fileRepository,
-            IOptions<WebAppOptions> options,
-            IWebHostEnvironment webHost,
-            IRepository<Vacancy> vacancyRepository) : base(answerRepository,
-                questionRepository,
-                questionCategoryRepository,
-                questionnaireRepository,
-                fileRepository,
-                options,
-                vacancyRepository,
-                webHost)
-        { }
+        private readonly IMediator _mediator;
+
+        public RemoveVacancyHandler(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public async Task<bool> Handle(RemoveVacancyCommand request, CancellationToken cancellationToken)
         {
-            await RemoveVacancy(request.VacancyId, cancellationToken);
+            var questionnaires = await _mediator.Send(
+                new GetEntitiesByForeignKeyQuery<Questionnaire>(q => q.VacancyId == request.VacancyId));
+            foreach (var questionnaire in questionnaires)
+            {
+                await _mediator.Send(new RemoveQuestionnaireCommand(questionnaire.Id));
+            }
+            await _mediator.Send(new RemoveEntityCommand<Vacancy>(request.VacancyId));
             return true;
         }
     }

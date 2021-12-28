@@ -1,23 +1,30 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questions
 {
-    public class RemoveQuestionHandler : QuestionCommandHandlers, IRequestHandler<RemoveQuestionCommand, bool>
+    public class RemoveQuestionHandler : IRequestHandler<RemoveQuestionCommand, bool>
     {
-        public RemoveQuestionHandler(
-            IRepository<Answer> answerRepository,
-            IRepository<Question> questionRepository) : base(answerRepository, questionRepository)
-        { }
+        private readonly IMediator _mediator;
+
+        public RemoveQuestionHandler(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         public async Task<bool> Handle(RemoveQuestionCommand request, CancellationToken cancellationToken)
         {
-            await RemoveQuestion(request.QestionId, cancellationToken);
+            var answers = await _mediator.Send(new GetEntitiesByForeignKeyQuery<Answer>(a => a.QuestionId == request.QestionId));
+            foreach (var answer in answers)
+            {
+                await _mediator.Send(new RemoveEntityCommand<Answer>(answer.Id));
+            }
+            await _mediator.Send(new RemoveEntityCommand<Question>(request.QestionId));
             return true;
         }
     }

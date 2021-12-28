@@ -4,7 +4,7 @@ using RecruitingStaff.Domain.Model;
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
 {
     public class RemoveEntityCommand<TEntity> : IRequest<TEntity>
-        where TEntity : CandidateQuestionnaireEntity
+        where TEntity : BaseEntity
     {
         public RemoveEntityCommand(int entityId)
         {

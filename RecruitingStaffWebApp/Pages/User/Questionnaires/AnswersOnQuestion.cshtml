@@ -50,6 +50,7 @@
                                 Изменить
                             </a>
                             <form class="d-inline" method="post">
+                                <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
                                 <input type="hidden" name="questionId" value="@Model.Question.Id" />
                                 <input type="hidden" name="answerId" value="@answer.Id" />
                                 <button class="btn btn-danger ml-2 mb-2">Удалить</button>

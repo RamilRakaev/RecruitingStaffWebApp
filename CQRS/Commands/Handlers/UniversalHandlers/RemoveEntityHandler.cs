@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
     public class RemoveEntityHandler<TEntity> : IRequestHandler<RemoveEntityCommand<TEntity>, TEntity>
-        where TEntity : CandidateQuestionnaireEntity
+        where TEntity : BaseEntity
     {
 
         private readonly IRepository<TEntity> _repository;
