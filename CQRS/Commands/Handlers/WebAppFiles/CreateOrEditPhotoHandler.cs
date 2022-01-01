@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using System.IO;
 using System.Linq;

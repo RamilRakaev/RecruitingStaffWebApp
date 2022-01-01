@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
@@ -71,7 +71,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             _file = new()
             {
                 Name = $"{questionnaire.Id}.{questionnaire.Name}{fileExtension}",
-                FileType = FileType.Questionnaire,
+                FileType = FileType.CompletedQuestionnaire,
                 QuestionnaireId = questionnaire.Id,
             };
             await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(_file));

@@ -1,7 +1,7 @@
-﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+﻿using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using System.Collections.Generic;
 
-namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
+namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {
     public class Questionnaire : CandidateQuestionnaireEntity
     {

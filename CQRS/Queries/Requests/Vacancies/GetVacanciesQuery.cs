@@ -1,10 +1,10 @@
 ﻿using RecruitingStaff.Domain.Model;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using MediatR;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Vacancies
 {
-    public class GetVacanciesQuery : IRequest<Vacancy[]>
-    {
-    }
+    //public class GetVacanciesQuery : IRequest<Vacancy[]>
+    //{
+    //}
 }

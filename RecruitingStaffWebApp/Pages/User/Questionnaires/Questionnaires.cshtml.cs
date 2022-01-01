@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -22,7 +22,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task OnGet()
         {
             Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetQuestionnairesQuery())
+                await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
                 );
         }
 
@@ -30,7 +30,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
             await _mediator.Send(new RemoveQuestionnaireCommand(questionnaireId));
             Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetQuestionnairesQuery())
+                await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
                 );
         }
 
@@ -38,7 +38,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
             await _mediator.Send(new RemoveQuestionCategoryCommand(questionCategoryId));
             Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetQuestionnairesQuery())
+                await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
                 );
         }
     }

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
 using System.Threading;
 using System.Threading.Tasks;

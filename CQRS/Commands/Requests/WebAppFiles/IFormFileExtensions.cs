@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles
 {
     public static class IFormFileExtensions
     {

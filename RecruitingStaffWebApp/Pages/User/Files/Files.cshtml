@@ -1,0 +1,39 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Files.FilesModel
+@{
+}
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-dark">Парсинг пустой анкеты</a>
+    <a class="btn btn-dark">Парсинг заполненной анкеты</a>
+    <a class="btn btn-dark">Добавить тестовое задание</a>
+    <a class="btn btn-dark">Добавить фото</a>
+</div>
+<div class="row justify-content-center">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"><h5>Id</h5></th>
+                <th scope="col"><h5>Имя</h5></th>
+                <th scope="col"><h5>Тип Файла</h5></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.Files)
+            {
+                <tr>
+                    <td>@file.Id</td>
+                    <td>@file.Name</td>
+                    <td>@file.FileType</td>
+                    <td>
+                        <a class="btn btn-warning">Изменить</a>
+                        <form class="d-inline" method="post">
+                            <input type="hidden" name="fileId" value="@file.Id" />
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

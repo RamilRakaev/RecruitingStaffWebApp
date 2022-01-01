@@ -19,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Answer", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Answer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -53,7 +53,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Answer");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,7 +97,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Candidate");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Education", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Education", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,7 +129,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Education");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Kid", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Kid", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Kid");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Option", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Option", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -178,7 +178,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Option");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.PreviousJobPlacement", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.PreviousJobPlacement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -222,7 +222,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("PreviousJobPlacement");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Recommender", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Recommender", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -248,7 +248,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Recommender");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateQuestionnaire", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Maps.CandidateQuestionnaire", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -270,7 +270,32 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("CandidateQuestionnaire");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateVacancy", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Maps.CandidateTestTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("FirstEntityId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SecondEntityId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TestTaskId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirstEntityId");
+
+                    b.HasIndex("TestTaskId");
+
+                    b.ToTable("CandidateTestTask");
+                });
+
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Maps.CandidateVacancy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,7 +317,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("CandidateVacancy");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Question", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Question", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -312,7 +337,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Question");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.QuestionCategory", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.QuestionCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,7 +357,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("QuestionCategory");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Questionnaire", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Questionnaire", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -352,7 +377,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("Questionnaire");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.RecruitingStaffWebAppFile", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.RecruitingStaffWebAppFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -371,16 +396,42 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<int?>("QuestionnaireId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("TestTaskId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CandidateId");
 
                     b.HasIndex("QuestionnaireId");
 
+                    b.HasIndex("TestTaskId")
+                        .IsUnique();
+
                     b.ToTable("RecruitingStaffWebAppFile");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Vacancy", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("VacancyId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("TestTask");
+                });
+
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Vacancy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -438,7 +489,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d508e513-694b-4ac9-bee0-0112f9792e31",
+                            ConcurrencyStamp = "98f7d176-ba07-4740-a403-b8d3b958747e",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -616,15 +667,15 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Answer", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Answer", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("Answers")
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Question", "Question")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -635,18 +686,18 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.RecruitingStaffWebAppFile", "Photo")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.RecruitingStaffWebAppFile", "Photo")
                         .WithMany()
                         .HasForeignKey("PhotoId1");
 
                     b.Navigation("Photo");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Education", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Education", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("Educations")
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -655,9 +706,9 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Candidate");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Kid", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Kid", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("Kids")
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -666,18 +717,18 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Candidate");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Option", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Option", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("Options")
                         .HasForeignKey("CandidateId");
 
                     b.Navigation("Candidate");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.PreviousJobPlacement", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.PreviousJobPlacement", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("PreviousJobs")
                         .HasForeignKey("CandidateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -686,9 +737,9 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Candidate");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Recommender", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Recommender", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.PreviousJobPlacement", "PreviousJob")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.PreviousJobPlacement", "PreviousJob")
                         .WithMany("Recommenders")
                         .HasForeignKey("PreviousJobId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -697,15 +748,15 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("PreviousJob");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateQuestionnaire", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Maps.CandidateQuestionnaire", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("CandidateQuestionnaire")
                         .HasForeignKey("FirstEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Questionnaire", "Questionnaire")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.Questionnaire", "Questionnaire")
                         .WithMany("CandidatesQuestionnaire")
                         .HasForeignKey("SecondEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -716,15 +767,32 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Questionnaire");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateVacancy", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Maps.CandidateTestTask", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
+                        .WithMany("CandidateTestTasks")
+                        .HasForeignKey("FirstEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", "TestTask")
+                        .WithMany("CandidateTestTasks")
+                        .HasForeignKey("TestTaskId");
+
+                    b.Navigation("Candidate");
+
+                    b.Navigation("TestTask");
+                });
+
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Maps.CandidateVacancy", b =>
+                {
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("CandidateVacancy")
                         .HasForeignKey("FirstEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Vacancy", "Vacancy")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.Vacancy", "Vacancy")
                         .WithMany("CandidateVacancy")
                         .HasForeignKey("SecondEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -735,9 +803,9 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Vacancy");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Question", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Question", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.QuestionCategory", "QuestionCategory")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.QuestionCategory", "QuestionCategory")
                         .WithMany("Questions")
                         .HasForeignKey("QuestionCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -746,9 +814,9 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("QuestionCategory");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.QuestionCategory", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.QuestionCategory", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Questionnaire", "Questionnaire")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.Questionnaire", "Questionnaire")
                         .WithMany("QuestionCategories")
                         .HasForeignKey("QuestionnaireId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -757,9 +825,9 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Questionnaire");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Questionnaire", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Questionnaire", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Vacancy", "Vacancy")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.Vacancy", "Vacancy")
                         .WithMany("Questionnaires")
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -768,19 +836,36 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("Vacancy");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.RecruitingStaffWebAppFile", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.RecruitingStaffWebAppFile", b =>
                 {
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", "Candidate")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", "Candidate")
                         .WithMany("Documents")
                         .HasForeignKey("CandidateId");
 
-                    b.HasOne("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Questionnaire", "Questionnaire")
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.Questionnaire", "Questionnaire")
                         .WithMany("DocumentFiles")
                         .HasForeignKey("QuestionnaireId");
+
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", "TestTask")
+                        .WithOne("DocumentFile")
+                        .HasForeignKey("RecruitingStaff.Domain.Model.CandidatesSelection.RecruitingStaffWebAppFile", "TestTaskId");
 
                     b.Navigation("Candidate");
 
                     b.Navigation("Questionnaire");
+
+                    b.Navigation("TestTask");
+                });
+
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", b =>
+                {
+                    b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.Vacancy", "Vacancy")
+                        .WithMany("TestTasks")
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vacancy");
                 });
 
             modelBuilder.Entity("RecruitingStaff.Domain.Model.UserIdentity.ApplicationRoleClaim", b =>
@@ -841,11 +926,13 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.Candidate", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.Candidate", b =>
                 {
                     b.Navigation("Answers");
 
                     b.Navigation("CandidateQuestionnaire");
+
+                    b.Navigation("CandidateTestTasks");
 
                     b.Navigation("CandidateVacancy");
 
@@ -860,22 +947,22 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("PreviousJobs");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData.PreviousJobPlacement", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData.PreviousJobPlacement", b =>
                 {
                     b.Navigation("Recommenders");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Question", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Question", b =>
                 {
                     b.Navigation("Answers");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.QuestionCategory", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.QuestionCategory", b =>
                 {
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Questionnaire", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Questionnaire", b =>
                 {
                     b.Navigation("CandidatesQuestionnaire");
 
@@ -884,11 +971,20 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Navigation("QuestionCategories");
                 });
 
-            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidateQuestionnaire.Vacancy", b =>
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", b =>
+                {
+                    b.Navigation("CandidateTestTasks");
+
+                    b.Navigation("DocumentFile");
+                });
+
+            modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Vacancy", b =>
                 {
                     b.Navigation("CandidateVacancy");
 
                     b.Navigation("Questionnaires");
+
+                    b.Navigation("TestTasks");
                 });
 
             modelBuilder.Entity("RecruitingStaff.Domain.Model.UserIdentity.ApplicationRole", b =>

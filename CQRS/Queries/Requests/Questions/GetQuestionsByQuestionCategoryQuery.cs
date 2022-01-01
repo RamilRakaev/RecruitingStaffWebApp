@@ -1,15 +1,15 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions
 {
-    public class GetQuestionsByQuestionCategoryQuery : IRequest<Question[]>
-    {
-        public GetQuestionsByQuestionCategoryQuery(QuestionCategory[] questionCategories)
-        {
-            QuestionCategories = questionCategories;
-        }
+    //public class GetQuestionsByQuestionCategoryQuery : IRequest<Question[]>
+    //{
+    //    public GetQuestionsByQuestionCategoryQuery(QuestionCategory[] questionCategories)
+    //    {
+    //        QuestionCategories = questionCategories;
+    //    }
 
-        public QuestionCategory[] QuestionCategories { get; set; }
-    }
+    //    public QuestionCategory[] QuestionCategories { get; set; }
+    //}
 }

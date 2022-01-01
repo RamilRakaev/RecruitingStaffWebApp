@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.Options;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
 
         public async Task SaveFile(IFormFile formFile, RecruitingStaffWebAppFile file, CancellationToken cancellationToken)
         {
-            await formFile.CreateNewFileAsync($"{_options.DocumentsSource}\\{file.Name}");
+            await formFile.CreateNewFileAsync($"{_options.CandidateDocumentsSource}\\{file.Name}");
             await _fileRepository.AddAsync(file, cancellationToken);
             await _fileRepository.SaveAsync(cancellationToken);
         }
@@ -50,7 +51,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers
 
         public async Task DeleteCandidateFile(RecruitingStaffWebAppFile file, CancellationToken cancellationToken)
         {
-            File.Delete($"{_options.DocumentsSource}\\{file.Name}");
+            File.Delete($"{_options.CandidateDocumentsSource}\\{file.Name}");
             await _fileRepository.RemoveAsync(file);
             await _fileRepository.SaveAsync(cancellationToken);
         }

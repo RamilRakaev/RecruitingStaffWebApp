@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+﻿using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
+using System.Collections.Generic;
 
-namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
+namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {
     public class Vacancy : CandidateQuestionnaireEntity
     {
@@ -14,5 +12,6 @@ namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
 
         public List<CandidateVacancy> CandidateVacancy { get; set; }
         public List<Questionnaire> Questionnaires { get; set; }
+        public List<TestTask> TestTasks { get; set; }
     }
 }

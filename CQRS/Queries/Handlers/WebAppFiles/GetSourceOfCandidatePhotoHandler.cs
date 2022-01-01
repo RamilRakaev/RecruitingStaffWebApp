@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using System.Linq;
 using System.Threading;
@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.WebAppFiles
 {
-    public class GetCandidatePhotoHandler : IRequestHandler<GetSourceOfCandidatePhotoQuery, string>
+    public class GetSourceOfCandidatePhotoHandler : IRequestHandler<GetSourceOfCandidatePhotoQuery, string>
     {
         private readonly IRepository<RecruitingStaffWebAppFile> _fileRepository;
 
-        public GetCandidatePhotoHandler(
+        public GetSourceOfCandidatePhotoHandler(
             IRepository<RecruitingStaffWebAppFile> fileRepository)
         {
             _fileRepository = fileRepository;

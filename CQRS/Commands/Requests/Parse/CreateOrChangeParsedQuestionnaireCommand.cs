@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaffWebApp.Services.DocParse;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse

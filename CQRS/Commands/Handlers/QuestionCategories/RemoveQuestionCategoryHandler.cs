@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Infrastructure.CQRS.Commands.RemoveCommandHandlers;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
@@ -26,9 +24,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
                 new GetEntitiesByForeignKeyQuery<Question>(q => q.QuestionCategoryId == request.QestionCategoryId));
             foreach(var question in questions)
             {
-                await _mediator.Send(new RemoveQuestionCommand(question.Id));
+                await _mediator.Send(new RemoveQuestionCommand(question.Id), cancellationToken);
             }
-            await _mediator.Send(new RemoveEntityCommand<QuestionCategory>(request.QestionCategoryId));
+            await _mediator.Send(new RemoveEntityCommand<QuestionCategory>(request.QestionCategoryId), cancellationToken);
             return true;
         }
     }

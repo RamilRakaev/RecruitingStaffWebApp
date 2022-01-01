@@ -1,6 +1,8 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
+using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
@@ -98,7 +100,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             RecruitingStaffWebAppFile file = new()
             {
                 Name = $"{candidate.Id}.{candidate.Name}{parsedData.FileExtension}",
-                FileType = FileType.Questionnaire,
+                FileType = FileType.CompletedQuestionnaire,
                 CandidateId = candidate.Id,
                 QuestionnaireId = questionnaireId,
             };

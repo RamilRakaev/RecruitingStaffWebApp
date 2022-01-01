@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
+using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.Repositories;
@@ -31,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
         {
             if (request.FormFile != null)
             {
-                var path = $"{_options.DocumentsSource}\\{Guid.NewGuid()}";
+                var path = $"{_options.CandidateDocumentsSource}\\{Guid.NewGuid()}";
                 using (var stream = new FileStream(path, FileMode.CreateNew))
                 {
                     request.FormFile.CopyTo(stream);

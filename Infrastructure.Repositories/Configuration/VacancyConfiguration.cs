@@ -1,4 +1,4 @@
-﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+﻿using RecruitingStaff.Domain.Model.CandidatesSelection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,6 +12,16 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
                 .HasMany(v => v.CandidateVacancy)
                 .WithOne(cv => cv.Vacancy)
                 .HasForeignKey(cv => cv.SecondEntityId);
+
+            builder
+                .HasMany(v => v.Questionnaires)
+                .WithOne(cv => cv.Vacancy)
+                .HasForeignKey(cv => cv.VacancyId);
+
+            builder
+                .HasMany(v => v.TestTasks)
+                .WithOne(tt => tt.Vacancy)
+                .HasForeignKey(tt => tt.VacancyId);
         }
     }
 }

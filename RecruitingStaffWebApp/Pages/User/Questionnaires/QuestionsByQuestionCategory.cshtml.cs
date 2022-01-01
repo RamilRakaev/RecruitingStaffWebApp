@@ -1,11 +1,12 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             else
             {
-                var question = await _mediator.Send(new GetQuestionByIdQuery(questionId));
+                var question = await _mediator.Send(new GetEntityByIdQuery<Question>(questionId));
                 await Initialize(question.QuestionCategoryId);
             }
         }
@@ -55,7 +56,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task OnPostRemoveAnswer(int questionId, int answerId)
         {
             await _mediator.Send(new RemoveEntityCommand<Answer>(answerId));
-            var question = await _mediator.Send(new GetQuestionByIdQuery(questionId));
+            var question = await _mediator.Send(new GetEntityByIdQuery<Question>(questionId));
             await Initialize(question.QuestionCategoryId);
         }
     }

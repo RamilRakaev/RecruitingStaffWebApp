@@ -23,6 +23,6 @@ namespace RecruitingStaff.WebApp.ViewModels.CandidateData
         public string TelephoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public string MaritalStatus { get; set; }
-        public int VacancyId { get; set; }
+        public int[] VacancyIds { get; set; }
     }
 }

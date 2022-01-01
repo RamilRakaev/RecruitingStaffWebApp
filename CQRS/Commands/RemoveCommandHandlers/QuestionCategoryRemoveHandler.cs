@@ -1,5 +1,5 @@
 ﻿using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

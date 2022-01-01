@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Options;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
+using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
@@ -39,7 +40,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
                     f => f.CandidateId == request.CandidateId));
             foreach (var file in files)
             {
-                File.Delete($"{_options.DocumentsSource}\\{file.Name}");
+                File.Delete($"{_options.CandidateDocumentsSource}\\{file.Name}");
                 await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(file.Id));
             }
             var candidateQuestionnaires = await _mediator.Send(

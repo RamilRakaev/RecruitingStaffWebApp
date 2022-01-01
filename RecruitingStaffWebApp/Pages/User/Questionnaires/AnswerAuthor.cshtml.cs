@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Options;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;

@@ -1,6 +1,6 @@
-﻿using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+﻿using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 
-namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire
+namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {
     public class Answer : CandidateQuestionnaireEntity
     {

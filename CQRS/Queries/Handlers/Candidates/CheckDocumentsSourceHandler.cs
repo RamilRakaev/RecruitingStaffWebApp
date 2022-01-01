@@ -20,11 +20,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
 
         public Task<string> Handle(CheckDocumentsSourceCommand request, CancellationToken cancellationToken)
         {
-            if (_options.DocumentsSource == null)
+            if (_options.CandidateDocumentsSource == null)
             {
                 return Task.FromResult("Расположение документов не указано");
             }
-            string path = _options.DocumentsSource;
+            string path = _options.CandidateDocumentsSource;
             if (Directory.Exists(path) == false)
             {
                 return Task.FromResult("Указанной папки не существует");

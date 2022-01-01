@@ -1,9 +1,10 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questions;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
             QuestionnaireId = questionnaireId;
             Question = GetViewModel<Question, QuestionViewModel>(
-                await _mediator.Send(new GetQuestionByIdQuery(questionId)));
+                await _mediator.Send(new GetEntityByIdQuery<Question>(questionId)));
             Answers = GetViewModels<Answer, AnswerViewModel>(
                 await _mediator.Send(new AnswersOnQuestionQuery(questionId)));
         }
@@ -34,7 +35,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             QuestionnaireId = questionnaireId;
             await _mediator.Send(new RemoveEntityCommand<Answer>(answerId));
             Question = GetViewModel<Question, QuestionViewModel>(
-                await _mediator.Send(new GetQuestionByIdQuery(questionId)));
+                await _mediator.Send(new GetEntityByIdQuery<Question>(questionId)));
             Answers = GetViewModels<Answer, AnswerViewModel>(
                 await _mediator.Send(new AnswersOnQuestionQuery(questionId)));
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData
+namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 {
     public class PreviousJobPlacement : CandidateQuestionnaireEntity
     {

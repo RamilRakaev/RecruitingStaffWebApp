@@ -1,15 +1,12 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.Candidates.CandidatesModel
-@using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+@using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 @{
     var newCandidate = new Candidate();
     ViewData["Title"] = "Кандидаты";
 }
 <div class="row justify-content-center mb-3">
-    <a class="btn btn-dark m-2" asp-page="/User/Vacancies/VacancyForm">Создать вакансию</a>
     <a class="btn btn-dark m-2" asp-page="CreateCandidate">Создать кандидата</a>
-    <a class="btn btn-dark m-2" asp-page="/User/Questionnaires/QuestionnaireForm">Создать анкету</a>
-    <a class="btn btn-dark m-2" asp-page="/User/Files/QuestionsParseForm">Парсинг анкеты</a>
 </div>
 <div class="row justify-content-center">
     <p class="text-danger">@Model.MessageAboutDocumentsSource</p>

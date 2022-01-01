@@ -73,7 +73,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, false);
-                    var newPath = $"{_options.DocumentsSource}\\{parsedData.FileSource}";
+                    var newPath = $"{_options.CandidateDocumentsSource}\\{parsedData.FileSource}";
                     File.Delete(newPath);
                     File.Copy(path, newPath);
                 }

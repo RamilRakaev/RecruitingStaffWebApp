@@ -1,5 +1,6 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
@@ -33,6 +34,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             foreach (var file in files)
             {
                 await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(file.Id));
+            }
+            var candidateQuestionnaires = await _mediator.Send(
+                new GetEntitiesByForeignKeyQuery<CandidateQuestionnaire>(cq => cq.SecondEntityId == request.QuestionnaireId));
+            foreach(var candidateQuestionnaire in candidateQuestionnaires)
+            {
+                await _mediator.Send(new RemoveEntityCommand<CandidateQuestionnaire>(candidateQuestionnaire.Id));
             }
             await _mediator.Send(new RemoveEntityCommand<Questionnaire>(request.QuestionnaireId));
             return true;

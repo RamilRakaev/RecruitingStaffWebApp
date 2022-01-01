@@ -28,7 +28,7 @@
         </div>
         <div class="form-group">
             <label>Вакансия</label>
-            <select asp-for="@candidateViewModel.VacancyId" asp-items="@Model.Vacancies"></select>
+            <select multiple="multiple" class="custom-select" asp-for="@candidateViewModel.VacancyIds" asp-items="@Model.Vacancies"></select>
         </div>
         <button class="btn btn-dark">Отправить</button>
     </form>

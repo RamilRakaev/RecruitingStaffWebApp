@@ -1,11 +1,11 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questions;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.QuestionCategories;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -42,7 +42,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         private async Task Initialize(int questionnaireId)
         {
             Questionnaire = GetViewModel<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetQuestionnaireQuery(questionnaireId)));
+                await _mediator.Send(new GetEntityByIdQuery<Questionnaire>(questionnaireId)));
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<QuestionCategory, QuestionCategoryViewModel>();

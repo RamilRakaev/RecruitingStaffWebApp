@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire;
-using RecruitingStaff.Domain.Model.CandidateQuestionnaire.CandidateData;
+using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.Options;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement
         {
             RecruitingStaffWebAppFile file = new()
             {
-                FileType = FileType.Questionnaire,
+                FileType = FileType.CompletedQuestionnaire,
                 CandidateId = candidate.Id,
                 Name = $"{candidate.Id}.{candidate.Name} - {questionnaireName}.docx"
             };
