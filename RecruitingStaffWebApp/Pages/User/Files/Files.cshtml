@@ -1,12 +1,24 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Files.FilesModel
 @{
+    ViewData["Title"] = "Файлы";
 }
 <div class="row justify-content-center mb-3">
-    <a class="btn btn-dark">Парсинг пустой анкеты</a>
-    <a class="btn btn-dark">Парсинг заполненной анкеты</a>
-    <a class="btn btn-dark">Добавить тестовое задание</a>
-    <a class="btn btn-dark">Добавить фото</a>
+    <div class="col-9">
+        <a class="btn btn-dark">Парсинг пустой анкеты</a>
+        <a class="btn btn-dark">Парсинг заполненной анкеты</a>
+        <a class="btn btn-dark">Добавить тестовое задание</a>
+        <a class="btn btn-dark">Добавить фото</a>
+    </div>
+    <div class="col-3">
+        <form method="post">
+            <div class="form-group">
+                <select class="custom-select" name="fileType" asp-items="@Model.FileTypes">
+                </select>
+            </div>
+            <button class="btn btn-dark">Фильтровать</button>
+        </form>
+    </div>
 </div>
 <div class="row justify-content-center">
     <table class="table">
@@ -24,7 +36,7 @@
                 <tr>
                     <td>@file.Id</td>
                     <td>@file.Name</td>
-                    <td>@file.FileType</td>
+                    <td>@file.FileViewModelType</td>
                     <td>
                         <a class="btn btn-warning">Изменить</a>
                         <form class="d-inline" method="post">

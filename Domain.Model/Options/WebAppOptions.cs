@@ -15,7 +15,7 @@
             {
                 case FileType.CompletedQuestionnaire:
                     return CandidateDocumentsSource;
-                case FileType.EmptyQuestionnaire:
+                case FileType.QuestionnaireExample:
                     return QuestionnairesSource;
                 case FileType.TestTask:
                     return TestTasksSource;

@@ -71,7 +71,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             _file = new()
             {
                 Name = $"{questionnaire.Id}.{questionnaire.Name}{fileExtension}",
-                FileType = FileType.CompletedQuestionnaire,
+                FileType = FileType.QuestionnaireExample,
                 QuestionnaireId = questionnaire.Id,
             };
             await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(_file));

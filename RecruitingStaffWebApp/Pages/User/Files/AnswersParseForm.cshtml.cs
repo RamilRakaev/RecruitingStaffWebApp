@@ -20,7 +20,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 
         public async Task OnGet()
         {
-            QuestionnaireTypes = new SelectList(
+            QuestionnaireTypes = new(
                 await _mediator.Send(
                 new GetJobQuestionnairesDictionaryQuery()),
                 "Key",
