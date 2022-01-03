@@ -19,14 +19,14 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         public async Task OnGet()
         {
             Candidates = await _mediator.Send(new GetEntitiesQuery<Candidate>());
-            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
+            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceQuery());
         }
 
         public async Task OnPost(int CandidateId)
         {
             await _mediator.Send(new RemoveCandidateCommand(CandidateId));
             Candidates = await _mediator.Send(new GetEntitiesQuery<Candidate>());
-            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceCommand());
+            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceQuery());
         }
     }
 }

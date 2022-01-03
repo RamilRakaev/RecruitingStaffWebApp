@@ -7,7 +7,9 @@ using RecruitingStaff.Infrastructure.CQRS;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries.Maps;
 using RecruitingStaff.Infrastructure.DatabaseServices;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Infrastructure.DocParse;
@@ -36,9 +38,12 @@ namespace RecruitingStaff.WebApp
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
+
+            services.ConfigrueEntitiesQueryHandlers<BaseMap>(typeof(GetMapsByFirstEntityIdQuery<>), typeof(GetMapsByFirstEntityIdHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByNameQuery<>), typeof(GetEntityByNameHandler<>));
             services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));

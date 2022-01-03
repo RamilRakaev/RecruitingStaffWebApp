@@ -1,0 +1,49 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.CandidateStatusesModel
+@{
+    ViewData["Title"] = "Статусы";
+}
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-dark m-2" asp-route-candidateId="@Model.CandidateId" asp-page="ConcreteCandidate">Кандидат</a>
+</div>
+<div class="row justify-content-center">
+    <p class="text-danger"></p>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"><h5>Id</h5></th>
+                <th scope="col"><h5>Имя вакансии</h5></th>
+                <th scope="col"><h5>Статус</h5></th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var candidateVacancyViewModel in Model.CandidateVacancyViewModels)
+            {
+                <tr>
+                    <th scope="row">@candidateVacancyViewModel.Id</th>
+                    <td>@candidateVacancyViewModel.VacancyName</td>
+                    <td>
+                        <form class="form-inline" method="get">
+                            <input type="hidden" name="handler" value="ChangeStatus" />
+                            <input type="hidden" asp-for="@candidateVacancyViewModel.Id" />
+                            <input type="hidden" asp-for="@candidateVacancyViewModel.FirstEntityId" />
+                            <input type="hidden" asp-for="@candidateVacancyViewModel.SecondEntityId" />
+                            <div class="form-group">
+                                <select class="custom-select m-2" name="status" asp-items="@candidateVacancyViewModel.CandidateStatusSelectList"></select>
+                            </div>
+                            <button class="btn btn-warning m-2">Изменить</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form class="form-inline" method="post">
+                            <input type="hidden" name="candidateId" asp-for="@candidateVacancyViewModel.FirstEntityId" />
+                            <input type="hidden" name="candidateVacancyId" asp-for="@candidateVacancyViewModel.SecondEntityId" />
+                            <button class="btn btn-danger m-2">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

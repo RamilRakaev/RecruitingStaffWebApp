@@ -1,4 +1,4 @@
-﻿namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
+﻿namespace RecruitingStaff.Domain.Model.CandidatesSelection.Maps
 {
     public enum CandidateStatus
     {

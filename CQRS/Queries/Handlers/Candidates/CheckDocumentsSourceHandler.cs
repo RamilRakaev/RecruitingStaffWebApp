@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
 {
-    public class CheckDocumentsSourceHandler : IRequestHandler<CheckDocumentsSourceCommand, string>
+    public class CheckDocumentsSourceHandler : IRequestHandler<CheckDocumentsSourceQuery, string>
     {
         private readonly WebAppOptions _options;
 
@@ -18,7 +18,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
             _options = options.Value;
         }
 
-        public Task<string> Handle(CheckDocumentsSourceCommand request, CancellationToken cancellationToken)
+        public Task<string> Handle(CheckDocumentsSourceQuery request, CancellationToken cancellationToken)
         {
             if (_options.CandidateDocumentsSource == null)
             {
