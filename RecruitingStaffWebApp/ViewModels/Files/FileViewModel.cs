@@ -1,4 +1,4 @@
-﻿namespace RecruitingStaff.WebApp.ViewModels.File
+﻿namespace RecruitingStaff.WebApp.ViewModels.Files
 {
     public class FileViewModel : BaseViewModel
     {

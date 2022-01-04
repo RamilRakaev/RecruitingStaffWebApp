@@ -10,15 +10,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles
         public CreateOrChangeFileCommand(
             IFormFile formFile,
             FileType fileType = FileType.CompletedQuestionnaire,
-            int candidateId = 0,
-            int questionnaireId = 0)
+            int? candidateId = null,
+            int? questionnaireId = null,
+            int? testTaskId = null)
         {
             FileEntity = new()
             {
-                Name = formFile.FileName[..(formFile.FileName.LastIndexOf('.') - 1)],
+                Name = formFile.FileName[..formFile.FileName.LastIndexOf('.')],
                 FileType = fileType,
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,
+                TestTaskId = testTaskId,
             };
             FormFile = formFile;
         }

@@ -3,12 +3,52 @@
 @{
 }
 <div class="row justify-content-center">
-    <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="candidateId" value="@Model.CandidateId" />
-        <div class="form-group">
-            <input class="form-control-file" type="file" name="formFile" placeholder="Фото" accept=".jpg, .png, .jpeg" />
-        </div>
-        <a class="btn btn-dark" asp-page="/User/Candidates/ConcreteCandidate" asp-route-candidateId="@Model.CandidateId">Текущий кандидат</a>
-        <button class="btn btn-success">Отправить</button>
-    </form>
+    @if (Model.CandidateId == null)
+    {
+        @if (Model.CandidateViewModels == null)
+        {
+
+            <form class="form-inline" method="post" asp-page-handler="SearchCandidates">
+                <div class="input-group mb-3 w-100">
+                    <input type="text"
+                   class="form-control"
+                   placeholder="Фрагмент имени кандидата"
+                   aria-describedby="button-search"
+                   name="nameFragment" />
+                    <button class="btn btn-outline-primary" id="button-search">Поиск</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <form method="post" enctype="multipart/form-data" asp-page-handler="CreatePhoto">
+                @foreach (var candidateViewModel in Model.CandidateViewModels)
+                {
+                    <div class="form-group">
+                        <input class="custom-radio"
+                           name="candidateId"
+                           type="radio"
+                           value="@candidateViewModel.Id" checked />
+                        <label>@candidateViewModel.Id: @candidateViewModel.Name</label>
+                    </div>
+                }
+                <div class="form-group">
+                    <input class="form-control-file" type="file" name="formFile" placeholder="Фото" accept=".jpg, .png, .jpeg" />
+                </div>
+                <a class="btn btn-dark" asp-page="/User/Candidates/ConcreteCandidate" asp-route-candidateId="@Model.CandidateId">Текущий кандидат</a>
+                <button class="btn btn-success">Отправить</button>
+            </form>
+        }
+    }
+    else
+    {
+        <form method="post" enctype="multipart/form-data" asp-page-handler="CreatePhoto">
+            <input type="hidden" name="candidateId" value="@Model.CandidateId" />
+            <div class="form-group">
+                <input class="form-control-file" type="file" name="formFile" placeholder="Фото" accept=".jpg, .png, .jpeg" />
+            </div>
+            <a class="btn btn-dark" asp-page="/User/Candidates/ConcreteCandidate" asp-route-candidateId="@Model.CandidateId">Текущий кандидат</a>
+            <button class="btn btn-success">Отправить</button>
+        </form>
+    }
 </div>

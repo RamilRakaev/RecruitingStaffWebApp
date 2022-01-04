@@ -5,7 +5,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires
 {
     public class DocumentParseCommand : IRequest<bool>
     {
-        public DocumentParseCommand(IFormFile formFile, int jobQuestionnaire, int candidateId = 0, bool parseQuestions = false)
+        public DocumentParseCommand(IFormFile formFile, int jobQuestionnaire, bool parseQuestions = true, int candidateId = 0)
         {
             FormFile = formFile;
             JobQuestionnaire = jobQuestionnaire;

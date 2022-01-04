@@ -2,8 +2,12 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Pages.User;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Files
@@ -14,17 +18,25 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         {
         }
 
-        public int CandidateId { get; set; }
+        public int? CandidateId { get; set; }
+        public CandidateViewModel[] CandidateViewModels { get; set; }
 
-        public void OnGet(int candidateId)
+        public void OnGet(int? candidateId)
         {
             CandidateId = candidateId;
         }
 
-        public async Task<IActionResult> OnPost(IFormFile formFile, int candidateId)
+        public async Task<IActionResult> OnPostCreatePhoto(IFormFile formFile, int candidateId)
         {
-            await _mediator.Send(new CreateOrEditPhotoCommand(formFile, candidateId));
+            await _mediator.Send(new CreateOrChangePhotoCommand(formFile, candidateId));
             return RedirectToPage("/User/Candidates/ConcreteCandidate", new { candidateId });
+        }
+
+        public async Task OnPostSearchCandidates(string nameFragment)
+        {
+            var candidates = await _mediator.Send(
+                new GetCandidatesByNameFragmentQuery(nameFragment));
+            CandidateViewModels = GetViewModels<Candidate, CandidateViewModel>(candidates);
         }
     }
 }

@@ -5,7 +5,7 @@ using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
-using RecruitingStaff.WebApp.ViewModels.File;
+using RecruitingStaff.WebApp.ViewModels.Files;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 

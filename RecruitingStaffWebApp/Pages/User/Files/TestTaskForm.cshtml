@@ -1,0 +1,17 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Files.TestTaskFormModel
+@{
+}
+<div class="row justify-content-center">
+    <form method="post">
+        <div class="form-group">
+            <label>Название</label>
+            <input asp-for="@Model.TestTaskViewModel.Name" />
+        </div>
+        <div class="form-group">
+            <label>Вакансия</label>
+            <select asp-for="@Model.TestTaskViewModel.VacancyId" asp-items="Vacancies"></select>
+        </div>
+        <button class="btn btn-success"></button>
+    </form>
+</div>

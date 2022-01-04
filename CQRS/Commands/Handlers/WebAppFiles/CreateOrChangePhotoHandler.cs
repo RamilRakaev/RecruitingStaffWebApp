@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
 {
-    public class CreateOrEditPhotoHandler : IRequestHandler<CreateOrEditPhotoCommand, bool>
+    public class CreateOrChangePhotoHandler : IRequestHandler<CreateOrChangePhotoCommand, bool>
     {
         private readonly IRepository<RecruitingStaffWebAppFile> _fileRepository;
         private readonly IRepository<Candidate> _candidateRepository;
         private readonly IWebHostEnvironment _webHost;
 
-        public CreateOrEditPhotoHandler(
+        public CreateOrChangePhotoHandler(
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IRepository<Candidate> candidateRepository,
             IWebHostEnvironment webHost)
@@ -28,7 +28,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             _webHost = webHost;
         }
 
-        public async Task<bool> Handle(CreateOrEditPhotoCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateOrChangePhotoCommand request, CancellationToken cancellationToken)
         {
             var file = _fileRepository.GetAll().Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.Photo).FirstOrDefault();
             var candidate = await _candidateRepository.FindAsync(request.CandidateId, cancellationToken);

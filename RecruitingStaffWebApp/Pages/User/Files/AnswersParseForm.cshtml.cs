@@ -29,7 +29,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 
         public async Task<IActionResult> OnPost(IFormFile formFile, int jobQuestionnaire, int candidateId)
         {
-            await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, candidateId));
+            await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, false, candidateId));
             return RedirectToPage("/User/Candidates/Candidates");
         }
     }

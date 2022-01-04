@@ -1,4 +1,4 @@
-﻿namespace RecruitingStaff.WebApp.ViewModels.File
+﻿namespace RecruitingStaff.WebApp.ViewModels.Files
 {
     public enum FileViewModelType { CompletedQuestionnaire, TestTask, Photo, EmptyQuestionnaire }
 }
