@@ -1,35 +1,12 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.Candidates.CreateCandidateModel
-@using RecruitingStaff.WebApp.ViewModels.CandidateData;
 @{
-    var candidateViewModel = new CandidateViewModel();
+    ViewData["Title"] = "Создание кандидата";
 }
-<div class="row justify-content-center">
-    <form method="post">
-        <div class="form-group">
-            <label>Полное имя</label>
-            <input type="text" class="form-control" asp-for="@candidateViewModel.Name" />
-        </div>
-        <div class="form-group">
-            <label>Дата рождения</label>
-            <input type="date" class="form-control" asp-for="@candidateViewModel.DateOfBirth" />
-        </div>
-        <div class="form-group">
-            <label>Адрес</label>
-            <input type="text" class="form-control" asp-for="@candidateViewModel.Address" />
-        </div>
-        <div class="form-group">
-            <label>Номер телефона</label>
-            <input type="text" class="form-control" asp-for="@candidateViewModel.TelephoneNumber" />
-        </div>
-        <div class="form-group">
-            <label>Семейное положение</label>
-            <input type="text" class="form-control" asp-for="@candidateViewModel.MaritalStatus" />
-        </div>
-        <div class="form-group">
-            <label>Вакансия</label>
-            <select multiple="multiple" class="custom-select" asp-for="@candidateViewModel.VacancyIds" asp-items="@Model.Vacancies"></select>
-        </div>
-        <button class="btn btn-dark">Отправить</button>
-    </form>
-</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/interface elements/select.css">
+}
+@await Html.PartialAsync("Views/CandidateForm", Model.CandidateViewModel)
+@section Scripts {
+    <script src="~/js/interface elements/select.js"></script>
+}

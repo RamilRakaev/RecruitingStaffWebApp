@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 {
@@ -9,9 +10,14 @@ namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 
         }
 
-        public CandidateViewModel(object obj) : base(obj)
+        public CandidateViewModel(int questionnaireId)
         {
+            QuestionnaireId = questionnaireId;
+        }
 
+        public CandidateViewModel(SelectList vacanciesSelectList)
+        {
+            VacanciesSelectList = vacanciesSelectList;
         }
 
         public int Id { get; set; }
@@ -23,6 +29,10 @@ namespace RecruitingStaff.WebApp.ViewModels.CandidateData
         public string TelephoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public string MaritalStatus { get; set; }
+
         public int[] VacancyIds { get; set; }
+        public SelectList VacanciesSelectList { get; set; }
+
+        public int QuestionnaireId { get; set; }
     }
 }

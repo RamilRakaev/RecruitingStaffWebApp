@@ -18,11 +18,15 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         {
         }
 
-        public SelectList Vacancies { get; set; }
+        public CandidateViewModel CandidateViewModel { get; set; }
 
         public async Task OnGet()
         {
-            Vacancies = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            var vacanciesSelectList = new SelectList(
+                await _mediator.Send(new GetEntitiesQuery<Vacancy>()),
+                "Id",
+                "Name");
+            CandidateViewModel = new(vacanciesSelectList);
         }
 
         public async Task<IActionResult> OnPost(CandidateViewModel candidateViewModel)
@@ -37,7 +41,8 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
                 }
                 return RedirectToPage("Candidates");
             }
-            Vacancies = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            var vacanciesSelectList = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            CandidateViewModel = new(vacanciesSelectList);
             return Page();
         }
     }

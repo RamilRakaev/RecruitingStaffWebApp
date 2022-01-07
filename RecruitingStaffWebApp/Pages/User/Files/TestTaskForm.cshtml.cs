@@ -20,7 +20,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         }
 
         public TestTaskViewModel TestTaskViewModel { get; set; }
-        public SelectList Vacancies { get; set;
+        public SelectList Vacancies
+        {
+            get; set;
         }
         public async Task OnGet()
         {

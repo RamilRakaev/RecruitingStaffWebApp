@@ -1,0 +1,24 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model SelectList
+@{
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/interface elements/select.css">
+}
+<div class="form_label">
+                    <span class="form_text">Вакансии</span>
+                    <div class="multiselect_block">
+                        <label for="select-1" class="field_multiselect">Вакансии</label>
+                        <input id="checkbox-1" class="multiselect_checkbox" type="checkbox">
+                        <label for="checkbox-1" class="multiselect_label"></label>
+                        <select id="select-1"
+                                class="field_select"
+                                name="technology"
+                                asp-items="@Model"
+                                multiple>
+                        </select>
+                    </div>
+                    <span class="error_text"></span>
+                </div>

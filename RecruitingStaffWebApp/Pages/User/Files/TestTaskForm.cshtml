@@ -1,17 +1,39 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Files.TestTaskFormModel
 @{
+    ViewData["Title"] = "Добавить тестовое задание";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/interface elements/select.css">
 }
 <div class="row justify-content-center">
-    <form method="post">
-        <div class="form-group">
-            <label>Название</label>
-            <input asp-for="@Model.TestTaskViewModel.Name" />
-        </div>
-        <div class="form-group">
-            <label>Вакансия</label>
-            <select asp-for="@Model.TestTaskViewModel.VacancyId" asp-items="Vacancies"></select>
-        </div>
-        <button class="btn btn-success"></button>
-    </form>
+    <div class="col-5">
+        <form method="post">
+            <div class="form-group">
+                <label>Название</label>
+                <input class="form-control" asp-for="@Model.TestTaskViewModel.Name" />
+            </div>
+            <div class="form-group">
+                <div class="form_label">
+                    <span class="form_text">Вакансии</span>
+                    <div class="multiselect_block">
+                        <label for="select-1" class="field_multiselect">Вакансии</label>
+                        <input id="checkbox-1" class="multiselect_checkbox" type="checkbox">
+                        <label for="checkbox-1" class="multiselect_label"></label>
+                        <select id="select-1"
+                                class="field_select"
+                                asp-for="@Model.TestTaskViewModel.VacancyId"
+                                asp-items="@Model.Vacancies"
+                                multiple>
+                        </select>
+                    </div>
+                    <span class="error_text"></span>
+                </div>
+            </div>
+            <button class="btn btn-success">Отправить</button>
+        </form>
+    </div>
 </div>
+@section Scripts {
+    <script src="~/js/interface elements/select.js"></script>
+}

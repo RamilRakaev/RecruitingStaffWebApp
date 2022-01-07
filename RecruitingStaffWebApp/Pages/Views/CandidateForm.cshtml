@@ -1,0 +1,67 @@
+﻿@{
+}
+@using RecruitingStaff.WebApp.ViewModels.CandidateData;
+@model CandidateViewModel
+<div class="row justify-content-center">
+    <div class="col-5">
+        <form method="post">
+            <div class="form-group">
+                <label>Полное имя</label>
+                <input type="text" class="form-control" asp-for="@Model.Name" />
+            </div>
+            <div class="form-group">
+                <label>Дата рождения</label>
+                <input type="date" class="form-control" asp-for="@Model.DateOfBirth" />
+            </div>
+            <div class="form-group">
+                <label>Место рождения</label>
+                <input type="text" class="form-control" asp-for="@Model.PlaceOfBirth" />
+            </div>
+            <div class="form-group">
+                <label>Индекс</label>
+                <input type="text" class="form-control" asp-for="@Model.AddressIndex" />
+            </div>
+            <div class="form-group">
+                <label>Адрес</label>
+                <input type="text" class="form-control" asp-for="@Model.Address" />
+            </div>
+            <div class="form-group">
+                <label>Номер телефона</label>
+                <input type="text" class="form-control" asp-for="@Model.TelephoneNumber" />
+            </div>
+            <div class="form-group">
+                <label>Электронная почта</label>
+                <input type="text" class="form-control" asp-for="@Model.EmailAddress" />
+            </div>
+            <div class="form-group">
+                <label>Семейное положение</label>
+                <input type="text" class="form-control" asp-for="@Model.MaritalStatus" />
+            </div>
+            @if (Model.QuestionnaireId == 0)
+            {
+                <div class="form-group">
+                    <div class="form_label">
+                        <span class="form_text">Вакансии</span>
+                        <div class="multiselect_block">
+                            <label for="select-1" class="field_multiselect">Вакансии</label>
+                            <input id="checkbox-1" class="multiselect_checkbox" type="checkbox">
+                            <label for="checkbox-1" class="multiselect_label"></label>
+                            <select id="select-1"
+                                class="field_select"
+                                asp-for="@Model.VacancyIds"
+                                asp-items="@Model.VacanciesSelectList"
+                                multiple>
+                            </select>
+                        </div>
+                        <span class="error_text"></span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
+            }
+            <button class="btn btn-dark">Отправить</button>
+        </form>
+    </div>
+</div>
