@@ -20,42 +20,53 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         }
 
         public int QuestionnaireId { get; set; }
-        public QuestionViewModel Question { get; set; }
+        public QuestionViewModel QuestionViewModel { get; set; }
         public SelectList QuestionCategories { get; set; }
 
         public async Task OnGet(int? questionId, int? questionCategoryId, int questionnaireId)
         {
-            QuestionnaireId = questionnaireId;
-               QuestionCategories = new SelectList(
-                await _mediator
-                .Send(
-                    new GetQuestionCategoriesByQuestionnaireIdQuery(questionnaireId)),
-                "Id",
-                "Name");
-
+            await Initialize(questionnaireId);
             if (questionId == null)
             {
-                Question = new() { QuestionCategoryId = questionCategoryId ?? 0 };
+                QuestionViewModel = new() { QuestionCategoryId = questionCategoryId ?? 0 };
             }
             else
             {
-                Question = GetViewModel<Question, QuestionViewModel>(
+                QuestionViewModel = GetViewModel<Question, QuestionViewModel>(
                     await _mediator.Send(new GetEntityByIdQuery<Question>(questionId.Value)));
             }
         }
 
-        public async Task<IActionResult> OnPost(QuestionViewModel question, int questionnaireId)
+        public async Task<IActionResult> OnPost(QuestionViewModel questionViewModel, int questionnaireId)
         {
-            var questionEntity = GetEntity<Question, QuestionViewModel>(question);
-            if (question.Id == 0)
+            if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateEntityCommand<Question>(questionEntity));
+                var questionEntity = GetEntity<Question, QuestionViewModel>(questionViewModel);
+                if (questionViewModel.Id == 0)
+                {
+                    await _mediator.Send(new CreateEntityCommand<Question>(questionEntity));
+                }
+                else
+                {
+                    await _mediator.Send(new ChangeEntityCommand<Question>(questionEntity));
+                }
+                return RedirectToPage("ConcreteQuestionnaire", new { questionnaireId });
             }
-            else
-            {
-                await _mediator.Send(new ChangeEntityCommand<Question>(questionEntity));
-            }
-            return RedirectToPage("ConcreteQuestionnaire", new { questionnaireId });
+            ModelState.AddModelError("", "Неправильно введены данные");
+            await Initialize(questionnaireId);
+            QuestionViewModel = questionViewModel;
+            return Page();
+        }
+
+        private async Task Initialize(int questionnaireId)
+        {
+            QuestionnaireId = questionnaireId;
+            QuestionCategories = new SelectList(
+             await _mediator
+             .Send(
+                 new GetQuestionCategoriesByQuestionnaireIdQuery(QuestionnaireId)),
+             "Id",
+             "Name");
         }
     }
 }

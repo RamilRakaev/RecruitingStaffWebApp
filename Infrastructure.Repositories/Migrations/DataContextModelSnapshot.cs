@@ -492,7 +492,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "59e5b331-d2a9-4bdb-b469-ce8d00e55744",
+                            ConcurrencyStamp = "f34628c2-9d5d-4a4c-985a-40245409b429",
                             Name = "user",
                             NormalizedName = "USER"
                         });

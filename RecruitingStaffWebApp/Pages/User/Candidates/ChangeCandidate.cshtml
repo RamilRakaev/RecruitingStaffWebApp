@@ -1,41 +1,41 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.Candidates.ChangeCandidateModel
 @{
-    ViewData["Title"] = Model.Candidate.Name;
+    ViewData["Title"] = Model.CandidateViewModel.Name;
 }
 <div class="row justify-content-center">
     <div class="col-5">
         <form method="post" enctype="multipart/form-data">
-            <input type="hidden" asp-for="@Model.Candidate.Id" />
+            <input type="hidden" asp-for="@Model.CandidateViewModel.Id" />
             <div class="form-group">
                 <label class="col-form-label">Полное имя</label>
-                <input class="form-control" asp-for="@Model.Candidate.Name" />
-                <span asp-validation-for="@Model.Candidate.Name"></span>
+                <input class="form-control" asp-for="@Model.CandidateViewModel.Name" />
+                <span asp-validation-for="@Model.CandidateViewModel.Name"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Дата рождения</label>
-                <input class="form-control" asp-for="@Model.Candidate.DateOfBirth" />
-                <span asp-validation-for="@Model.Candidate.DateOfBirth"></span>
+                <input class="form-control" asp-for="@Model.CandidateViewModel.DateOfBirth" />
+                <span asp-validation-for="@Model.CandidateViewModel.DateOfBirth"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Адрес</label>
-                <input class="form-control" asp-for="@Model.Candidate.Address" />
-                <span asp-validation-for="@Model.Candidate.Address"></span>
+                <input class="form-control" asp-for="@Model.CandidateViewModel.Address" />
+                <span asp-validation-for="@Model.CandidateViewModel.Address"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Номер телефона</label>
-                <input class="form-control" asp-for="@Model.Candidate.TelephoneNumber" />
-                <span asp-validation-for="@Model.Candidate.TelephoneNumber"></span>
+                <input class="form-control" asp-for="@Model.CandidateViewModel.TelephoneNumber" />
+                <span asp-validation-for="@Model.CandidateViewModel.TelephoneNumber"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Почта</label>
-                <input class="form-control" asp-for="@Model.Candidate.EmailAddress" />
-                <span asp-validation-for="@Model.Candidate.EmailAddress"></span>
+                <input class="form-control" asp-for="@Model.CandidateViewModel.EmailAddress" />
+                <span asp-validation-for="@Model.CandidateViewModel.EmailAddress"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Семейное положение</label>
-                <input class="form-control" asp-for="@Model.Candidate.MaritalStatus" />
-                <span asp-validation-for="@Model.Candidate.MaritalStatus"></span>
+                <input class="form-control" asp-for="@Model.CandidateViewModel.MaritalStatus" />
+                <span asp-validation-for="@Model.CandidateViewModel.MaritalStatus"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Название анкеты</label>
@@ -47,7 +47,7 @@
             </div>
             <a class="btn btn-dark"
                asp-page="/User/ConcreteCandidate"
-               asp-route-CandidateId="@Model.Candidate.Id">
+               asp-route-CandidateId="@Model.CandidateViewModel.Id">
                 Кандидат
             </a>
             <a class="btn btn-dark"

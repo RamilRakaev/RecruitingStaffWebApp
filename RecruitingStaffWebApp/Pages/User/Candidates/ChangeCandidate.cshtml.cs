@@ -19,25 +19,32 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         public ChangeCandidateModel(IMediator mediator, ILogger<ChangeCandidateModel> logger) : base(mediator, logger)
         { }
 
-        public CandidateViewModel Candidate { get; set; }
+        public CandidateViewModel CandidateViewModel { get; set; }
         public SelectList Questionnaires { get; set; }
 
         public async Task OnGet(int candidateId)
         {
-            Candidate = GetViewModel<Candidate, CandidateViewModel>(
+            CandidateViewModel = GetViewModel<Candidate, CandidateViewModel>(
                 await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId))
                 );
             Questionnaires = new SelectList(await _mediator.Send(new GetEntitiesQuery<Questionnaire>()), "Id", "Name");
         }
 
-        public async Task<IActionResult> OnPost(CandidateViewModel candidate, int questionnaireId, IFormFile formFile)
+        public async Task<IActionResult> OnPost(CandidateViewModel candidateViewModel, int questionnaireId, IFormFile formFile)
         {
-            var candidateEntity = GetEntity<Candidate, CandidateViewModel>(candidate);
-            await _mediator.Send(new ChangeEntityCommand<Candidate>(candidateEntity));
-            await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(candidateEntity.Id, questionnaireId));
-            await _mediator.Send(new CreateOrChangeFileCommand(formFile, candidateId: candidateEntity.Id, questionnaireId: questionnaireId));
-            //await _mediator.Send(new ChangeCandidateCommand(candidateEntity, formFile, questionnaireId));
-            return RedirectToPage("ConcreteCandidate", new { CandidateId = candidate.Id });
+            if (ModelState.IsValid)
+            {
+                var candidateEntity = GetEntity<Candidate, CandidateViewModel>(candidateViewModel);
+                await _mediator.Send(new ChangeEntityCommand<Candidate>(candidateEntity));
+                await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(candidateEntity.Id, questionnaireId));
+                await _mediator.Send(new CreateOrChangeFileCommand(formFile, candidateEntity.Name, candidateId: candidateEntity.Id, questionnaireId: questionnaireId));
+                return RedirectToPage("ConcreteCandidate", new { CandidateId = candidateViewModel.Id });
+            }
+            CandidateViewModel = GetViewModel<Candidate, CandidateViewModel>(
+                await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateViewModel.Id))
+                );
+            Questionnaires = new SelectList(await _mediator.Send(new GetEntitiesQuery<Questionnaire>()), "Id", "Name");
+            return Page();
         }
     }
 }

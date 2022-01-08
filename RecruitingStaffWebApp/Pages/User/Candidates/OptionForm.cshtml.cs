@@ -27,13 +27,18 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         public async Task<IActionResult> OnPost(OptionViewModel optionViewModel)
         {
-            var optionEntity = GetEntity<Option, OptionViewModel>(optionViewModel);
-            await _mediator.Send(new CreateOrChangeEntityCommand<Option>(optionEntity));
-            if(optionViewModel.CandidateId != null)
+            if (ModelState.IsValid)
             {
-                return RedirectToPage("ConcreteCandidate", new { CandidateId = optionViewModel.CandidateId.Value });
+                var optionEntity = GetEntity<Option, OptionViewModel>(optionViewModel);
+                await _mediator.Send(new CreateOrChangeEntityCommand<Option>(optionEntity));
+                if (optionViewModel.CandidateId != null)
+                {
+                    return RedirectToPage("ConcreteCandidate", new { CandidateId = optionViewModel.CandidateId.Value });
+                }
+                return RedirectToPage("Candidates");
             }
-            return RedirectToPage("Candidates");
+            OptionViewModel = optionViewModel;
+            return Page();
         }
     }
 }

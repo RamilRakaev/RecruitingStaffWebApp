@@ -6,29 +6,37 @@
 <div class="row justify-content-center">
     <div class="col-6">
         <form method="post">
+            <div asp-validation-summary="ModelOnly"></div>
             <input type="hidden" asp-for="@Model.VacancyViewModel.Id" />
             <div class="form-group">
                 <label class="col-form-label">Наименование вакансии</label>
                 <input class="form-control" type="text" asp-for="@Model.VacancyViewModel.Name" />
+                <span asp-validation-for="@Model.VacancyViewModel.Name"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Описание</label>
                 <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.Description"></textarea>
+                <span asp-validation-for="@Model.VacancyViewModel.Description"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Обязанности</label>
                 <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.Responsibilities"></textarea>
+                <span asp-validation-for="@Model.VacancyViewModel.Responsibilities"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Требования</label>
                 <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.Requirements"></textarea>
+                <span asp-validation-for="@Model.VacancyViewModel.Requirements"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Условия работа</label>
                 <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.WorkingConditions"></textarea>
+                <span asp-validation-for="@Model.VacancyViewModel.WorkingConditions"></span>
             </div>
-            <a class="btn btn-dark" asp-page="ConcreteVacancy" asp-route-vacancyId="@Model.VacancyViewModel.Id">Текущая вакансия</a>
-            <a class="btn btn-dark" asp-page="Vacancies">Вакансии</a>
+            @if (Model.VacancyViewModel.Id != 0)
+            {
+                <a class="btn btn-dark" asp-page="ConcreteVacancy" asp-route-vacancyId="@Model.VacancyViewModel.Id">Текущая вакансия</a>
+            }
             <button class="btn btn-success float-right">Отправить</button>
         </form>
     </div>

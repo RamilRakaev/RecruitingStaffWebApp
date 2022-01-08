@@ -8,6 +8,8 @@ using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecruitingStaffWebApp.Pages.User.Candidates
@@ -41,8 +43,13 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
                 }
                 return RedirectToPage("Candidates");
             }
-            var vacanciesSelectList = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
-            CandidateViewModel = new(vacanciesSelectList);
+            var vacanciesSelectList = new SelectList(
+                await _mediator.Send(
+                    new GetEntitiesQuery<Vacancy>()),
+                "Id",
+                "Name");
+            CandidateViewModel = candidateViewModel;
+            CandidateViewModel.VacanciesSelectList = vacanciesSelectList;
             return Page();
         }
     }

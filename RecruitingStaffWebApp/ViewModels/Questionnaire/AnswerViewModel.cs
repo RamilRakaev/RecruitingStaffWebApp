@@ -1,4 +1,6 @@
-﻿namespace RecruitingStaff.WebApp.ViewModels.Questionnaire
+﻿using RecruitingStaff.WebApp.ViewModels.CandidateData;
+
+namespace RecruitingStaff.WebApp.ViewModels.Questionnaire
 {
     public class AnswerViewModel : BaseViewModel
     {
@@ -9,5 +11,7 @@
         public string FamiliarWithTheTechnology { get; set; }
         public byte Estimation { get; set; }
         public string Comment { get; set; }
+        public CandidateViewModel[] CandidateViewModels { get; set; }
+        public string NameFragmentOfCandidate { get; set; }
     }
 }

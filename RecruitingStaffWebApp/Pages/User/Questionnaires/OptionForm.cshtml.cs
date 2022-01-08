@@ -12,29 +12,35 @@ namespace RecruitingStaffWebApp.Pages.User.Questionnaires
     {
         public OptionFormModel(IMediator mediator, ILogger<OptionFormModel> logger) : base(mediator, logger)
         {
-            Option = new OptionViewModel();
+            OptionViewModel = new OptionViewModel();
         }
 
-        public OptionViewModel Option { get; set; }
+        public OptionViewModel OptionViewModel { get; set; }
         public int QuestionId { get; set; }
 
         public void OnGet(int candidateId, int questionId, string propertyName = "", string value = "")
         {
-            Option.CandidateId = candidateId;
+            OptionViewModel = new();
+            OptionViewModel.CandidateId = candidateId;
             QuestionId = questionId;
-            Option.Name = propertyName;
-            Option.Value = value;
+            OptionViewModel.Name = propertyName;
+            OptionViewModel.Value = value;
         }
 
-        public async Task<IActionResult> OnPost(OptionViewModel option, int questionId)
+        public async Task<IActionResult> OnPost(OptionViewModel optionViewModel, int questionId)
         {
-            var optionEntity = GetEntity<Option, OptionViewModel>(option);
-            await _mediator.Send(new CreateOrChangeEntityByKeysCommand<Option>(optionEntity));
-            return RedirectToPage("ConcreteCandidate", new
+            if (ModelState.IsValid)
             {
-                candidateId = option.CandidateId.Value,
-                questionId
-            });
+                var optionEntity = GetEntity<Option, OptionViewModel>(optionViewModel);
+                await _mediator.Send(new CreateOrChangeEntityByKeysCommand<Option>(optionEntity));
+                return RedirectToPage("ConcreteCandidate", new
+                {
+                    candidateId = optionViewModel.CandidateId.Value,
+                    questionId
+                });
+            }
+            OptionViewModel = optionViewModel;
+            return Page();
         }
     }
 }

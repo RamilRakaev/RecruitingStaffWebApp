@@ -9,6 +9,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles
     {
         public CreateOrChangeFileCommand(
             IFormFile formFile,
+            string name,
             FileType fileType = FileType.CompletedQuestionnaire,
             int? candidateId = null,
             int? questionnaireId = null,
@@ -16,12 +17,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles
         {
             FileEntity = new()
             {
-                Name = formFile.FileName[..formFile.FileName.LastIndexOf('.')],
+                Name = name,
                 FileType = fileType,
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,
                 TestTaskId = testTaskId,
             };
+            FileEntity.Name = $"{candidateId ?? questionnaireId ?? testTaskId ?? 0}.{FileEntity.Name}";
             FormFile = formFile;
         }
 

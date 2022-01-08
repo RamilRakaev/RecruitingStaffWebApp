@@ -27,8 +27,16 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 
         public async Task<IActionResult> OnPost(IFormFile formFile, int jobQuestionnaire)
         {
-            await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, parseQuestions: true));
-            return RedirectToPage("/User/Candidates/Candidates");
+            if (await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, parseQuestions: true)))
+            {
+                return RedirectToPage("/User/Candidates/Candidates");
+            }
+            ModelState.AddModelError("", "Не удалось проанализировать документ");
+            QuestionnaireTypes = new SelectList(
+               await _mediator.Send(new GetJobQuestionnairesDictionaryQuery()),
+               "Key",
+               "Value");
+            return Page();
         }
     }
 }

@@ -5,40 +5,50 @@
 <div class="row justify-content-center">
     <div class="col-5">
         <form method="post">
+        <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
                 <label>Полное имя</label>
                 <input type="text" class="form-control" asp-for="@Model.Name" />
+                <span asp-validation-for="@Model.Name"></span>
             </div>
             <div class="form-group">
                 <label>Дата рождения</label>
                 <input type="date" class="form-control" asp-for="@Model.DateOfBirth" />
+                <span asp-validation-for="@Model.DateOfBirth"></span>
             </div>
             <div class="form-group">
                 <label>Место рождения</label>
                 <input type="text" class="form-control" asp-for="@Model.PlaceOfBirth" />
+                <span asp-validation-for="@Model.PlaceOfBirth"></span>
             </div>
             <div class="form-group">
                 <label>Индекс</label>
                 <input type="text" class="form-control" asp-for="@Model.AddressIndex" />
+                <span asp-validation-for="@Model.AddressIndex"></span>
             </div>
             <div class="form-group">
                 <label>Адрес</label>
                 <input type="text" class="form-control" asp-for="@Model.Address" />
+                <span asp-validation-for="@Model.Address"></span>
             </div>
             <div class="form-group">
                 <label>Номер телефона</label>
-                <input type="text" class="form-control" asp-for="@Model.TelephoneNumber" />
+                <input type="number" class="form-control" asp-for="@Model.TelephoneNumber" />
+                <span asp-validation-for="@Model.TelephoneNumber"></span>
             </div>
             <div class="form-group">
                 <label>Электронная почта</label>
                 <input type="text" class="form-control" asp-for="@Model.EmailAddress" />
+            <span asp-validation-for="@Model.EmailAddress"></span>
             </div>
             <div class="form-group">
                 <label>Семейное положение</label>
                 <input type="text" class="form-control" asp-for="@Model.MaritalStatus" />
+                <span asp-validation-for="@Model.MaritalStatus"></span>
             </div>
             @if (Model.QuestionnaireId == 0)
             {
+                <input type="hidden" asp-for="@Model.VacanciesSelectList"/>
                 <div class="form-group">
                     <div class="form_label">
                         <span class="form_text">Вакансии</span>
@@ -55,6 +65,7 @@
                         </div>
                         <span class="error_text"></span>
                     </div>
+                    <span asp-validation-for="@Model.VacancyIds"></span>
                 </div>
             }
             else

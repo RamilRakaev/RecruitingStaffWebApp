@@ -5,7 +5,7 @@
 <div class="row justify-content-center">
     @if (Model.CandidateId == null)
     {
-        @if (Model.CandidateViewModels == null)
+        @if (Model.CandidateViewModels == null || Model.CandidateViewModels.Length == 0)
         {
 
             <form class="form-inline" method="post" asp-page-handler="SearchCandidates">

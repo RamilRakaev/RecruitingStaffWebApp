@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.WebApp.ViewModels.CandidateData;
 
 namespace RecruitingStaff.WebApp.Validators
 {
-    public class VacancyValidator : AbstractValidator<Vacancy>
+    public class VacancyValidator : AbstractValidator<VacancyViewModel>
     {
         public VacancyValidator()
         {

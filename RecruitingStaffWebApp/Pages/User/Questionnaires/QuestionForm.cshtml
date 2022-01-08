@@ -5,18 +5,20 @@
 <div class="row justify-content-center">
     <div class="col-7">
         <form method="post">
-            <input type="hidden" asp-for="@Model.Question.Id" />
+            <div asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="@Model.QuestionViewModel.Id" />
             <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
             <div class="form-group">
                 <label>Вопрос</label>
-                <textarea class="form-control" rows="3" asp-for="@Model.Question.Name">
+                <textarea class="form-control" rows="3" asp-for="@Model.QuestionViewModel.Name">
                 </textarea>
+                <span asp-validation-for="@Model.QuestionViewModel.Name"></span>
             </div>
-            @if (Model.Question.QuestionCategoryId == 0)
+            @if (Model.QuestionViewModel.QuestionCategoryId == 0)
             {
                 <div class="form-group">
                     <label>Категория вопроса</label>
-                    <select class="custom-select" asp-for="@Model.Question.QuestionCategoryId" asp-items="@Model.QuestionCategories">
+                    <select class="custom-select" asp-for="@Model.QuestionViewModel.QuestionCategoryId" asp-items="@Model.QuestionCategories">
                     </select>
                 </div>
                 <a class="btn btn-dark float-left"
@@ -27,7 +29,7 @@
             }
             else
             {
-                <input type="hidden" asp-for="@Model.Question.QuestionCategoryId" />
+                <input type="hidden" asp-for="@Model.QuestionViewModel.QuestionCategoryId" />
                 <a class="btn btn-dark"
                    asp-page="ConcreteQuestionnaire"
                    asp-route-questionnaireId="@Model.QuestionnaireId">

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Files;
@@ -20,21 +21,25 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         }
 
         public TestTaskViewModel TestTaskViewModel { get; set; }
-        public SelectList Vacancies
-        {
-            get; set;
-        }
+
         public async Task OnGet()
         {
             TestTaskViewModel = new();
-            Vacancies = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            TestTaskViewModel.VacanciesSelectList = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
         }
 
         public async Task<IActionResult> OnPost(IFormFile formFile, TestTaskViewModel testTaskViewModel)
         {
-            var testTaskEntity = GetEntity<TestTask, TestTaskViewModel>(testTaskViewModel);
-            await _mediator.Send(new CreateOrChangeFileCommand(formFile, FileType.TestTask, testTaskId: testTaskEntity.Id));
-            return RedirectToPage("Files");
+            if (ModelState.IsValid)
+            {
+                var testTaskEntity = GetEntity<TestTask, TestTaskViewModel>(testTaskViewModel);
+                await _mediator.Send(new CreateOrChangeEntityCommand<TestTask>(testTaskEntity));
+                await _mediator.Send(new CreateOrChangeFileCommand(formFile, testTaskEntity.Name, FileType.TestTask, testTaskId: testTaskEntity.Id));
+                return RedirectToPage("Files");
+            }
+            TestTaskViewModel = new();
+            TestTaskViewModel.VacanciesSelectList = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            return Page();
         }
     }
 }

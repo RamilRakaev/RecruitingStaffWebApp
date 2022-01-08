@@ -14,6 +14,10 @@ namespace RecruitingStaff.WebApp.Validators
             RuleFor(c => c.DateOfBirth)
                 .NotNull();
 
+            RuleFor(c => c.VacancyIds)
+                .NotNull()
+                .NotEmpty();
+
             RuleFor(c => c.TelephoneNumber)
                 .NotNull()
                 .NotEmpty();

@@ -1,30 +1,31 @@
 ﻿@page
 @model RecruitingStaffWebApp.Pages.User.Questionnaires.OptionFormModel
 @{
-    ViewData["Title"] = Model.Option.Name;
+    ViewData["Title"] = Model.OptionViewModel.Name;
 }
 <div class="row justify-content-center">
     <div class="col-5">
         <form method="post">
+            <div asp-validation-summary="ModelOnly"></div>
             <input type="hidden" name="questionId" asp-for="@Model.QuestionId" />
             <div class="form-group">
                 <label class="col-form-label">Имя свойства</label>
-                @if (Model.Option.Name == "")
+                @if (Model.OptionViewModel.Name == "")
                 {
-                    <input class="form-control" asp-for="@Model.Option.Name" />
+                    <input class="form-control" asp-for="@Model.OptionViewModel.Name" />
                 }
                 else
                 {
-                    <input class="form-control" asp-for="@Model.Option.Name" readonly />
+                    <input class="form-control" asp-for="@Model.OptionViewModel.Name" readonly />
                 }
-                <span asp-validation-for="@Model.Option.Name"></span>
+                <span asp-validation-for="@Model.OptionViewModel.Name"></span>
             </div>
             <div class="form-group">
                 <label class="col-form-label">Значение свойства</label>
-                <textarea class="form-control" rows="5" asp-for="@Model.Option.Value">
-                    @Model.Option.Value
+                <textarea class="form-control" rows="5" asp-for="@Model.OptionViewModel.Value">
+                    @Model.OptionViewModel.Value
                 </textarea>
-                <span asp-validation-for="@Model.Option.Value"></span>
+                <span asp-validation-for="@Model.OptionViewModel.Value"></span>
             </div>
             <a class="btn btn-dark"
                asp-page="/User/Candidates/Candidates">

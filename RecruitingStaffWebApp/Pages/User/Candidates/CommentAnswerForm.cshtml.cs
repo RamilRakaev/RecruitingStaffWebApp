@@ -26,9 +26,15 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
 
         public async Task<IActionResult> OnPost(AnswerViewModel answerViewModel)
         {
-            var answerEntity = GetEntity<Answer, AnswerViewModel>(answerViewModel);
-            await _mediator.Send(new ChangeEntityCommand<Answer>(answerEntity));
-            return RedirectToPage("CandidateAnswers", new { candidateId = answerEntity.CandidateId });
+            if (ModelState.IsValid)
+            {
+                var answerEntity = GetEntity<Answer, AnswerViewModel>(answerViewModel);
+                await _mediator.Send(new ChangeEntityCommand<Answer>(answerEntity));
+                return RedirectToPage("CandidateAnswers", new { candidateId = answerEntity.CandidateId });
+            }
+            ModelState.AddModelError("", "Неправильно введены данные");
+            AnswerViewModel = answerViewModel;
+            return Page();
         }
     }
 }

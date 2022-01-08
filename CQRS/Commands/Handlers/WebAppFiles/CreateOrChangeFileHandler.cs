@@ -26,7 +26,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
                 new CreateOrChangeEntityCommand<RecruitingStaffWebAppFile>(request.FileEntity),
                 cancellationToken);
             await request.FormFile.CreateNewFileAsync(
-                _options.GetSource(fileEntity.FileType) + "\\" + fileEntity.Name);
+                _options.GetSource(fileEntity.FileType) + "\\" + fileEntity.Name + ".docx");
             return fileEntity;
         }
     }

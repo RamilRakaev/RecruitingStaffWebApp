@@ -3,7 +3,7 @@
 @{
 }
 <div class="row justify-content-center">
-    <div class="col-7">
+    <div class="col-5">
         @if (Model.Questionnaires.Length == 0 && Model.QuestionCategoryViewModel.QuestionnaireId == 0)
         {
             <p class="text-warning">Выберите анкету</p>
@@ -21,6 +21,7 @@
         else
         {
             <form method="post" asp-page-handler="CreateQuestionCategory">
+                <div asp-validation-summary="ModelOnly"></div>
                 <input type="hidden" asp-for="QuestionCategoryViewModel.Id" />
                 @if (Model.Questionnaires.Length == 0)
                 {
@@ -29,6 +30,7 @@
                 <div class="form-group">
                     <label>Наименование категории</label>
                     <input class="form-control" asp-for="@Model.QuestionCategoryViewModel.Name" />
+                    <span asp-validation-for="@Model.QuestionCategoryViewModel.Name"></span>
                 </div>
                 @foreach (var questionnaire in Model.Questionnaires)
                 {
@@ -38,8 +40,8 @@
                     </div>
                 }
                 <a class="btn btn-dark"
-                   asp-page="ConcreteQuestionnaire"
-                   asp-route-QuestionnaireId="@Model.QuestionCategoryViewModel.QuestionnaireId">Анкета</a>
+               asp-page="ConcreteQuestionnaire"
+               asp-route-QuestionnaireId="@Model.QuestionCategoryViewModel.QuestionnaireId">Анкета</a>
                 <button class="btn btn-success float-right">Отправить</button>
             </form>
         }

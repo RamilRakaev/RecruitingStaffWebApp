@@ -17,7 +17,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
         }
 
-        public QuestionnaireViewModel Questionnaire { get; set; }
+        public QuestionnaireViewModel QuestionnaireViewModel { get; set; }
         public SelectList Vacancies { get; set; }
 
         public async Task OnGet(int? questionnaireId)
@@ -25,27 +25,34 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             Vacancies = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
             if (questionnaireId == null)
             {
-                Questionnaire = new QuestionnaireViewModel();
+                QuestionnaireViewModel = new QuestionnaireViewModel();
             }
             else
             {
                 var questionnaireEntity = await _mediator.Send(new GetEntityByIdQuery<Questionnaire>(questionnaireId.Value));
-                Questionnaire = GetViewModel<Questionnaire, QuestionnaireViewModel>(questionnaireEntity);
+                QuestionnaireViewModel = GetViewModel<Questionnaire, QuestionnaireViewModel>(questionnaireEntity);
             }
         }
 
-        public async Task<IActionResult> OnPost(QuestionnaireViewModel questionnaire)
+        public async Task<IActionResult> OnPost(QuestionnaireViewModel questionnaireViewModel)
         {
-            var questionnaireEntity = GetEntity<Questionnaire, QuestionnaireViewModel>(questionnaire);
-            if(questionnaire.Id == 0)
+            if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateEntityCommand<Questionnaire>(questionnaireEntity));
+                var questionnaireEntity = GetEntity<Questionnaire, QuestionnaireViewModel>(questionnaireViewModel);
+                if (questionnaireViewModel.Id == 0)
+                {
+                    await _mediator.Send(new CreateEntityCommand<Questionnaire>(questionnaireEntity));
+                }
+                else
+                {
+                    await _mediator.Send(new ChangeEntityCommand<Questionnaire>(questionnaireEntity));
+                }
+                return RedirectToPage("Questionnaires");
             }
-            else
-            {
-                await _mediator.Send(new ChangeEntityCommand<Questionnaire>(questionnaireEntity));
-            }
-            return RedirectToPage("Questionnaires");
+            ModelState.AddModelError("", "Неправильно введены данные");
+            QuestionnaireViewModel = questionnaireViewModel;
+            Vacancies = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            return Page();
         }
     }
 }

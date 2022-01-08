@@ -48,19 +48,26 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 
         public async Task<IActionResult> OnPostCreateQuestionCategory(QuestionCategoryViewModel questionCategoryViewModel)
         {
-            var questionCategoryEntity =
-                GetEntity<QuestionCategory, QuestionCategoryViewModel>(
-                questionCategoryViewModel);
-            if (questionCategoryViewModel.Id == 0)
+            if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateEntityCommand<QuestionCategory>(questionCategoryEntity));
+                var questionCategoryEntity =
+                    GetEntity<QuestionCategory, QuestionCategoryViewModel>(
+                    questionCategoryViewModel);
+                if (questionCategoryViewModel.Id == 0)
+                {
+                    await _mediator.Send(new CreateEntityCommand<QuestionCategory>(questionCategoryEntity));
+                }
+                else
+                {
+                    await _mediator.Send(new ChangeEntityCommand<QuestionCategory>(questionCategoryEntity));
+                }
+                await _mediator.Send(new CreateOrChangeEntityCommand<QuestionCategory>(questionCategoryEntity));
+                return RedirectToPage("ConcreteQuestionnaire", new { questionnaireId = questionCategoryViewModel.QuestionnaireId });
             }
-            else
-            {
-                await _mediator.Send(new ChangeEntityCommand<QuestionCategory>(questionCategoryEntity));
-            }
-            await _mediator.Send(new CreateOrChangeEntityCommand<QuestionCategory>(questionCategoryEntity));
-            return RedirectToPage("ConcreteQuestionnaire", new { questionnaireId = questionCategoryViewModel.QuestionnaireId });
+            ModelState.AddModelError("", "Неправильно введены данные");
+            QuestionCategoryViewModel = questionCategoryViewModel;
+            Questionnaires = Array.Empty<QuestionnaireViewModel>();
+            return Page();
         }
     }
 }

@@ -10,13 +10,13 @@
         <div class="form-group">
             <label>Почта</label>
             <input type="email" class="form-control" asp-for="@Model.AppUser.Email" />
+            <span asp-validation-for="@Model.AppUser.Email"></span>
         </div>
-        <span asp-validation-for="@Model.AppUser.Email"></span>
         <div class="form-group">
             <label>Пароль</label>
             <input type="password" class="form-control" asp-for="@Model.AppUser.Password" />
+            <span class="d-block mb-3" asp-validation-for="@Model.AppUser.Password"></span>
         </div>
-        <span class="d-block mb-3" asp-validation-for="@Model.AppUser.Password"></span>
         <a class="btn btn-dark" asp-page="ApplicationUsers">Пользователи</a>
         <button class="btn btn-success">Отправить</button>
     </form>

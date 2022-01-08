@@ -31,9 +31,15 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
 
         public async Task<IActionResult> OnPost(VacancyViewModel vacancyViewModel)
         {
-            var vacancyEntity = GetEntity<Vacancy, VacancyViewModel>(vacancyViewModel);
-            await _mediator.Send(new CreateOrChangeEntityCommand<Vacancy>(vacancyEntity));
-            return RedirectToPage("/User/Vacancies/Vacancies");
+            if (ModelState.IsValid)
+            {
+                var vacancyEntity = GetEntity<Vacancy, VacancyViewModel>(vacancyViewModel);
+                await _mediator.Send(new CreateOrChangeEntityCommand<Vacancy>(vacancyEntity));
+                return RedirectToPage("/User/Vacancies/Vacancies");
+            }
+            ModelState.AddModelError("", "Неправильно введены данные");
+            VacancyViewModel = vacancyViewModel;
+            return Page();
         }
     }
 }

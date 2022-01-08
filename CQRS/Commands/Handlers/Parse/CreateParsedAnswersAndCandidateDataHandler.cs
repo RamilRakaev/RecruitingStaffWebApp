@@ -84,7 +84,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                                 object answerValue = answerItem.Properties[property.Name];
                                 if (property.PropertyType != typeof(string))
                                 {
-                                    Convert.ChangeType(answerValue, property.PropertyType);
+                                    answerValue = Convert.ChangeType(answerValue, property.PropertyType);
                                 }
                                 property.SetValue(answer, answerValue);
                             }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RecruitingStaff.Infrastructure.Repositories;
 
-namespace Infrastructure.Repositories.Migrations
+namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211231130003_TestTask")]
-    partial class TestTask
+    [Migration("20220108132556_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -304,6 +304,9 @@ namespace Infrastructure.Repositories.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("CandidateStatus")
+                        .HasColumnType("integer");
+
                     b.Property<int>("FirstEntityId")
                         .HasColumnType("integer");
 
@@ -407,7 +410,8 @@ namespace Infrastructure.Repositories.Migrations
 
                     b.HasIndex("QuestionnaireId");
 
-                    b.HasIndex("TestTaskId");
+                    b.HasIndex("TestTaskId")
+                        .IsUnique();
 
                     b.ToTable("RecruitingStaffWebAppFile");
                 });
@@ -490,7 +494,7 @@ namespace Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b896ecf6-dc27-42f3-acdc-dc8afc808294",
+                            ConcurrencyStamp = "f34628c2-9d5d-4a4c-985a-40245409b429",
                             Name = "user",
                             NormalizedName = "USER"
                         });
@@ -777,7 +781,7 @@ namespace Infrastructure.Repositories.Migrations
                         .IsRequired();
 
                     b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", "TestTask")
-                        .WithMany()
+                        .WithMany("CandidateTestTasks")
                         .HasForeignKey("TestTaskId");
 
                     b.Navigation("Candidate");
@@ -848,8 +852,8 @@ namespace Infrastructure.Repositories.Migrations
                         .HasForeignKey("QuestionnaireId");
 
                     b.HasOne("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", "TestTask")
-                        .WithMany("DocumentFiles")
-                        .HasForeignKey("TestTaskId");
+                        .WithOne("DocumentFile")
+                        .HasForeignKey("RecruitingStaff.Domain.Model.CandidatesSelection.RecruitingStaffWebAppFile", "TestTaskId");
 
                     b.Navigation("Candidate");
 
@@ -974,7 +978,9 @@ namespace Infrastructure.Repositories.Migrations
 
             modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.TestTask", b =>
                 {
-                    b.Navigation("DocumentFiles");
+                    b.Navigation("CandidateTestTasks");
+
+                    b.Navigation("DocumentFile");
                 });
 
             modelBuilder.Entity("RecruitingStaff.Domain.Model.CandidatesSelection.Vacancy", b =>

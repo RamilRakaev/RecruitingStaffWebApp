@@ -7,7 +7,6 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Pages.User;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Files
@@ -28,8 +27,13 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 
         public async Task<IActionResult> OnPostCreatePhoto(IFormFile formFile, int candidateId)
         {
-            await _mediator.Send(new CreateOrChangePhotoCommand(formFile, candidateId));
-            return RedirectToPage("/User/Candidates/ConcreteCandidate", new { candidateId });
+            if(await _mediator.Send(new CreateOrChangePhotoCommand(formFile, candidateId)))
+            {
+                return RedirectToPage("/User/Candidates/ConcreteCandidate", new { candidateId });
+            }
+            ModelState.AddModelError("", "Не удалось проанализировать документ");
+            CandidateId = candidateId;
+            return Page();
         }
 
         public async Task OnPostSearchCandidates(string nameFragment)

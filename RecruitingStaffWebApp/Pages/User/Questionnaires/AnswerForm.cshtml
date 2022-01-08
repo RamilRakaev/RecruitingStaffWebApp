@@ -13,7 +13,7 @@
                        class="form-control"
                        placeholder="Фрагмент имени кандидата"
                        aria-describedby="button-search"
-                       name="nameFragment" />
+                       asp-for="@Model.AnswerViewModel.NameFragmentOfCandidate"/>
                 <button class="btn btn-outline-primary" id="button-search">Поиск</button>
             </div>
         </form>
@@ -23,38 +23,43 @@
         <a class="btn btn-dark" asp-page="AnswersOnQuestion"
            asp-route-questionId="@Model.AnswerViewModel.QuestionId"
            asp-route-questionnaireId="@Model.QuestionnaireId">Ответы</a>
-        @if (Model.AnswerViewModel.Id == 0 && Model.Candidates.Length == 0)
+        @if (Model.AnswerViewModel.Id == 0 && Model.AnswerViewModel.CandidateViewModels.Length == 0)
         {
             <p class="text-warning">@Model.Message</p>
         }
         else
         {
             <form method="post" asp-page-handler="CreateAnswer">
+                <div asp-validation-summary="ModelOnly"></div>
                 <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
                 <input type="hidden" asp-for="@Model.AnswerViewModel.Id" />
                 <input type="hidden" asp-for="@Model.AnswerViewModel.QuestionId" />
                 <div class="form-group">
                     <label>Текст ответа</label>
                     <input class="form-control" asp-for="@Model.AnswerViewModel.Name" />
+                    <span asp-validation-for="@Model.AnswerViewModel.Name"></span>
                 </div>
                 <div class="form-group">
                     <label>Комментарий</label>
                     <input class="form-control" asp-for="@Model.AnswerViewModel.Comment" />
+                    <span asp-validation-for="@Model.AnswerViewModel.Comment"></span>
                 </div>
                 <div class="form-group">
                     <label>Оценка</label>
                     <input class="form-control" type="number" asp-for="@Model.AnswerViewModel.Estimation" />
+                    <span asp-validation-for="@Model.AnswerViewModel.Estimation"></span>
                 </div>
+                <input type="hidden" asp-for="@Model.AnswerViewModel.NameFragmentOfCandidate" />
                 @if (Model.AnswerViewModel.Id == 0)
                 {
                     <label>Кандидат</label>
-                    @foreach (var candidate in Model.Candidates)
+                    @foreach (var candidate in Model.AnswerViewModel.CandidateViewModels)
                     {
                         <div class="form-group">
                             <input class="custom-radio"
-                                   type="radio"
-                                   asp-for="@Model.AnswerViewModel.CandidateId"
-                                   value="@candidate.Id" checked />
+                       type="radio"
+                       asp-for="@Model.AnswerViewModel.CandidateId"
+                       value="@candidate.Id" checked />
                             <label>@candidate.Id: @candidate.Name</label>
                         </div>
                     }
