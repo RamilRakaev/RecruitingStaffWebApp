@@ -2,7 +2,7 @@
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {
-    public class RecruitingStaffWebAppFile : CandidateQuestionnaireEntity
+    public class RecruitingStaffWebAppFile : CandidatesSelectionEntity 
     {
         public FileType FileType { get; set; }
 

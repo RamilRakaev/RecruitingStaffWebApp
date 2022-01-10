@@ -1,6 +1,6 @@
 ﻿namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 {
-    public class Recommender : CandidateQuestionnaireEntity
+    public class Recommender : CandidatesSelectionEntity 
     {
         public string PositionAtWork { get; set; }
         public string PhoneNumber { get; set; }

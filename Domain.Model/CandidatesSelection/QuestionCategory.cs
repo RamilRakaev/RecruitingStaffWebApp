@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {
-    public class QuestionCategory : CandidateQuestionnaireEntity
+    public class QuestionCategory : CandidatesSelectionEntity 
     {
         public int QuestionnaireId { get; set; }
         public Questionnaire Questionnaire { get; set; }

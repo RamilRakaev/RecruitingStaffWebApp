@@ -6,6 +6,7 @@ using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using System;

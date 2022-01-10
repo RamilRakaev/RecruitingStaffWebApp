@@ -9,7 +9,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
     {
         public ChangeEntityCommand(TEntity entity)
         {
-            if (entity.Id == 0) throw new ArgumentException();
+            if (entity.Id == 0) throw new ArgumentException("Нулевой идентификатор");
             Entity = entity;
         }
 

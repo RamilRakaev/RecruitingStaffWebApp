@@ -53,7 +53,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return Task.FromResult(ParseData(table));
         }
 
-        private ParsedData ParseData(OpenXmlElement table)
+        private static ParsedData ParseData(OpenXmlElement table)
         {
             ParsedData parsedData = new();
             var rows = table.ExtractRowsFromTable(false);
@@ -66,7 +66,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return parsedData;
         }
 
-        private Candidate ParseCandidate(IEnumerable<OpenXmlElement> rows)
+        private static Candidate ParseCandidate(IEnumerable<OpenXmlElement> rows)
         {
             Candidate candidate = new()
             {
@@ -80,7 +80,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return candidate;
         }
 
-        private Education EducationParse(IEnumerable<OpenXmlElement> rows)
+        private static Education EducationParse(IEnumerable<OpenXmlElement> rows)
         {
             var education = new Education
             {
@@ -97,12 +97,12 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return education;
         }
 
-        private Vacancy VacancyParse(string vacancyName)
+        private static Vacancy VacancyParse(string vacancyName)
         {
             return new Vacancy() { Name = vacancyName.GetTextAfterCharacter(':') };
         }
 
-        private QuestionnaireElement ParseQuestionnaire(OpenXmlElement tables)
+        private static QuestionnaireElement ParseQuestionnaire(OpenXmlElement tables)
         {
             QuestionnaireElement currentQuestionnaire = new(questionnaireName);
             foreach (var elements in tables.ChildElements
@@ -128,7 +128,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return currentQuestionnaire;
         }
 
-        private QuestionnaireElement ParseQuestion(OpenXmlElement row)
+        private static QuestionnaireElement ParseQuestion(OpenXmlElement row)
         {
             var cells = row.ExtractCellsFromRow();
             var question = QuestionnaireElement.CreateQuestionnaireElement(
@@ -137,7 +137,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             return question;
         }
 
-        private QuestionnaireElement ParseAnswer(IEnumerable<OpenXmlElement> cells)
+        private static QuestionnaireElement ParseAnswer(IEnumerable<OpenXmlElement> cells)
         {
             Dictionary<string, string> properties = new()
             {

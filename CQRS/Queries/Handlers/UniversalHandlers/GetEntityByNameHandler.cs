@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers
 {
     public class GetEntityByNameHandler<TEntity> : IRequestHandler<GetEntityByNameQuery<TEntity>, TEntity>
-        where TEntity : CandidateQuestionnaireEntity
+        where TEntity : CandidatesSelectionEntity 
     {
         private readonly IRepository<TEntity> _repository;
 

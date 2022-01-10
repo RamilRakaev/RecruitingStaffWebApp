@@ -5,7 +5,7 @@ using System;
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
 {
     public class CreateEntityCommand<TEntity> : IRequest<TEntity>
-        where TEntity : CandidateQuestionnaireEntity, new()
+        where TEntity : CandidatesSelectionEntity , new()
     {
         public CreateEntityCommand(TEntity entity)
         {

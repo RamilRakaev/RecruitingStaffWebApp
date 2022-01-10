@@ -4,7 +4,7 @@ using RecruitingStaff.Domain.Model;
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries
 {
     public class GetEntityByNameQuery<TEntity> : IRequest<TEntity>
-        where TEntity : CandidateQuestionnaireEntity
+        where TEntity : CandidatesSelectionEntity 
     {
         public GetEntityByNameQuery(string name)
         {

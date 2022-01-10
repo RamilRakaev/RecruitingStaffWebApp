@@ -1,6 +1,6 @@
 ﻿namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 {
-    public class Kid : CandidateQuestionnaireEntity
+    public class Kid : CandidatesSelectionEntity 
     {
         public string Gender { get; set; }
         public int Age { get; set; }

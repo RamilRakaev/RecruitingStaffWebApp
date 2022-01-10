@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 
-namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse
 {
     public class DocumentParseCommand : IRequest<bool>
     {

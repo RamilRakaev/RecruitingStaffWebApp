@@ -2,7 +2,7 @@
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {
-    public class Answer : CandidateQuestionnaireEntity
+    public class Answer : CandidatesSelectionEntity 
     {
         public int CandidateId { get; set; }
         public Candidate Candidate { get; set; }

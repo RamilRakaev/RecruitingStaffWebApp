@@ -2,7 +2,7 @@
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 {
-    public class Education : CandidateQuestionnaireEntity
+    public class Education : CandidatesSelectionEntity 
     {
         public DateTime StartDateOfTraining { get; set; }
         public DateTime EndDateOfTraining { get; set; }

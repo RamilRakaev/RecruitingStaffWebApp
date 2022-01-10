@@ -5,7 +5,9 @@ using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Infrastructure.CQRS;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
@@ -38,17 +40,17 @@ namespace RecruitingStaff.WebApp
             services.ConfigrueHandlers<BaseMap>(typeof(CreateOrChangeMapCommand<>), typeof(CreateOrChangeMapHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
-            services.ConfigrueHandlers<BaseMap>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>)); services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
-            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
-            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
-            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
-            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>)); services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
+            services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
+            services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
+            services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
+            services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
 
             services.ConfigrueEntitiesQueryHandlers<BaseMap>(typeof(GetMapsByFirstEntityIdQuery<>), typeof(GetMapsByFirstEntityIdHandler<>));
-            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
-            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByNameQuery<>), typeof(GetEntityByNameHandler<>));
-            services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));
-            services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesByForeignKeyQuery<>), typeof(GetEntitiesByForeignKeyHandler<>));
+            services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
+            services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(GetEntityByNameQuery<>), typeof(GetEntityByNameHandler<>));
+            services.ConfigrueEntitiesQueryHandlers<CandidatesSelectionEntity >(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));
+            services.ConfigrueEntitiesQueryHandlers<CandidatesSelectionEntity >(typeof(GetEntitiesByForeignKeyQuery<>), typeof(GetEntitiesByForeignKeyHandler<>));
             services.ConfigrueEntitiesQueryHandlers<BaseMap>(typeof(GetEntitiesByForeignKeyQuery<>), typeof(GetEntitiesByForeignKeyHandler<>));
             
 

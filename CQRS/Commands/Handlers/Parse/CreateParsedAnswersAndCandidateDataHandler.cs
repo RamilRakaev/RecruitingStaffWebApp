@@ -8,6 +8,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;

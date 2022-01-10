@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 {
-    public class Candidate : CandidateQuestionnaireEntity
+    public class Candidate : CandidatesSelectionEntity 
     {
         public DateTime DateOfBirth { get; set; }
         public string PlaceOfBirth { get; set; }

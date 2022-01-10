@@ -5,7 +5,7 @@ using System;
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries
 {
     public class GetEntityByIdQuery<TEntity> : IRequest<TEntity>
-        where TEntity : CandidateQuestionnaireEntity, new()
+        where TEntity : CandidatesSelectionEntity , new()
     {
         public GetEntityByIdQuery(int entityId)
         {

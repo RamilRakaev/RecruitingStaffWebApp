@@ -5,7 +5,7 @@ using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Domain.Model.Options;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
+namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
 {
     public class DocumentParseHandler : IRequestHandler<DocumentParseCommand, bool>
     {

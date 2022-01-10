@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
     public class CreateOrChangeEntityHandler<TEntity> : IRequestHandler<CreateOrChangeEntityCommand<TEntity>, TEntity>
-        where TEntity : CandidateQuestionnaireEntity, new()
+        where TEntity : CandidatesSelectionEntity , new()
     {
         private readonly DataContext _context;
 
@@ -36,7 +36,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
             else
             {
                 request.Entity.Id = entity.Id;
-                await _repository.Update(request.Entity);
+                if(request.Entity.Name != string.Empty)
+                {
+                    await _repository.Update(request.Entity);
+                }
             }
             await _repository.SaveAsync(cancellationToken);
             return request.Entity;
