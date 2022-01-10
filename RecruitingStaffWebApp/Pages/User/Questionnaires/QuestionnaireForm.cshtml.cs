@@ -31,8 +31,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
                 var questionnaireEntity = await _mediator.Send(new GetEntityByIdQuery<Questionnaire>(questionnaireId.Value));
                 QuestionnaireViewModel = GetViewModel<Questionnaire, QuestionnaireViewModel>(questionnaireEntity);
             }
-            QuestionnaireViewModel.VacanciesSelectList = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
-            if (QuestionnaireViewModel.VacanciesSelectList.Any())
+            QuestionnaireViewModel.VacanciesSelectList =
+                new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            if (QuestionnaireViewModel.VacanciesSelectList.Any() == false)
             {
                 return RedirectToPage("Questionnaires", new { messageAboutDocumentsSource = "Не введены вакансии" });
             }
@@ -56,7 +57,8 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             ModelState.AddModelError("", "Неправильно введены данные");
             QuestionnaireViewModel = questionnaireViewModel;
-            QuestionnaireViewModel.VacanciesSelectList = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            QuestionnaireViewModel.VacanciesSelectList =
+                new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
             return Page();
         }
     }

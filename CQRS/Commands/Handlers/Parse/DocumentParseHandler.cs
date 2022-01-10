@@ -32,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
         {
             if (request.FormFile != null)
             {
-                var path = $"{_options.CandidateDocumentsSource}\\{Guid.NewGuid()}";
+                var path = Path.Combine(_options.CandidateDocumentsSource, Guid.NewGuid().ToString());
                 using (var stream = new FileStream(path, FileMode.CreateNew))
                 {
                     request.FormFile.CopyTo(stream);

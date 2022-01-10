@@ -29,7 +29,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
                 await _mediator.Send(new GetEntitiesQuery<Vacancy>()),
                 "Id",
                 "Name");
-            if (vacanciesSelectList.Any())
+            if (vacanciesSelectList.Any() == false)
             {
                 return RedirectToPage("Candidates", new { messageAboutDocumentsSource = "Не введены вакансии" });
             }

@@ -21,11 +21,13 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
             if (vacancyId == null)
             {
                 VacancyViewModel = new VacancyViewModel();
+                _logger.LogInformation("\"VacancyForm\" page has been visited to create vacancy");
             }
             else
             {
                 VacancyViewModel = GetViewModel<Vacancy, VacancyViewModel>(
                     await _mediator.Send(new GetEntityByIdQuery<Vacancy>(vacancyId.Value)));
+                _logger.LogInformation("\"VacancyForm\" page has been visited to change vacancy");
             }
         }
 
@@ -35,8 +37,10 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
             {
                 var vacancyEntity = GetEntity<Vacancy, VacancyViewModel>(vacancyViewModel);
                 await _mediator.Send(new CreateOrChangeEntityCommand<Vacancy>(vacancyEntity));
+                _logger.LogInformation("The vacancy has been created.");
                 return RedirectToPage("/User/Vacancies/Vacancies");
             }
+            _logger.LogInformation("Data entered incorrectly");
             ModelState.AddModelError("", "Неправильно введены данные");
             VacancyViewModel = vacancyViewModel;
             return Page();

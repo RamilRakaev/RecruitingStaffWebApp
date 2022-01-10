@@ -19,6 +19,7 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
 
         public async Task OnGet()
         {
+            _logger.LogInformation("\"Vacancies\" page visited");
             Vacancies = GetViewModels<Vacancy, VacancyViewModel>(
                 await _mediator.Send(new GetEntitiesQuery<Vacancy>()));
         }
@@ -26,6 +27,7 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
         public async Task<IActionResult> OnPost(int vacancyId)
         {
             await _mediator.Send(new RemoveVacancyCommand(vacancyId));
+            RemoveLog("Vacancy", vacancyId);
             return RedirectToPage("Vacancies");
         }
     }

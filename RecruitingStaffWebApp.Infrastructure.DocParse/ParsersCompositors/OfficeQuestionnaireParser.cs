@@ -21,7 +21,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
         public OfficeQuestionnaireParser()
         {
-            parsedData.AddQuestionnaire(questionnaireName);
+            parsedData.Questionnaire = QuestionnaireElement.CreateQuestionnaireElement(questionnaireName);
         }
 
         public override Task<ParsedData> Parse(string path)

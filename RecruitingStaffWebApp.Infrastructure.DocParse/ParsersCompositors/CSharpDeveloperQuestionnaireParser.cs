@@ -25,6 +25,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         private const int TelephoneNumberRow = 3;
         private const int TelephoneNumberColumn = 1;
 
+        private const int EmailRow = 3;
+        private const int EmailColumn = 2;
+
         private const int MaritalStatusRow = 4;
         private const int MaritalStatusColumn = 1;
 
@@ -59,8 +62,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             {
                 Name = rows.ExtractCellTextFromRow(FullNameRow, FullNameColumn),
                 DateOfBirth = rows.TryExtractDate(DateOfBirthRow, DateOfBirthColumn),
-                Address = rows.ExtractTextAfterCharacterFromRow(AddressRow, AddressColumn, ':'),
+                Address = rows.ExtractCellTextFromRow(AddressRow, AddressColumn).FindText(@"Адрес проживания[:]?.+", "Адрес проживания[:]?"),
                 TelephoneNumber = rows.ExtractCellTextFromRow(TelephoneNumberRow, TelephoneNumberColumn),
+                EmailAddress = rows.ExtractCellTextFromRow(EmailRow, EmailColumn).FindText(@"E-Mail.+", "E-Mail"),
                 MaritalStatus = rows.ExtractCellTextFromRow(MaritalStatusRow, MaritalStatusColumn),
             };
             return candidate;

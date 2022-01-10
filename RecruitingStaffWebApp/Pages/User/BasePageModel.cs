@@ -46,6 +46,10 @@ namespace RecruitingStaffWebApp.Pages.User
             var mapper = new Mapper(config);
             return mapper.Map<Entity>(viewModel);
         }
-
+        
+        protected void RemoveLog(string entity, int id)
+        {
+            _logger.LogDebug($"The entity {entity} with id {id} has been removed.");
+        }
     }
 }

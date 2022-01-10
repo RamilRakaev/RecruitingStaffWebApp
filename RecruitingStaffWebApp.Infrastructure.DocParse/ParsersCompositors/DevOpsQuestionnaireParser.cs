@@ -47,7 +47,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             wsPart =
                 (WorksheetPart)(currentWbPart.GetPartById(theSheet.Id));
             List<Cell> cells = new();
-            parsedData.AddQuestionnaire(questionnaireName);
+            parsedData.Questionnaire = QuestionnaireElement.CreateQuestionnaireElement(questionnaireName);
             int rowIndex = 5;
             headers = ParseHeader(ref rowIndex, startOfSequenceOfCapitalLetters + 1);
             var questionnaire = QuestionnaireElement.CreateQuestionnaireElement(questionnaireName);

@@ -99,6 +99,17 @@ namespace RecruitingStaffWebApp.Services.DocParse
             return text[(index + 1)..].Trim(' ');
         }
 
+        public static string GetTextAfterSubstring(this string text, string character, int number = 1)
+        {
+            int index = 0;
+            index = text.IndexOf(character) + character.Length;
+            if (text.Length == index)
+            {
+                return string.Empty;
+            }
+            return text[index..].Trim(' ');
+        }
+
         public static string GetTextBeforeCharacter(this string text, char character)
         {
             return text[..text.IndexOf(character)].Trim(' ');
@@ -109,13 +120,18 @@ namespace RecruitingStaffWebApp.Services.DocParse
             return rows.ExtractCellTextFromRow(rowIndex, cellIndex).GetTextAfterCharacter(character);
         }
 
+        public static string ExtractTextAfterCharacterFromRow(this IEnumerable<OpenXmlElement> rows, in int rowIndex, in int cellIndex, in string substring)
+        {
+            return rows.ExtractCellTextFromRow(rowIndex, cellIndex).GetTextAfterSubstring(substring);
+        }
+
         public static string FindText(this string input, string pattern, string removementPattern = "")
         {
             Regex regex = new(pattern);
             var matches = regex.Matches(input);
             var text = matches.Any() ? matches.First().Value : "";
             text = removementPattern != "" ? Regex.Replace(text, removementPattern, "") : text;
-            return text;
+            return text.Trim(' ');
         }
     }
 }

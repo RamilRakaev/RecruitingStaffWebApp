@@ -14,8 +14,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
     {
         private readonly WebAppOptions _options;
 
-        private string _path;
-
         private ParsedData parsedData;
         private readonly QuestionnaireDbManager questionnaireDbManager;
         private ParserStrategy parserStrategy;
@@ -32,7 +30,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task<bool> ParseQuestionnaire(string path, JobQuestionnaire jobQuestionnaire)
         {
-            _path = path;
             await Parsersearch(jobQuestionnaire);
             try
             {
@@ -41,7 +38,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, true);
-                    var newPath = $"{path[..path.LastIndexOf('\\')]}{parsedData.FileSource}";
+                    var newPath = Path.Combine(_options.EmptyQuestionnairesSource, parsedData.FileSource);
                     File.Delete(newPath);
                     File.Copy(path, newPath);
                 }
@@ -73,7 +70,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, false);
-                    var newPath = $"{_options.CandidateDocumentsSource}\\{parsedData.FileSource}";
+                    var newPath = Path.Combine(_options.CandidateDocumentsSource, parsedData.FileSource);
                     File.Delete(newPath);
                     File.Copy(path, newPath);
                 }

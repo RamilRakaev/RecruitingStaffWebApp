@@ -38,6 +38,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task OnPostRemoveQuestionCategory(int questionCategoryId)
         {
             await _mediator.Send(new RemoveQuestionCategoryCommand(questionCategoryId));
+            RemoveLog("QuestionCategory", questionCategoryId);
             Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
                 await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
                 );
