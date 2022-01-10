@@ -21,7 +21,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.QuestionCategori
         public async Task<bool> Handle(RemoveQuestionCategoryCommand request, CancellationToken cancellationToken)
         {
             var questions = await _mediator.Send(
-                new GetEntitiesByForeignKeyQuery<Question>(q => q.QuestionCategoryId == request.QestionCategoryId));
+                new GetEntitiesByForeignKeyQuery<Question>(q => q.QuestionCategoryId == request.QestionCategoryId),
+                cancellationToken);
             foreach(var question in questions)
             {
                 await _mediator.Send(new RemoveQuestionCommand(question.Id), cancellationToken);

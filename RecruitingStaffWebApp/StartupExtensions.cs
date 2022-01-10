@@ -35,13 +35,14 @@ namespace RecruitingStaff.WebApp
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddValidatorsFromAssembly(CQRSAssemblyInfo.Assembly);
 
-            services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(CreateOrChangeMapCommand<>), typeof(CreateOrChangeMapHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>)); services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
-            services.ConfigrueHandlers<BaseMap>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
-            services.ConfigrueHandlers<BaseMap>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>));
 
             services.ConfigrueEntitiesQueryHandlers<BaseMap>(typeof(GetMapsByFirstEntityIdQuery<>), typeof(GetMapsByFirstEntityIdHandler<>));
             services.ConfigrueHandlers<CandidateQuestionnaireEntity>(typeof(GetEntityByIdQuery<>), typeof(GetEntityByIdHandler<>));
@@ -49,7 +50,7 @@ namespace RecruitingStaff.WebApp
             services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesQuery<>), typeof(GetEntitiesHandler<>));
             services.ConfigrueEntitiesQueryHandlers<CandidateQuestionnaireEntity>(typeof(GetEntitiesByForeignKeyQuery<>), typeof(GetEntitiesByForeignKeyHandler<>));
             services.ConfigrueEntitiesQueryHandlers<BaseMap>(typeof(GetEntitiesByForeignKeyQuery<>), typeof(GetEntitiesByForeignKeyHandler<>));
-            services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));
+            
 
             services.ConfigureViewModelValidators();
         }

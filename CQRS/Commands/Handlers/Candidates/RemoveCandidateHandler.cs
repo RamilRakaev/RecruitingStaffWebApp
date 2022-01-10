@@ -30,32 +30,41 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
         public async Task<bool> Handle(RemoveCandidateCommand request, CancellationToken cancellationToken)
         {
             var answers = await _mediator.Send(
-                new GetEntitiesByForeignKeyQuery<Answer>(a => a.CandidateId == request.CandidateId));
+                new GetEntitiesByForeignKeyQuery<Answer>(a => a.CandidateId == request.CandidateId),
+                cancellationToken);
             foreach(var answer in answers)
             {
-                await _mediator.Send(new RemoveEntityCommand<Answer>(answer.Id));
+                await _mediator.Send(new RemoveEntityCommand<Answer>(answer.Id),
+                    cancellationToken);
             }
             var files = await _mediator.Send(
                 new GetEntitiesByForeignKeyQuery<RecruitingStaffWebAppFile>(
-                    f => f.CandidateId == request.CandidateId));
+                    f => f.CandidateId == request.CandidateId),
+                cancellationToken);
             foreach (var file in files)
             {
                 File.Delete($"{_options.CandidateDocumentsSource}\\{file.Name}");
-                await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(file.Id));
+                await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(file.Id),
+                    cancellationToken);
             }
             var candidateQuestionnaires = await _mediator.Send(
-                new GetEntitiesByForeignKeyQuery<CandidateQuestionnaire>(cq => cq.FirstEntityId == request.CandidateId));
+                new GetEntitiesByForeignKeyQuery<CandidateQuestionnaire>(cq => cq.FirstEntityId == request.CandidateId),
+                cancellationToken);
             foreach(var candidateQuestionnaire in candidateQuestionnaires)
             {
-                await _mediator.Send(new RemoveEntityCommand<CandidateQuestionnaire>(candidateQuestionnaire.Id));
+                await _mediator.Send(new RemoveEntityCommand<CandidateQuestionnaire>(candidateQuestionnaire.Id),
+                    cancellationToken);
             }
             var candidateVacancies = await _mediator.Send(
-                new GetEntitiesByForeignKeyQuery<CandidateVacancy>(cq => cq.FirstEntityId == request.CandidateId));
+                new GetEntitiesByForeignKeyQuery<CandidateVacancy>(cq => cq.FirstEntityId == request.CandidateId),
+                cancellationToken);
             foreach(var candidateVacancy in candidateVacancies)
             {
-                await _mediator.Send(new RemoveEntityCommand<CandidateVacancy>(candidateVacancy.Id));
+                await _mediator.Send(new RemoveEntityCommand<CandidateVacancy>(candidateVacancy.Id),
+                    cancellationToken);
             }
-            await _mediator.Send(new RemoveEntityCommand<Candidate>(request.CandidateId));
+            await _mediator.Send(new RemoveEntityCommand<Candidate>(request.CandidateId),
+                cancellationToken);
             return true;
         }
     }

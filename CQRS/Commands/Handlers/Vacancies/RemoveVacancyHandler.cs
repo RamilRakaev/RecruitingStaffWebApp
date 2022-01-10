@@ -21,12 +21,15 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Vacancies
         public async Task<bool> Handle(RemoveVacancyCommand request, CancellationToken cancellationToken)
         {
             var questionnaires = await _mediator.Send(
-                new GetEntitiesByForeignKeyQuery<Questionnaire>(q => q.VacancyId == request.VacancyId));
+                new GetEntitiesByForeignKeyQuery<Questionnaire>(q => q.VacancyId == request.VacancyId),
+                cancellationToken);
             foreach (var questionnaire in questionnaires)
             {
-                await _mediator.Send(new RemoveQuestionnaireCommand(questionnaire.Id));
+                await _mediator.Send(new RemoveQuestionnaireCommand(questionnaire.Id),
+                    cancellationToken);
             }
-            await _mediator.Send(new RemoveEntityCommand<Vacancy>(request.VacancyId));
+            await _mediator.Send(new RemoveEntityCommand<Vacancy>(request.VacancyId),
+                cancellationToken);
             return true;
         }
     }

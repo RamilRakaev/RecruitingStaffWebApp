@@ -35,12 +35,13 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
             await Initial(candidateId);
         }
 
-        public async Task OnGetChangeStatus(CandidateVacancyViewModel candidateVacancyViewModel, int status)
+        public async Task<IActionResult> OnGetChangeStatus(CandidateVacancyViewModel candidateVacancyViewModel, int status)
         {
             var candidateVacancyEntity = GetEntity<CandidateVacancy, CandidateVacancyViewModel>(candidateVacancyViewModel);
             candidateVacancyEntity.CandidateStatus = (CandidateStatus)status;
             await _mediator.Send(new ChangeEntityCommand<CandidateVacancy>(candidateVacancyEntity));
             await Initial(candidateVacancyViewModel.FirstEntityId);
+            return RedirectToPage("CandidateStatuses", new { candidateId = CandidateId });
         }
 
         public async Task OnPost(int candidateId, int candidateVacancyId)

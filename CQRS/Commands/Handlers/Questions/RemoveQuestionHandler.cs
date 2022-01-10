@@ -19,12 +19,15 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questions
 
         public async Task<bool> Handle(RemoveQuestionCommand request, CancellationToken cancellationToken)
         {
-            var answers = await _mediator.Send(new GetEntitiesByForeignKeyQuery<Answer>(a => a.QuestionId == request.QestionId));
+            var answers = await _mediator.Send(new GetEntitiesByForeignKeyQuery<Answer>(a => a.QuestionId == request.QestionId),
+                cancellationToken);
             foreach (var answer in answers)
             {
-                await _mediator.Send(new RemoveEntityCommand<Answer>(answer.Id));
+                await _mediator.Send(new RemoveEntityCommand<Answer>(answer.Id),
+                    cancellationToken);
             }
-            await _mediator.Send(new RemoveEntityCommand<Question>(request.QestionId));
+            await _mediator.Send(new RemoveEntityCommand<Question>(request.QestionId),
+                cancellationToken);
             return true;
         }
     }
