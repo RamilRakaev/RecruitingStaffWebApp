@@ -1,4 +1,6 @@
-﻿namespace RecruitingStaff.WebApp.ViewModels.Questionnaire
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace RecruitingStaff.WebApp.ViewModels.Questionnaire
 {
     public class QuestionnaireViewModel : BaseViewModel
     {
@@ -16,5 +18,6 @@
         public int VacancyId { get; set; }
         public string Name { get; set; }
         public QuestionCategoryViewModel[] QuestionCategories { get; set; }
+        public SelectList VacanciesSelectList { get; set; }
     }
 }

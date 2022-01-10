@@ -28,7 +28,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
                 .GetAllAsNoTracking()
                 .Where(e => e.Name == request.Entity.Name)
                 .FirstOrDefaultAsync(cancellationToken);
-
             if (entity == null)
             {
                 await _repository.AddAsync(request.Entity, cancellationToken);

@@ -16,11 +16,12 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
         }
 
-        public Questionnaire CurrentQuestionnaire { get; set; }
+        public string MessageAboutDocumentsSource { get; set; }
         public QuestionnaireViewModel[] Questionnaires { get; set; }
 
-        public async Task OnGet()
+        public async Task OnGet(string messageAboutDocumentsSource)
         {
+            MessageAboutDocumentsSource = messageAboutDocumentsSource;
             Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
                 await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
                 );

@@ -14,12 +14,16 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         { }
 
         public Candidate[] Candidates { get; set; }
-        public string MessageAboutDocumentsSource { get; set; }
+        public string MessageAboutDocumentsSource
+        {
+            get; set;
+        }
 
-        public async Task OnGet()
+        public async Task OnGet(string messageAboutDocumentsSource)
         {
             Candidates = await _mediator.Send(new GetEntitiesQuery<Candidate>());
-            MessageAboutDocumentsSource = await _mediator.Send(new CheckDocumentsSourceQuery());
+            MessageAboutDocumentsSource = messageAboutDocumentsSource;
+            MessageAboutDocumentsSource ??= await _mediator.Send(new CheckDocumentsSourceQuery());
         }
 
         public async Task OnPost(int CandidateId)

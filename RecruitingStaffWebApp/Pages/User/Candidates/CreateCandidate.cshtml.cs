@@ -23,13 +23,18 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         public CandidateViewModel CandidateViewModel { get; set; }
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var vacanciesSelectList = new SelectList(
                 await _mediator.Send(new GetEntitiesQuery<Vacancy>()),
                 "Id",
                 "Name");
+            if (vacanciesSelectList.Count() == 0)
+            {
+                return RedirectToPage("Candidates", new { messageAboutDocumentsSource = "Не введены вакансии" });
+            }
             CandidateViewModel = new(vacanciesSelectList);
+            return Page();
         }
 
         public async Task<IActionResult> OnPost(CandidateViewModel candidateViewModel)
