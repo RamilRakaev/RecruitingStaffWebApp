@@ -32,7 +32,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
                 QuestionnaireViewModel = GetViewModel<Questionnaire, QuestionnaireViewModel>(questionnaireEntity);
             }
             QuestionnaireViewModel.VacanciesSelectList = new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
-            if (QuestionnaireViewModel.VacanciesSelectList.Count() == 0)
+            if (QuestionnaireViewModel.VacanciesSelectList.Any())
             {
                 return RedirectToPage("Questionnaires", new { messageAboutDocumentsSource = "Не введены вакансии" });
             }
