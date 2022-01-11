@@ -25,7 +25,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             var fileEntity = await _mediator.Send(
                 new CreateOrChangeEntityCommand<RecruitingStaffWebAppFile>(request.FileEntity),
                 cancellationToken);
-            var soucre = await _mediator.Send(new GetFileSourceQuery(fileEntity.FileType));
+            var soucre = await _mediator.Send(new GetFileSourceQuery(fileEntity.FileType), cancellationToken);
             await request.FormFile.CreateNewFileAsync(
                 Path.Combine(soucre,fileEntity.Name + ".docx"));
             return fileEntity;

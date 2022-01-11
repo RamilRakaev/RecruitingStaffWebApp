@@ -90,7 +90,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        private ParserStrategy Parsersearch(JobQuestionnaire jobQuestionnaire)
+        private static ParserStrategy Parsersearch(JobQuestionnaire jobQuestionnaire)
         {
             return jobQuestionnaire switch
             {

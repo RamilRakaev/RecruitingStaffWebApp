@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
@@ -34,12 +35,14 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         private async Task Initialize(int candidateId)
         {
-            Candidate = GetViewModel<Candidate, CandidateViewModel>(
-                await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId))
-                );
-            Options = GetViewModels<Option, OptionViewModel>(
-                await _mediator.Send(new GetOptionsByCandidateIdQuery(candidateId))
-                );
+            var candidate = await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId));
+            var candidateConfig = new MapperConfiguration(c => c.CreateMap<Candidate, CandidateViewModel>());
+            var candidateMapper = new Mapper(candidateConfig);
+            Candidate = candidateMapper.Map<CandidateViewModel>(candidate);
+            var optionEntities = await _mediator.Send(new GetOptionsByCandidateIdQuery(candidateId));
+            var optionConfig = new MapperConfiguration(c => c.CreateMap<Option, OptionViewModel>());
+            var optionMapper = new Mapper(optionConfig);
+            Options = optionMapper.Map<OptionViewModel[]>(optionEntities);
             CandidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
         }
     }

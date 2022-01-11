@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,8 +34,11 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             else
             {
-                AnswerViewModel = GetViewModel<Answer, AnswerViewModel>(
-                    await _mediator.Send(new GetAnswerByIdQuery(answerId.Value)));
+                var answerEntity = await _mediator.Send(new GetAnswerByIdQuery(answerId.Value));
+                var config = new MapperConfiguration(c => c.CreateMap<Answer, AnswerViewModel>());
+                var mapper = new Mapper(config);
+                AnswerViewModel = mapper.Map<AnswerViewModel>(answerEntity);
+                    
             }
             AnswerViewModel.CandidateViewModels = Array.Empty<CandidateViewModel>();
         }
@@ -51,7 +55,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             if (ModelState.IsValid)
             {
                 QuestionnaireId = questionnaireId;
-                var answerEntity = GetEntity<Answer, AnswerViewModel>(answerViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<AnswerViewModel, Answer>());
+                var mapper = new Mapper(config);
+                var answerEntity = mapper.Map<Answer>(answerViewModel);
                 if (answerViewModel.Id == 0)
                 {
                     await _mediator.Send(new CreateEntityCommand<Answer>(answerEntity));
@@ -70,8 +76,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 
         private async Task<AnswerViewModel> SearchCandidates(AnswerViewModel answerViewModel)
         {
-            var candidateViewModels = GetViewModels<Candidate, CandidateViewModel>(
-                await _mediator.Send(new GetCandidatesByNameFragmentQuery(answerViewModel.NameFragmentOfCandidate)));
+            var candidateEntities = await _mediator.Send(new GetCandidatesByNameFragmentQuery(answerViewModel.NameFragmentOfCandidate));
+            var config = new MapperConfiguration(c => c.CreateMap<Candidate, CandidateViewModel>());
+            var mapper = new Mapper(config);
+            var candidateViewModels = mapper.Map<CandidateViewModel[]>(candidateEntities);
             answerViewModel.CandidateViewModels = candidateViewModels;
             return answerViewModel;
         }

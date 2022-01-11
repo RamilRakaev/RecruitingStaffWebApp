@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,21 +24,16 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 
         public async Task OnGet(int candidateId)
         {
-            CandidateViewModel = GetViewModel<Candidate, CandidateViewModel>(
-                await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId))
-                );
-            var vacanciesSelectList = new SelectList(
-                await _mediator.Send(new GetEntitiesQuery<Vacancy>()),
-                "Id",
-                "Name");
-            CandidateViewModel.VacanciesSelectList = vacanciesSelectList;
+            await Initialize(candidateId);
         }
 
         public async Task<IActionResult> OnPost(CandidateViewModel candidateViewModel, int questionnaireId, IFormFile formFile)
         {
             if (ModelState.IsValid)
             {
-                var candidateEntity = GetEntity<Candidate, CandidateViewModel>(candidateViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<CandidateViewModel, Candidate>());
+                var mapper = new Mapper(config);
+                var candidateEntity = mapper.Map<Candidate>(candidateViewModel);
                 await _mediator.Send(new ChangeEntityCommand<Candidate>(candidateEntity));
                 foreach (var vacancyId in candidateViewModel.VacancyIds)
                 {
@@ -45,15 +41,21 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
                 }
                 return RedirectToPage("ConcreteCandidate", new { CandidateId = candidateViewModel.Id });
             }
-            CandidateViewModel = GetViewModel<Candidate, CandidateViewModel>(
-                await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateViewModel.Id))
-                );
+            await Initialize(candidateViewModel.Id);
+            return Page();
+        }
+
+        private async Task Initialize(int candidateId)
+        {
+            var candidateEntity = await _mediator.Send(new GetEntityByIdQuery<Candidate>(candidateId));
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Candidate, CandidateViewModel>());
+            var mapper = new Mapper(config);
+            CandidateViewModel = mapper.Map<CandidateViewModel>(candidateEntity);
             var vacanciesSelectList = new SelectList(
                 await _mediator.Send(new GetEntitiesQuery<Vacancy>()),
                 "Id",
                 "Name");
             CandidateViewModel.VacanciesSelectList = vacanciesSelectList;
-            return Page();
         }
     }
 }

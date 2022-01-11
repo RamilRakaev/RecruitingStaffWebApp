@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,8 +26,10 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
             }
             else
             {
-                VacancyViewModel = GetViewModel<Vacancy, VacancyViewModel>(
-                    await _mediator.Send(new GetEntityByIdQuery<Vacancy>(vacancyId.Value)));
+                var vacancyEntity = await _mediator.Send(new GetEntityByIdQuery<Vacancy>(vacancyId.Value));
+                var config = new MapperConfiguration(c => c.CreateMap<Vacancy, VacancyViewModel>());
+                var mapper = new Mapper(config);
+                VacancyViewModel = mapper.Map<VacancyViewModel>(vacancyEntity);
                 _logger.LogInformation("\"VacancyForm\" page has been visited to change vacancy");
             }
         }
@@ -35,7 +38,9 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
         {
             if (ModelState.IsValid)
             {
-                var vacancyEntity = GetEntity<Vacancy, VacancyViewModel>(vacancyViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<VacancyViewModel, Vacancy>());
+                var mapper = new Mapper(config);
+                var vacancyEntity = mapper.Map<Vacancy>(vacancyViewModel);
                 await _mediator.Send(new CreateOrChangeEntityCommand<Vacancy>(vacancyEntity));
                 _logger.LogInformation("The vacancy has been created.");
                 return RedirectToPage("/User/Vacancies/Vacancies");

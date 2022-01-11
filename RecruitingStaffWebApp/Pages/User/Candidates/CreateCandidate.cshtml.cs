@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -41,7 +42,9 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         {
             if (ModelState.IsValid)
             {
-                var candidateEntity = GetEntity<Candidate, CandidateViewModel>(candidateViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<CandidateViewModel, Candidate>());
+                var mapper = new Mapper(config);
+                var candidateEntity = mapper.Map<Candidate>(candidateViewModel);
                 await _mediator.Send(new CreateEntityCommand<Candidate>(candidateEntity));
                 foreach (var vacancyId in candidateViewModel.VacancyIds)
                 {

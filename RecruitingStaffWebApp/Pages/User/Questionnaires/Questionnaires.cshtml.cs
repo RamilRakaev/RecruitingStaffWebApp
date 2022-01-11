@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
@@ -22,26 +23,28 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         public async Task OnGet(string messageAboutDocumentsSource)
         {
             MessageAboutDocumentsSource = messageAboutDocumentsSource;
-            Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
-                );
+            await Initial();
         }
 
         public async Task OnPostRemoveQuestionnaire(int questionnaireId)
         {
             await _mediator.Send(new RemoveQuestionnaireCommand(questionnaireId));
-            Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
-                );
+            await Initial();
         }
 
         public async Task OnPostRemoveQuestionCategory(int questionCategoryId)
         {
             await _mediator.Send(new RemoveQuestionCategoryCommand(questionCategoryId));
             RemoveLog("QuestionCategory", questionCategoryId);
-            Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetEntitiesQuery<Questionnaire>())
-                );
+            await Initial();
+        }
+
+        private async Task Initial()
+        {
+            var questionnaireEntities = await _mediator.Send(new GetEntitiesQuery<Questionnaire>());
+            var config = new MapperConfiguration(c => c.CreateMap<Questionnaire, QuestionnaireViewModel>());
+            var mapper = new Mapper(config);
+            Questionnaires =  mapper.Map<QuestionnaireViewModel[]>(questionnaireEntities);
         }
     }
 }

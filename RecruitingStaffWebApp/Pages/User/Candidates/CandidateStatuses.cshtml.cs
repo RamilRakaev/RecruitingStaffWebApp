@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,7 +32,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
 
         public async Task<IActionResult> OnGetChangeStatus(CandidateVacancyViewModel candidateVacancyViewModel, int status)
         {
-            var candidateVacancyEntity = GetEntity<CandidateVacancy, CandidateVacancyViewModel>(candidateVacancyViewModel);
+            var config = new MapperConfiguration(c => c.CreateMap<CandidateVacancy, CandidateVacancyViewModel>());
+            var mapper = new Mapper(config);
+            var candidateVacancyEntity = mapper.Map<CandidateVacancy>(candidateVacancyViewModel);
             candidateVacancyEntity.CandidateStatus = (CandidateStatus)status;
             await _mediator.Send(new ChangeEntityCommand<CandidateVacancy>(candidateVacancyEntity));
             return RedirectToPage("CandidateStatuses", new { candidateId = candidateVacancyViewModel.FirstEntityId });
@@ -51,7 +54,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
                 new GetMapsByFirstEntityIdQuery<CandidateVacancy>(CandidateId));
             foreach (var candidateVacancy in candidateVacancies)
             {
-                var candidateVacancyViewModel = GetViewModel<CandidateVacancy, CandidateVacancyViewModel>(candidateVacancy);
+                var config = new MapperConfiguration(c => c.CreateMap<CandidateVacancy, CandidateVacancyViewModel>());
+                var mapper = new Mapper(config);
+                var candidateVacancyViewModel = mapper.Map<CandidateVacancyViewModel>(candidateVacancy);
                 var vacancyEntity = await _mediator.Send(new GetEntityByIdQuery<Vacancy>(candidateVacancyViewModel.SecondEntityId));
                 candidateVacancyViewModel.VacancyName = vacancyEntity.Name;
                 candidateVacancyViewModels.Add(candidateVacancyViewModel);

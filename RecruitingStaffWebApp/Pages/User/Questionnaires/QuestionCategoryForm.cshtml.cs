@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,8 +34,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             else
             {
-                QuestionCategoryViewModel = GetViewModel<QuestionCategory, QuestionCategoryViewModel>(
-                    await _mediator.Send(new GetQuestionCategoryByIdQuery(questionCategoryId.Value)));
+                var questionCategoryEntity = await _mediator.Send(new GetQuestionCategoryByIdQuery(questionCategoryId.Value));
+                var config = new MapperConfiguration(c => c.CreateMap<QuestionCategory, QuestionCategoryViewModel>());
+                var mapper = new Mapper(config);
+                QuestionCategoryViewModel = mapper.Map< QuestionCategoryViewModel>(questionCategoryEntity);
             }
         }
 
@@ -42,17 +45,19 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
             QuestionCategoryViewModel = questionCategory;
 
-            Questionnaires = GetViewModels<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetQuestionnairesByNameFragmentQuery(nameFragment)));
+            var config = new MapperConfiguration(c => c.CreateMap<Questionnaire, QuestionnaireViewModel>());
+            var mapper = new Mapper(config);
+            var questionnaireEntities = await _mediator.Send(new GetQuestionnairesByNameFragmentQuery(nameFragment));
+            Questionnaires = mapper.Map<QuestionnaireViewModel[]>(questionnaireEntities);
         }
 
         public async Task<IActionResult> OnPostCreateQuestionCategory(QuestionCategoryViewModel questionCategoryViewModel)
         {
             if (ModelState.IsValid)
             {
-                var questionCategoryEntity =
-                    GetEntity<QuestionCategory, QuestionCategoryViewModel>(
-                    questionCategoryViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<QuestionCategoryViewModel, QuestionCategory>());
+                var mapper = new Mapper(config);
+                var questionCategoryEntity = mapper.Map<QuestionCategory>(questionCategoryViewModel);
                 if (questionCategoryViewModel.Id == 0)
                 {
                     await _mediator.Send(new CreateEntityCommand<QuestionCategory>(questionCategoryEntity));

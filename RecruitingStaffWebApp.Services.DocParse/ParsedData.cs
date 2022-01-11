@@ -15,10 +15,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
         public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
 
-        private QuestionnaireElement currentQuestionCategory;
-        private QuestionnaireElement currentQuestion;
-        private QuestionnaireElement currentAnswer;
-
         public string FileExtension { get; set; }
         public string FileSource { get; set; }
 

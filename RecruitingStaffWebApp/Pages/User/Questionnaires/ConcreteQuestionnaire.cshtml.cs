@@ -18,8 +18,8 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
         }
 
-        public QuestionnaireViewModel Questionnaire { get; set; }
-        public QuestionCategoryViewModel[] QuestionCategories { get; set; }
+        public QuestionnaireViewModel QuestionnaireViewModel { get; set; }
+        public QuestionCategoryViewModel[] QuestionCategoryViewModels { get; set; }
 
         public async Task OnGet(int questionnaireId)
         {
@@ -41,15 +41,19 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
 
         private async Task Initialize(int questionnaireId)
         {
-            Questionnaire = GetViewModel<Questionnaire, QuestionnaireViewModel>(
-                await _mediator.Send(new GetEntityByIdQuery<Questionnaire>(questionnaireId)));
-            var config = new MapperConfiguration(cfg =>
+            var questionnaireEntity =
+                await _mediator.Send(new GetEntityByIdQuery<Questionnaire>(questionnaireId));
+            var questionnaireConfig = new MapperConfiguration(
+                c => c.CreateMap<Questionnaire, QuestionnaireViewModel>());
+            var questionnaireMapper = new Mapper(questionnaireConfig);
+            QuestionnaireViewModel = questionnaireMapper.Map<QuestionnaireViewModel>(questionnaireEntity);
+            var questionCategoiesConfig = new MapperConfiguration(c =>
             {
-                cfg.CreateMap<QuestionCategory, QuestionCategoryViewModel>();
-                cfg.CreateMap<Question, QuestionViewModel>();
+                c.CreateMap<QuestionCategory, QuestionCategoryViewModel>();
+                c.CreateMap<Question, QuestionViewModel>();
             });
-            var mapper = config.CreateMapper();
-            QuestionCategories = mapper.Map<QuestionCategoryViewModel[]>(
+            var questionCategoriesMapper = questionCategoiesConfig.CreateMapper();
+            QuestionCategoryViewModels = questionCategoriesMapper.Map<QuestionCategoryViewModel[]>(
                 await _mediator.Send(new GetQuestionCategoriesWithQuestionsQuery(questionnaireId)));
         }
     }

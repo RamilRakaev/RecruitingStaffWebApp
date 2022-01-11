@@ -1,12 +1,12 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Questionnaires.AnswersOnQuestionModel
 @{
-    ViewData["Title"] = Model.Question.Name;
+    ViewData["Title"] = Model.QuestionViewModel.Name;
 }
 <div class="row justify-content-center">
     <div class="col-9">
         <div class="d-flex w-100 mb-3 justify-content-between">
-            <h4>@Model.Question.Name</h4>
+            <h4>@Model.QuestionViewModel.Name</h4>
             <div>
                 <a class="btn btn-dark"
                    asp-page="ConcreteQuestionnaire"
@@ -14,7 +14,7 @@
                     Анкета
                 </a>
                 <a class="btn btn-primary" asp-page="AnswerForm"
-                   asp-route-questionId="@Model.Question.Id"
+                   asp-route-questionId="@Model.QuestionViewModel.Id"
                    asp-route-questionnaireId="@Model.QuestionnaireId">Добавить ответ</a>
             </div>
         </div>
@@ -51,7 +51,7 @@
                             </a>
                             <form class="d-inline" method="post">
                                 <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
-                                <input type="hidden" name="questionId" value="@Model.Question.Id" />
+                                <input type="hidden" name="questionId" value="@Model.QuestionViewModel.Id" />
                                 <input type="hidden" name="answerId" value="@answer.Id" />
                                 <button class="btn btn-danger ml-2 mb-2">Удалить</button>
                             </form>

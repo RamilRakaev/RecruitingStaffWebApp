@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -32,8 +33,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             else
             {
-                QuestionViewModel = GetViewModel<Question, QuestionViewModel>(
-                    await _mediator.Send(new GetEntityByIdQuery<Question>(questionId.Value)));
+                var question = await _mediator.Send(new GetEntityByIdQuery<Question>(questionId.Value));
+                var config = new MapperConfiguration(c => c.CreateMap<Question, QuestionViewModel>());
+                var mapper = new Mapper(config);
+                QuestionViewModel = mapper.Map<QuestionViewModel>(question);
             }
         }
 
@@ -41,7 +44,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
         {
             if (ModelState.IsValid)
             {
-                var questionEntity = GetEntity<Question, QuestionViewModel>(questionViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<QuestionViewModel, Question>());
+                var mapper = new Mapper(config);
+                var questionEntity = mapper.Map<Question>(QuestionViewModel);
                 if (questionViewModel.Id == 0)
                 {
                     await _mediator.Send(new CreateEntityCommand<Question>(questionEntity));

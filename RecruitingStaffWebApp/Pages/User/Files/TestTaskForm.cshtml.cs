@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         {
             if (ModelState.IsValid)
             {
-                var testTaskEntity = GetEntity<TestTask, TestTaskViewModel>(testTaskViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<TestTaskViewModel, TestTask>());
+                var mapper = new Mapper(config);
+                var testTaskEntity = mapper.Map<TestTask>(testTaskViewModel);
                 await _mediator.Send(new CreateOrChangeEntityCommand<TestTask>(testTaskEntity));
                 await _mediator.Send(new CreateOrChangeFileCommand(formFile, testTaskEntity.Name, FileType.TestTask, testTaskId: testTaskEntity.Id));
                 return RedirectToPage("Files");

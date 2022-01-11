@@ -1,40 +1,40 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Vacancies.ConcreteVacancyModel
 @{
-    ViewData["Title"] = Model.Vacancy.Name;
+    ViewData["Title"] = Model.VacancyViewModel.Name;
 }
 <div class="row justify-content-center">
     <div class="col-9">
         <div class="d-flex w-100 justify-content-between">
-            <h4>@Model.Vacancy.Name</h4>
+            <h4>@Model.VacancyViewModel.Name</h4>
             <div>
                 <a class="btn btn-dark text-white" asp-page="Vacancies">Вакансии</a>
                 <a class="btn btn-dark" asp-page="/User/Questionnaires/Questionnaires">Анкеты</a>
-                <a class="btn btn-warning" asp-page="VacancyForm" asp-route-vacancyId="@Model.Vacancy.Id">Изменить</a>
+                <a class="btn btn-warning" asp-page="VacancyForm" asp-route-vacancyId="@Model.VacancyViewModel.Id">Изменить</a>
                 <form class="d-inline" method="post">
-                    <input type="hidden" name="vacancyId" value="@Model.Vacancy.Id" />
+                    <input type="hidden" name="vacancyId" value="@Model.VacancyViewModel.Id" />
                     <button class="btn btn-danger">Удалить</button>
                 </form>
             </div>
         </div>
-        <p>@Model.Vacancy.Description</p>
+        <p>@Model.VacancyViewModel.Description</p>
         <h6>Обязанности:</h6>
         <ul class="list-group list-group-flush">
-            @foreach (var responsability in @Model.Vacancy.ResponsibilitiesList)
+            @foreach (var responsability in @Model.VacancyViewModel.ResponsibilitiesList)
             {
                 <li class="list-group-item">@responsability</li>
             }
         </ul>
         <h6 class="mt-5">Ответственность:</h6>
         <ul class="list-group list-group-flush">
-            @foreach (var requirement in @Model.Vacancy.RequirementsList)
+            @foreach (var requirement in @Model.VacancyViewModel.RequirementsList)
             {
                 <li class="list-group-item">@requirement</li>
             }
         </ul>
         <h6 class="mt-5">Рабочие условия:</h6>
         <ul class="list-group list-group-flush">
-            @foreach (var condition in Model.Vacancy.WorkingConditionsList)
+            @foreach (var condition in Model.VacancyViewModel.WorkingConditionsList)
             {
                 <li class="list-group-item">@condition</li>
             }

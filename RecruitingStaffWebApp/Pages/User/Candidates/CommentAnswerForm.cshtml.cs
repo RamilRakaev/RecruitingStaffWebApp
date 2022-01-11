@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,14 +22,19 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
         public async Task OnGet(int answerId)
         {
             var answerEntity = await _mediator.Send(new GetEntityByIdQuery<Answer>(answerId));
-            AnswerViewModel = GetViewModel<Answer, AnswerViewModel>(answerEntity);
+            var config = new MapperConfiguration(c => c.CreateMap<Answer, AnswerViewModel>());
+            var mapper = new Mapper(config);
+            AnswerViewModel = mapper.Map<AnswerViewModel>(answerEntity);
         }
 
         public async Task<IActionResult> OnPost(AnswerViewModel answerViewModel)
         {
             if (ModelState.IsValid)
             {
-                var answerEntity = GetEntity<Answer, AnswerViewModel>(answerViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<AnswerViewModel, Answer>());
+                var mapper = new Mapper(config);
+                var answerEntity = mapper.Map<Answer>(answerViewModel);
+
                 await _mediator.Send(new ChangeEntityCommand<Answer>(answerEntity));
                 return RedirectToPage("CandidateAnswers", new { candidateId = answerEntity.CandidateId });
             }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,12 +17,14 @@ namespace RecruitingStaff.WebApp.Pages.User.Vacancies
         {
         }
 
-        public VacancyViewModel Vacancy { get; set; }
+        public VacancyViewModel VacancyViewModel { get; set; }
 
         public async Task OnGet(int vacancyId)
         {
-            Vacancy = GetViewModel<Vacancy, VacancyViewModel>(
-                await _mediator.Send(new GetEntityByIdQuery<Vacancy>(vacancyId)));
+            var vacancyEntity = await _mediator.Send(new GetEntityByIdQuery<Vacancy>(vacancyId));
+            var config = new MapperConfiguration(c => c.CreateMap<Vacancy, VacancyViewModel>());
+            var mapper = new Mapper(config);
+            VacancyViewModel = mapper.Map<VacancyViewModel>(vacancyEntity);
         }
 
         public async Task<IActionResult> OnPost(int vacancyId)

@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,9 +39,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 
         public async Task OnPostSearchCandidates(string nameFragment)
         {
-            var candidates = await _mediator.Send(
-                new GetCandidatesByNameFragmentQuery(nameFragment));
-            CandidateViewModels = GetViewModels<Candidate, CandidateViewModel>(candidates);
+            var candidates = await _mediator.Send(new GetCandidatesByNameFragmentQuery(nameFragment));
+            var config = new MapperConfiguration(c => c.CreateMap<Candidate, CandidateViewModel>());
+            var mapper = new Mapper(config);
+            CandidateViewModels = mapper.Map<CandidateViewModel[]>(candidates);
         }
     }
 }

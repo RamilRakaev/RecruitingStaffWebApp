@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,9 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
         {
             if (ModelState.IsValid)
             {
-                var optionEntity = GetEntity<Option, OptionViewModel>(optionViewModel);
+                var config = new MapperConfiguration(c => c.CreateMap<OptionViewModel, Option>());
+                var mapper = new Mapper(config);
+                var optionEntity = mapper.Map<Option>(optionViewModel);
                 await _mediator.Send(new CreateOrChangeEntityCommand<Option>(optionEntity));
                 if (optionViewModel.CandidateId != null)
                 {

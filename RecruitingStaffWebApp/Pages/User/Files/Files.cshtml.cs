@@ -1,11 +1,10 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
-using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using RecruitingStaff.WebApp.ViewModels.Files;
@@ -17,12 +16,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 {
     public class FilesModel : BasePageModel
     {
-        public FilesModel(IMediator mediator, ILogger<BasePageModel> logger, IOptions<WebAppOptions> options) : base(mediator, logger)
+        public FilesModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
         {
-            _options = options.Value;
         }
 
-        private readonly WebAppOptions _options;
         public FileViewModel[] Files { get; set; }
         public SelectList FileTypes { get; set; }
         public int SelectedFileType;
@@ -58,7 +55,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         private async Task<FileViewModel[]> GetViewModelsByFileType(FileType fileType)
         {
             var files = await _mediator.Send(new GetFilesByTypeQuery(fileType));
-            return GetViewModels<RecruitingStaffWebAppFile, FileViewModel>(files);
+            var config = new MapperConfiguration(
+                c => c.CreateMap<RecruitingStaffWebAppFile, FileViewModel>());
+            var mapper = new Mapper(config);
+            return mapper.Map<FileViewModel[]>(files);
         }
     }
 }

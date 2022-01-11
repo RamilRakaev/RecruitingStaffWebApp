@@ -1,12 +1,12 @@
 ﻿@page
 @model RecruitingStaff.WebApp.Pages.User.Questionnaires.ConcreteQuestionnaireModel
 @{
-    ViewData["Title"] = Model.Questionnaire.Name;
+    ViewData["Title"] = Model.QuestionnaireViewModel.Name;
 }
 <div class="row justify-content-center mb-3">
     <a class="btn btn-success"
        asp-page="QuestionCategoryForm"
-       asp-route-questionnaireId="@Model.Questionnaire.Id">
+       asp-route-questionnaireId="@Model.QuestionnaireViewModel.Id">
         Добавить категорию
     </a>
 </div>
@@ -19,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var questionCategory in Model.QuestionCategories)
+        @foreach (var questionCategory in Model.QuestionCategoryViewModels)
         {
             <tr>
                 <th>@questionCategory.Id</th>
@@ -28,15 +28,15 @@
                     <a class="btn btn-success"
                        asp-page="QuestionForm"
                        asp-route-questionCategoryId="@questionCategory.Id"
-                       asp-route-questionnaireId="@Model.Questionnaire.Id">
+                       asp-route-questionnaireId="@Model.QuestionnaireViewModel.Id">
                         Добавить вопрос
                     </a>
                     <a class="btn btn-warning"
                        asp-page="QuestionCategoryForm"
                        asp-route-questionCategoryId="@questionCategory.Id">Изменить</a>
                     <form class="d-inline" method="post" asp-page-handler="RemoveQuestionCategory">
-                        <input type="hidden" name="questionnaireId" value="@Model.Questionnaire.Id" />
-                        <input type="hidden" name="questionnaireName" value="@Model.Questionnaire.Name" />
+                        <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireViewModel.Id" />
+                        <input type="hidden" name="questionnaireName" value="@Model.QuestionnaireViewModel.Name" />
                         <input type="hidden" name="questionCategoryId" value="@questionCategory.Id" />
                         <button class="btn btn-danger">Удалить</button>
                     </form>
@@ -51,7 +51,7 @@
                         <a class="btn btn-info"
                            asp-page="AnswersOnQuestion"
                            asp-route-questionId="@question.Id"
-                           asp-route-questionnaireId="@Model.Questionnaire.Id">
+                           asp-route-questionnaireId="@Model.QuestionnaireViewModel.Id">
                             Ответы
                         </a>
                         <a class="btn btn-warning"
@@ -62,8 +62,8 @@
                             Изменить
                         </a>
                         <form class="d-inline" method="post" asp-page-handler="RemoveQuestion">
-                            <input type="hidden" name="questionnaireId" value="@Model.Questionnaire.Id" />
-                            <input type="hidden" name="questionnaireName" value="@Model.Questionnaire.Name" />
+                            <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireViewModel.Id" />
+                            <input type="hidden" name="questionnaireName" value="@Model.QuestionnaireViewModel.Name" />
                             <input type="hidden" name="questionId" value="@question.Id" />
                             <button class="btn btn-danger">Удалить</button>
                         </form>
