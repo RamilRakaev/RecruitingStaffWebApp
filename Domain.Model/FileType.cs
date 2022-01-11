@@ -1,4 +1,18 @@
-﻿namespace RecruitingStaff.Domain.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RecruitingStaff.Domain.Model
 {
-    public enum FileType { QuestionnaireExample, CompletedQuestionnaire, TestTask, Photo }
+    public enum FileType {
+        [Display(Name = "Пример анкеты")]
+        QuestionnaireExample,
+
+        [Display(Name = "Пройденная анкета")]
+        CompletedQuestionnaire,
+
+        [Display(Name = "Тестовое задание")]
+        TestTask,
+
+        [Display(Name = "Фото")]
+        Photo
+    }
 }

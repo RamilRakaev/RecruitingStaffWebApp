@@ -56,7 +56,8 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
                 candidateVacancyViewModel.VacancyName = vacancyEntity.Name;
                 candidateVacancyViewModels.Add(candidateVacancyViewModel);
 
-                candidateVacancyViewModel.CandidateStatusSelectList = new(await _mediator.Send(new GetValuesQuery(typeof(CandidateStatus))), "Key", "Value");
+                var statuses = await _mediator.Send(new GetValuesQuery(typeof(CandidateStatus)));
+                candidateVacancyViewModel.CandidateStatusSelectList = new(statuses, "Key", "Value");
                 var key = (int)candidateVacancy.CandidateStatus;
                 candidateVacancyViewModel.CandidateStatusSelectList.ElementAt(key).Selected = true;
             }

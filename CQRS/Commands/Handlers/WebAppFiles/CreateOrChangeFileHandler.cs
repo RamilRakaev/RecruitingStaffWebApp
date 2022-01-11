@@ -4,6 +4,8 @@ using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,12 +14,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
     public class CreateOrChangeFileHandler : IRequestHandler<CreateOrChangeFileCommand, RecruitingStaffWebAppFile>
     {
         private readonly IMediator _mediator;
-        private readonly WebAppOptions _options;
 
-        public CreateOrChangeFileHandler(IMediator mediator, IOptions<WebAppOptions> options)
+        public CreateOrChangeFileHandler(IMediator mediator)
         {
             _mediator = mediator;
-            _options = options.Value;
         }
 
         public async Task<RecruitingStaffWebAppFile> Handle(CreateOrChangeFileCommand request, CancellationToken cancellationToken)
@@ -25,8 +25,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             var fileEntity = await _mediator.Send(
                 new CreateOrChangeEntityCommand<RecruitingStaffWebAppFile>(request.FileEntity),
                 cancellationToken);
+            var soucre = await _mediator.Send(new GetFileSourceQuery(fileEntity.FileType));
             await request.FormFile.CreateNewFileAsync(
-                _options.GetSource(fileEntity.FileType) + "\\" + fileEntity.Name + ".docx");
+                Path.Combine(soucre,fileEntity.Name + ".docx"));
             return fileEntity;
         }
     }

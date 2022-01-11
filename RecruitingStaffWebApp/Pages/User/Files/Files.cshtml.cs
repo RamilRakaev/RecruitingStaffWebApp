@@ -22,7 +22,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
             _options = options.Value;
         }
 
-        private WebAppOptions _options;
+        private readonly WebAppOptions _options;
         public FileViewModel[] Files { get; set; }
         public SelectList FileTypes { get; set; }
         public int SelectedFileType;
@@ -37,14 +37,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
             SelectedFileType = fileType;
             await Initial();
             var file = await _mediator.Send(new GetEntityByIdQuery<RecruitingStaffWebAppFile>(fileId));
-
-            string file_path = Path.Combine(_options.GetSource((FileType) SelectedFileType), file.Name);
-            // Тип файла - content-type
+            string source = await _mediator.Send(new GetFileSourceQuery(SelectedFileType));
+            string file_path = Path.Combine(source, file.Name);
             string file_type = "application/vnd.openxmlformants-officedocument.wordprocessingml.document";
-            // Имя файла - необязательно
-            string file_name = "document.docx";
-            return PhysicalFile(file_path, file_type, file_name);
-
+            return PhysicalFile(file_path, file_type, file.Name);
         }
 
         public async Task OnPost(int fileType)
