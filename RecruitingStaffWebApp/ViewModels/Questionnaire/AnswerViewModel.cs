@@ -11,6 +11,7 @@ namespace RecruitingStaff.WebApp.ViewModels.Questionnaire
         public string FamiliarWithTheTechnology { get; set; }
         public byte Estimation { get; set; }
         public string Comment { get; set; }
+        public string QuestionName { get; set; }
         public CandidateViewModel[] CandidateViewModels { get; set; }
         public string NameFragmentOfCandidate { get; set; }
     }

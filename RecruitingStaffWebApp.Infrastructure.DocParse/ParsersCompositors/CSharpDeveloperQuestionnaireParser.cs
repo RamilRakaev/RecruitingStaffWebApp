@@ -35,7 +35,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
         {
         }
 
-        public sealed override Task<ParsedData> Parse(string path)
+        public sealed override Task<ParsedData> ParseAsync(string path)
         {
             using (var wordDoc = WordprocessingDocument.Open(path, false))
             {

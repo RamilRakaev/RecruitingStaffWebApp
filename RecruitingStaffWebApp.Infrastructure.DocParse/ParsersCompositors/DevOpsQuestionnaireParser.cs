@@ -24,7 +24,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             parsedData.Vacancy = new() { Name = "DevOps" };
         }
 
-        public override Task<ParsedData> Parse(string path)
+        public override Task<ParsedData> ParseAsync(string path)
         {
             parsedData.Questionnaire = ParseQuestionnaire(path, "Лист1");
             return  Task.FromResult(parsedData);

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Answers;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
@@ -20,19 +21,26 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
 
         public async Task OnGet(int candidateId)
         {
-            CandidateId = candidateId;
-            Answers = GetViewModels<Answer, AnswerViewModel>(
-                await _mediator.Send(new GetAnswersByCanidateIdQuery(candidateId))
-                );
+            await Initialization(candidateId);
         }
 
         public async Task OnPost(int answerId, int candidateId)
         {
-            CandidateId = candidateId;
             await _mediator.Send(new RemoveEntityCommand<Answer>(answerId));
+            await Initialization(candidateId);
+        }
+
+        private async Task Initialization(int candidateId)
+        {
+            CandidateId = candidateId;
             Answers = GetViewModels<Answer, AnswerViewModel>(
                 await _mediator.Send(new GetAnswersByCanidateIdQuery(candidateId))
                 );
+            foreach (var answer in Answers)
+            {
+                var question = await _mediator.Send(new GetEntityByIdQuery<Question>(answer.QuestionId));
+                answer.QuestionName = question.Name;
+            }
         }
     }
 }

@@ -11,6 +11,6 @@ namespace RecruitingStaffWebApp.Services.DocParse
             parsedData = new ParsedData();
         }
 
-        public abstract Task<ParsedData> Parse(string path);
+        public abstract Task<ParsedData> ParseAsync(string path);
     }
 }

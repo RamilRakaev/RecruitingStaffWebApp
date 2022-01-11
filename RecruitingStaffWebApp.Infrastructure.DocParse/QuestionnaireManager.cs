@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors;
 using RecruitingStaffWebApp.Services.DocParse;
+using RecruitingStaffWebApp.Services.DocParse.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,9 +15,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
     {
         private readonly WebAppOptions _options;
 
-        private ParsedData parsedData;
         private readonly QuestionnaireDbManager questionnaireDbManager;
-        private ParserStrategy parserStrategy;
 
         public QuestionnaireManager(
             IOptions<WebAppOptions> options,
@@ -30,10 +29,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task<bool> ParseQuestionnaire(string path, JobQuestionnaire jobQuestionnaire)
         {
-            await Parsersearch(jobQuestionnaire);
+            var parserStrategy = Parsersearch(jobQuestionnaire);
             try
             {
-                parsedData = await parserStrategy.Parse(path);
+                var parsedData = await parserStrategy.ParseAsync(path);
                 var checking = new ParsedDataCheck(Array.Empty<string>());
                 if (checking.Checking(parsedData))
                 {
@@ -61,10 +60,10 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task<bool> ParseAnswersAndCandidateData(string path, JobQuestionnaire jobQuestionnaire, int candidateId)
         {
-            await Parsersearch(jobQuestionnaire);
+            var parserStrategy = Parsersearch(jobQuestionnaire);
             try
             {
-                parsedData = await parserStrategy.Parse(path);
+                var parsedData = await parserStrategy.ParseAsync(path);
                 parsedData.CandidateId = candidateId;
                 var checking = new ParsedDataCheck(Array.Empty<string>());
                 if (checking.Checking(parsedData))
@@ -91,25 +90,20 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        private Task Parsersearch(JobQuestionnaire jobQuestionnaire)
+        private ParserStrategy Parsersearch(JobQuestionnaire jobQuestionnaire)
         {
-            if (jobQuestionnaire == JobQuestionnaire.CSharpDeveloperQuestionnaire)
+            return jobQuestionnaire switch
             {
-                parserStrategy = new CSharpDeveloperQuestionnaireParser();
-            }
-            if (jobQuestionnaire == JobQuestionnaire.PhpDeveloperQuestionnaire)
-            {
-                parserStrategy = new PhpDeveloperQuestionnaireParser();
-            }
-            if (jobQuestionnaire == JobQuestionnaire.OfficeQuestionnaire)
-            {
-                parserStrategy = new OfficeQuestionnaireParser();
-            }
-            if (jobQuestionnaire == JobQuestionnaire.DevOpsQuestionnaire)
-            {
-                parserStrategy = new DevOpsQuestionnaireParser();
-            }
-            return Task.CompletedTask;
+                JobQuestionnaire.CSharpDeveloperQuestionnaire =>
+                     new CSharpDeveloperQuestionnaireParser(),
+                JobQuestionnaire.PhpDeveloperQuestionnaire =>
+                    new PhpDeveloperQuestionnaireParser(),
+                JobQuestionnaire.OfficeQuestionnaire =>
+                    new OfficeQuestionnaireParser(),
+                JobQuestionnaire.DevOpsQuestionnaire =>
+                    new DevOpsQuestionnaireParser(),
+                _ => throw new ParseException()
+            };
         }
     }
 }

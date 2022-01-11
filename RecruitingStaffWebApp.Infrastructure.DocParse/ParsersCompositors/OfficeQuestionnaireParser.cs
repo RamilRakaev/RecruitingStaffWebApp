@@ -24,7 +24,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             parsedData.Questionnaire = QuestionnaireElement.CreateQuestionnaireElement(questionnaireName);
         }
 
-        public override Task<ParsedData> Parse(string path)
+        public override Task<ParsedData> ParseAsync(string path)
         {
             using var wordDoc = WordprocessingDocument.Open(path, false);
             var body = wordDoc.MainDocumentPart.Document.Body;

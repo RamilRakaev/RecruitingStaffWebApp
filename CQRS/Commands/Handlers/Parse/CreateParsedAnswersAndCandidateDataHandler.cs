@@ -131,10 +131,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
         public static T AssignValuesToProperties<T, V>(T obj, V value)
         {
             var objProperties = obj.GetType().GetProperties();
-            foreach (var valueProperty in value
+            var properties = value
                 .GetType()
                 .GetProperties()
-                .Where(p => p.PropertyType.Name != "List`1"))
+                .Where(p => p.PropertyType.Name != "List`1");
+            foreach (var valueProperty in properties)
             {
                 var objProperty = objProperties
                     .Where(p => p.Name == valueProperty.Name

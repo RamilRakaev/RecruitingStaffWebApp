@@ -10,6 +10,7 @@
     <table class="table">
         <thead class="thead-light">
             <tr>
+                <th>Вопрос</th>
                 <th>Ответ</th>
                 <th>Оценка</th>
                 <th>Комментарий</th>
@@ -20,6 +21,7 @@
             @foreach(var answer in Model.Answers)
             {
                 <tr>
+                    <td>@answer.QuestionName</td>
                     <td>@answer.Name</td>
                     <td>@answer.Estimation</td>
                     <td>@answer.Comment</td>
