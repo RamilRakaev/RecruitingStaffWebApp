@@ -11,30 +11,35 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Files
 {
-    public class QuestionsParseFormModel : BasePageModel
+    public class CompletedQuestionnaireParseModel : BasePageModel
     {
-        public QuestionsParseFormModel(IMediator mediator, ILogger<QuestionsParseFormModel> logger) : base(mediator, logger)
-        { }
+        public CompletedQuestionnaireParseModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
+        {
+        }
 
         public SelectList QuestionnaireTypes { get; set; }
+        public int CandidateId { get; set; }
 
-        public async Task OnGet()
+        public async Task OnGet(int candidateId)
         {
-            QuestionnaireTypes = new SelectList(
-                await _mediator.Send(new GetJobQuestionnairesDictionaryQuery()),
+            CandidateId = candidateId;
+            QuestionnaireTypes = new(
+                await _mediator.Send(
+                new GetJobQuestionnairesDictionaryQuery()),
                 "Key",
                 "Value");
         }
 
-        public async Task<IActionResult> OnPost(IFormFile formFile, int jobQuestionnaire)
+        public async Task<IActionResult> OnPost(IFormFile formFile, int jobQuestionnaire, int candidateId)
         {
-            if (await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, parseQuestions: true)))
+            if (await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, false, candidateId)))
             {
                 return RedirectToPage("/User/Candidates/Candidates");
             }
             ModelState.AddModelError("", "Не удалось проанализировать документ");
-            QuestionnaireTypes = new SelectList(
-               await _mediator.Send(new GetJobQuestionnairesDictionaryQuery()),
+            QuestionnaireTypes = new(
+               await _mediator.Send(
+               new GetJobQuestionnairesDictionaryQuery()),
                "Key",
                "Value");
             return Page();

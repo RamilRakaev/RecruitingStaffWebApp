@@ -1,11 +1,14 @@
-﻿namespace RecruitingStaff.WebApp.ViewModels.Files
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace RecruitingStaff.WebApp.ViewModels.Files
 {
     public class FileViewModel : BaseViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int FileType { get; set; }
 
-        public FileViewModelType FileViewModelType { get; set; }
+        public SelectList FileTypeSelectList { get; set; }
 
         public int? CandidateId { get; set; }
 

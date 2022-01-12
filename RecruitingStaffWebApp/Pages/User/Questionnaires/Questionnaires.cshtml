@@ -8,7 +8,7 @@
         <div class="d-flex w-100 mb-2 justify-content-between">
             <h4>Анкеты</h4>
             <div>
-                <a class="btn btn-dark m-2" asp-page="/User/Files/QuestionsParseForm">Парсинг анкеты</a>
+                <a class="btn btn-dark m-2" asp-page="/User/Files/EmptyQuestionnaireParseForm">Парсинг пустой анкеты</a>
                 <a class="btn btn-success m-2" asp-page="QuestionnaireForm">Создать анкету</a>
             </div>
         </div>
@@ -30,7 +30,7 @@
                         <td>
                             <a class="btn btn-info" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@questionnaire.Id">Перейти</a>
                             <a class="btn btn-warning m-2" asp-page="QuestionnaireForm" asp-route-questionnaireId="@questionnaire.Id">Изменить</a>
-                            <a class="btn btn-success" asp-page="QuestionCategoryForm" asp-route-quesionnaireId="@questionnaire.Id">Добавить категорию</a>
+                            <a class="btn btn-success" asp-page="QuestionCategoryForm" asp-route-questionnaireId="@questionnaire.Id">Добавить категорию</a>
                             <form class="d-inline" method="post" asp-page-handler="RemoveQuestionnaire">
                                 <input type="hidden" name="questionnaireId" value="@questionnaire.Id" />
                                 <button class="btn btn-danger m-2">Удалить</button>

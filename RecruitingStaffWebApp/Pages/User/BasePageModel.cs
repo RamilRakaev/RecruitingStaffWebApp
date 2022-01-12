@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model;
-using RecruitingStaff.WebApp.ViewModels;
 
 namespace RecruitingStaffWebApp.Pages.User
 {

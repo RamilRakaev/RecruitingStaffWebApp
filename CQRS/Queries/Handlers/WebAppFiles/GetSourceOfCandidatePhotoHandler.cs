@@ -24,7 +24,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.WebAppFiles
         {
             var photo = await _fileRepository
                 .GetAllAsNoTracking()
-                .Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.Photo)
+                .Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.JpgPhoto)
                 .FirstOrDefaultAsync(cancellationToken);
             if (photo == null)
             {

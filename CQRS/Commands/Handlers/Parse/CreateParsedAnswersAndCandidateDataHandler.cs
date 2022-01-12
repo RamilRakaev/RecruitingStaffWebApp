@@ -105,7 +105,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 CandidateId = candidate.Id,
                 QuestionnaireId = questionnaireId,
             };
-            await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(file));
+            await _mediator.Send(new CreateEntityCommand<RecruitingStaffWebAppFile>(file));
             return file;
         }
 

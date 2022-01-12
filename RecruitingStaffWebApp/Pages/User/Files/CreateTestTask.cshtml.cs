@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Files
 {
-    public class TestTaskFormModel : BasePageModel
+    public class CreateTestTaskModel : BasePageModel
     {
-        public TestTaskFormModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
+        public CreateTestTaskModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
         {
         }
 

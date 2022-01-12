@@ -72,7 +72,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 columnIndex++;
             }
             rowIndex++;
-            //headers = cellsText.ToArray();
             return cellsText.ToArray();
         }
 

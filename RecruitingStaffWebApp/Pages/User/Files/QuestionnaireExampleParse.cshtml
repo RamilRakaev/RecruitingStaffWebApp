@@ -1,5 +1,5 @@
 ﻿@page
-@model RecruitingStaff.WebApp.Pages.User.Files.QuestionsParseFormModel
+@model RecruitingStaff.WebApp.Pages.User.Files.QuestionnaireExampleParseModel
 @{
     ViewData["Title"] = "Добавить анкету";
 }
@@ -7,7 +7,7 @@
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label class="col-form-label">Файл анкеты</label>
-            <input class="form-control-file" type="file" name="formFile" accept=".docx,.xlsx"/>
+            <input class="form-control-file" type="file" name="formFile" accept=".docx,.xlsx" />
         </div>
         <div class="form-group">
             <label>Тип анкеты</label>

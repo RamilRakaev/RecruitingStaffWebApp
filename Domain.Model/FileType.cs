@@ -12,7 +12,10 @@ namespace RecruitingStaff.Domain.Model
         [Display(Name = "Тестовое задание")]
         TestTask,
 
-        [Display(Name = "Фото")]
-        Photo
+        [Display(Name = "Фото jpg формата")]
+        JpgPhoto,
+
+        [Display(Name = "Фото png формата")]
+        PngPhoto
     }
 }

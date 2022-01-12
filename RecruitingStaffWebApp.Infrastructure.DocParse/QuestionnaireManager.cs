@@ -14,12 +14,9 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
     public class QuestionnaireManager : IQuestionnaireManager
     {
         private readonly WebAppOptions _options;
-
         private readonly QuestionnaireDbManager questionnaireDbManager;
 
-        public QuestionnaireManager(
-            IOptions<WebAppOptions> options,
-            IMediator mediator)
+        public QuestionnaireManager(IOptions<WebAppOptions> options, IMediator mediator)
         {
             _options = options.Value;
             questionnaireDbManager = new QuestionnaireDbManager(mediator);
@@ -27,7 +24,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public List<string> Errors { get; private set; } = new List<string>();
 
-        public async Task<bool> ParseQuestionnaire(string path, JobQuestionnaire jobQuestionnaire)
+        public async Task<bool> ParseQuestionnaireExampleAsync(string path, JobQuestionnaire jobQuestionnaire)
         {
             var parserStrategy = Parsersearch(jobQuestionnaire);
             try
@@ -58,7 +55,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
         }
 
-        public async Task<bool> ParseAnswersAndCandidateData(string path, JobQuestionnaire jobQuestionnaire, int candidateId)
+        public async Task<bool> ParseCompletedQuestionnaireAsync(string path, JobQuestionnaire jobQuestionnaire, int candidateId)
         {
             var parserStrategy = Parsersearch(jobQuestionnaire);
             try

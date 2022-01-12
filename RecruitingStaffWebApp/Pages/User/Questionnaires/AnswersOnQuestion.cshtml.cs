@@ -42,7 +42,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             var answers = await _mediator.Send(new AnswersOnQuestionQuery(questionId));
             var answerConfig = new MapperConfiguration(c => c.CreateMap<Answer, AnswerViewModel>());
             var answerMapper = new Mapper(answerConfig);
-            Answers = answerMapper.Map<AnswerViewModel[]>(question);
+            Answers = answerMapper.Map<AnswerViewModel[]>(answers);
         }
     }
 }

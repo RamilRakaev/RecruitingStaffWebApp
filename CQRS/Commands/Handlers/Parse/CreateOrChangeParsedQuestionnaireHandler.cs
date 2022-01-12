@@ -74,7 +74,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 FileType = FileType.QuestionnaireExample,
                 QuestionnaireId = questionnaire.Id,
             };
-            await _mediator.Send(new CreateRecruitingStaffWebAppFileCommand(_file));
+            await _mediator.Send(new CreateEntityCommand<RecruitingStaffWebAppFile>(_file));
         }
     }
 }

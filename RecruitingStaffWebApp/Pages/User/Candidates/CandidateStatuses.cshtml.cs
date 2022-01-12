@@ -32,7 +32,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
 
         public async Task<IActionResult> OnGetChangeStatus(CandidateVacancyViewModel candidateVacancyViewModel, int status)
         {
-            var config = new MapperConfiguration(c => c.CreateMap<CandidateVacancy, CandidateVacancyViewModel>());
+            var config = new MapperConfiguration(c => c.CreateMap<CandidateVacancyViewModel, CandidateVacancy> ());
             var mapper = new Mapper(config);
             var candidateVacancyEntity = mapper.Map<CandidateVacancy>(candidateVacancyViewModel);
             candidateVacancyEntity.CandidateStatus = (CandidateStatus)status;

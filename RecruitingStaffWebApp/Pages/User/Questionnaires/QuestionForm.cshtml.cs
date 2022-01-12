@@ -46,7 +46,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             {
                 var config = new MapperConfiguration(c => c.CreateMap<QuestionViewModel, Question>());
                 var mapper = new Mapper(config);
-                var questionEntity = mapper.Map<Question>(QuestionViewModel);
+                var questionEntity = mapper.Map<Question>(questionViewModel);
                 if (questionViewModel.Id == 0)
                 {
                     await _mediator.Send(new CreateEntityCommand<Question>(questionEntity));

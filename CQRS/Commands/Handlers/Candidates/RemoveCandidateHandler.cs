@@ -47,6 +47,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
                 await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(file.Id),
                     cancellationToken);
             }
+            var options = await _mediator.Send(new GetEntitiesByForeignKeyQuery<Option>(
+                o => o.CandidateId == request.CandidateId),
+                cancellationToken);
+            foreach(var option in options)
+            {
+                await _mediator.Send(new RemoveEntityCommand<Option>(option.Id));
+            }
             var candidateQuestionnaires = await _mediator.Send(
                 new GetEntitiesByForeignKeyQuery<CandidateQuestionnaire>(cq => cq.FirstEntityId == request.CandidateId),
                 cancellationToken);

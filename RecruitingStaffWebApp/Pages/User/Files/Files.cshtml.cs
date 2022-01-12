@@ -29,7 +29,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
             await Initial();
         }
 
-        public async Task<IActionResult> OnGetGetFile(int fileId, int fileType)
+        public async Task<IActionResult> OnGetDownloadFile(int fileId, int fileType)
         {
             SelectedFileType = fileType;
             await Initial();

@@ -1,0 +1,25 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Files.ChangeFileModel
+@{
+}
+<div class="row justify-content-center">
+    <div class="col-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="@Model.FileViewModel.CandidateId" />
+            <input type="hidden" asp-for="@Model.FileViewModel.QuestionnaireId" />
+            <input type="hidden" asp-for="@Model.FileViewModel.TestTaskId" />
+            <div class="form-group">
+                <label>Имя файла</label>
+                <input class="form-control" type="text" asp-for="@Model.FileViewModel.Name" />
+                <span asp-validation-for="@Model.FileViewModel.Name"></span>
+            </div>
+            <div class="form-group">
+                <label>Имя файла</label>
+                <select class="field_select" asp-for="@Model.FileViewModel.FileType" asp-items="@Model.FileViewModel.FileTypeSelectList"></select>
+                <span asp-validation-for="@Model.FileViewModel.FileType"></span>
+            </div>
+            <button class="btn btn-success">Отправить</button>
+        </form>
+    </div>
+</div>

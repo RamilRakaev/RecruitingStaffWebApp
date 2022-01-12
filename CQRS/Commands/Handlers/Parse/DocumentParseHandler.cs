@@ -39,13 +39,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 }
                 if (request.ParseQuestions)
                 {
-                    return _questionnaireManager.ParseQuestionnaire(
+                    return _questionnaireManager.ParseQuestionnaireExampleAsync(
                     path,
                     (JobQuestionnaire)request.JobQuestionnaire);
                 }
                 else
                 {
-                    return _questionnaireManager.ParseAnswersAndCandidateData(
+                    return _questionnaireManager.ParseCompletedQuestionnaireAsync(
                         path,
                         (JobQuestionnaire)request.JobQuestionnaire,
                         request.CandidateId);

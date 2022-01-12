@@ -2,7 +2,7 @@
 }
 @using RecruitingStaff.WebApp.ViewModels.CandidateData;
 @model CandidateViewModel
-<div class="row justify-content-center">
+<div class="row justify-content-center mb-5">
     <div class="col-5">
         <form method="post">
             <div asp-validation-summary="ModelOnly"></div>
@@ -73,11 +73,14 @@
             {
                 <input type="hidden" name="questionnaireId" value="@Model.QuestionnaireId" />
             }
-            <a class="btn btn-dark"
-                asp-page="/User/Candidates/ConcreteCandidate"
-                asp-route-CandidateId="@Model.Id">
-                Кандидат
-            </a>
+            @if (Model.Id != 0)
+            {
+                <a class="btn btn-dark"
+                   asp-page="/User/Candidates/ConcreteCandidate"
+                   asp-route-CandidateId="@Model.Id">
+                    Кандидат
+                </a>
+            }
             <button class="btn btn-dark float-right">Отправить</button>
         </form>
     </div>

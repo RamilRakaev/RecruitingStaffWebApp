@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
+using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using System.IO;
 using System.Linq;
@@ -16,42 +18,41 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
     {
         private readonly IRepository<RecruitingStaffWebAppFile> _fileRepository;
         private readonly IRepository<Candidate> _candidateRepository;
-        private readonly IWebHostEnvironment _webHost;
+        private readonly WebAppOptions _options;
 
         public CreateOrChangePhotoHandler(
             IRepository<RecruitingStaffWebAppFile> fileRepository,
             IRepository<Candidate> candidateRepository,
-            IWebHostEnvironment webHost)
+            IOptions<WebAppOptions> options)
         {
             _fileRepository = fileRepository;
             _candidateRepository = candidateRepository;
-            _webHost = webHost;
+            _options = options.Value;
         }
 
         public async Task<bool> Handle(CreateOrChangePhotoCommand request, CancellationToken cancellationToken)
         {
-            var file = _fileRepository.GetAll().Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.Photo).FirstOrDefault();
+            var file = _fileRepository.GetAll().Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.JpgPhoto).FirstOrDefault();
             var candidate = await _candidateRepository.FindAsync(request.CandidateId, cancellationToken);
 
             var extension = request.FormFile.FileName[request.FormFile.FileName.LastIndexOf('.')..];
-            var contentRoot = $"{ _webHost.WebRootPath}\\img";
-            var source = $"{candidate.Id}.{candidate.Name}{extension}";
+            var fileName = $"{candidate.Id}.{candidate.Name}{extension}";
             if (file == null)
             {
                 file = new RecruitingStaffWebAppFile()
                 {
-                    Name = source,
+                    Name = fileName,
                     CandidateId = request.CandidateId,
-                    FileType = FileType.Photo
+                    FileType = FileType.JpgPhoto
                 };
                 await _fileRepository.AddAsync(file, cancellationToken);
             }
             else
             {
-                File.Delete(contentRoot + "\\" + file.Name);
-                file.Name = source;
+                File.Delete(Path.Combine(_options.JpgPhotosSource, file.Name));
+                file.Name = fileName;
             }
-            await request.FormFile.CreateNewFileAsync(contentRoot + "\\" + source);
+            await request.FormFile.CreateNewFileAsync(Path.Combine(_options.JpgPhotosSource, fileName));
             await _fileRepository.SaveAsync(cancellationToken);
             return true;
         }

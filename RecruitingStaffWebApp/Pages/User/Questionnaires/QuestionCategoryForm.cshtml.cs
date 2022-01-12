@@ -41,9 +41,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
         }
 
-        public async Task OnPostSearchCategories(string nameFragment, QuestionCategoryViewModel questionCategory)
+        public async Task OnPostSearchCategories(string nameFragment, QuestionCategoryViewModel questionCategoryViewModel)
         {
-            QuestionCategoryViewModel = questionCategory;
+            QuestionCategoryViewModel = questionCategoryViewModel;
 
             var config = new MapperConfiguration(c => c.CreateMap<Questionnaire, QuestionnaireViewModel>());
             var mapper = new Mapper(config);

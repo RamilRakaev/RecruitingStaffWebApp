@@ -5,8 +5,8 @@
 }
 <div class="row justify-content-center mb-3">
     <div class="col-9">
-        <a class="btn btn-dark" asp-page="QuestionsParseForm">Парсинг пустой анкеты</a>
-        <a class="btn btn-dark" asp-page="AnswersParseForm">Парсинг заполненной анкеты</a>
+        <a class="btn btn-dark" asp-page="QuestionnaireExampleParse">Парсинг пустой анкеты</a>
+        <a class="btn btn-dark" asp-page="CompletedQuestionnaireParse">Парсинг заполненной анкеты</a>
         <a class="btn btn-dark" asp-page="TestTaskForm">Добавить тестовое заданиеe</a>
         <a class="btn btn-dark" asp-page="CandidatePhotoForm">Добавить фото</a>
     </div>
@@ -26,7 +26,6 @@
             <tr>
                 <th scope="col"><h5>Id</h5></th>
                 <th scope="col"><h5>Имя</h5></th>
-                <th scope="col"><h5>Тип Файла</h5></th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -36,15 +35,14 @@
                 <tr>
                     <td>@file.Id</td>
                     <td>@file.Name</td>
-                    <td>@file.FileViewModelType</td>
                     <td>
-                        <a class="btn btn-warning">Изменить</a>
+                        <a class="btn btn-warning" asp-page="ChangeFile" asp-route-fileId="@file.Id">Изменить</a>
                         <form class="d-inline" method="post">
                             <input type="hidden" name="fileId" value="@file.Id" />
                             <button class="btn btn-danger">Удалить</button>
                         </form>
                         <a class="btn btn-success"
-                        asp-page-handler="GetFile"
+                        asp-page-handler="DownloadFile"
                         asp-route-fileId="@file.Id"
                     asp-route-fileType="@Model.SelectedFileType">Скачать</a>
                     </td>

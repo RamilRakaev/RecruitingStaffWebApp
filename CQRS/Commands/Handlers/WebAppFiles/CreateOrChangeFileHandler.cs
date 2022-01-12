@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
-using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
@@ -25,9 +23,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             var fileEntity = await _mediator.Send(
                 new CreateOrChangeEntityCommand<RecruitingStaffWebAppFile>(request.FileEntity),
                 cancellationToken);
-            var soucre = await _mediator.Send(new GetFileSourceQuery(fileEntity.FileType), cancellationToken);
+            var source = await _mediator.Send(new GetFileSourceQuery(fileEntity.FileType), cancellationToken);
             await request.FormFile.CreateNewFileAsync(
-                Path.Combine(soucre,fileEntity.Name + ".docx"));
+                Path.Combine(source, fileEntity.Name + ".docx"));
             return fileEntity;
         }
     }

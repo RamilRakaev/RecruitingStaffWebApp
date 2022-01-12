@@ -39,7 +39,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.FileManagement
                         var extension = formFile.FileName[formFile.FileName.IndexOf('.')..];
                         file = new()
                         {
-                            FileType = FileType.Photo,
+                            FileType = FileType.JpgPhoto,
                             Name = $"{candidate.Id}.{candidate.Name}{extension}"
                         };
                     }
