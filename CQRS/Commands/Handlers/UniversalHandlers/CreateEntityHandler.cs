@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers
 {
     public class CreateEntityHandler<TEntity> : IRequestHandler<CreateEntityCommand<TEntity>, TEntity>
-        where TEntity : CandidatesSelectionEntity , new()
+        where TEntity : BaseEntity , new()
     {
         private readonly IRepository<TEntity> _repository;
 

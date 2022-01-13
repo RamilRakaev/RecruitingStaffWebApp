@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
 using System.Linq;
 using System.Threading;
@@ -31,8 +30,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
             {
                 await _repository.AddAsync(request.Map, cancellationToken);
                 await _repository.SaveAsync(cancellationToken);
+                return request.Map;
             }
-            return request.Map;
+            return null;
         }
     }
 }

@@ -6,8 +6,10 @@ namespace RecruitingStaff.WebApp.ViewModels.CandidateData
     {
         public int Id { get; set; }
         public string VacancyName { get; set; }
+        public int CandidateStatusIndex { get; set; }
         public SelectList CandidateStatusSelectList { get; set; }
         public int FirstEntityId { get; set; }
         public int SecondEntityId { get; set; }
+        public SelectList VacanciesSelectList { get; set; }
     }
 }

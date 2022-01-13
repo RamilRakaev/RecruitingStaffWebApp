@@ -39,6 +39,7 @@ namespace RecruitingStaff.WebApp
 
             services.ConfigrueHandlers<BaseMap>(typeof(CreateOrChangeMapCommand<>), typeof(CreateOrChangeMapHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(CreateMapCommand<>), typeof(CreateMapHandler<>));
+            services.ConfigrueHandlers<BaseMap>(typeof(CreateEntityCommand<>), typeof(CreateEntityHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(ChangeEntityCommand<>), typeof(ChangeEntityHandler<>));
             services.ConfigrueHandlers<BaseMap>(typeof(RemoveEntityCommand<>), typeof(RemoveEntityHandler<>)); services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(CreateOrChangeEntityCommand<>), typeof(CreateOrChangeEntityHandler<>));
             services.ConfigrueHandlers<CandidatesSelectionEntity >(typeof(CreateOrChangeEntityByKeysCommand<>), typeof(CreateOrChangeEntityByKeysHandler<>));

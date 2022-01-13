@@ -13,11 +13,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecruitingStaff.WebApp.Pages.User.Candidates
+namespace RecruitingStaff.WebApp.Pages.User.Candidates.Statuses
 {
-    public class CandidateStatusesModel : BasePageModel
+    public class CandidateVacancyStatusesModel : BasePageModel
     {
-        public CandidateStatusesModel(IMediator mediator, ILogger<BasePageModel> logger)
+        public CandidateVacancyStatusesModel(IMediator mediator, ILogger<BasePageModel> logger)
             : base(mediator, logger)
         {
         }
@@ -43,7 +43,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates
         public async Task<IActionResult> OnPost(int candidateId, int candidateVacancyId)
         {
             await _mediator.Send(new RemoveEntityCommand<CandidateVacancy>(candidateVacancyId));
-            return RedirectToPage("CandidateStatuses", new { candidateId });
+            return RedirectToPage("CandidateVacancyStatuses", new { candidateId });
         }
 
         private async Task<List<CandidateVacancyViewModel>> Initial(int candidateId)

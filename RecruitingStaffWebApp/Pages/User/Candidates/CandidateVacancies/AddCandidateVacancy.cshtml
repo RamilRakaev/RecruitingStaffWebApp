@@ -1,0 +1,26 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.Statuses.AddCandidateVacancyModel
+@{
+    ViewData["Title"] = "Привязать вакансию";
+}
+<div class="row justify-content-center">
+    <div class="col-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="@Model.CandidateVacancyViewModel.FirstEntityId" />
+            <div class="form-group">
+                <select class="custom-select"
+                        asp-for="@Model.CandidateVacancyViewModel.CandidateStatusIndex"
+                        asp-items="@Model.CandidateVacancyViewModel.CandidateStatusSelectList"></select>
+                <span asp-validation-for="@Model.CandidateVacancyViewModel.CandidateStatusIndex"></span>
+            </div>
+            <div class="form-group">
+                <select class="custom-select"
+                        asp-for="@Model.CandidateVacancyViewModel.SecondEntityId"
+                        asp-items="@Model.CandidateVacancyViewModel.VacanciesSelectList"></select>
+                <span asp-validation-for="@Model.CandidateVacancyViewModel.SecondEntityId"></span>
+            </div>
+            <button class="btn btn-success">Отправить</button>
+        </form>
+    </div>
+</div>

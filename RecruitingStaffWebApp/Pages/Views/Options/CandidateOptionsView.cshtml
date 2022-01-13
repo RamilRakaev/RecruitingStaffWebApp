@@ -13,7 +13,7 @@
                 @if (Model.ControlPanelDisplaying)
                 {
                     <a class="btn btn-dark" asp-route-candidateId="@Model.CandidateViewModel.Id" asp-page="/User/Files/CompletedQuestionnaireParse">Парсинг ответов</a>
-                    <a class="btn btn-dark" asp-route-candidateId="@Model.CandidateViewModel.Id" asp-page="CandidateStatuses">Статусы</a>
+                    <a class="btn btn-dark" asp-route-candidateId="@Model.CandidateViewModel.Id" asp-page="CandidateVacancies/CandidateVacancyStatuses">Статусы</a>
                     <a class="btn btn-info" asp-page="CandidateAnswers" asp-route-candidateId="@Model.CandidateViewModel.Id">Ответы</a>
                     <a class="btn btn-warning" asp-page="ChangeCandidate" asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить данные</a>
                     <a class="btn btn-warning" asp-page="/User/Files/CandidatePhotoForm" asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить фото</a>
