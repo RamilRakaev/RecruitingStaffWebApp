@@ -1,0 +1,88 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using RecruitingStaff.WebApp.ViewModels.CandidateData;
+@model CandidateOptionsViewModel
+<div class="row justify-content-start">
+    <div class="col-12">
+        <div class="d-flex w-100 mb-3 justify-content-between">
+            <h2>@Model.CandidateViewModel.Name</h2>
+            <div>
+                @if (Model.ControlPanelDisplaying)
+                {
+                    <a class="btn btn-dark" asp-route-candidateId="@Model.CandidateViewModel.Id" asp-page="/User/Files/CompletedQuestionnaireParse">Парсинг ответов</a>
+                    <a class="btn btn-dark" asp-route-candidateId="@Model.CandidateViewModel.Id" asp-page="CandidateStatuses">Статусы</a>
+                    <a class="btn btn-info" asp-page="CandidateAnswers" asp-route-candidateId="@Model.CandidateViewModel.Id">Ответы</a>
+                    <a class="btn btn-warning" asp-page="ChangeCandidate" asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить данные</a>
+                    <a class="btn btn-warning" asp-page="/User/Files/CandidatePhotoForm" asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить фото</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-6 mt-4">
+        <p>Id: @Model.CandidateViewModel.Id</p>
+        <p>Дата рождения: @Model.CandidateViewModel.DateOfBirth.ToString("D")</p>
+        <p>Адрес места жительства: @Model.CandidateViewModel.Address</p>
+        <p>Номер телефона: @Model.CandidateViewModel.TelephoneNumber</p>
+        <p>Семейное положение: @Model.CandidateViewModel.MaritalStatus</p>
+    </div>
+    <img class="col-5"
+         src="/User/Candidates/ConcreteCandidate?candidateId=@Model.CandidateViewModel.Id&handler=ReturnImage"
+         alt="Фото отсутствует" />
+</div>
+<div class="row justify-content-start mt-5">
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th><h5>Имя свойства</h5></th>
+                    <th><h5>Значение свойства</h5></th>
+                    <th>
+                        <a class="btn btn-outline-success font-weight-normal"
+                           asp-page="OptionForm"
+                           asp-route-CandidateId="@Model.CandidateViewModel.Id">
+                            Добавить
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var option in Model.OptionViewModels)
+                {
+                    <tr>
+                        <td>@option.Name</td>
+                        <td>@option.Value</td>
+                        <td>
+                            @if (option.Value.Count() > 30)
+                            {
+                                <a class="btn btn-dark m-2"
+                                   asp-page="OptionForm"
+                                   asp-route-propertyName="@option.Name"
+                                   asp-route-CandidateId="@option.CandidateId">
+                                    Изменить
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-warning m-2"
+                                   asp-page="OptionForm"
+                                   asp-route-propertyName="@option.Name"
+                                   asp-route-CandidateId="@option.CandidateId"
+                                   asp-route-value="@option.Value">
+                                    Изменить
+                                </a>
+                            }
+                            <form class="d-inline" method="post">
+                                <input type="hidden" name="candidateId" value="@Model.CandidateViewModel.Id" />
+                                <input type="hidden" name="optionId" value="@option.Id" />
+                                <button class="btn btn-danger m-2">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

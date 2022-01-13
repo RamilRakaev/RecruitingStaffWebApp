@@ -1,8 +1,8 @@
-﻿namespace RecruitingStaff.WebApp.ViewModels
+﻿namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 {
-    public class OptionViewModel : BaseViewModel
+    public class OptionViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
         public int? CandidateId { get; set; }
