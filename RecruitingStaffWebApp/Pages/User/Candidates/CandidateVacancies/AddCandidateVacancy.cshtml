@@ -20,6 +20,9 @@
                         asp-items="@Model.CandidateVacancyViewModel.VacanciesSelectList"></select>
                 <span asp-validation-for="@Model.CandidateVacancyViewModel.SecondEntityId"></span>
             </div>
+            <a class="btn btn-dark"
+               asp-route-candidateId="@Model.CandidateVacancyViewModel.FirstEntityId"
+               asp-page="CandidateVacancyStatuses">Статусы</a>
             <button class="btn btn-success">Отправить</button>
         </form>
     </div>

@@ -1,7 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 }
 @using RecruitingStaff.WebApp.ViewModels.CandidateData;
 @model CandidateOptionsViewModel
@@ -12,11 +9,24 @@
             <div>
                 @if (Model.ControlPanelDisplaying)
                 {
-                    <a class="btn btn-dark" asp-route-candidateId="@Model.CandidateViewModel.Id" asp-page="/User/Files/CompletedQuestionnaireParse">Парсинг ответов</a>
-                    <a class="btn btn-dark" asp-route-candidateId="@Model.CandidateViewModel.Id" asp-page="CandidateVacancies/CandidateVacancyStatuses">Статусы</a>
-                    <a class="btn btn-info" asp-page="CandidateAnswers" asp-route-candidateId="@Model.CandidateViewModel.Id">Ответы</a>
-                    <a class="btn btn-warning" asp-page="ChangeCandidate" asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить данные</a>
-                    <a class="btn btn-warning" asp-page="/User/Files/CandidatePhotoForm" asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить фото</a>
+                    <a class="btn btn-dark"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id"
+                       asp-page="/User/Files/CompletedQuestionnaireParse">Парсинг ответов</a>
+                    <a class="btn btn-dark"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id"
+                       asp-page="CandidateVacancies/CandidateVacancyStatuses">Вакансии</a>
+                    <a class="btn btn-dark"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id"
+                       asp-page="CandidateQuestionnaires/CandidateQuestionnaires">Анкеты</a>
+                    <a class="btn btn-info"
+                       asp-page="CandidateAnswers"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id">Ответы</a>
+                    <a class="btn btn-warning"
+                       asp-page="ChangeCandidate"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить данные</a>
+                    <a class="btn btn-warning"
+                       asp-page="/User/Files/CandidatePhotoForm"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить фото</a>
                 }
             </div>
         </div>
@@ -24,8 +34,11 @@
     <div class="col-6 mt-4">
         <p>Id: @Model.CandidateViewModel.Id</p>
         <p>Дата рождения: @Model.CandidateViewModel.DateOfBirth.ToString("D")</p>
+        <p>Место рождения: @Model.CandidateViewModel.PlaceOfBirth</p>
+        <p>Индекс места жительства: @Model.CandidateViewModel.AddressIndex</p>
         <p>Адрес места жительства: @Model.CandidateViewModel.Address</p>
         <p>Номер телефона: @Model.CandidateViewModel.TelephoneNumber</p>
+        <p>Почта: @Model.CandidateViewModel.EmailAddress</p>
         <p>Семейное положение: @Model.CandidateViewModel.MaritalStatus</p>
     </div>
     <img class="col-5"

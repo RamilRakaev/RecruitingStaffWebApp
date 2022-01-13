@@ -4,11 +4,14 @@
     ViewData["Title"] = "Статусы";
 }
 <div class="row justify-content-center mb-3">
-    <a class="btn btn-dark m-2" asp-route-candidateId="@Model.CandidateId" asp-page="User/Candidates/ConcreteCandidate">Кандидат</a>
-    <a class="btn btn-success m-2" asp-route-candidateId="@Model.CandidateId" asp-page="AddCandidateVacancy">Добавить статус</a>
+    <a class="btn btn-dark m-2"
+       asp-route-candidateId="@Model.CandidateId"
+       asp-page="/User/Candidates/ConcreteCandidate">Кандидат</a>
+    <a class="btn btn-success m-2"
+       asp-route-candidateId="@Model.CandidateId"
+       asp-page="AddCandidateVacancy">Добавить статус</a>
 </div>
 <div class="row justify-content-center">
-    <p class="text-danger"></p>
     <table class="table">
         <thead class="thead-light">
             <tr>

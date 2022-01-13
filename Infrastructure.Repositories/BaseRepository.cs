@@ -23,7 +23,7 @@ namespace RecruitingStaff.Infrastructure.Repositories
 
         public virtual IQueryable<Entity> GetAllAsNoTracking()
         {
-            return GetAll().AsNoTracking();
+            return GetAll().OrderBy(e => e.Id).AsNoTracking();
         }
 
         public virtual async Task<Entity> FindAsync(int id, CancellationToken cancellationToken)

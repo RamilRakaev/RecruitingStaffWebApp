@@ -1,0 +1,45 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.CandidateQuestionnaires.CandidateQuestionnairesModel
+@{
+    ViewData["Title"] = "Привязанные анкеты";
+}
+<div class="row justify-content-center mb-3">
+    <form class="form-inline" method="post" asp-page-handler="CreateCandidateQuestionnaire">
+        <input type="hidden" name="candidateId" asp-for="@Model.CandidateId" />
+        <select class="custom-select m-3"
+                name="questionnaireId"
+                asp-items="Model.AvailableVacancies"></select>
+        <button class="btn btn-success m-3">Добавить привязку</button>
+    </form>
+    <a class="btn btn-dark m-2"
+       asp-route-candidateId="@Model.CandidateId"
+       asp-page="/User/Candidates/ConcreteCandidate">Кандидат</a>
+</div>
+<div class="row justify-content-center">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col"><h5>Id</h5></th>
+                <th scope="col"><h5>Имя анкеты</h5></th>
+                <th scope="col"><h5>Действия</h5></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var candidateQuestionnaireViewModel in Model.CandidateQuestionnaireViewModels)
+            {
+                <tr>
+                    <th scope="row">@candidateQuestionnaireViewModel.Id</th>
+                    <td>@candidateQuestionnaireViewModel.QuestionnaireName</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="candidateId" asp-for="@candidateQuestionnaireViewModel.FirstEntityId" />
+                            <input type="hidden" name="candidateQuestionnaireId"
+                                   asp-for="@candidateQuestionnaireViewModel.Id" />
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

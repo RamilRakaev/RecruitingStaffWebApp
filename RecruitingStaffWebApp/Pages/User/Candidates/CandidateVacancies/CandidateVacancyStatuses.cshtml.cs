@@ -37,7 +37,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates.Statuses
             var candidateVacancyEntity = mapper.Map<CandidateVacancy>(candidateVacancyViewModel);
             candidateVacancyEntity.CandidateStatus = (CandidateStatus)status;
             await _mediator.Send(new ChangeEntityCommand<CandidateVacancy>(candidateVacancyEntity));
-            return RedirectToPage("CandidateStatuses", new { candidateId = candidateVacancyViewModel.FirstEntityId });
+            return RedirectToPage("CandidateVacancyStatuses", new { candidateId = candidateVacancyViewModel.FirstEntityId });
         }
 
         public async Task<IActionResult> OnPost(int candidateId, int candidateVacancyId)

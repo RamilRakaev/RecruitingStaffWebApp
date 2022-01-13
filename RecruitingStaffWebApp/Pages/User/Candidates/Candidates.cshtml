@@ -6,7 +6,7 @@
     ViewData["Title"] = "Кандидаты";
 }
 <div class="row justify-content-center">
-    <a class="btn btn-dark m-2" asp-page="CreateCandidate">Создать кандидата</a>
+    <a class="btn btn-dark m-3" asp-page="CreateCandidate">Создать кандидата</a>
 </div>
 <div class="row justify-content-center">
     <p class="text-danger">@Model.MessageAboutDocumentsSource</p>
@@ -17,23 +17,25 @@
                 <th scope="col"><h5>Полное имя</h5></th>
                 <th scope="col"><h5>Дата рождения</h5></th>
                 <th scope="col"><h5>Номер телефона</h5></th>
+                <th scope="col"><h5>Почта</h5></th>
                 <th scope="col"><h5>Семейное положение</h5></th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var Candidate in Model.Candidates)
+            @foreach (var candidate in Model.Candidates)
             {
                 <tr>
-                    <th scope="row">@Candidate.Id</th>
-                    <td>@Candidate.Name</td>
-                    <td>@Candidate.DateOfBirth.ToString("d")</td>
-                    <td>@Candidate.TelephoneNumber</td>
-                    <td>@Candidate.MaritalStatus</td>
+                    <th scope="row">@candidate.Id</th>
+                    <td>@candidate.Name</td>
+                    <td>@candidate.DateOfBirth.ToString("d")</td>
+                    <td>@candidate.TelephoneNumber</td>
+                    <td>@candidate.EmailAddress</td>
+                    <td>@candidate.MaritalStatus</td>
                     <td>
-                        <a class="btn btn-dark d-block" asp-page="ConcreteCandidate" asp-route-CandidateId="@Candidate.Id">Перейти</a>
+                        <a class="btn btn-dark d-block" asp-page="ConcreteCandidate" asp-route-CandidateId="@candidate.Id">Перейти</a>
                         <form class="d-inline" method="post">
-                            <input type="hidden" name="CandidateId" value="@Candidate.Id" />
+                            <input type="hidden" name="CandidateId" value="@candidate.Id" />
                             <button class="btn btn-danger text-white d-block mt-3">Удалить</button>
                         </form>
                     </td>
