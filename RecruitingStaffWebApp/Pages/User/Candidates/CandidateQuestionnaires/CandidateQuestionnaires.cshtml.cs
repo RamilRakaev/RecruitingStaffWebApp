@@ -32,8 +32,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates.CandidateQuestionnaires
 
         public async Task OnPostCreateCandidateQuestionnaire(int candidateId, int questionnaireId)
         {
-            await _mediator.Send(
-                new CreateMapCommand<CandidateQuestionnaire>(candidateId, questionnaireId));
+            await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(candidateId, questionnaireId));
             await Initialization(candidateId);
         }
 
@@ -58,7 +57,6 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates.CandidateQuestionnaires
                 candidateQuestionnaire.QuestionnaireName = questionnaireEntity.Name;
             }
             AvailableVacancies = new(await _mediator.Send(new GetAvailableQuestionnairesQuery(candidateId)), "Id", "Name");
-            
         }
     }
 }

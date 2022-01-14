@@ -47,7 +47,8 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             currentRows = tables.Last().ExtractRowsFromTable(false);
             startRow = 0;
             parsedData.Questionnaire.AddChildElement(
-                ParseQuestionCategoryFromDoubleTable(ref startRow, categoryName: paragraphs.ElementAt(1).InnerText));
+                ParseQuestionCategoryFromDoubleTable(
+                    ref startRow, categoryName: paragraphs.ElementAt(1).InnerText));
             return Task.FromResult(parsedData);
         }
 

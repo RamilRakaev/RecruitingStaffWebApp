@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 
 namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 {
@@ -29,6 +30,10 @@ namespace RecruitingStaff.WebApp.ViewModels.CandidateData
         public string TelephoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public string MaritalStatus { get; set; }
+
+        public List<PreviousJobPlacementViewModel> PreviousJobs { get; set; }
+        public List<string> Educations { get; set; }
+        public List<string> Kids { get; set; }
 
         public int[] VacancyIds { get; set; }
         public SelectList VacanciesSelectList { get; set; }

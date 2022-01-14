@@ -124,6 +124,16 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 parsedData.Candidate.Kids, () => new Kid());
             candidate.PreviousJobs = await AssignValuesToPropertiesListObjects(
                 parsedData.Candidate.PreviousJobs, () => new PreviousJobPlacement());
+            for (int i = 0; i < candidate.PreviousJobs.Count; i++)
+            {
+                candidate.PreviousJobs[i].Recommenders = new();
+                foreach (var parsedRecommender in parsedData.Candidate.PreviousJobs[i].Recommenders)
+                {
+                    Recommender recommender = new();
+                    AssignValuesToProperties(recommender, parsedRecommender);
+                    candidate.PreviousJobs[i].Recommenders.Add(recommender);
+                }
+            }
             AssignValuesToProperties(candidate, parsedData.Candidate);
             return candidate;
         }
@@ -149,6 +159,22 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             return obj;
         }
 
+        public static Task<List<T>> AssignValuesToPropertiesListObjects<T, V>(List<V> values, Func<T> createObj)
+        {
+            if (values == null)
+            {
+                return Task.FromResult(new List<T>());
+            }
+            List<T> objects = new();
+            foreach (var value in values)
+            {
+                objects.Add(AssignValuesToProperties(createObj(), value));
+            }
+            return Task.FromResult(objects);
+        }
+
+
+
         public static Task<List<T>> AssignValuesToPropertiesCompositeObject<T>(List<string> values, string propertyName, Func<T> createObj)
         {
             List<T> objects = new();
@@ -163,20 +189,6 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 var obj = createObj();
                 property.SetValue(obj, value);
                 objects.Add(obj);
-            }
-            return Task.FromResult(objects);
-        }
-
-        public static Task<List<T>> AssignValuesToPropertiesListObjects<T, V>(List<V> values, Func<T> createObj)
-        {
-            if (values == null)
-            {
-                return Task.FromResult(new List<T>());
-            }
-            List<T> objects = new();
-            foreach (var value in values)
-            {
-                objects.Add(AssignValuesToProperties(createObj(), value));
             }
             return Task.FromResult(objects);
         }
