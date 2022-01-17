@@ -27,6 +27,9 @@
                     <a class="btn btn-warning"
                        asp-page="/User/Files/CandidatePhotoForm"
                        asp-route-candidateId="@Model.CandidateViewModel.Id">Изменить фото</a>
+                    <a class="btn btn-dark"
+                       asp-page="/User/Candidates/PreviousJobs/PreviousJobs"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id">Предыдущие работы</a>
                 }
             </div>
         </div>
@@ -41,9 +44,10 @@
         <p>Почта: @Model.CandidateViewModel.EmailAddress</p>
         <p>Семейное положение: @Model.CandidateViewModel.MaritalStatus</p>
     </div>
-    <img class="col-5"
-         src="/User/Candidates/ConcreteCandidate?candidateId=@Model.CandidateViewModel.Id&handler=ReturnImage"
-         alt="Фото отсутствует" />
+    <div class="col-5">
+        <img class="img-fluid" src="/User/Candidates/ConcreteCandidate?candidateId=@Model.CandidateViewModel.Id&handler=ReturnImage"
+             alt="Фото отсутствует" />
+    </div>
 </div>
 <div class="row justify-content-start mt-5">
     <div class="col-12">

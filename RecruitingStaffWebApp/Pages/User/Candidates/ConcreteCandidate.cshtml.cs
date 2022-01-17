@@ -61,10 +61,12 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
             CandidateOptionsViewModel candidateOptionsViewModel = new();
             var candidate = await _mediator.Send(new GetFullCandidateDataQuery(candidateId));
             var candidateConfig = new MapperConfiguration(c =>
+            {
                 c.CreateMap<Candidate, CandidateViewModel>()
                 .ForMember(c => c.PreviousJobs, c => c.MapFrom(list => MapFromPreviousJobs(list.PreviousJobs)))
                 .ForMember(c => c.Educations, c => c.MapFrom(list => list.Educations.Select(e => e.Name).ToList()))
-                .ForMember(c => c.Kids, c => c.MapFrom(list => list.Kids.Select(e => e.Name).ToList()))
+                .ForMember(c => c.Kids, c => c.MapFrom(list => list.Kids.Select(e => e.Name).ToList()));
+            }
                 );
             var candidateMapper = new Mapper(candidateConfig);
             candidateOptionsViewModel.CandidateViewModel = candidateMapper.Map<CandidateViewModel>(candidate);
@@ -83,7 +85,9 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
                 viewModels.Add(new PreviousJobPlacementViewModel()
                 {
                     Name = previousJob.Name,
-                    Recommenders = new() { previousJob.Name }
+                    RecommenderNames = new() {
+                        previousJob.Recommenders != null && previousJob.Recommenders.Count() != 0 ?
+                        previousJob.Recommenders.First().Name : null }
                 });
             }
             return viewModels;

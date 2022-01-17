@@ -156,7 +156,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
 
                 PreviousJob previousJob = new()
                 {
-                    OrganizationName = name,
+                    Name = name,
                     PositionAtWork = currentRows.ExtractCellTextFromRow(index + 1, 1),
                     Salary = currentRows.ExtractTextAfterCharacterFromRow(index + 1, 2, ' '),
                     DateOfStart = startDate,
@@ -186,7 +186,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
                 var data = currentRows.ExtractCellTextFromRow(index, 1).Split(',');
                 Recommender recommender = new()
                 {
-                    FullName = data.ElementAtOrDefault(0),
+                    Name = data.ElementAtOrDefault(0),
                     PositionAtWork = data.ElementAtOrDefault(1),
                     PhoneNumber = data.ElementAtOrDefault(2),
                 };

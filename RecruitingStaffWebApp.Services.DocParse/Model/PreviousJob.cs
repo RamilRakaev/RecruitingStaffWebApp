@@ -5,7 +5,7 @@ namespace RecruitingStaffWebApp.Services.DocParse.Model
 {
     public class PreviousJob
     {
-        public string OrganizationName { get; set; }
+        public string Name { get; set; }
         public string OrganizationPhoneNumber { get; set; }
         public string OrganizationAddress { get; set; }
         public string PositionAtWork { get; set; }

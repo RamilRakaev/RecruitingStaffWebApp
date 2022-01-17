@@ -1,0 +1,56 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.PreviousJobs.PreviousJobsModel
+@{
+    ViewData["Title"] = "Предыдущие места работы";
+}
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-success m-2"
+       asp-route-candidateId="@Model.CandidateId"
+       asp-page="CreatePreviousJobPlacement">Создать</a>
+    <a class="btn btn-dark m-2"
+       asp-page="/User/Candidates/ConcreteCandidate"
+       asp-route-candidateId="@Model.CandidateId">Кандидат</a>
+</div>
+<div class="row justify-content-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Название</th>
+                <th>Номер</th>
+                <th>Адрес</th>
+                <th>Должность</th>
+                <th>Зарплата</th>
+                <th>Дата начала</th>
+                <th>Дата окончания</th>
+                <th>Причина ухода</th>
+                <th>Рекоммендодатели</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var previousJob in Model.PreviousJobPlacementViewModels)
+            {
+                <tr>
+                    <td>@previousJob.Id</td>
+                    <td>@previousJob.Name</td>
+                    <td>@previousJob.PhoneNumber</td>
+                    <td>@previousJob.Address</td>
+                    <td>@previousJob.PositionAtWork</td>
+                    <td>@previousJob.Salary</td>
+                    <td>@previousJob.DateOfStart.ToString("d")</td>
+                    <td>@previousJob.DateOfEnd.ToString("d")</td>
+                    <td>@previousJob.LeavingReason</td>
+                    <td>@previousJob.RecommendersToString</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="candidateId" value="@previousJob.CandidateId" />
+                            <input type="hidden" name="previousJobPlacementId" value="@previousJob.Id" />
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
