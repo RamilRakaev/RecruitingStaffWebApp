@@ -30,14 +30,14 @@
                     <a class="btn btn-dark"
                        asp-page="/User/Candidates/PreviousJobs/PreviousJobs"
                        asp-route-candidateId="@Model.CandidateViewModel.Id">Предыдущие работы</a>
-                       <a class="btn btn-dark"
-                          asp-page="/User/Candidates/EducationOfCandidate/EducationOfCandidate"
-                          asp-route-candidateId="@Model.CandidateViewModel.Id">Образование</a>
+                    <a class="btn btn-dark"
+                       asp-page="/User/Candidates/EducationOfCandidate/EducationOfCandidate"
+                       asp-route-candidateId="@Model.CandidateViewModel.Id">Образование</a>
                 }
             </div>
         </div>
     </div>
-    <div class="col-6 mt-4">
+    <div class="col-5 mt-4">
         <p>Id: @Model.CandidateViewModel.Id</p>
         <p>Дата рождения: @Model.CandidateViewModel.DateOfBirth.ToString("D")</p>
         <p>Место рождения: @Model.CandidateViewModel.PlaceOfBirth</p>
@@ -47,7 +47,7 @@
         <p>Почта: @Model.CandidateViewModel.EmailAddress</p>
         <p>Семейное положение: @Model.CandidateViewModel.MaritalStatus</p>
     </div>
-    <div class="col-5">
+    <div class="col-6">
         <img class="img-fluid" src="/User/Candidates/ConcreteCandidate?candidateId=@Model.CandidateViewModel.Id&handler=ReturnImage"
              alt="Фото отсутствует" />
     </div>

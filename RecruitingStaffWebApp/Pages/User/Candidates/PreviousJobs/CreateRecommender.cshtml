@@ -1,0 +1,31 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.PreviousJobs.CreateRecommenderModel
+@{
+    ViewData["Title"] = "Добавить рекомендателя";
+}
+<div class="row justify-content-center">
+    <form method="post">
+        <input type="hidden" asp-for="@Model.RecommenderViewModel.CandidateId" />
+        <input type="hidden" asp-for="@Model.RecommenderViewModel.PreviousJobId" />
+        <div class="form-group">
+            <label>Имя</label>
+            <input class="form-control" asp-for="@Model.RecommenderViewModel.Name" />
+            <span asp-validation-for="@Model.RecommenderViewModel.Name"></span>
+        </div>
+        <div class="form-group">
+            <label>Должность</label>
+            <input class="form-control" asp-for="@Model.RecommenderViewModel.PositionAtWork" />
+            <span asp-validation-for="@Model.RecommenderViewModel.PositionAtWork"></span>
+        </div>
+        <div class="form-group">
+            <label>Телефон</label>
+            <input class="form-control" asp-for="@Model.RecommenderViewModel.PhoneNumber" />
+            <span asp-validation-for="@Model.RecommenderViewModel.PhoneNumber"></span>
+        </div>
+        <a class="btn btn-dark m-1"
+           asp-page="Recommenders"
+           asp-route-candidateId="@Model.RecommenderViewModel.CandidateId"
+           asp-route-previousJobPlacementId="@Model.RecommenderViewModel.PreviousJobId">Рекомендатели</a>
+        <button class="btn btn-success">Отправить</button>
+    </form>
+</div>

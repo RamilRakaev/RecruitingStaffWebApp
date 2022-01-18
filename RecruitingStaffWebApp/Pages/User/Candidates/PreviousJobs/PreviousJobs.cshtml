@@ -43,10 +43,14 @@
                     <td>@previousJob.LeavingReason</td>
                     <td>@previousJob.RecommendersToString</td>
                     <td>
+                        <a class="btn btn-dark m-1"
+                           asp-page="Recommenders"
+                           asp-route-candidateId="@previousJob.CandidateId"
+                           asp-route-previousJobPlacementId="@previousJob.Id">Рекомендатели</a>
                         <form method="post">
                             <input type="hidden" name="candidateId" value="@previousJob.CandidateId" />
                             <input type="hidden" name="previousJobPlacementId" value="@previousJob.Id" />
-                            <button class="btn btn-danger">Удалить</button>
+                            <button class="btn btn-danger m-1">Удалить</button>
                         </form>
                     </td>
                 </tr>

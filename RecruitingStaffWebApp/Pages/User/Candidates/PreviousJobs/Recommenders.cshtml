@@ -1,0 +1,46 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.PreviousJobs.RecommendersModel
+@{
+    ViewData["Title"] = "Рекомендатели";
+}
+<div class="row justify-content-center mb-3">
+    <a class="btn btn-success m-2" asp-page="CreateRecommender"
+       asp-route-candidateId="@Model.CandidateId"
+       asp-route-previousJobPlacementId="@Model.PreviousJobPlacementId">Создать</a>
+    <a class="btn btn-dark m-2"
+       asp-page="/User/Candidates/PreviousJobs/PreviousJobs"
+       asp-route-candidateId="@Model.CandidateId">Предыдущие работы</a>
+    <a class="btn btn-dark m-2"
+       asp-page="/User/Candidates/ConcreteCandidate"
+       asp-route-candidateId="@Model.CandidateId">Кандидат</a>
+</div>
+<div class="row justify-content-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Должность</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var recommender in Model.RecommenderViewModels)
+            {
+                <tr>
+                    <td>@recommender.Id</td>
+                    <td>@recommender.Name</td>
+                    <td>@recommender.PositionAtWork</td>
+                    <td>@recommender.PhoneNumber</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="recommenderId" value="@recommender.Id" />
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

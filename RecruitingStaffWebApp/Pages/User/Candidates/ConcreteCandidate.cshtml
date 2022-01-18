@@ -3,4 +3,7 @@
 @{
     ViewData["Title"] = Model.CandidateOptionsViewModel.CandidateViewModel.Name;
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/candidates/concrete-candidate.css" />
+}
 @await Html.PartialAsync("Views/Candidates/CandidateOptionsView", Model.CandidateOptionsViewModel)

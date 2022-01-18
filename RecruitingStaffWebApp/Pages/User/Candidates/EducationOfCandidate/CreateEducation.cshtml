@@ -42,6 +42,9 @@
                 <input class="form-control" asp-for="@Model.EducationViewModel.Qualification" />
                 <span asp-validation-for="@Model.EducationViewModel.Qualification"></span>
             </div>
+            <a class="btn btn-dark"
+               asp-page="/User/Candidates/EducationOfCandidate/EducationOfCandidate"
+               asp-route-candidateId="@Model.EducationViewModel.CandidateId">Образование</a>
             <button class="btn btn-success">Отправить</button>
         </form>
     </div>
