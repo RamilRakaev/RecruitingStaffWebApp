@@ -26,6 +26,7 @@ namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 
         public List<RecruitingStaffWebAppFile> Documents { get; set; }
         public List<PreviousJobPlacement> PreviousJobs { get; set; }
+        public List<Recommender> Recommenders { get; set; }
         public List<Education> Educations { get; set; }
         public List<Kid> Kids { get; set; }
     }

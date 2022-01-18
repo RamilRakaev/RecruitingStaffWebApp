@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 {
-    public class PreviousJobPlacement : CandidatesSelectionEntity 
+    public class PreviousJobPlacement : CandidateDataEntity
     {
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
@@ -17,8 +17,5 @@ namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 
         public string LeavingReason { get; set; }
         public List<Recommender> Recommenders { get; set; }
-
-        public int CandidateId { get; set; }
-        public Candidate Candidate { get; set; }
     }
 }

@@ -23,7 +23,14 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers
             CancellationToken cancellationToken)
         {
             var entities = _repository.GetAllAsNoTracking().Where(request.Func);
-            return Task.FromResult(entities.ToArray());
+            if (entities != null)
+            {
+                return Task.FromResult(entities.ToArray());
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

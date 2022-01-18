@@ -1,0 +1,48 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.EducationOfCandidate.CreateEducationModel
+@{
+    ViewData["Title"] = "Добавить место учебы";
+}
+<div class="row justify-content-center">
+    <div class="col-5">
+        <form method="post">
+            <input type="hidden" asp-for="@Model.EducationViewModel.CandidateId" />
+            <div class="form-group">
+                <label>Имя</label>
+                <input class="form-control" asp-for="@Model.EducationViewModel.Name" />
+                <span asp-validation-for="@Model.EducationViewModel.Name"></span>
+            </div>
+            <div class="form-group">
+                <label>Дата начала обучения</label>
+                <input class="form-control"
+                       type="date"
+                       min="1900-01-01"
+                       value="2010-01-01"
+                       max="@DateTime.Now.ToString("d")"
+                       asp-for="@Model.EducationViewModel.StartDateOfTraining" />
+                <span asp-validation-for="@Model.EducationViewModel.StartDateOfTraining"></span>
+            </div>
+            <div class="form-group">
+                <label>Дата окончания</label>
+                <input class="form-control"
+                       type="date"
+                       min="1900-01-01"
+                       value="2010-01-01"
+                       max="@DateTime.Now.ToString("d")"
+                       asp-for="@Model.EducationViewModel.EndDateOfTraining" />
+                <span asp-validation-for="@Model.EducationViewModel.EndDateOfTraining"></span>
+            </div>
+            <div class="form-group">
+                <label>Специализация</label>
+                <input class="form-control" asp-for="@Model.EducationViewModel.Specialization" />
+                <span asp-validation-for="@Model.EducationViewModel.Specialization"></span>
+            </div>
+            <div class="form-group">
+                <label>Квалификация</label>
+                <input class="form-control" asp-for="@Model.EducationViewModel.Qualification" />
+                <span asp-validation-for="@Model.EducationViewModel.Qualification"></span>
+            </div>
+            <button class="btn btn-success">Отправить</button>
+        </form>
+    </div>
+</div>

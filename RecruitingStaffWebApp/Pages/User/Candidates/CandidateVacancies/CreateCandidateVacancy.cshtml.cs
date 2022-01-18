@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Candidates.Statuses
 {
-    public class AddCandidateVacancyModel : BasePageModel
+    public class CreateCandidateVacancyModel : BasePageModel
     {
-        public AddCandidateVacancyModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
+        public CreateCandidateVacancyModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
         {
         }
 

@@ -1,0 +1,44 @@
+﻿@page
+@model RecruitingStaff.WebApp.Pages.User.Candidates.EducationOfCandidate.EducationOfCandidateModel
+@{
+    ViewData["Title"] = "Образование";
+}
+<div class="row justify-content-center mb-2">
+    <a class="btn btn-success" asp-page="CreateEducation" asp-route-candidateId="@Model.CandidateId">Создать</a>
+    <a class="btn btn-dark m-2"
+       asp-page="/User/Candidates/ConcreteCandidate"
+       asp-route-candidateId="@Model.CandidateId">Кандидат</a>
+</div>
+<div class="row justify-content-center">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Дата начала обучения</th>
+                <th>Дата конца обучения</th>
+                <th>Специализация</th>
+                <th>Квалификация</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var education in Model.EducationViewModels)
+            {
+                <tr>
+                    <td>@education.Name</td>
+                    <td>@education.StartDateOfTraining</td>
+                    <td>@education.EndDateOfTraining</td>
+                    <td>@education.Specialization</td>
+                    <td>@education.Qualification</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="candidateId" value="@Model.CandidateId" />
+                            <input type="hidden" name="educationId" value="@education.Id" />
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

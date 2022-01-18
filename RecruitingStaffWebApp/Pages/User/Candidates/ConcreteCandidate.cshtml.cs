@@ -77,7 +77,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
             return candidateOptionsViewModel;
         }
 
-        private List<PreviousJobPlacementViewModel> MapFromPreviousJobs(List<PreviousJobPlacement> previousJobs)
+        private static List<PreviousJobPlacementViewModel> MapFromPreviousJobs(List<PreviousJobPlacement> previousJobs)
         {
             List<PreviousJobPlacementViewModel> viewModels = new();
             foreach (var previousJob in previousJobs)
@@ -86,7 +86,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
                 {
                     Name = previousJob.Name,
                     RecommenderNames = new() {
-                        previousJob.Recommenders != null && previousJob.Recommenders.Count() != 0 ?
+                        previousJob.Recommenders != null && previousJob.Recommenders.Count != 0 ?
                         previousJob.Recommenders.First().Name : null }
                 });
             }
