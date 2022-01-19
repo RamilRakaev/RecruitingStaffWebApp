@@ -18,6 +18,7 @@
         <table id="questionnairesTable" class="table">
             <thead class="thead-light">
                 <tr>
+                    <th>Id</th>
                     <th>Анкета</th>
                     <th>Действия</th>
                 </tr>
@@ -26,6 +27,7 @@
                 @foreach (var questionnaire in Model.Questionnaires)
                 {
                     <tr>
+                        <td>@questionnaire.Id</td>
                         <td>@questionnaire.Name</td>
                         <td>
                             <a class="btn btn-info" asp-page="ConcreteQuestionnaire" asp-route-questionnaireId="@questionnaire.Id">Перейти</a>

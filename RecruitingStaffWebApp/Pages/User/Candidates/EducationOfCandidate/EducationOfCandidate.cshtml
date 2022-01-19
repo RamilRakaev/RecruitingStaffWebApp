@@ -13,6 +13,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>Название</th>
                 <th>Дата начала обучения</th>
                 <th>Дата конца обучения</th>
@@ -25,6 +26,7 @@
             @foreach (var education in Model.EducationViewModels)
             {
                 <tr>
+                    <td>@education.Id</td>
                     <td>@education.Name</td>
                     <td>@education.StartDateOfTraining</td>
                     <td>@education.EndDateOfTraining</td>
