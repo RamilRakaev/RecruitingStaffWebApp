@@ -23,7 +23,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
 
         public async Task<RecruitingStaffWebAppFile> Handle(RemoveFileCommand request, CancellationToken cancellationToken)
         {
-            var file = await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(request.FileId));
+            var file = await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(request.FileId), cancellationToken);
             File.Delete(Path.Combine(_options.GetSource(file.FileType), file.Name));
             return file;
         }

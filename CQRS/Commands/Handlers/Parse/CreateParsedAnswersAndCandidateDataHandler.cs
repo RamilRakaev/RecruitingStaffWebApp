@@ -5,7 +5,6 @@ using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Candidates;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
@@ -63,7 +62,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                     Name = questionCategoryItem.Name,
                     QuestionnaireId = questionnaireId,
                 };
-                await _mediator.Send(new CreateOrChangeQuestionCategoryCommand(questionCategory), cancellationToken);
+                await _mediator.Send(new CreateOrChangeEntityCommand<QuestionCategory>(questionCategory), cancellationToken);
                 foreach (var questionItem in questionCategoryItem.ChildElements)
                 {
                     Question question = new()

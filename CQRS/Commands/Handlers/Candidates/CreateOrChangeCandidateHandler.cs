@@ -92,7 +92,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
         {
             foreach (var education in entities)
             {
-                await _mediator.Send(new CreateOrChangeEntityCommand<TEntity>(education));
+                await _mediator.Send(new RemoveEntityCommand<TEntity>(education.Id));
             }
         }
     }
