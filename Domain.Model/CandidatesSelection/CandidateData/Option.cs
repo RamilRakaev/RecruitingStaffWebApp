@@ -1,4 +1,5 @@
-﻿
+﻿using RecruitingStaff.Domain.Model.BaseEntities;
+
 namespace RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData
 {
     public class Option : CandidatesSelectionEntity 

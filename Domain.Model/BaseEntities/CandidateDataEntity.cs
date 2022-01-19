@@ -1,6 +1,6 @@
 ﻿using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 
-namespace RecruitingStaff.Domain.Model
+namespace RecruitingStaff.Domain.Model.BaseEntities
 {
     public class CandidateDataEntity : CandidatesSelectionEntity
     {

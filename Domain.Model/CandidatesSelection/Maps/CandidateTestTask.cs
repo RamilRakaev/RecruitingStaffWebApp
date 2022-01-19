@@ -1,4 +1,5 @@
-﻿using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
+﻿using RecruitingStaff.Domain.Model.BaseEntities;
+using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection.Maps
 {

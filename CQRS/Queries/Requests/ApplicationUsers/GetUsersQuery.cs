@@ -1,4 +1,4 @@
-﻿using RecruitingStaff.Domain.Model;
+﻿using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Domain.Model.UserIdentity;
 using MediatR;
 

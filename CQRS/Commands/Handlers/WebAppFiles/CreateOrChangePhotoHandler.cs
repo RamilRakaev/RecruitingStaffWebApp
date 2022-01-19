@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model;
@@ -53,8 +52,9 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             }
             else
             {
-                File.Delete(Path.Combine(_options.JpgPhotosSource, file.Name));
+                File.Delete(Path.Combine(_options.GetSource(request.FileType), file.Name));
                 file.Name = fileName;
+                file.FileType = request.FileType;
             }
             await request.FormFile.CreateNewFileAsync(Path.Combine(_options.JpgPhotosSource, fileName));
             await _fileRepository.SaveAsync(cancellationToken);

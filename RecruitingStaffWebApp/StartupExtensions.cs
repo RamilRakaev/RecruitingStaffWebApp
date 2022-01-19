@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Infrastructure.CQRS;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers.Maps;

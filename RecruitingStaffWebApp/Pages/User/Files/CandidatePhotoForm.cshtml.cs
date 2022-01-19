@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Candidates;

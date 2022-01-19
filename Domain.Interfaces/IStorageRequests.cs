@@ -1,4 +1,4 @@
-﻿using RecruitingStaff.Domain.Model;
+﻿using RecruitingStaff.Domain.Model.BaseEntities;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

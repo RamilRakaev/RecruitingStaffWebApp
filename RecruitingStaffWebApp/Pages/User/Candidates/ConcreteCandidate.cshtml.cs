@@ -48,7 +48,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
             {
                 string source = _option.GetSource(FileType.JpgPhoto);
                 string file_path = Path.Combine(source, candidatePhotoSource);
-                string file_type = _option.GetMimeType(FileType.JpgPhoto);
+                string file_type = WebAppOptions.GetMimeType(FileType.JpgPhoto);
                 return PhysicalFile(file_path, file_type, candidatePhotoSource);
             }
             return null;

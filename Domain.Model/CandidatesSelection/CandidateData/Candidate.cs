@@ -1,4 +1,5 @@
-﻿using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
+﻿using RecruitingStaff.Domain.Model.BaseEntities;
+using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using System;
 using System.Collections.Generic;
 

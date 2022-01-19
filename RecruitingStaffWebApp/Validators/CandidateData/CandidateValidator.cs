@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
 
-namespace RecruitingStaff.WebApp.Validators
+namespace RecruitingStaff.WebApp.Validators.CandidateData
 {
     public class CandidateValidator : AbstractValidator<CandidateViewModel>
     {

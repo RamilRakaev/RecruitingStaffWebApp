@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.Repositories;
 using System.Linq;

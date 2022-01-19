@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Options;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;

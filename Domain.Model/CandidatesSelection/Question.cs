@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RecruitingStaff.Domain.Model.BaseEntities;
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {

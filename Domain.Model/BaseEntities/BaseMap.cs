@@ -1,4 +1,5 @@
-﻿namespace RecruitingStaff.Domain.Model
+﻿
+namespace RecruitingStaff.Domain.Model.BaseEntities
 {
     public class BaseMap : BaseEntity
     {

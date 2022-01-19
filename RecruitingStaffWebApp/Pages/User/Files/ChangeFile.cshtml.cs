@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
@@ -13,6 +8,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Files;
 using RecruitingStaffWebApp.Pages.User;
+using System.Threading.Tasks;
 
 namespace RecruitingStaff.WebApp.Pages.User.Files
 {

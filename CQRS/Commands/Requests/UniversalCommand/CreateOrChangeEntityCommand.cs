@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand
 {

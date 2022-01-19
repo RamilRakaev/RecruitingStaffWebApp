@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Options;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
@@ -53,7 +53,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
                 cancellationToken);
             foreach(var option in options)
             {
-                await _mediator.Send(new RemoveEntityCommand<Option>(option.Id));
+                await _mediator.Send(new RemoveEntityCommand<Option>(option.Id),
+                    cancellationToken);
             }
             var candidateQuestionnaires = await _mediator.Send(
                 new GetEntitiesByForeignKeyQuery<CandidateQuestionnaire>(cq => cq.FirstEntityId == request.CandidateId),

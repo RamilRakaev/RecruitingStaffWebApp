@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using System;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries

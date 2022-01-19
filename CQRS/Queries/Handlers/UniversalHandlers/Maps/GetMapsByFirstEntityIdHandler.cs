@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries.Maps;
 using System;

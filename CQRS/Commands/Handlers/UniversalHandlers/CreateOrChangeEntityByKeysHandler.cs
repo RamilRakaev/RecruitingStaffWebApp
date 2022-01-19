@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Interfaces;
-using RecruitingStaff.Domain.Model;
+using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using System.Linq;
 using System.Reflection;

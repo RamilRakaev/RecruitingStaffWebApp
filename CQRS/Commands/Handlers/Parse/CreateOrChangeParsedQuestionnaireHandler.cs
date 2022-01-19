@@ -4,7 +4,6 @@ using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.QuestionCategories;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using System.Threading;
 using System.Threading.Tasks;
 

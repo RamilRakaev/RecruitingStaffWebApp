@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.WebAppFiles;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
 using RecruitingStaff.WebApp.ViewModels.Files;
@@ -32,7 +33,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         public async Task<IActionResult> OnGetDownloadFile(int fileId, int fileType)
         {
             SelectedFileType = fileType;
-            await Initial();
+            await Initial(fileType);
             var file = await _mediator.Send(new GetEntityByIdQuery<RecruitingStaffWebAppFile>(fileId));
             string source = await _mediator.Send(new GetFileSourceQuery(SelectedFileType));
             string file_path = Path.Combine(source, file.Name);
@@ -43,13 +44,20 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         public async Task OnPost(int fileType)
         {
             SelectedFileType = fileType;
-            await Initial();
+            await Initial(fileType);
         }
 
-        private async Task Initial()
+        public async Task OnPostRemove(int fileId, int selectedFileType)
+        {
+            await _mediator.Send(new RemoveFileCommand(fileId));
+            SelectedFileType = selectedFileType;
+            await Initial(selectedFileType);
+        }
+
+        private async Task Initial(int fileType = 0)
         {
             FileTypes = new(await _mediator.Send(new GetValuesQuery(typeof(FileType))), "Key", "Value");
-            Files = await GetViewModelsByFileType((FileType)SelectedFileType);
+            Files = await GetViewModelsByFileType((FileType)fileType);
         }
 
         private async Task<FileViewModel[]> GetViewModelsByFileType(FileType fileType)

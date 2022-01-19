@@ -37,7 +37,8 @@
                     <td>@file.Name</td>
                     <td>
                         <a class="btn btn-warning" asp-page="ChangeFile" asp-route-fileId="@file.Id">Изменить</a>
-                        <form class="d-inline" method="post">
+                        <form class="d-inline" method="post" asp-page-handler="Remove">
+                            <input type="hidden" name="selectedFileType" value="@Model.SelectedFileType" />
                             <input type="hidden" name="fileId" value="@file.Id" />
                             <button class="btn btn-danger">Удалить</button>
                         </form>

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RecruitingStaff.WebApp.ViewModels.CandidateData
+﻿namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 {
     public class CandidateOptionsViewModel
     {

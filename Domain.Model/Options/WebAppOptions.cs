@@ -24,7 +24,7 @@
             };
         }
 
-        public string GetMimeType(FileType fileType)
+        public static string GetMimeType(FileType fileType)
         {
             return fileType switch
             {
