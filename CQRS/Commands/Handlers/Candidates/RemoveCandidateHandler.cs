@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Options;
+using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
@@ -43,7 +44,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
                 cancellationToken);
             foreach (var file in files)
             {
-                File.Delete($"{_options.CandidateDocumentsSource}\\{file.Name}");
+                File.Delete($"{_options.GetSource(file.FileType)}\\{file.Name}");
                 await _mediator.Send(new RemoveEntityCommand<RecruitingStaffWebAppFile>(file.Id),
                     cancellationToken);
             }

@@ -30,9 +30,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
             _options = options.Value;
         }
 
-        public async Task<bool> Handle(CreateOrChangePhotoCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(CreateOrChangePhotoCommand request, CancellationToken 
+            cancellationToken)
         {
-            var file = _fileRepository.GetAll().Where(f => f.CandidateId == request.CandidateId && f.FileType == FileType.JpgPhoto).FirstOrDefault();
+            var file = _fileRepository.GetAll()
+                .Where(f => f.CandidateId == request.CandidateId &&
+            (f.FileType == FileType.JpgPhoto || f.FileType == FileType.PngPhoto))
+                .FirstOrDefault();
             var candidate = await _candidateRepository.FindAsync(request.CandidateId, cancellationToken);
 
             var extension = request.FormFile.FileName[request.FormFile.FileName.LastIndexOf('.')..];
@@ -43,7 +47,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
                 {
                     Name = fileName,
                     CandidateId = request.CandidateId,
-                    FileType = FileType.JpgPhoto
+                    FileType = request.FileType
                 };
                 await _fileRepository.AddAsync(file, cancellationToken);
             }

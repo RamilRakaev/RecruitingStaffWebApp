@@ -19,6 +19,7 @@
                 FileType.QuestionnaireExample => EmptyQuestionnairesSource,
                 FileType.TestTask => TestTasksSource,
                 FileType.JpgPhoto => JpgPhotosSource,
+                FileType.PngPhoto => PngPhotosSource,
                 _ => string.Empty,
             };
         }
