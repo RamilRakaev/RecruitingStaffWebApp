@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandlers.Maps
 {
-    public class CreateMapHandler<TMap> : IRequestHandler<CreateMapCommand<TMap>, TMap>
+    public class TryCreateMapHandler<TMap> : IRequestHandler<TryCreateMapCommand<TMap>, TMap>
         where TMap : BaseMap, new()
     {
         private readonly IRepository<TMap> _repository;
 
-        public CreateMapHandler(IRepository<TMap> repository)
+        public TryCreateMapHandler(IRepository<TMap> repository)
         {
             _repository = repository;
         }
 
-        public async Task<TMap> Handle(CreateMapCommand<TMap> request, CancellationToken cancellationToken)
+        public async Task<TMap> Handle(TryCreateMapCommand<TMap> request, CancellationToken cancellationToken)
         {
             var map = await _repository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(m => m.FirstEntityId == request.Map.FirstEntityId
             && m.SecondEntityId == request.Map.SecondEntityId)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -32,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
                 await _repository.SaveAsync(cancellationToken);
                 return request.Map;
             }
-            return null;
+            return map;
         }
     }
 }

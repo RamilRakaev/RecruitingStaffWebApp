@@ -33,7 +33,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
             if (entity == null)
             {
                 entity = _repository
-                    .GetAllAsNoTracking()
+                    .GetAllExistingEntitiesAsNoTracking()
                     .Where(e => e.Name == _currentEntity.Name && FindingMatches(e))
                     .FirstOrDefault();
                 await _repository.AddAsync(_currentEntity, cancellationToken);

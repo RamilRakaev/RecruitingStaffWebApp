@@ -29,9 +29,9 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
                 "Value");
         }
 
-        public async Task<IActionResult> OnPost(IFormFile formFile, int jobQuestionnaire)
+        public async Task<IActionResult> OnPost(IFormFile formFile)
         {
-            if (await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, parseQuestions: true)))
+            if (await _mediator.Send(new DocumentParseCommand(formFile, true)))
             {
                 return RedirectToPage("/User/Candidates/Candidates");
             }

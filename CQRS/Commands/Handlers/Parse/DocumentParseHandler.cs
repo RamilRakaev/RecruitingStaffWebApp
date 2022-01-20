@@ -6,6 +6,7 @@ using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Domain.Model.Options;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.Infrastructure.Repositories;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
@@ -20,15 +21,17 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
     {
         private readonly IQuestionnaireManager _questionnaireManager;
         private readonly WebAppOptions _options;
+        private readonly IMediator _mediator;
 
-        public DocumentParseHandler(IQuestionnaireManager questionnaireManager, IOptions<WebAppOptions> options, DataContext db)
+        public DocumentParseHandler(IQuestionnaireManager questionnaireManager, IOptions<WebAppOptions> options, IMediator mediator, DataContext db)
         {
             //ResetDb(db);
             _questionnaireManager = questionnaireManager;
             _options = options.Value;
+            _mediator = mediator;
         }
 
-        public Task<bool> Handle(DocumentParseCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DocumentParseCommand request, CancellationToken cancellationToken)
         {
             if (request.FormFile != null)
             {
@@ -39,21 +42,23 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 }
                 if (request.ParseQuestions)
                 {
-                    return _questionnaireManager.ParseQuestionnaireExampleAsync(
-                    path,
-                    (JobQuestionnaire)request.JobQuestionnaire);
+                    ParseParameters parseParameters = new(path);
+                    return await _questionnaireManager.ParseQuestionnaireExampleAsync(parseParameters);
                 }
                 else
                 {
-                    return _questionnaireManager.ParseCompletedQuestionnaireAsync(
+                    var questionnaire = await _mediator.Send(new GetEntityByIdQuery<Questionnaire>(request.QuestionnaireId));
+                    ParseParameters parseParameters = new(
                         path,
-                        (JobQuestionnaire)request.JobQuestionnaire,
-                        request.CandidateId);
+                        (JobQuestionnaireType)questionnaire.ParserType,
+                        request.CandidateId,
+                        request.QuestionnaireId);
+                    return await _questionnaireManager.ParseCompletedQuestionnaireAsync(parseParameters);
                 }
             }
             else
             {
-                return Task.FromResult(false);
+                return false;
             }
         }
 

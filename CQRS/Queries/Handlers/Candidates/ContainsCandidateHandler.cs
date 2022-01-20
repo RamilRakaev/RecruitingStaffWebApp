@@ -23,7 +23,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
             if(request.CandidateId == 0)
             {
                 return await _candidateRepository
-                    .GetAllAsNoTracking()
+                    .GetAllExistingEntitiesAsNoTracking()
                     .Where(c => c.Name == request.CandidateName)
                     .FirstOrDefaultAsync(cancellationToken) != null;
             }

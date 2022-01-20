@@ -23,7 +23,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.WebAppFiles
         public async Task<string> Handle(GetSourceOfCandidatePhotoQuery request, CancellationToken cancellationToken)
         {
             var photo = await _fileRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(f => f.CandidateId == request.CandidateId && (f.FileType == FileType.JpgPhoto || f.FileType == FileType.PngPhoto))
                 .FirstOrDefaultAsync(cancellationToken);
             if (photo == null)

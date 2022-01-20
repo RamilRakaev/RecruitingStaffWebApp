@@ -26,7 +26,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers
         public async Task<TMap[]> Handle(GetMapsByFirstEntityIdQuery<TMap> request, CancellationToken cancellationToken)
         {
             return await _mapRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(m => m.FirstEntityId == request.FirstEntityId)
                 .ToArrayAsync(cancellationToken);
         }

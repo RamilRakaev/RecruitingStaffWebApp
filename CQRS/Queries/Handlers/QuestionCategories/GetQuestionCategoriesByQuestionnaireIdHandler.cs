@@ -19,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.QuestionCategorie
 
         public Task<QuestionCategory[]> Handle(GetQuestionCategoriesByQuestionnaireIdQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_questionCategoryRepository.GetAllAsNoTracking().Where(qc => qc.QuestionnaireId == request.QuestionCategoryId).ToArray());
+            return Task.FromResult(_questionCategoryRepository.GetAllExistingEntitiesAsNoTracking().Where(qc => qc.QuestionnaireId == request.QuestionCategoryId).ToArray());
         }
     }
 }

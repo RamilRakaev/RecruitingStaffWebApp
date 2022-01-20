@@ -2,7 +2,7 @@
 
 namespace RecruitingStaffWebApp.Services.DocParse
 {
-    public enum JobQuestionnaire
+    public enum JobQuestionnaireType
     {
         [Display(Name = "Анкета C# разработчика")]
         CSharpDeveloperQuestionnaire,

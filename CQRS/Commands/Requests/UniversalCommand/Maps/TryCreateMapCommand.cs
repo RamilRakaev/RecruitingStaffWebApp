@@ -3,10 +3,10 @@ using RecruitingStaff.Domain.Model.BaseEntities;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps
 {
-    public class CreateMapCommand<TMap> : IRequest<TMap>
+    public class TryCreateMapCommand<TMap> : IRequest<TMap>
         where TMap : BaseMap, new()
     {
-        public CreateMapCommand(int firstEntityId, int secondEntityId)
+        public TryCreateMapCommand(int firstEntityId, int secondEntityId)
         {
             Map = new();
             Map.FirstEntityId = firstEntityId;

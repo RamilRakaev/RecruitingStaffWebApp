@@ -32,6 +32,8 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
                 VacancyViewModel = mapper.Map<VacancyViewModel>(vacancyEntity);
                 _logger.LogInformation("\"VacancyForm\" page has been visited to change vacancy");
             }
+            var parsers = await _mediator.Send(new GetValuesQuery(typeof(VacancyParserType)));
+            VacancyViewModel.ParserTypesSelectList = new(parsers, "Key", "Value");
         }
 
         public async Task<IActionResult> OnPost(VacancyViewModel vacancyViewModel)
@@ -48,6 +50,8 @@ namespace RecruitingStaffWebApp.Pages.User.Vacancies
             _logger.LogInformation("Data entered incorrectly");
             ModelState.AddModelError("", "Неправильно введены данные");
             VacancyViewModel = vacancyViewModel;
+            var parsers = await _mediator.Send(new GetValuesQuery(typeof(VacancyParserType)));
+            VacancyViewModel.ParserTypesSelectList = new(parsers, "Key", "Value");
             return Page();
         }
     }

@@ -1,8 +1,12 @@
 ﻿using MediatR;
 using RecruitingStaff.Domain.Model;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,20 +51,30 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             return questionnaire;
         }
 
-        private async Task<Questionnaire> CreateOrChangeQuestionnaire(string vacancyName, string questionnaireName, CancellationToken cancellationToken)
+        private async Task<Questionnaire> CreateOrChangeQuestionnaire(
+            string vacancyName,
+            string questionnaireName,
+            CancellationToken cancellationToken)
         {
             Vacancy vacancy = new()
             {
                 Name = vacancyName,
             };
             await _mediator.Send(new CreateOrChangeEntityCommand<Vacancy>(vacancy), cancellationToken);
-
+            var vacancyQuestionnaires = await _mediator.Send(
+            new GetEntitiesByForeignKeyQuery<VacancyQuestionnaire>(cq => cq.FirstEntityId == vacancy.Id),
+            cancellationToken);
             Questionnaire questionnaire = new()
             {
+                Id = vacancyQuestionnaires.Length == 0 ? 0 : vacancyQuestionnaires.First().SecondEntityId,
                 Name = questionnaireName,
-                VacancyId = vacancy.Id,
             };
             await _mediator.Send(new CreateOrChangeEntityCommand<Questionnaire>(questionnaire), cancellationToken);
+            if (vacancyQuestionnaires.Length == 0)
+            {
+                await _mediator.Send(new TryCreateMapCommand<VacancyQuestionnaire>(vacancy.Id, questionnaire.Id),
+                    cancellationToken);
+            }
             return questionnaire;
         }
 

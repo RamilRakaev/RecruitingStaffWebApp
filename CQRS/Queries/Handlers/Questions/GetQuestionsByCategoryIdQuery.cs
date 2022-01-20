@@ -18,7 +18,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Questions
 
         public Task<Question[]> Handle(GetQuestionsByCategoryIdQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_questionRepository.GetAllAsNoTracking().Where(q => q.QuestionCategoryId == request.QuestionCategoryId).ToArray());
+            return Task.FromResult(_questionRepository.GetAllExistingEntitiesAsNoTracking().Where(q => q.QuestionCategoryId == request.QuestionCategoryId).ToArray());
         }
     }
 }

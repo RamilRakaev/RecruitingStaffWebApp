@@ -12,7 +12,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Questionnaires
     {
         public Task<Dictionary<int, string>> Handle(GetJobQuestionnairesDictionaryQuery request, CancellationToken cancellationToken)
         {
-            var questionnaires = Enum.GetValues(typeof(JobQuestionnaire));
+            var questionnaires = Enum.GetValues(typeof(JobQuestionnaireType));
             Dictionary<int, string> dictionary = new();
             for (int i = 0; i < questionnaires.Length; i++)
             {

@@ -26,12 +26,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.QuestionCategorie
         {
             var questionCategories =
                 _questionCategoryRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(qc => qc.QuestionnaireId == request.QuestionnaireId)
                 .ToArray();
             var ids = questionCategories.Select(qc => qc.Id);
             var questions = _questionRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(q => ids.Contains(q.QuestionCategoryId));
             foreach (var questionCategory in questionCategories)
             {

@@ -20,7 +20,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers
 
         public async Task<TEntity[]> Handle(GetEntitiesQuery<TEntity> request, CancellationToken cancellationToken)
         {
-            return await _repository.GetAllAsNoTracking().ToArrayAsync(cancellationToken);
+            return await _repository.GetAllExistingEntitiesAsNoTracking().ToArrayAsync(cancellationToken);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates.Statuses
             if (ModelState.IsValid)
             {
                 var candidateVacancyEntity =
-                    await _mediator.Send(new CreateMapCommand<CandidateVacancy>(
+                    await _mediator.Send(new TryCreateMapCommand<CandidateVacancy>(
                     candidateVacancyViewModel.FirstEntityId,
                     candidateVacancyViewModel.SecondEntityId));
                 if(candidateVacancyEntity == null)

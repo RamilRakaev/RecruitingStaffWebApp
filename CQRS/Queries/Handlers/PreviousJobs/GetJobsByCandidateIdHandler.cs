@@ -24,7 +24,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.PreviousJobs
         public async Task<PreviousJobPlacement[]> Handle(GetJobsByCandidateIdQuery request, CancellationToken cancellationToken)
         {
             return await _previousJobPlacementRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(pjp => pjp.CandidateId == request.CandidateId)
                 .ToArrayAsync(cancellationToken);
         }

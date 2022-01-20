@@ -6,10 +6,10 @@
 <div class="row justify-content-center mb-3">
     <form class="form-inline" method="post" asp-page-handler="CreateCandidateQuestionnaire">
         <input type="hidden" name="candidateId" asp-for="@Model.CandidateId" />
-        <select class="custom-select m-3"
+        <select class="custom-select m-2"
                 name="questionnaireId"
                 asp-items="Model.AvailableVacancies"></select>
-        <button class="btn btn-success m-3">Добавить привязку</button>
+        <button class="btn btn-success m-2">Добавить привязку</button>
     </form>
     <a class="btn btn-dark m-2"
        asp-route-candidateId="@Model.CandidateId"
@@ -32,11 +32,21 @@
                     <td>@candidateQuestionnaireViewModel.QuestionnaireName</td>
                     <td>
                         <form method="post">
-                            <input type="hidden" name="candidateId" asp-for="@candidateQuestionnaireViewModel.FirstEntityId" />
-                            <input type="hidden" name="candidateQuestionnaireId"
+                            <input type="hidden"
+                                   name="candidateId"
+                                   asp-for="@candidateQuestionnaireViewModel.FirstEntityId" />
+                            <input type="hidden"
+                                   name="candidateQuestionnaireId"
                                    asp-for="@candidateQuestionnaireViewModel.Id" />
                             <button class="btn btn-danger">Удалить</button>
                         </form>
+                        <a class="btn btn-dark"
+                           asp-page="/User/Files/CompletedQuestionnaireParse"
+                           asp-page-handler="QuestionnaireParse"
+                           asp-route-candidateId="@candidateQuestionnaireViewModel.FirstEntityId"
+                           asp-route-questionnaireId="@candidateQuestionnaireViewModel.SecondEntityId">
+                            Парсинг анкеты с ответами
+                        </a>
                     </td>
                 </tr>
             }

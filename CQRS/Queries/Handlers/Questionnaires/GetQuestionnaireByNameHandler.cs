@@ -21,7 +21,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Questionnaires
         public async Task<Questionnaire> Handle(GetQuestionnaireByNameQuery request, CancellationToken cancellationToken)
         {
             return await _questionnaireRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(q => q.Name.Equals(request.Name))
                 .FirstOrDefaultAsync(cancellationToken);
         }

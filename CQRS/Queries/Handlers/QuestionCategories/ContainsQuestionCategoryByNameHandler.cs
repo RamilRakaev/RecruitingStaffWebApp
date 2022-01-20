@@ -21,7 +21,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.QuestionCategorie
         public async Task<bool> Handle(ContainsQuestionCategoryByNameQuery request, CancellationToken cancellationToken)
         {
             var vacancy = await _questionCategoryRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(qc => qc.Name.Equals(request.QuestionCategoryName))
                 .FirstOrDefaultAsync();
             return vacancy != null;

@@ -11,8 +11,12 @@ namespace RecruitingStaff.Domain.Interfaces
 
         public Task<Entity> FindAsync(int id, CancellationToken cancellationToken);
 
-        public IQueryable<Entity> GetAll();
+        public IQueryable<Entity> GetAllExistingEntities();
 
-        public IQueryable<Entity> GetAllAsNoTracking();
+        public IQueryable<Entity> GetAllExistingEntitiesAsNoTracking();
+
+        public IQueryable<Entity> GetDeletedEntities();
+
+        public IQueryable<Entity> GetDeletedEntitiesAsNoTracking();
     }
 }

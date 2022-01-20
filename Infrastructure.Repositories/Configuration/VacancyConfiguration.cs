@@ -14,9 +14,9 @@ namespace RecruitingStaff.Infrastructure.Repositories.Configuration
                 .HasForeignKey(cv => cv.SecondEntityId);
 
             builder
-                .HasMany(v => v.Questionnaires)
+                .HasMany(v => v.VacancyQuestionnaire)
                 .WithOne(cv => cv.Vacancy)
-                .HasForeignKey(cv => cv.VacancyId);
+                .HasForeignKey(cv => cv.FirstEntityId);
 
             builder
                 .HasMany(v => v.TestTasks)

@@ -24,11 +24,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Answers
         public Task<Answer[]> Handle(GetAnswersByQuestionCategoryQuery request, CancellationToken cancellationToken)
         {
             var questionsIds = _questionRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(q => q.QuestionCategoryId == request.QuestionCategoryId)
                 .Select(q => q.Id);
             return _answeRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(a => questionsIds.Contains(a.QuestionId))
                 .ToArrayAsync(cancellationToken);
         }

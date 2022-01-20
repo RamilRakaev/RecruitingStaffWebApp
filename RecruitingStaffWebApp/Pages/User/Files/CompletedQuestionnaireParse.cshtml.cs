@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Questionnaires;
+using RecruitingStaff.WebApp.ViewModels.Parse;
 using RecruitingStaffWebApp.Pages.User;
 using System.Threading.Tasks;
 
@@ -13,12 +13,15 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
 {
     public class CompletedQuestionnaireParseModel : BasePageModel
     {
+        public int _questionnaireId;
+        public string _redirect = "/User/Candidates/Candidates";
         public CompletedQuestionnaireParseModel(IMediator mediator, ILogger<BasePageModel> logger) : base(mediator, logger)
         {
         }
 
         public SelectList QuestionnaireTypes { get; set; }
         public int CandidateId { get; set; }
+        public DocumentParseViewModel DocumentParseViewModel { get; set; }
 
         public async Task OnGet(int candidateId)
         {
@@ -30,11 +33,26 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
                 "Value");
         }
 
-        public async Task<IActionResult> OnPost(IFormFile formFile, int jobQuestionnaire, int candidateId)
+        public void OnGetQuestionnaireParse(int candidateId, int questionnaireId)
         {
-            if (await _mediator.Send(new DocumentParseCommand(formFile, jobQuestionnaire, false, candidateId)))
+            DocumentParseViewModel = new()
             {
-                return RedirectToPage("/User/Candidates/Candidates");
+                CandidateId = candidateId,
+                QuestionnaireId = questionnaireId,
+                ParseQuestions = false,
+            };
+        }
+
+        public async Task<IActionResult> OnPost(DocumentParseViewModel documentParseViewModel)
+        {
+            if (await _mediator.Send(
+                new DocumentParseCommand(
+                documentParseViewModel.FormFile,
+                false,
+                documentParseViewModel.CandidateId,
+                documentParseViewModel.QuestionnaireId)))
+            {
+                return RedirectToPage(_redirect);
             }
             ModelState.AddModelError("", "Не удалось проанализировать документ");
             QuestionnaireTypes = new(

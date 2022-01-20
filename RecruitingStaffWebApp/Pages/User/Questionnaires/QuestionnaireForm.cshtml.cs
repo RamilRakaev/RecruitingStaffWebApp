@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RecruitingStaff.Domain.Model.CandidatesSelection;
+using RecruitingStaff.Domain.Model.CandidatesSelection.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
+using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaff.WebApp.ViewModels.Questionnaire;
 using RecruitingStaffWebApp.Pages.User;
@@ -53,6 +55,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
                 if (questionnaireViewModel.Id == 0)
                 {
                     await _mediator.Send(new CreateEntityCommand<Questionnaire>(questionnaireEntity));
+                    await _mediator.Send(new TryCreateMapCommand<VacancyQuestionnaire>(questionnaireViewModel.VacancyId, questionnaireEntity.Id));
                 }
                 else
                 {

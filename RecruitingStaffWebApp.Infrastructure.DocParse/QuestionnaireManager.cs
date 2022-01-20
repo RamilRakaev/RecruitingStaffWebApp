@@ -24,19 +24,19 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public List<string> Errors { get; private set; } = new List<string>();
 
-        public async Task<bool> ParseQuestionnaireExampleAsync(string path, JobQuestionnaire jobQuestionnaire)
+        public async Task<bool> ParseQuestionnaireExampleAsync(ParseParameters parseParameters)
         {
-            var parserStrategy = Parsersearch(jobQuestionnaire);
+            var parserStrategy = ParserSearch(parseParameters.JobQuestionnaire);
             try
             {
-                var parsedData = await parserStrategy.ParseAsync(path);
+                var parsedData = await parserStrategy.ParseAsync(parseParameters.Path);
                 var checking = new ParsedDataCheck(Array.Empty<string>());
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, true);
                     var newPath = Path.Combine(_options.EmptyQuestionnairesSource, parsedData.FileSource);
                     File.Delete(newPath);
-                    File.Copy(path, newPath);
+                    File.Copy(parseParameters.Path, newPath);
                 }
                 else
                 {
@@ -51,24 +51,25 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
             finally
             {
-                File.Delete(path);
+                File.Delete(parseParameters.Path);
             }
         }
 
-        public async Task<bool> ParseCompletedQuestionnaireAsync(string path, JobQuestionnaire jobQuestionnaire, int candidateId)
+        public async Task<bool> ParseCompletedQuestionnaireAsync(ParseParameters parseParameters)
         {
-            var parserStrategy = Parsersearch(jobQuestionnaire);
+            var parserStrategy = ParserSearch(parseParameters.JobQuestionnaire);
             try
             {
-                var parsedData = await parserStrategy.ParseAsync(path);
-                parsedData.CandidateId = candidateId;
+                var parsedData = await parserStrategy.ParseAsync(parseParameters.Path);
+                parsedData.CandidateId = parseParameters.CandidateId;
+                parsedData.QuestionnaireId = parseParameters.QuestionnaireId;
                 var checking = new ParsedDataCheck(Array.Empty<string>());
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, false);
                     var newPath = Path.Combine(_options.CandidateDocumentsSource, parsedData.FileSource);
                     File.Delete(newPath);
-                    File.Copy(path, newPath);
+                    File.Copy(parseParameters.Path, newPath);
                 }
                 else
                 {
@@ -83,21 +84,21 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             }
             finally
             {
-                File.Delete(path);
+                File.Delete(parseParameters.Path);
             }
         }
 
-        private static ParserStrategy Parsersearch(JobQuestionnaire jobQuestionnaire)
+        private static ParserStrategy ParserSearch(JobQuestionnaireType jobQuestionnaire)
         {
             return jobQuestionnaire switch
             {
-                JobQuestionnaire.CSharpDeveloperQuestionnaire =>
+                JobQuestionnaireType.CSharpDeveloperQuestionnaire =>
                      new CSharpDeveloperQuestionnaireParser(),
-                JobQuestionnaire.PhpDeveloperQuestionnaire =>
+                JobQuestionnaireType.PhpDeveloperQuestionnaire =>
                     new PhpDeveloperQuestionnaireParser(),
-                JobQuestionnaire.OfficeQuestionnaire =>
+                JobQuestionnaireType.OfficeQuestionnaire =>
                     new OfficeQuestionnaireParser(),
-                JobQuestionnaire.DevOpsQuestionnaire =>
+                JobQuestionnaireType.DevOpsQuestionnaire =>
                     new DevOpsQuestionnaireParser(),
                 _ => throw new ParseException()
             };

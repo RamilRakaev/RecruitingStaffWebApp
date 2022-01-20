@@ -20,7 +20,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Options
         public async Task<Option> Handle(CreateOrEditOptionCommand request, CancellationToken cancellationToken)
         {
             var option = await _optionRepository
-                .GetAll()
+                .GetAllExistingEntities()
                 .FirstOrDefaultAsync(
                 o => o.Name == request.Option.Name &&
                 o.CandidateId == request.Option.CandidateId, 

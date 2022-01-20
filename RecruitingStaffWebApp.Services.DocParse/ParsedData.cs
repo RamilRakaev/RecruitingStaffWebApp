@@ -14,6 +14,7 @@ namespace RecruitingStaffWebApp.Services.DocParse
         public Vacancy Vacancy { get; set; }
         public Candidate Candidate { get; set; }
         public int CandidateId { get; set; }
+        public int QuestionnaireId { get; set; }
 
         public string FileExtension { get; set; }
         public string FileSource { get; set; }

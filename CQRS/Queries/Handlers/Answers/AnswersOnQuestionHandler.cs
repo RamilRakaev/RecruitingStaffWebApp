@@ -19,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Answers
 
         public Task<Answer[]> Handle(AnswersOnQuestionQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_answerRepository.GetAllAsNoTracking().Where(a => a.QuestionId == request.QuestionId).ToArray());
+            return Task.FromResult(_answerRepository.GetAllExistingEntitiesAsNoTracking().Where(a => a.QuestionId == request.QuestionId).ToArray());
         }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RecruitingStaff.Infrastructure.Repositories;
@@ -9,9 +10,10 @@ using RecruitingStaff.Infrastructure.Repositories;
 namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220120083443_BaseEntity.IsDeleted")]
+    partial class BaseEntityIsDeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,9 +444,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<int>("ParserType")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("Questionnaire");
@@ -571,7 +570,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b3d90b28-0952-465d-b2d0-14649ba473ca",
+                            ConcurrencyStamp = "7af0ec86-3810-4dde-afc8-d4a002f9a320",
                             Name = "user",
                             NormalizedName = "USER"
                         });

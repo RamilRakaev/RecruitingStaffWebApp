@@ -21,7 +21,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Vacancies
         public async Task<Vacancy> Handle(GetVacancyByNameQuery request, CancellationToken cancellationToken)
         {
             return await _vacancyRepository
-               .GetAllAsNoTracking()
+               .GetAllExistingEntitiesAsNoTracking()
                .Where(v => v.Name.Equals(request.VacancyName))
                .FirstOrDefaultAsync(cancellationToken);
         }

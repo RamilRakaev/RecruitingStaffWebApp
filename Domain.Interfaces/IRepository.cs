@@ -14,6 +14,8 @@ namespace RecruitingStaff.Domain.Interfaces
 
         public Task RemoveAsync(Entity entity);
 
+        public Task CompleteRemovalAsync(Entity entity);
+
         public Task RemoveRangeAsync(IEnumerable<Entity> entities)
         {
             throw new Exception("Method is not overridden in child class");

@@ -32,7 +32,10 @@ namespace RecruitingStaff.WebApp.Pages.User.Candidates.CandidateQuestionnaires
 
         public async Task OnPostCreateCandidateQuestionnaire(int candidateId, int questionnaireId)
         {
-            await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(candidateId, questionnaireId));
+            if (questionnaireId != 0)
+            {
+                await _mediator.Send(new TryCreateMapCommand<CandidateQuestionnaire>(candidateId, questionnaireId));
+            }
             await Initialization(candidateId);
         }
 

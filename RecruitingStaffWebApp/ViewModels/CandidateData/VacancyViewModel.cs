@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace RecruitingStaff.WebApp.ViewModels.CandidateData
 {
@@ -20,6 +21,8 @@ namespace RecruitingStaff.WebApp.ViewModels.CandidateData
         public string Responsibilities { get; set; }
         public string Requirements { get; set; }
         public string WorkingConditions { get; set; }
+        public int ParserTypeIndex { get; set; }
+        public SelectList ParserTypesSelectList { get; set; }
 
         public string[] ResponsibilitiesList
         {

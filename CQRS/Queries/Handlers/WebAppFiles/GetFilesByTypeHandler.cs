@@ -21,7 +21,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.WebAppFiles
         public async Task<RecruitingStaffWebAppFile[]> Handle(GetFilesByTypeQuery request, CancellationToken cancellationToken)
         {
             return await _fileRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(f => f.FileType == request.FileType)
                 .ToArrayAsync(cancellationToken);
         }

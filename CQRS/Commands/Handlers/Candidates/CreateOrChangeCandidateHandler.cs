@@ -29,7 +29,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
             var candidate = await _candidateRepository
                 .FindNoTrackingAsync(request.Candidate.Id, cancellationToken)
                 ?? await _candidateRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(e => e.Name == request.Candidate.Name
                 && e.DateOfBirth == request.Candidate.DateOfBirth)
                 .FirstOrDefaultAsync(cancellationToken);

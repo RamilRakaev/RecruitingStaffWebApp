@@ -26,11 +26,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
         public async Task<Candidate[]> Handle(GetCandidatesByQuestionnaireQuery request, CancellationToken cancellationToken)
         {
             var candidateQuestionnaires = _candidateQuestionnaireRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(cq => cq.SecondEntityId == request.QuestionnaireId)
                 .Select(cq => cq.FirstEntityId);
             var candidates = await _candidateRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(c => candidateQuestionnaires
                 .Contains(c.Id))
                 .ToArrayAsync(cancellationToken);

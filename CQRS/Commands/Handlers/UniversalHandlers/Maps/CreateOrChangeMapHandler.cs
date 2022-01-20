@@ -23,7 +23,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.UniversalHandler
         public async Task<TMap> Handle(CreateOrChangeMapCommand<TMap> request, CancellationToken cancellationToken)
         {
             var map = await _repository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(m => m.FirstEntityId == request.Map.FirstEntityId
             && m.SecondEntityId == request.Map.SecondEntityId)
                 .FirstOrDefaultAsync(cancellationToken);

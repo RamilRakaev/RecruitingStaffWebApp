@@ -23,7 +23,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             var questionnaire = await _questionnaireRepository
                 .FindAsync(request.Questionnaire.Id, cancellationToken)
                 ?? await _questionnaireRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(q => q.Name.Equals(request.Questionnaire.Name))
                 .FirstOrDefaultAsync(cancellationToken);
             

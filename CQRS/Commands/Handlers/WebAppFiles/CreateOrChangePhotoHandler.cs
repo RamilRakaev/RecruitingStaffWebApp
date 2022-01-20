@@ -32,7 +32,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.WebAppFiles
         public async Task<bool> Handle(CreateOrChangePhotoCommand request, CancellationToken 
             cancellationToken)
         {
-            var file = _fileRepository.GetAll()
+            var file = _fileRepository.GetAllExistingEntities()
                 .Where(f => f.CandidateId == request.CandidateId &&
             (f.FileType == FileType.JpgPhoto || f.FileType == FileType.PngPhoto))
                 .FirstOrDefault();

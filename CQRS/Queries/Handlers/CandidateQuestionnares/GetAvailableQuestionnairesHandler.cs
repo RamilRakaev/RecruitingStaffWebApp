@@ -26,8 +26,13 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.CandidateQuestion
                     new GetEntitiesByForeignKeyQuery<CandidateVacancy>(cv => cv.FirstEntityId == request.CandidateId),
                     cancellationToken);
             var vacancyIds = candidateVacancies.Select(cv => cv.SecondEntityId);
+            var vacancyQuestionnaires = await _mediator.Send(
+                new GetEntitiesByForeignKeyQuery<VacancyQuestionnaire>(vq => vacancyIds.Contains(vq.FirstEntityId)),
+                cancellationToken);
+            var questionnaireIds = vacancyQuestionnaires.Select(vq => vq.SecondEntityId);
             var questionnaires = await _mediator.Send(
-                new GetEntitiesByForeignKeyQuery<Questionnaire>(q => vacancyIds.Contains(q.VacancyId)),
+                new GetEntitiesByForeignKeyQuery<Questionnaire>(
+                    q => questionnaireIds.Contains(q.Id)),
                 cancellationToken);
             return questionnaires;
         }

@@ -22,7 +22,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers
         {
             return Task.FromResult(
                 _repository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(e => e.Name == request.Name)
                 .FirstOrDefault());
         }

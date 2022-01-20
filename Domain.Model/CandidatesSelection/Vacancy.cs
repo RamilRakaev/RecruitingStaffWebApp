@@ -12,7 +12,7 @@ namespace RecruitingStaff.Domain.Model.CandidatesSelection
         public string WorkingConditions { get; set; }
 
         public List<CandidateVacancy> CandidateVacancy { get; set; }
-        public List<Questionnaire> Questionnaires { get; set; }
+        public List<VacancyQuestionnaire> VacancyQuestionnaire { get; set; }
         public List<TestTask> TestTasks { get; set; }
     }
 }

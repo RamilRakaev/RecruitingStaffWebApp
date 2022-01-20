@@ -14,6 +14,10 @@
                 <span asp-validation-for="@Model.VacancyViewModel.Name"></span>
             </div>
             <div class="form-group">
+                <label>Тип парсера</label>
+                <select class="form-control" asp-for="@Model.VacancyViewModel.ParserTypeIndex"></select>
+            </div>
+            <div class="form-group">
                 <label class="col-form-label">Описание</label>
                 <textarea class="form-control" rows="4" asp-for="@Model.VacancyViewModel.Description"></textarea>
                 <span asp-validation-for="@Model.VacancyViewModel.Description"></span>

@@ -8,6 +8,7 @@ using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Questionnaires;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
 using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand.Maps;
+using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
 using RecruitingStaffWebApp.Services.DocParse;
 using System;
 using System.Collections.Generic;
@@ -30,23 +31,33 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
 
         public async Task<bool> Handle(CreateParsedAnswersAndCandidateDataCommand request, CancellationToken cancellationToken)
         {
+            Questionnaire questionnaire = new()
+            {
+                Id = request.ParsedData.QuestionnaireId,
+                Name = request.ParsedData.Questionnaire.Name,
+            };
             parsedData = request.ParsedData;
             Vacancy vacancy = new()
             {
                 Name = request.ParsedData.Vacancy.Name,
             };
             await _mediator.Send(new CreateOrChangeEntityCommand<Vacancy>(vacancy), cancellationToken);
-            Questionnaire questionnaire = new()
+            if (questionnaire.Id == 0)
             {
-                Name = request.ParsedData.Questionnaire.Name,
-                VacancyId = vacancy.Id,
-            };
-            await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
+                var vacancyQuestionnaires = await _mediator.Send(
+                new GetEntitiesByForeignKeyQuery<VacancyQuestionnaire>(cq => cq.FirstEntityId == vacancy.Id),
+                cancellationToken);
+                questionnaire.Id = vacancyQuestionnaires.Any() ?
+                    vacancyQuestionnaires.First().FirstEntityId : 0;
+            }
+            await _mediator.Send(new CreateOrChangeEntityCommand<Questionnaire>(questionnaire), cancellationToken);
+            await _mediator.Send(new TryCreateMapCommand<VacancyQuestionnaire>(vacancy.Id, questionnaire.Id),
+                cancellationToken);
             _candidate = await CreateCandidate();
             _candidate.Id = request.ParsedData.CandidateId;
             await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate), cancellationToken);
-            await _mediator.Send(new CreateMapCommand<CandidateQuestionnaire>(_candidate.Id, questionnaire.Id), cancellationToken);
-            await _mediator.Send(new CreateMapCommand<CandidateVacancy>(_candidate.Id, vacancy.Id), cancellationToken);
+            await _mediator.Send(new TryCreateMapCommand<CandidateQuestionnaire>(_candidate.Id, questionnaire.Id), cancellationToken);
+            await _mediator.Send(new TryCreateMapCommand<CandidateVacancy>(_candidate.Id, vacancy.Id), cancellationToken);
 
             await SaveAnswers(questionnaire.Id, cancellationToken);
             request.ParsedData.FileSource = (await CreateCandidateDocument(_candidate, questionnaire.Id)).Name;

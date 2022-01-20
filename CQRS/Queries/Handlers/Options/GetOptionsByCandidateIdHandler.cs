@@ -19,7 +19,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Options
 
         public Task<Option[]> Handle(GetOptionsByCandidateIdQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_optionRepository.GetAllAsNoTracking().Where(o => o.CandidateId == request.CandidateId).ToArray());
+            return Task.FromResult(_optionRepository.GetAllExistingEntitiesAsNoTracking().Where(o => o.CandidateId == request.CandidateId).ToArray());
         }
     }
 }

@@ -22,7 +22,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.Candidates
         public async Task<TEntity[]> Handle(GetCandidateDataEntitiesByIdQuery<TEntity> request, CancellationToken cancellationToken)
         {
             return await _repository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(e => e.CandidateId == request.CandidateId)
                 .ToArrayAsync(cancellationToken);
         }

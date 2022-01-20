@@ -2,6 +2,7 @@
 using RecruitingStaff.Domain.Interfaces;
 using RecruitingStaff.Domain.Model.BaseEntities;
 using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,14 +23,14 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.UniversalHandlers
             GetEntitiesByForeignKeyQuery<TEntity> request,
             CancellationToken cancellationToken)
         {
-            var entities = _repository.GetAllAsNoTracking().Where(request.Func);
+            var entities = _repository.GetAllExistingEntitiesAsNoTracking().Where(request.Func);
             if (entities != null)
             {
                 return Task.FromResult(entities.ToArray());
             }
             else
             {
-                return null;
+                return Task.FromResult(Array.Empty<TEntity>());
             }
         }
     }

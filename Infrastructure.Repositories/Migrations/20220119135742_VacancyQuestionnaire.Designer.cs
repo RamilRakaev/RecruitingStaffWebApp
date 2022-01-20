@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RecruitingStaff.Infrastructure.Repositories;
@@ -9,9 +10,10 @@ using RecruitingStaff.Infrastructure.Repositories;
 namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220119135742_VacancyQuestionnaire")]
+    partial class VacancyQuestionnaire
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +39,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<string>("FamiliarWithTheTechnology")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -74,9 +73,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<string>("EmailAddress")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("MaritalStatus")
                         .HasColumnType("text");
@@ -116,9 +112,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<DateTime>("EndDateOfTraining")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -154,9 +147,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -176,9 +166,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<int?>("CandidateId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -211,9 +198,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<DateTime>("DateOfStart")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("LeavingReason")
                         .HasColumnType("text");
@@ -250,9 +234,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<int>("CandidateId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -284,9 +265,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<int>("FirstEntityId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("SecondEntityId")
                         .HasColumnType("integer");
 
@@ -308,9 +286,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<int>("FirstEntityId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("SecondEntityId")
                         .HasColumnType("integer");
@@ -340,9 +315,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                     b.Property<int>("FirstEntityId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("SecondEntityId")
                         .HasColumnType("integer");
 
@@ -364,9 +336,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<int>("FirstEntityId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<int?>("QuestionnaireId")
                         .HasColumnType("integer");
@@ -390,9 +359,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -412,9 +378,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -436,14 +399,8 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
-
-                    b.Property<int>("ParserType")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -462,9 +419,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<int>("FileType")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -494,9 +448,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -519,9 +470,6 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -571,7 +519,7 @@ namespace RecruitingStaff.Infrastructure.Repositories.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b3d90b28-0952-465d-b2d0-14649ba473ca",
+                            ConcurrencyStamp = "7f34c9ee-6d89-4a7e-99a2-7cb48c61c0a2",
                             Name = "user",
                             NormalizedName = "USER"
                         });

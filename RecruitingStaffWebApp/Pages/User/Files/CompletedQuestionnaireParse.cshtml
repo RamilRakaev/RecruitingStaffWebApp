@@ -5,14 +5,14 @@
 }
 <div class="row justify-content-center">
     <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="candidateId" asp-for="@Model.CandidateId" />
+        <input type="hidden" asp-for="@Model.DocumentParseViewModel.CandidateId" />
+        <input type="hidden" asp-for="@Model.DocumentParseViewModel.QuestionnaireId" />
         <div class="form-group">
             <label class="col-form-label">Файл анкеты</label>
-            <input class="form-control-file" type="file" name="formFile" accept=".docx,.xlsx" />
-        </div>
-        <div class="form-group">
-            <label>Тип анкеты</label>
-            <select class="custom-select" name="jobQuestionnaire" asp-items="@Model.QuestionnaireTypes"></select>
+            <input class="form-control-file"
+                   type="file"
+                   asp-for="@Model.DocumentParseViewModel.FormFile"
+                   accept=".docx,.xlsx" />
         </div>
         <button class="btn btn-success">Отправить</button>
     </form>

@@ -26,10 +26,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.QuestionCategorie
         {
             var questionCategories =
                 await _questionCategoryRepository
-                .GetAllAsNoTracking()
+                .GetAllExistingEntitiesAsNoTracking()
                 .Where(qc => qc.QuestionnaireId == request.QuestionnaireId).ToArrayAsync(cancellationToken);
             var categoriesIds = questionCategories.Select(qc => qc.Id);
-            var questions = await _questionRepository.GetAllAsNoTracking().Where(q => categoriesIds.Contains(q.QuestionCategoryId)).ToArrayAsync(cancellationToken);
+            var questions = await _questionRepository.GetAllExistingEntitiesAsNoTracking().Where(q => categoriesIds.Contains(q.QuestionCategoryId)).ToArrayAsync(cancellationToken);
             Dictionary<QuestionCategory, Question[]> questionnaire = new();
             foreach(var questionCategory in questionCategories)
             {

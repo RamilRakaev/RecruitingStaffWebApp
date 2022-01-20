@@ -47,7 +47,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
                 await _mediator.Send(new CreateEntityCommand<Candidate>(candidateEntity));
                 foreach (var vacancyId in candidateViewModel.VacancyIds)
                 {
-                    await _mediator.Send(new CreateMapCommand<CandidateVacancy>(candidateEntity.Id, vacancyId));
+                    await _mediator.Send(new TryCreateMapCommand<CandidateVacancy>(candidateEntity.Id, vacancyId));
                 }
                 return RedirectToPage("Candidates");
             }
