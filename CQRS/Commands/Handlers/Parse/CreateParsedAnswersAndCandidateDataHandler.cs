@@ -50,7 +50,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 questionnaire.Id = vacancyQuestionnaires.Any() ?
                     vacancyQuestionnaires.First().FirstEntityId : 0;
             }
-            await _mediator.Send(new CreateOrChangeEntityCommand<Questionnaire>(questionnaire), cancellationToken);
+            await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
             await _mediator.Send(new TryCreateMapCommand<VacancyQuestionnaire>(vacancy.Id, questionnaire.Id),
                 cancellationToken);
             _candidate = await CreateCandidate();

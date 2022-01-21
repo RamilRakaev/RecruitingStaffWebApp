@@ -19,27 +19,38 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
         {
         }
 
-        public SelectList QuestionnaireTypes { get; set; }
+        //public SelectList QuestionnaireTypes { get; set; }
         public int CandidateId { get; set; }
         public DocumentParseViewModel DocumentParseViewModel { get; set; }
 
-        public async Task OnGet(int candidateId)
+        public void OnGetParseQuestionnaireExample()
         {
-            CandidateId = candidateId;
-            QuestionnaireTypes = new(
-                await _mediator.Send(
-                new GetJobQuestionnairesDictionaryQuery()),
-                "Key",
-                "Value");
+            DocumentParseViewModel = new()
+            {
+                IsCompletedQuestionnaire = false,
+            };
+            //QuestionnaireTypes = new(
+            //    await _mediator.Send(
+            //    new GetJobQuestionnairesDictionaryQuery()),
+            //    "Key",
+            //    "Value");
         }
 
-        public void OnGetQuestionnaireParse(int candidateId, int questionnaireId)
+        public void OnGetParseQuestionnaireCompletedByCandidate(int candidateId, int questionnaireId)
         {
             DocumentParseViewModel = new()
             {
                 CandidateId = candidateId,
                 QuestionnaireId = questionnaireId,
-                ParseQuestions = false,
+                IsCompletedQuestionnaire = true,
+            };
+        }
+
+        public void OnGetParseCompletedQuestionnaire()
+        {
+            DocumentParseViewModel = new()
+            {
+                IsCompletedQuestionnaire = true,
             };
         }
 
@@ -48,18 +59,19 @@ namespace RecruitingStaff.WebApp.Pages.User.Files
             if (await _mediator.Send(
                 new DocumentParseCommand(
                 documentParseViewModel.FormFile,
-                false,
+                documentParseViewModel.IsCompletedQuestionnaire,
                 documentParseViewModel.CandidateId,
                 documentParseViewModel.QuestionnaireId)))
             {
                 return RedirectToPage(_redirect);
             }
             ModelState.AddModelError("", "Не удалось проанализировать документ");
-            QuestionnaireTypes = new(
-               await _mediator.Send(
-               new GetJobQuestionnairesDictionaryQuery()),
-               "Key",
-               "Value");
+            DocumentParseViewModel = documentParseViewModel;
+            //QuestionnaireTypes = new(
+            //   await _mediator.Send(
+            //   new GetJobQuestionnairesDictionaryQuery()),
+            //   "Key",
+            //   "Value");
             return Page();
         }
     }

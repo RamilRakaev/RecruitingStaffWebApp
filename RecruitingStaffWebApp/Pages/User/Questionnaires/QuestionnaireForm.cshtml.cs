@@ -38,6 +38,8 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
             }
             QuestionnaireViewModel.VacanciesSelectList =
                 new SelectList(await _mediator.Send(new GetEntitiesQuery<Vacancy>()), "Id", "Name");
+            QuestionnaireViewModel.ParserTypesSelectList =
+                new(await _mediator.Send(new GetValuesQuery(typeof(ParserType))), "Key", "Value");
             if (QuestionnaireViewModel.VacanciesSelectList.Any() == false)
             {
                 return RedirectToPage("Questionnaires", new { messageAboutDocumentsSource = "Не введены вакансии" });
@@ -52,6 +54,7 @@ namespace RecruitingStaff.WebApp.Pages.User.Questionnaires
                 var config = new MapperConfiguration(c => c.CreateMap<QuestionnaireViewModel, Questionnaire>());
                 var mapper = new Mapper(config);
                 var questionnaireEntity = mapper.Map<Questionnaire>(questionnaireViewModel);
+                questionnaireEntity.ParserType = (ParserType) questionnaireViewModel.ParserTypeIndex;
                 if (questionnaireViewModel.Id == 0)
                 {
                     await _mediator.Send(new CreateEntityCommand<Questionnaire>(questionnaireEntity));

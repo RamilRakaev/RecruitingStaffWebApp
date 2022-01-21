@@ -15,9 +15,11 @@ namespace RecruitingStaff.WebApp.ViewModels.Questionnaire
         }
 
         public int Id { get; set; }
-        public int VacancyId { get; set; }
         public string Name { get; set; }
         public QuestionCategoryViewModel[] QuestionCategories { get; set; }
+        public SelectList ParserTypesSelectList { get; set; }
+        public int ParserTypeIndex { get; set; }
         public SelectList VacanciesSelectList { get; set; }
+        public int VacancyId { get; set; }
     }
 }

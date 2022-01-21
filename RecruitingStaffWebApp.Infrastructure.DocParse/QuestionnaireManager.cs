@@ -1,9 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Options;
 using RecruitingStaff.Domain.Model.Options;
-using RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors;
 using RecruitingStaffWebApp.Services.DocParse;
-using RecruitingStaffWebApp.Services.DocParse.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +24,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task<bool> ParseQuestionnaireExampleAsync(ParseParameters parseParameters)
         {
-            var parserStrategy = ParserSearch(parseParameters.JobQuestionnaire);
+            var parserStrategy = FindingSuitableParserType.FindParserByFile(parseParameters.Path, parseParameters.ContentType);
             try
             {
                 var parsedData = await parserStrategy.ParseAsync(parseParameters.Path);
@@ -57,7 +55,7 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task<bool> ParseCompletedQuestionnaireAsync(ParseParameters parseParameters)
         {
-            var parserStrategy = ParserSearch(parseParameters.JobQuestionnaire);
+            var parserStrategy = FindingSuitableParserType.ParserSubstitution(parseParameters.JobQuestionnaire);
             try
             {
                 var parsedData = await parserStrategy.ParseAsync(parseParameters.Path);
@@ -86,22 +84,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             {
                 File.Delete(parseParameters.Path);
             }
-        }
-
-        private static ParserStrategy ParserSearch(JobQuestionnaireType jobQuestionnaire)
-        {
-            return jobQuestionnaire switch
-            {
-                JobQuestionnaireType.CSharpDeveloperQuestionnaire =>
-                     new CSharpDeveloperQuestionnaireParser(),
-                JobQuestionnaireType.PhpDeveloperQuestionnaire =>
-                    new PhpDeveloperQuestionnaireParser(),
-                JobQuestionnaireType.OfficeQuestionnaire =>
-                    new OfficeQuestionnaireParser(),
-                JobQuestionnaireType.DevOpsQuestionnaire =>
-                    new DevOpsQuestionnaireParser(),
-                _ => throw new ParseException()
-            };
         }
     }
 }

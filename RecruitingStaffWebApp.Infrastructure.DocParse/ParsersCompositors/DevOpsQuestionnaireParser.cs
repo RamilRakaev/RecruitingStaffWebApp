@@ -38,14 +38,11 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse.ParsersCompositors
             var f1 = currentWbPart.Workbook;
             Sheet theSheet = currentWbPart.Workbook.Descendants<Sheet>().
               Where(s => s.Name == sheetName).FirstOrDefault();
-
             if (theSheet == null)
             {
                 throw new ArgumentException(null, nameof(sheetName));
             }
-
-            wsPart =
-                (WorksheetPart)(currentWbPart.GetPartById(theSheet.Id));
+            wsPart = (WorksheetPart)currentWbPart.GetPartById(theSheet.Id);
             List<Cell> cells = new();
             parsedData.Questionnaire = QuestionnaireElement.CreateQuestionnaireElement(questionnaireName);
             int rowIndex = 5;

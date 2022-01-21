@@ -2,7 +2,7 @@
 
 namespace RecruitingStaff.Domain.Model.CandidatesSelection
 {
-    public enum VacancyParserType
+    public enum ParserType
     {
         [Display(Name = "Парсер анкеты C# разработчика")]
         CSharpDeveloperParser,

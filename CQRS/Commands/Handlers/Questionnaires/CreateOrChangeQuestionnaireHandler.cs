@@ -21,12 +21,11 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
         public async Task<Questionnaire> Handle(CreateOrChangeQuestionnaireCommand request, CancellationToken cancellationToken)
         {
             var questionnaire = await _questionnaireRepository
-                .FindAsync(request.Questionnaire.Id, cancellationToken)
+                .FindNoTrackingAsync(request.Questionnaire.Id, cancellationToken)
                 ?? await _questionnaireRepository
                 .GetAllExistingEntitiesAsNoTracking()
                 .Where(q => q.Name.Equals(request.Questionnaire.Name))
                 .FirstOrDefaultAsync(cancellationToken);
-            
             if (questionnaire == null)
             {
                 await _questionnaireRepository.AddAsync(request.Questionnaire, cancellationToken);
@@ -34,6 +33,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Questionnaires
             else
             {
                 request.Questionnaire.Id = questionnaire.Id;
+                request.Questionnaire.ParserType = questionnaire.ParserType;
                 await _questionnaireRepository.Update(request.Questionnaire);
             }
             await _questionnaireRepository.SaveAsync(cancellationToken);

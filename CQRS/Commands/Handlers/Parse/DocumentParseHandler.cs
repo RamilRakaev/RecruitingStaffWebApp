@@ -40,20 +40,30 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                 {
                     request.FormFile.CopyTo(stream);
                 }
-                if (request.ParseQuestions)
+                if (request.IsCompletedQuestionnaire)
                 {
-                    ParseParameters parseParameters = new(path);
-                    return await _questionnaireManager.ParseQuestionnaireExampleAsync(parseParameters);
+                    ParseParameters parseParameters;
+                    if (request.QuestionnaireId != 0)
+                    {
+                        var questionnaire = await _mediator.Send(
+                            new GetEntityByIdQuery<Questionnaire>(request.QuestionnaireId),
+                            cancellationToken);
+                        parseParameters = new(
+                            path,
+                            (JobQuestionnaireType)questionnaire.ParserType,
+                            request.CandidateId,
+                            request.QuestionnaireId);
+                    }
+                    else
+                    {
+                        parseParameters = new(path, request.FormFile.ContentType);
+                    }
+                    return await _questionnaireManager.ParseCompletedQuestionnaireAsync(parseParameters);
                 }
                 else
                 {
-                    var questionnaire = await _mediator.Send(new GetEntityByIdQuery<Questionnaire>(request.QuestionnaireId));
-                    ParseParameters parseParameters = new(
-                        path,
-                        (JobQuestionnaireType)questionnaire.ParserType,
-                        request.CandidateId,
-                        request.QuestionnaireId);
-                    return await _questionnaireManager.ParseCompletedQuestionnaireAsync(parseParameters);
+                    ParseParameters parseParameters = new(path, request.FormFile.ContentType);
+                    return await _questionnaireManager.ParseQuestionnaireExampleAsync(parseParameters);
                 }
             }
             else

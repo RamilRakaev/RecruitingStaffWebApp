@@ -64,6 +64,10 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Candidates
                 foreach (var previousJob in candidate.PreviousJobs)
                 {
                     previousJob.CandidateId = candidate.Id;
+                    foreach(var reccomender in previousJob.Recommenders)
+                    {
+                        reccomender.CandidateId = candidate.Id;
+                    }
                     await _mediator.Send(new CreateEntityCommand<PreviousJobPlacement>(previousJob));
                 }
             }
