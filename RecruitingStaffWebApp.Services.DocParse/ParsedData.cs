@@ -10,6 +10,7 @@ namespace RecruitingStaffWebApp.Services.DocParse
             FileExtension = fileExtension;
         }
 
+        public bool IsCompletedQuestionnaire { get; set; }
         public QuestionnaireElement Questionnaire { get; set; }
         public Vacancy Vacancy { get; set; }
         public Candidate Candidate { get; set; }

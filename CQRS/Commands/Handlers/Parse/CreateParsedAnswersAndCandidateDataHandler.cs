@@ -53,6 +53,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             await _mediator.Send(new CreateOrChangeQuestionnaireCommand(questionnaire), cancellationToken);
             await _mediator.Send(new TryCreateMapCommand<VacancyQuestionnaire>(vacancy.Id, questionnaire.Id),
                 cancellationToken);
+            if(parsedData.Candidate == null || parsedData.Candidate.Name == string.Empty)
+            {
+                request.ParsedData.FileSource = $"{questionnaire.Id}.{questionnaire.Name}";
+                request.ParsedData.IsCompletedQuestionnaire = false;
+                return true;
+            }
             _candidate = await CreateCandidate();
             _candidate.Id = request.ParsedData.CandidateId;
             await _mediator.Send(new CreateOrChangeCandidateCommand(_candidate), cancellationToken);

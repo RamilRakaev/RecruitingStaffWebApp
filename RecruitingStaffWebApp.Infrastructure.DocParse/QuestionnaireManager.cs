@@ -55,7 +55,15 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
 
         public async Task<bool> ParseCompletedQuestionnaireAsync(ParseParameters parseParameters)
         {
-            var parserStrategy = FindingSuitableParserType.ParserSubstitution(parseParameters.JobQuestionnaire);
+            ParserStrategy parserStrategy;
+            if (parseParameters.QuestionnaireId == 0)
+            {
+                parserStrategy = FindingSuitableParserType.FindParserByFile(parseParameters.Path, parseParameters.ContentType);
+            }
+            else
+            {
+                parserStrategy = FindingSuitableParserType.ParserSubstitution(parseParameters.JobQuestionnaire);
+            }
             try
             {
                 var parsedData = await parserStrategy.ParseAsync(parseParameters.Path);
@@ -65,7 +73,15 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 if (checking.Checking(parsedData))
                 {
                     await questionnaireDbManager.SaveParsedData(parsedData, false);
-                    var newPath = Path.Combine(_options.CandidateDocumentsSource, parsedData.FileSource);
+                    string newPath;
+                    if (parsedData.IsCompletedQuestionnaire == false)
+                    {
+                        newPath = Path.Combine(_options.EmptyQuestionnairesSource, parsedData.FileSource);
+                    }
+                    else
+                    {
+                        newPath = Path.Combine(_options.CandidateDocumentsSource, parsedData.FileSource);
+                    }
                     File.Delete(newPath);
                     File.Copy(parseParameters.Path, newPath);
                 }
