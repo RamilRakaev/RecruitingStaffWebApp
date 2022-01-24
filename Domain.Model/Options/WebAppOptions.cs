@@ -2,8 +2,8 @@
 {
     public class WebAppOptions
     {
-        public string CandidateDocumentsSource { get; set; }
-        public string EmptyQuestionnairesSource { get; set; }
+        public string CompletedQuestionnaireSource { get; set; }
+        public string QuestionnaireExampleSource { get; set; }
         public string TestTasksSource { get; set; }
         public string JpgPhotosSource { get; set; }
         public string PngPhotosSource { get; set; }
@@ -15,8 +15,8 @@
         {
             return fileType switch
             {
-                FileType.CompletedQuestionnaire => CandidateDocumentsSource,
-                FileType.QuestionnaireExample => EmptyQuestionnairesSource,
+                FileType.CompletedQuestionnaire => CompletedQuestionnaireSource,
+                FileType.QuestionnaireExample => QuestionnaireExampleSource,
                 FileType.TestTask => TestTasksSource,
                 FileType.JpgPhoto => JpgPhotosSource,
                 FileType.PngPhoto => PngPhotosSource,

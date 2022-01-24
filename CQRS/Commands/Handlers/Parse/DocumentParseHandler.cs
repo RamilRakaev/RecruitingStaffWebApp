@@ -35,7 +35,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
         {
             if (request.FormFile != null)
             {
-                var path = Path.Combine(_options.CandidateDocumentsSource, Guid.NewGuid().ToString());
+                var path = Path.Combine(_options.CompletedQuestionnaireSource, Guid.NewGuid().ToString());
                 using (var stream = new FileStream(path, FileMode.CreateNew))
                 {
                     request.FormFile.CopyTo(stream);
@@ -58,12 +58,12 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
                     {
                         parseParameters = new(path, request.FormFile.ContentType);
                     }
-                    return await _questionnaireManager.ParseCompletedQuestionnaireAsync(parseParameters);
+                    return await _questionnaireManager.ParseAndSaveCompletedQuestionnaireAsync(parseParameters);
                 }
                 else
                 {
                     ParseParameters parseParameters = new(path, request.FormFile.ContentType);
-                    return await _questionnaireManager.ParseQuestionnaireExampleAsync(parseParameters);
+                    return await _questionnaireManager.ParseAndSaveQuestionnaireExampleAsync(parseParameters);
                 }
             }
             else

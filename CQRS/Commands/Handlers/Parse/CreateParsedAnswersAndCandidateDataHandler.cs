@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
 {
-    public class CreateParsedAnswersAndCandidateDataHandler : IRequestHandler<CreateParsedAnswersAndCandidateDataCommand, bool>
+    public class CreateParsedAnswersAndCandidateDataHandler : IRequestHandler<SaveCompletedQuestionnaireCommand, bool>
     {
         private readonly IMediator _mediator;
         private ParsedData parsedData;
@@ -29,7 +29,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             _mediator = mediator;
         }
 
-        public async Task<bool> Handle(CreateParsedAnswersAndCandidateDataCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(SaveCompletedQuestionnaireCommand request, CancellationToken cancellationToken)
         {
             Questionnaire questionnaire = new()
             {

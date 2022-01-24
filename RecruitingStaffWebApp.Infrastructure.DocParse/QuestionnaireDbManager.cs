@@ -14,15 +14,15 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
             _mediator = mediator;
         }
 
-        public async Task SaveParsedData(ParsedData parsedData, bool parseQuestions = false)
+        public async Task SaveParsedDataInDb(ParsedData parsedData, bool isCompletedQuestionnaire = false)
         {
-            if (parseQuestions)
+            if (isCompletedQuestionnaire)
             {
-                await _mediator.Send(new CreateOrChangeParsedQuestionnaireCommand(parsedData));
+                await _mediator.Send(new SaveCompletedQuestionnaireCommand(parsedData));
             }
             else
             {
-                await _mediator.Send(new CreateParsedAnswersAndCandidateDataCommand(parsedData));
+                await _mediator.Send(new SaveQuestionnaireExampleCommand(parsedData));
             }
         }
     }

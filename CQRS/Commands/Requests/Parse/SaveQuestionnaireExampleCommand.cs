@@ -1,14 +1,16 @@
 ﻿using MediatR;
+using RecruitingStaff.Domain.Model.CandidatesSelection;
 using RecruitingStaffWebApp.Services.DocParse;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Requests.Parse
 {
-    public class CreateParsedAnswersAndCandidateDataCommand : IRequest<bool>
+    public class SaveQuestionnaireExampleCommand : IRequest<Questionnaire>
     {
-        public CreateParsedAnswersAndCandidateDataCommand(ParsedData parsedData)
+        public SaveQuestionnaireExampleCommand(ParsedData parsedData)
         {
             ParsedData = parsedData;
         }
+
         public ParsedData ParsedData { get; set; }
     }
 }

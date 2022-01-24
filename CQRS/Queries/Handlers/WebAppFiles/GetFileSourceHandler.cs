@@ -21,8 +21,8 @@ namespace RecruitingStaff.Infrastructure.CQRS.Queries.Handlers.WebAppFiles
         {
             return Task.FromResult(request.FileType switch
             {
-                FileType.CompletedQuestionnaire => _options.CandidateDocumentsSource,
-                FileType.QuestionnaireExample => _options.EmptyQuestionnairesSource,
+                FileType.CompletedQuestionnaire => _options.CompletedQuestionnaireSource,
+                FileType.QuestionnaireExample => _options.QuestionnaireExampleSource,
                 FileType.TestTask => _options.TestTasksSource,
                 FileType.JpgPhoto => _options.JpgPhotosSource,
                 _ => string.Empty,

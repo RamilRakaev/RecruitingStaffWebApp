@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
 {
-    public class CreateOrChangeParsedQuestionnaireHandler : IRequestHandler<CreateOrChangeParsedQuestionnaireCommand, Questionnaire>
+    public class CreateOrChangeParsedQuestionnaireHandler : IRequestHandler<SaveQuestionnaireExampleCommand, Questionnaire>
     {
         private readonly IMediator _mediator;
         private RecruitingStaffWebAppFile _file;
@@ -22,7 +22,7 @@ namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
             _mediator = mediator;
         }
 
-        public async Task<Questionnaire> Handle(CreateOrChangeParsedQuestionnaireCommand request, CancellationToken cancellationToken)
+        public async Task<Questionnaire> Handle(SaveQuestionnaireExampleCommand request, CancellationToken cancellationToken)
         {
             Questionnaire questionnaire = await CreateOrChangeQuestionnaire(
                 request.ParsedData.Vacancy.Name,
