@@ -41,10 +41,10 @@
                             <input type="hidden" name="fileId" value="@file.Id" />
                             <button class="btn btn-danger">Удалить</button>
                         </form>
-                        <a class="btn btn-success"
-                        asp-page-handler="DownloadFile"
-                        asp-route-fileId="@file.Id"
-                    asp-route-fileType="@Model.SelectedFileType">Скачать</a>
+                        <a class="btn btn-outline-success"
+                           asp-page-handler="DownloadFile"
+                           asp-route-fileId="@file.Id"
+                           asp-route-fileType="@Model.SelectedFileType">Скачать</a>
                     </td>
                 </tr>
             }

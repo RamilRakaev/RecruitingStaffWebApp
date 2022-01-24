@@ -20,11 +20,11 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
 {
     public class ConcreteCandidateModel : BasePageModel
     {
-        private readonly WebAppOptions _option;
+        private readonly WebAppOptions _options;
 
         public ConcreteCandidateModel(IMediator mediator, ILogger<BasePageModel> logger, IOptions<WebAppOptions> options) : base(mediator, logger)
         {
-            _option = options.Value;
+            _options = options.Value;
         }
 
         public CandidateOptionsViewModel CandidateOptionsViewModel { get; set; }
@@ -46,7 +46,7 @@ namespace RecruitingStaffWebApp.Pages.User.Candidates
             var candidatePhotoSource = await _mediator.Send(new GetSourceOfCandidatePhotoQuery(candidateId));
             if (candidatePhotoSource != string.Empty)
             {
-                string source = _option.GetSource(FileType.JpgPhoto);
+                string source = _options.GetSource(FileType.JpgPhoto);
                 string file_path = Path.Combine(source, candidatePhotoSource);
                 string file_type = WebAppOptions.GetMimeType(FileType.JpgPhoto);
                 return PhysicalFile(file_path, file_type, candidatePhotoSource);

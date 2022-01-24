@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
 {
-    public class CreateOrChangeParsedQuestionnaireHandler : IRequestHandler<SaveQuestionnaireExampleCommand, Questionnaire>
+    public class SaveQuestionnaireExampleHandler : IRequestHandler<SaveQuestionnaireExampleCommand, Questionnaire>
     {
         private readonly IMediator _mediator;
         private RecruitingStaffWebAppFile _file;
 
-        public CreateOrChangeParsedQuestionnaireHandler(IMediator mediator)
+        public SaveQuestionnaireExampleHandler(IMediator mediator)
         {
             _mediator = mediator;
         }

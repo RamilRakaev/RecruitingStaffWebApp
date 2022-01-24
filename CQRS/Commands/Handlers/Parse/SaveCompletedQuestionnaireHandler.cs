@@ -18,13 +18,13 @@ using System.Threading.Tasks;
 
 namespace RecruitingStaff.Infrastructure.CQRS.Commands.Handlers.Parse
 {
-    public class CreateParsedAnswersAndCandidateDataHandler : IRequestHandler<SaveCompletedQuestionnaireCommand, bool>
+    public class SaveCompletedQuestionnaireHandler : IRequestHandler<SaveCompletedQuestionnaireCommand, bool>
     {
         private readonly IMediator _mediator;
         private ParsedData parsedData;
         private Candidate _candidate;
 
-        public CreateParsedAnswersAndCandidateDataHandler(IMediator mediator)
+        public SaveCompletedQuestionnaireHandler(IMediator mediator)
         {
             _mediator = mediator;
         }

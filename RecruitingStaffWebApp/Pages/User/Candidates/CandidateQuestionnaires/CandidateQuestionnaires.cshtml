@@ -21,6 +21,7 @@
             <tr>
                 <th scope="col"><h5>Id</h5></th>
                 <th scope="col"><h5>Имя анкеты</h5></th>
+                <th scope="col"><h5>Парсинг</h5></th>
                 <th scope="col"><h5>Действия</h5></th>
             </tr>
         </thead>
@@ -30,6 +31,15 @@
                 <tr>
                     <th scope="row">@candidateQuestionnaireViewModel.Id</th>
                     <td>@candidateQuestionnaireViewModel.QuestionnaireName</td>
+
+                    @if (candidateQuestionnaireViewModel.IsParsed)
+                    {
+                        <td>Да</td>
+                    }
+                    else
+                    {
+                        <td>Нет</td>
+                    }
                     <td>
                         <form method="post">
                             <input type="hidden"
@@ -38,15 +48,22 @@
                             <input type="hidden"
                                    name="candidateQuestionnaireId"
                                    asp-for="@candidateQuestionnaireViewModel.Id" />
-                            <button class="btn btn-danger">Удалить</button>
+                            <button class="btn btn-danger m-1">Удалить</button>
                         </form>
-                        <a class="btn btn-dark"
+                        <a class="btn btn-dark m-1"
                            asp-page="/User/Files/CompletedQuestionnaireParse"
                            asp-page-handler="ParseQuestionnaireCompletedByCandidate"
                            asp-route-candidateId="@candidateQuestionnaireViewModel.FirstEntityId"
                            asp-route-questionnaireId="@candidateQuestionnaireViewModel.SecondEntityId">
                             Парсинг анкеты с ответами
                         </a>
+                        @if (candidateQuestionnaireViewModel.IsParsed)
+                        {
+                            <a class="btn btn-outline-success m-1"
+                               asp-page-handler="DownloadDocument"
+                               asp-route-candidateId="@candidateQuestionnaireViewModel.FirstEntityId"
+                               asp-route-fileName="@candidateQuestionnaireViewModel.FileName">Скачать</a>
+                        }
                     </td>
                 </tr>
             }

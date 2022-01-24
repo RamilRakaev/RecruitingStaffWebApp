@@ -1,15 +1,7 @@
-using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using RecruitingStaff.Domain.Model.CandidatesSelection.CandidateData;
 using RecruitingStaff.Domain.Model.Options;
-using RecruitingStaff.Infrastructure.CQRS.Commands.Requests.UniversalCommand;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.Options;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.UniversalQueries;
-using RecruitingStaff.Infrastructure.CQRS.Queries.Requests.WebAppFiles;
-using RecruitingStaff.WebApp.ViewModels;
 using RecruitingStaff.WebApp.ViewModels.CandidateData;
 using RecruitingStaffWebApp.Pages.User;
 using RecruitingStaffWebApp.Pages.User.Candidates;

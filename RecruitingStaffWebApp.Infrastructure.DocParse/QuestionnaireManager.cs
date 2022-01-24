@@ -32,10 +32,6 @@ namespace RecruitingStaffWebApp.Infrastructure.DocParse
                 if (checking.Checking(parsedData))
                 {
                     await Save(parsedData, parseParameters.Path, false);
-                    //await questionnaireDbManager.SaveParsedDataInDb(parsedData, true);
-                    //var newPath = Path.Combine(_options.QuestionnaireExampleSource, parsedData.FileSource);
-                    //File.Delete(newPath);
-                    //File.Copy(parseParameters.Path, newPath);
                 }
                 else
                 {
